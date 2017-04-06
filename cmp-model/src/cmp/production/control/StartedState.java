@@ -24,11 +24,6 @@ public class StartedState extends AbstractProductionState {
     }
 
     @Override
-    public void process(AbstractProductionState nextState) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public boolean equals(AbstractProductionState state) {
         return state instanceof StartedState;
     }
@@ -40,6 +35,11 @@ public class StartedState extends AbstractProductionState {
 
     @Override
     public boolean isPendent() {
+        return true;
+    }
+
+    @Override
+    public boolean isAllowedToChangeSubordinate() {
         return true;
     }
     

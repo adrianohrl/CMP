@@ -5,6 +5,7 @@
  */
 package cmp.production.control;
 
+import cmp.model.production.PhaseProductionOrder;
 import java.util.ArrayList;
 
 /**
@@ -24,8 +25,6 @@ public abstract class AbstractProductionState {
     {
         possibleNextStates = new ArrayList<>();
     }
-    
-    public abstract void process(AbstractProductionState nextState);
     
     protected void add(AbstractProductionState possibleNextState) {
         possibleNextStates.add(possibleNextState);
@@ -50,5 +49,9 @@ public abstract class AbstractProductionState {
     public abstract String toString();
     
     public abstract boolean isPendent();
+    
+    public boolean isAllowedToChangeSubordinate() {
+        return false;
+    }
     
 }

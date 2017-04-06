@@ -20,11 +20,6 @@ public class ReturnedState extends AbstractProductionState {
     public void init() {}
 
     @Override
-    public void process(AbstractProductionState nextState) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public boolean equals(AbstractProductionState state) {
         return state instanceof ReturnedState;
     }

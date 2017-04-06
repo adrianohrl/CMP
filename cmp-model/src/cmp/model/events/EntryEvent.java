@@ -9,7 +9,7 @@ import cmp.model.personal.Sector;
 import cmp.model.personal.Subordinate;
 import cmp.model.personal.Supervisor;
 import cmp.model.production.PhaseProductionOrder;
-import cmp.model.production.ProductionException;
+import cmp.exceptions.ProductionException;
 import cmp.model.production.ProductionStates;
 import java.util.Calendar;
 
@@ -24,59 +24,52 @@ public class EntryEvent extends AbstractEvent {
     private PhaseProductionOrder phaseProductionOrder;
     private Subordinate subordinate;
     private ProductionStates productionState;
-    private int producedQuantity;
-    private int totalQuantity;
+    private int producedQuantity = 0;
     
     public EntryEvent() {
     }
 
-    protected EntryEvent(Sector sector, Supervisor supervisor, PhaseProductionOrder phaseProductionOrder, Subordinate subordinate, ProductionStates productionState, Calendar eventDate, String observation) {
+    private EntryEvent(Sector sector, Supervisor supervisor, PhaseProductionOrder phaseProductionOrder, Subordinate subordinate, ProductionStates productionState, String observation, Calendar eventDate) throws ProductionException {
         super(eventDate, observation);
         this.sector = sector;
         this.supervisor = supervisor;
         this.phaseProductionOrder = phaseProductionOrder;
         this.subordinate = subordinate;
+        if (productionState == phaseProductionOrder.getProductionState()) {
+            throw new ProductionException("No production state transition happened!!!");
+        }
         this.productionState = productionState;
     }
-
-    /**
-     * This constructor must be used when the phase production order has just STARTED.
-     * @param sector
-     * @param supervisor
-     * @param phaseProductionOrder
-     * @param subordinate
-     * @param totalQuantity
-     * @param eventDate
-     * @param observation 
-     */
-    public EntryEvent(Sector sector, Supervisor supervisor, PhaseProductionOrder phaseProductionOrder, Subordinate subordinate, int totalQuantity, Calendar eventDate, String observation) throws ProductionException {
-        this(sector, supervisor, phaseProductionOrder, subordinate, ProductionStates.STARTED, eventDate, observation);
-        if (totalQuantity <= 0) {
-            throw new ProductionException("The total quantity must be positive!!!");
+    
+    protected EntryEvent(Sector sector, Supervisor supervisor, PhaseProductionOrder phaseProductionOrder, Subordinate subordinate, ProductionStates productionState, int producedQuantity, String observation, Calendar eventDate) throws ProductionException {
+        this(sector, supervisor, phaseProductionOrder, subordinate, productionState, observation, eventDate);
+        if (producedQuantity < 0) {
+            throw new ProductionException("The produced quantity must not be negative!!!");
         }
-        this.totalQuantity = totalQuantity;
+        if (producedQuantity > phaseProductionOrder.getTotalQuantity()) {
+            throw new ProductionException("The produced quantity must be less the total quantity!!!");
+        }
+        this.producedQuantity = producedQuantity;
     }
-
+    
     /**
-     * This constructor must be used when the phase production order has just RESTARTED or FINISHED
+     * This constructor must be used when the phase production order has just STARTED, RESTARTED or FINISHED
      * @param sector
      * @param supervisor
      * @param phaseProductionOrder
      * @param subordinate
      * @param productionState
-     * @param producedQuantity
      * @param eventDate
      * @param observation 
+     * @throws cmp.exceptions.ProductionException 
      */
-    public EntryEvent(Sector sector, Supervisor supervisor, PhaseProductionOrder phaseProductionOrder, Subordinate subordinate, ProductionStates productionState, int producedQuantity, Calendar eventDate, String observation) throws ProductionException {
-        this(sector, supervisor, phaseProductionOrder, subordinate, productionState, eventDate, observation);
-        if (producedQuantity <= 0) {
-            throw new ProductionException("The produced quantity must be positive!!!");
+    public EntryEvent(Sector sector, Supervisor supervisor, PhaseProductionOrder phaseProductionOrder, Subordinate subordinate, ProductionStates productionState, Calendar eventDate, String observation) throws ProductionException {
+        this(sector, supervisor, phaseProductionOrder, subordinate, productionState, observation, eventDate);
+        if (productionState.isFinished()) {
+            producedQuantity = phaseProductionOrder.getRemaingQuantity();
+        } else if (!productionState.isStarted() && !productionState.isRestarted()) {
+            throw new ProductionException("This constructor must only be used when the production state is STARTED, RESTARTED or FINISHED!!!");    
         }
-        if (producedQuantity > phaseProductionOrder.getRemaingQuantity()) {
-            throw new ProductionException("The produced quantity is greater then the remaining quantity that the phase production order needs to be done!!!");
-        }
-        this.producedQuantity = producedQuantity;
     }
 
     @Override
@@ -98,7 +91,7 @@ public class EntryEvent extends AbstractEvent {
         return supervisor + " has changed " + subordinate + 
                 "'s phase production order (" + phaseProductionOrder + ") at " + sector + " to " + productionState + 
                 " produced " + (phaseProductionOrder.getProducedQuantity() + this.producedQuantity) + " [un] of " + 
-                (phaseProductionOrder.getTotalQuantity() + this.totalQuantity) + " [un]";
+                (phaseProductionOrder.getTotalQuantity()) + " [un]";
     }
 
     public Sector getSector() {
@@ -147,14 +140,6 @@ public class EntryEvent extends AbstractEvent {
 
     public void setProducedQuantity(int producedQuantity) {
         this.producedQuantity = producedQuantity;
-    }
-
-    public int getTotalQuantity() {
-        return totalQuantity;
-    }
-
-    public void setTotalQuantity(int totalQuantity) {
-        this.totalQuantity = totalQuantity;
     }
     
 }

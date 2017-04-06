@@ -5,6 +5,9 @@
  */
 package cmp.model.production;
 
+import cmp.exceptions.ProductionException;
+import cmp.model.personal.Subordinate;
+
 /**
  *
  * @author adrianohrl
@@ -14,7 +17,8 @@ public class PhaseProductionOrder implements Comparable<PhaseProductionOrder> {
     private long code;
     private Phase phase;
     private ProductionOrder productionOrder;
-    private ProductionStates productionState = ProductionStates.STARTED;
+    private Subordinate subordinate;
+    private ProductionStates productionState;
     private int producedQuantity = 0;
     private int returnedQuantity = 0;
     private int totalQuantity;
@@ -23,17 +27,30 @@ public class PhaseProductionOrder implements Comparable<PhaseProductionOrder> {
     public PhaseProductionOrder() {
     }
 
-    public PhaseProductionOrder(Phase phase, ProductionOrder productionOrder, int totalQuantity) throws ProductionException {
+    public PhaseProductionOrder(Phase phase, ProductionOrder productionOrder, Subordinate subordinate, int totalQuantity) throws ProductionException {
         this.phase = phase;
         this.productionOrder = productionOrder;
+        this.subordinate = subordinate;
         if (totalQuantity <= 0) {
             throw new ProductionException("The total quantity must be positive!!!");
         }
         this.totalQuantity = totalQuantity;
     }
 
-    public PhaseProductionOrder(Phase phase, ProductionOrder productionOrder, int producedQuantity, int returnedQuantity, int totalQuantity, ProductionStates productionState, boolean pendent) throws ProductionException{
-        this(phase, productionOrder, totalQuantity);
+    /**
+     * This constructor should not be used
+     * @param phase
+     * @param productionOrder
+     * @param subordinate
+     * @param producedQuantity
+     * @param returnedQuantity
+     * @param totalQuantity
+     * @param productionState
+     * @param pendent
+     * @throws ProductionException 
+     */
+    public PhaseProductionOrder(Phase phase, ProductionOrder productionOrder, Subordinate subordinate, int producedQuantity, int returnedQuantity, int totalQuantity, ProductionStates productionState, boolean pendent) throws ProductionException{
+        this(phase, productionOrder, subordinate, totalQuantity);
         if (returnedQuantity <= 0) {
             throw new ProductionException("The returned quantity must be positive!!!");
         }
@@ -47,9 +64,9 @@ public class PhaseProductionOrder implements Comparable<PhaseProductionOrder> {
     }
     
     public void produced(int quantity) throws ProductionException {
-        if (quantity <= 0)
+        if (quantity < 0)
         {
-            throw new ProductionException("The produced quantity must be positive!!!");
+            throw new ProductionException("The produced quantity must not be negative!!!");
         }
         else if (quantity + producedQuantity + returnedQuantity > totalQuantity) {
             throw new ProductionException("The input produced quantity exceeds the total quantity!!!");
@@ -58,9 +75,9 @@ public class PhaseProductionOrder implements Comparable<PhaseProductionOrder> {
     }
     
     public boolean returned(int quantity) throws ProductionException {
-        if (quantity <= 0)
+        if (quantity < 0)
         {
-            throw new ProductionException("The returned quantity must be positive!!!");
+            throw new ProductionException("The returned quantity must not be negative!!!");
         }
         else if (quantity + producedQuantity + returnedQuantity > totalQuantity) {
             throw new ProductionException("The input returned quantity exceeds the total quantity!!!");
@@ -121,6 +138,14 @@ public class PhaseProductionOrder implements Comparable<PhaseProductionOrder> {
 
     public void setProductionOrder(ProductionOrder productionOrder) {
         this.productionOrder = productionOrder;
+    }
+
+    public Subordinate getSubordinate() {
+        return subordinate;
+    }
+
+    public void setSubordinate(Subordinate subordinate) {
+        this.subordinate = subordinate;
     }
 
     public ProductionStates getProductionState() {

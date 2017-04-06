@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cmp.production.control;
+package cmp.exceptions;
 
 /**
  *
  * @author adrianohrl
  */
-public class ProductionStateMachineException extends Exception {
+public class ProductionException extends CMPException {
 
-    public ProductionStateMachineException(String message) {
+    public ProductionException(String message) {
         super(message);
     }
     

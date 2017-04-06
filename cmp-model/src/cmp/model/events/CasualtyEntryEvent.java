@@ -9,7 +9,7 @@ import cmp.model.personal.Sector;
 import cmp.model.personal.Subordinate;
 import cmp.model.personal.Supervisor;
 import cmp.model.production.PhaseProductionOrder;
-import cmp.model.production.ProductionException;
+import cmp.exceptions.ProductionException;
 import cmp.model.production.ProductionStates;
 import java.util.Calendar;
 
@@ -20,13 +20,13 @@ import java.util.Calendar;
 public class CasualtyEntryEvent extends EntryEvent {
     
     private Casualty casualty;
-    private int returnedQuantity;
+    private int returnedQuantity = 0;
 
     public CasualtyEntryEvent() {
     }
 
     /**
-     * This constructor must be used when the phase production order has just PAUSED
+     * This constructor must be used when the phase production order has just PAUSED or RETURNED
      * @param casualty
      * @param sector
      * @param supervisor
@@ -35,36 +35,20 @@ public class CasualtyEntryEvent extends EntryEvent {
      * @param productionState
      * @param producedQuantity
      * @param eventDate
-     * @param observation
-     * @throws ProductionException 
+     * @param observation 
+     * @throws cmp.exceptions.ProductionException 
      */
     public CasualtyEntryEvent(Casualty casualty, Sector sector, Supervisor supervisor, PhaseProductionOrder phaseProductionOrder, Subordinate subordinate, ProductionStates productionState, int producedQuantity, Calendar eventDate, String observation) throws ProductionException {
-        super(sector, supervisor, phaseProductionOrder, subordinate, productionState, producedQuantity, eventDate, observation);
+        super(sector, supervisor, phaseProductionOrder, subordinate, productionState, producedQuantity, observation, eventDate);
         this.casualty = casualty;
-    }
-
-    /**
-     * This constructor must be used when the phase production order has just RETURNED
-     * @param casualty
-     * @param sector
-     * @param supervisor
-     * @param phaseProductionOrder
-     * @param subordinate
-     * @param returnedQuantity
-     * @param productionState
-     * @param eventDate
-     * @param observation 
-     */
-    public CasualtyEntryEvent(Casualty casualty, Sector sector, Supervisor supervisor, PhaseProductionOrder phaseProductionOrder, Subordinate subordinate, int returnedQuantity, ProductionStates productionState, Calendar eventDate, String observation) throws ProductionException {
-        super(sector, supervisor, phaseProductionOrder, subordinate, productionState, eventDate, observation);
-        this.casualty = casualty;
-        if (returnedQuantity <= 0) {
-            throw new ProductionException("The returned quantity must be positive!!!");
+        if (productionState.isReturned()) {
+            this.returnedQuantity = phaseProductionOrder.getRemaingQuantity() - producedQuantity;
+            if (this.returnedQuantity <= 0) {
+                throw new ProductionException("The returned quantity must be positive!!!");
+            }
+        } else if (!productionState.isPaused()) {
+            throw new ProductionException("This constructor must only be used when the production state is PAUSED or RETURNED!!!");    
         }
-        if (returnedQuantity > phaseProductionOrder.getRemaingQuantity()) {
-            throw new ProductionException("The returned quantity is greater then the remaining quantity that the phase production order needs to be done!!!");
-        }
-        this.returnedQuantity = returnedQuantity;
     }
 
     public Casualty getCasualty() {

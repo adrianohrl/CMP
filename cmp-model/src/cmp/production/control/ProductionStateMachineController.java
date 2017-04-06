@@ -5,6 +5,12 @@
  */
 package cmp.production.control;
 
+import cmp.exceptions.ProductionException;
+import cmp.exceptions.ProductionStateMachineException;
+import cmp.exceptions.ProductionStateTransitionException;
+import cmp.model.events.CasualtyEntryEvent;
+import cmp.model.events.EntryEvent;
+import cmp.model.personal.Subordinate;
 import cmp.model.production.PhaseProductionOrder;
 import cmp.model.production.ProductionStates;
 import java.util.ArrayList;
@@ -16,69 +22,82 @@ import java.util.ArrayList;
 public class ProductionStateMachineController {
     
     private final PhaseProductionOrder order;
-    private AbstractProductionState currentState;
     private final StartedState startedState = new StartedState(this);
     private final RestartedState restartedState = new RestartedState(this);
     private final PausedState pausedState = new PausedState(this);
     private final FinishedState finishedState = new FinishedState(this);
     private final ReturnedState returnedState = new ReturnedState(this);
+    private AbstractProductionState currentState = null;
     
-    public ProductionStateMachineController(PhaseProductionOrder order) {
+    public ProductionStateMachineController(PhaseProductionOrder order) throws ProductionStateMachineException {
         this.order = order;
         startedState.init();
         restartedState.init();
         pausedState.init();
         finishedState.init();
         returnedState.init();
-        currentState = startedState;
-    }
-
-    public ProductionStateMachineController(PhaseProductionOrder order, ProductionStates state)  throws ProductionStateMachineException {
-        this(order);
-        currentState = getProductionState(state);
-    }
-    
-    /*public void process(ProductionStates nextState, double producedQuantity) throws ProductionStateMachineException {
-        process(getProductionState(nextState));
-    }
-    
-    public void process(AbstractProductionState nextState, double producedQuantity) throws ProductionStateTransitionException {
-        if (!currentState.isValidStateTransition(nextState)) {
-            throw new ProductionStateTransitionException(currentState, nextState);
+        ProductionStates state = order.getProductionState();
+        if (state != null)
+        {
+            currentState = getProductionState(state);
         }
-        
-        if (nextState.equals(finishedState) && order.) {
-            
+    }
+    
+    public void process(EntryEvent entryEvent) throws ProductionStateMachineException {
+        process(getProductionState(entryEvent.getProductionState()), entryEvent.getSubordinate(), entryEvent.getProducedQuantity());
+    }
+    
+    public void process(CasualtyEntryEvent entryEvent) throws ProductionStateMachineException {
+        process(getProductionState(entryEvent.getProductionState()), entryEvent.getSubordinate(), entryEvent.getProducedQuantity(), entryEvent.getReturnedQuantity());
+    }
+    
+    private void process(AbstractProductionState nextState, Subordinate subordinate, int producedQuantity) throws ProductionStateMachineException {
+        if (currentState != null) {
+            if (!currentState.isValidStateTransition(nextState)) {
+                throw new ProductionStateTransitionException(currentState, nextState);
+            }
+        } else if (!nextState.equals(startedState)) {
+            throw new ProductionStateMachineException("The production state machine has not been started yet!!!");
+        }
+        if (!subordinate.equals(order.getSubordinate()) && !nextState.isAllowedToChangeSubordinate()) {
+            throw new ProductionStateTransitionException("It is not allowed to change the subordinated from ", currentState, nextState);
         }
         currentState = nextState;
         order.setPendent(currentState.isPendent());
-    }*/
-    
-    public ArrayList<ProductionStates> getPossibleNextStates() throws ProductionStateMachineException{
-        ArrayList<ProductionStates> nextStates = new ArrayList<>();
-        for (AbstractProductionState productionState : currentState.getPossibleNextStates()) {
-            nextStates.add(getState(productionState));
+        try {
+            order.produced(producedQuantity);
+        } catch (ProductionException e) {
+            throw new ProductionStateMachineException("ProductionException: " + e.getMessage());
         }
-        return nextStates;
+        order.setProductionState(getState(currentState));
+    }
+    
+    private void process(AbstractProductionState nextState, Subordinate subordinate, int producedQuantity, int returnedQuantity) throws ProductionStateMachineException {
+        process(nextState, subordinate, producedQuantity);
+        try {
+            order.returned(returnedQuantity);
+        } catch (ProductionException e) {
+            throw new ProductionStateMachineException("ProductionException: " + e.getMessage());
+        }
     }
 
-    public StartedState getStartedState() {
+    protected StartedState getStartedState() {
         return startedState;
     }
 
-    public RestartedState getRestartedState() {
+    protected RestartedState getRestartedState() {
         return restartedState;
     }
 
-    public PausedState getPausedState() {
+    protected PausedState getPausedState() {
         return pausedState;
     }
 
-    public FinishedState getFinishedState() {
+    protected FinishedState getFinishedState() {
         return finishedState;
     }
 
-    public ReturnedState getReturnedState() {
+    protected ReturnedState getReturnedState() {
         return returnedState;
     }
     
@@ -128,6 +147,14 @@ public class ProductionStateMachineController {
                 throw new ProductionStateMachineException("Inexistent state name: " + productionState);
         }
         return state;
+    }
+    
+    public ArrayList<ProductionStates> getPossibleNextStates() throws ProductionStateMachineException {
+        ArrayList<ProductionStates> nextStates = new ArrayList<>();
+        for (AbstractProductionState productionState : currentState.getPossibleNextStates()) {
+            nextStates.add(getState(productionState));
+        }
+        return nextStates;
     }
     
 }

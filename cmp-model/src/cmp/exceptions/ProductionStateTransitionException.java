@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cmp.production.control;
+package cmp.exceptions;
+
+import cmp.production.control.AbstractProductionState;
 
 /**
  *
@@ -14,9 +16,12 @@ public class ProductionStateTransitionException extends ProductionStateMachineEx
     public ProductionStateTransitionException(String message) {
         super(message);
     }
+    public ProductionStateTransitionException(String message, AbstractProductionState currentState, AbstractProductionState nextState) {
+        super(message + currentState + " to " + nextState + "!!!");
+    }
     
     public ProductionStateTransitionException(AbstractProductionState currentState, AbstractProductionState nextState) {
-        super("Invalid state transition: " + currentState + " to " + nextState + "!!!");
+        this("Invalid state transition: ", currentState, nextState);
     }
     
 }
