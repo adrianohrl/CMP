@@ -35,6 +35,21 @@ public class EntryEventsBuilder {
     }
     
     /**
+     * This method must be used when the new state of the input phase production order is STARTED.
+     * @param phaseProductionOrder
+     * @param subordinate
+     * @param eventDate
+     * @param observation
+     * @throws ProductionException 
+     */
+    public void buildEntryEvent(PhaseProductionOrder phaseProductionOrder, Subordinate subordinate, Calendar eventDate, String observation) throws ProductionException {
+        if (phaseProductionOrder.getProductionState() != null) {
+            throw new ProductionException("This method must be used when the input phase production order has not STARTED yet.");
+        }
+        buildEntryEvent(new EntryEvent(sector, supervisor, phaseProductionOrder, subordinate, ProductionStates.STARTED, eventDate, observation));        
+    }
+    
+    /**
      * This method must be used when the new state of the input phase production order is RESTARTED, or FINISHED.
      * @param phaseProductionOrder
      * @param subordinate
@@ -44,6 +59,12 @@ public class EntryEventsBuilder {
      * @throws ProductionException 
      */
     public void buildEntryEvent(PhaseProductionOrder phaseProductionOrder, Subordinate subordinate, ProductionStates productionState, Calendar eventDate, String observation) throws ProductionException {
+        if (phaseProductionOrder.getProductionState() == null) {
+            throw new ProductionException("This method must not be used when the input phase production order has not STARTED yet.");
+        }
+        if (!productionState.isRestarted() && !productionState.isFinished()) {
+            throw new ProductionException("This method must be used when the new state of the input phase production order is RESTARTED, or FINISHED.");
+        }
         buildEntryEvent(new EntryEvent(sector, supervisor, phaseProductionOrder, subordinate, productionState, eventDate, observation));        
     }
     
@@ -59,6 +80,12 @@ public class EntryEventsBuilder {
      * @throws ProductionException 
      */
     public void buildEntryEvent(PhaseProductionOrder phaseProductionOrder, Subordinate subordinate, ProductionStates productionState, int producedQuantity, Calendar eventDate, String observation, Casualty casualty) throws ProductionException {
+        if (phaseProductionOrder.getProductionState() == null) {
+            throw new ProductionException("This method must not be used when the input phase production order has not STARTED yet.");
+        }
+        if (!productionState.isPaused() && !productionState.isReturned()) {
+            throw new ProductionException("This method must be used when the new state of the input phase production order is PAUSED, or RETURNED.");
+        }
         buildEntryEvent(new CasualtyEntryEvent(casualty, sector, supervisor, phaseProductionOrder, subordinate, productionState, producedQuantity, eventDate, observation));
     }
     

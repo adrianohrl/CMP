@@ -17,7 +17,7 @@ public class PhaseProductionOrder implements Comparable<PhaseProductionOrder> {
     private long code;
     private Phase phase;
     private ProductionOrder productionOrder;
-    private Subordinate subordinate;
+    private Subordinate subordinate = null;
     private ProductionStates productionState;
     private int producedQuantity = 0;
     private int returnedQuantity = 0;
@@ -27,10 +27,9 @@ public class PhaseProductionOrder implements Comparable<PhaseProductionOrder> {
     public PhaseProductionOrder() {
     }
 
-    public PhaseProductionOrder(Phase phase, ProductionOrder productionOrder, Subordinate subordinate, int totalQuantity) throws ProductionException {
+    public PhaseProductionOrder(Phase phase, ProductionOrder productionOrder, int totalQuantity) throws ProductionException {
         this.phase = phase;
         this.productionOrder = productionOrder;
-        this.subordinate = subordinate;
         if (totalQuantity <= 0) {
             throw new ProductionException("The total quantity must be positive!!!");
         }
@@ -41,16 +40,15 @@ public class PhaseProductionOrder implements Comparable<PhaseProductionOrder> {
      * This constructor should not be used
      * @param phase
      * @param productionOrder
-     * @param subordinate
      * @param producedQuantity
      * @param returnedQuantity
      * @param totalQuantity
      * @param productionState
      * @param pendent
      * @throws ProductionException 
-     */
-    public PhaseProductionOrder(Phase phase, ProductionOrder productionOrder, Subordinate subordinate, int producedQuantity, int returnedQuantity, int totalQuantity, ProductionStates productionState, boolean pendent) throws ProductionException{
-        this(phase, productionOrder, subordinate, totalQuantity);
+     *
+    public PhaseProductionOrder(Phase phase, ProductionOrder productionOrder, int producedQuantity, int returnedQuantity, int totalQuantity, ProductionStates productionState, boolean pendent) throws ProductionException{
+        this(phase, productionOrder, totalQuantity);
         if (returnedQuantity <= 0) {
             throw new ProductionException("The returned quantity must be positive!!!");
         }
@@ -61,7 +59,7 @@ public class PhaseProductionOrder implements Comparable<PhaseProductionOrder> {
         this.producedQuantity = producedQuantity;
         this.productionState = productionState;
         this.pendent = pendent;
-    }
+    }*/
     
     public void produced(int quantity) throws ProductionException {
         if (quantity < 0)

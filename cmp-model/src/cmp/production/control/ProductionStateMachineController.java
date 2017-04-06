@@ -64,6 +64,7 @@ public class ProductionStateMachineController {
         }
         currentState = nextState;
         order.setPendent(currentState.isPendent());
+        order.setSubordinate(subordinate);
         try {
             order.produced(producedQuantity);
         } catch (ProductionException e) {
