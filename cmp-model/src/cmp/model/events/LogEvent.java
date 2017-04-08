@@ -12,40 +12,26 @@ import java.util.Calendar;
  *
  * @author adrianohrl
  */
-public class LogEvent extends AbstractEvent {
+public class LogEvent extends AbstractEmployeeRelatedEvent<Loggable> {
     
-    private Loggable loggableEmployee;
     private LogStates logState;
 
     public LogEvent() {
     }
 
     public LogEvent(Loggable loggableEmployee, LogStates logState, Calendar eventDate, String observation) {
-        super(eventDate, observation);
-        this.loggableEmployee = loggableEmployee;
+        super(loggableEmployee, eventDate, observation);
         this.logState = logState;
     }
 
     @Override
     public boolean equals(AbstractEvent event) {
-        return event instanceof LogEvent && equals((LogEvent) event);
-    }
-    
-    public boolean equals(LogEvent event) {
-        return super.equals(event) && loggableEmployee.equals(event.loggableEmployee);
+        return event instanceof LogEvent && super.equals((LogEvent) event);
     }
 
     @Override
     public String toString() {
-        return loggableEmployee + " " + logState + " on " + super.toString();
-    }
-
-    public Loggable getLoggableEmployee() {
-        return loggableEmployee;
-    }
-
-    public void setLoggableEmployee(Loggable loggableEmployee) {
-        this.loggableEmployee = loggableEmployee;
+        return super.toString() + getEmployee() + " is " + logState;
     }
 
     public LogStates getLogState() {

@@ -43,7 +43,7 @@ public abstract class AbstractEvent implements Comparable<AbstractEvent> {
     
     @Override
     public String toString() {
-        return CalendarFormat.format(eventDate);
+        return "[" + CalendarFormat.format(eventDate) + "]: ";
     }
 
     public long getCode() {

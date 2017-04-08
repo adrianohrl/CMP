@@ -6,7 +6,6 @@
 package cmp.production.control;
 
 import cmp.exceptions.ProductionStateMachineException;
-import cmp.model.events.AbstractEvent;
 import cmp.model.events.Casualty;
 import cmp.model.events.CasualtyEntryEvent;
 import cmp.model.events.EntryEvent;
@@ -15,6 +14,7 @@ import cmp.model.personal.Subordinate;
 import cmp.model.personal.Supervisor;
 import cmp.model.production.PhaseProductionOrder;
 import cmp.exceptions.ProductionException;
+import cmp.model.events.AbstractEmployeeRelatedEvent;
 import cmp.model.production.ProductionStates;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,7 +27,7 @@ public class EntryEventsBuilder {
     
     private final Sector sector;
     private final Supervisor supervisor;
-    private final ArrayList<AbstractEvent> entryEvents = new ArrayList<>();
+    private final ArrayList<AbstractEmployeeRelatedEvent> entryEvents = new ArrayList<>();
 
     public EntryEventsBuilder(Sector sector, Supervisor supervisor) {
         this.sector = sector;
@@ -117,7 +117,7 @@ public class EntryEventsBuilder {
         controller.process(entryEvent);
     }
 
-    public ArrayList<AbstractEvent> getEntryEvents() {
+    public ArrayList<AbstractEmployeeRelatedEvent> getEntryEvents() {
         return entryEvents;
     }
     

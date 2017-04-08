@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package test.cmp.reports;
+package test.cmp.model.events;
 
 import cmp.model.events.Casualty;
 import cmp.model.events.TimeClockEvent;
@@ -15,17 +15,19 @@ import cmp.model.production.Model;
 import cmp.model.production.Phase;
 import cmp.model.production.PhaseProductionOrder;
 import cmp.exceptions.ProductionException;
+import cmp.model.events.AbstractEvent;
 import cmp.model.production.ProductionOrder;
 import cmp.model.production.ProductionStates;
 import cmp.production.control.EntryEventsBuilder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 
 /**
  *
  * @author adrianohrl
  */
-public class EfficienyReportBuilder {
+public class EntryEventsBuilderTest {
     
     public static void main(String[] args) throws ProductionException {
         Manager manager = new Manager("mal", "1234", "mag1", "MAL");
@@ -86,6 +88,13 @@ public class EfficienyReportBuilder {
         timeClockEvents.add(new TimeClockEvent(subordinate1, false, new GregorianCalendar(2017, 4, 3, 17, 42), ""));
         timeClockEvents.add(new TimeClockEvent(subordinate2, false, new GregorianCalendar(2017, 4, 3, 17, 50), ""));
         timeClockEvents.add(new TimeClockEvent(subordinate3, false, new GregorianCalendar(2017, 4, 3, 18, 15), ""));
+        
+        ArrayList<AbstractEvent> events = new ArrayList<>(timeClockEvents);
+        events.addAll(entryEventsBuilder.getEntryEvents());
+        Collections.sort(events);
+        for (AbstractEvent event : events) {
+            System.out.println(event);
+        }
         
     }
     

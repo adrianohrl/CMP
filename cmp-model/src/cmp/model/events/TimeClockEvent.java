@@ -12,40 +12,26 @@ import java.util.Calendar;
  *
  * @author adrianohrl
  */
-public class TimeClockEvent extends AbstractEvent {
+public class TimeClockEvent extends AbstractEmployeeRelatedEvent {
     
-    private Employee employee;
     private boolean arrival;
 
     public TimeClockEvent() {
     }
 
     public TimeClockEvent(Employee employee, boolean arrival, Calendar eventDate, String observation) {
-        super(eventDate, observation);
-        this.employee = employee;
+        super(employee, eventDate, observation);
         this.arrival = arrival;
     }
 
     @Override
-    public boolean equals(AbstractEvent event) {
-        return event instanceof TimeClockEvent && equals((TimeClockEvent) event);
-    }
-    
-    public boolean equals(TimeClockEvent event) {
-        return super.equals(event) && employee.equals(event.employee);
+    public boolean equals(AbstractEmployeeRelatedEvent event) {
+        return event instanceof TimeClockEvent && super.equals(event);
     }
 
     @Override
     public String toString() {
-        return employee + " " + (arrival ? "ARRIVED" : "DEPARTURED") + " on " + super.toString();
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+        return super.toString() + getEmployee() + " " + (arrival ? "ARRIVED" : "DEPARTURED");
     }
 
     public boolean isArrival() {

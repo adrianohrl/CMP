@@ -35,31 +35,6 @@ public class PhaseProductionOrder implements Comparable<PhaseProductionOrder> {
         }
         this.totalQuantity = totalQuantity;
     }
-
-    /**
-     * This constructor should not be used
-     * @param phase
-     * @param productionOrder
-     * @param producedQuantity
-     * @param returnedQuantity
-     * @param totalQuantity
-     * @param productionState
-     * @param pendent
-     * @throws ProductionException 
-     *
-    public PhaseProductionOrder(Phase phase, ProductionOrder productionOrder, int producedQuantity, int returnedQuantity, int totalQuantity, ProductionStates productionState, boolean pendent) throws ProductionException{
-        this(phase, productionOrder, totalQuantity);
-        if (returnedQuantity <= 0) {
-            throw new ProductionException("The returned quantity must be positive!!!");
-        }
-        this.returnedQuantity = returnedQuantity;
-        if (producedQuantity <= 0) {
-            throw new ProductionException("The produced quantity must be positive!!!");
-        }
-        this.producedQuantity = producedQuantity;
-        this.productionState = productionState;
-        this.pendent = pendent;
-    }*/
     
     public void produced(int quantity) throws ProductionException {
         if (quantity < 0)

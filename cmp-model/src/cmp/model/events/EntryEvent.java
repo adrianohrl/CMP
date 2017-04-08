@@ -17,12 +17,11 @@ import java.util.Calendar;
  *
  * @author adrianohrl
  */
-public class EntryEvent extends AbstractEvent {
+public class EntryEvent extends AbstractEmployeeRelatedEvent<Subordinate> {
     
     private Sector sector;
     private Supervisor supervisor;
     private PhaseProductionOrder phaseProductionOrder;
-    private Subordinate subordinate;
     private ProductionStates productionState;
     private int producedQuantity = 0;
     
@@ -30,11 +29,10 @@ public class EntryEvent extends AbstractEvent {
     }
 
     private EntryEvent(Sector sector, Supervisor supervisor, PhaseProductionOrder phaseProductionOrder, Subordinate subordinate, ProductionStates productionState, String observation, Calendar eventDate) throws ProductionException {
-        super(eventDate, observation);
+        super(subordinate, eventDate, observation);
         this.sector = sector;
         this.supervisor = supervisor;
         this.phaseProductionOrder = phaseProductionOrder;
-        this.subordinate = subordinate;
         if (productionState == phaseProductionOrder.getProductionState()) {
             throw new ProductionException("No production state transition happened!!!");
         }
@@ -73,7 +71,7 @@ public class EntryEvent extends AbstractEvent {
     }
 
     @Override
-    public boolean equals(AbstractEvent event) {
+    public boolean equals(AbstractEmployeeRelatedEvent event) {
         return event instanceof EntryEvent && equals((EntryEvent) event);
     }
     
@@ -88,10 +86,12 @@ public class EntryEvent extends AbstractEvent {
 
     @Override
     public String toString() {
-        return supervisor + " has changed " + subordinate + 
-                "'s phase production order (" + phaseProductionOrder + ") at " + sector + " to " + productionState + 
-                " produced " + (phaseProductionOrder.getProducedQuantity() + this.producedQuantity) + " [un] of " + 
-                (phaseProductionOrder.getTotalQuantity()) + " [un]";
+        return super.toString() + supervisor + " has changed " + getEmployee() + 
+                "'s phase production order (" + phaseProductionOrder.getPhase() + " of " + 
+                phaseProductionOrder.getProductionOrder().getProductionOrder() + ") at " + 
+                sector + " to " + productionState + 
+                " produced " + (phaseProductionOrder.getProducedQuantity() + this.producedQuantity) + 
+                " [un] of " +  (phaseProductionOrder.getTotalQuantity()) + " [un]";
     }
 
     public Sector getSector() {
@@ -119,11 +119,7 @@ public class EntryEvent extends AbstractEvent {
     }
 
     public Subordinate getSubordinate() {
-        return subordinate;
-    }
-
-    public void setSubordinate(Subordinate subordinate) {
-        this.subordinate = subordinate;
+        return getEmployee();
     }
 
     public ProductionStates getProductionState() {

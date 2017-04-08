@@ -36,6 +36,11 @@ public class ProductionOrder implements Comparable<ProductionOrder> {
        return order != null && productionOrder.equalsIgnoreCase(order.productionOrder);
     }
 
+    @Override
+    public String toString() {
+        return productionOrder;
+    }
+
     public String getProductionOrder() {
         return productionOrder;
     }

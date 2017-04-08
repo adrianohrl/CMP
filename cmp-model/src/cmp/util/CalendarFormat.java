@@ -32,9 +32,9 @@ public class CalendarFormat {
     
     public static String format(Calendar calendar, String separator, boolean dateFirst) {
         if (dateFirst) {
-            return dateFormat.format(calendar) + separator + timeFormat.format(calendar);
+            return dateFormat.format(calendar.getTime()) + separator + timeFormat.format(calendar.getTime());
         }
-        return timeFormat.format(calendar) + separator + dateFormat.format(calendar);
+        return timeFormat.format(calendar.getTime()) + separator + dateFormat.format(calendar.getTime());
     }
     
 }
