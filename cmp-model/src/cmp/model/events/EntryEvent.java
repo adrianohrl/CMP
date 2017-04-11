@@ -90,8 +90,7 @@ public class EntryEvent extends AbstractEmployeeRelatedEvent<Subordinate> {
                 "'s phase production order (" + phaseProductionOrder.getPhase() + " of " + 
                 phaseProductionOrder.getProductionOrder().getProductionOrder() + ") at " + 
                 sector + " to " + productionState + 
-                " produced " + (phaseProductionOrder.getProducedQuantity() + this.producedQuantity) + 
-                " [un] of " +  (phaseProductionOrder.getTotalQuantity()) + " [un]";
+                (producedQuantity != 0 ? " produced " + producedQuantity + " [un]" : "");
     }
 
     public Sector getSector() {

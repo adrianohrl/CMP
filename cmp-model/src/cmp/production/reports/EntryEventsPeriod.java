@@ -8,7 +8,6 @@ package cmp.production.reports;
 import cmp.exceptions.ReportException;
 import cmp.model.events.CasualtyEntryEvent;
 import cmp.model.events.EntryEvent;
-import cmp.model.production.PhaseProductionOrder;
 import cmp.model.production.ProductionStates;
 
 /**
@@ -17,14 +16,14 @@ import cmp.model.production.ProductionStates;
  */
 public class EntryEventsPeriod extends AbstractEventsPeriod<EntryEvent, EntryEvent> {
 
-    public EntryEventsPeriod(PhaseProductionOrder phaseProductionOrder, EntryEvent firstEvent, EntryEvent lastEvent) throws ReportException {
-        super(phaseProductionOrder, firstEvent, lastEvent);
+    public EntryEventsPeriod(EntryEvent firstEvent, EntryEvent lastEvent) throws ReportException {
+        super(firstEvent.getPhaseProductionOrder(), firstEvent, lastEvent);
         ProductionStates firstState = firstEvent.getProductionState();
         ProductionStates lastState = lastEvent.getProductionState();
         if (firstState == lastState) {
             throw new ReportException("The first event state must be different than the last event one!!!");
         }
-        if (firstState.isFinishingState()) {
+        /*if (firstState.isFinishingState()) {
             throw new ReportException("The first event state must not be a starting one before another entry event of the same phase production order!!!");
         }
         if (lastState.isStartingState()) {
@@ -34,28 +33,28 @@ public class EntryEventsPeriod extends AbstractEventsPeriod<EntryEvent, EntryEve
             else if (firstState.isPaused()) {
                 throw new ReportException("The last event state can only be RESTARTED when the first event state is PAUSED!!!");
             }
-        }
+        }*/
         if (firstState.isPaused() && lastState.isFinished()) {
             throw new ReportException("The state transition from PAUSED to FINISHED is NOT allowed!!!");
         }
     }
 
     @Override
-    public double getProducedQuantity() {
+    public int getProducedQuantity() {
         ProductionStates state = lastEvent.getProductionState();
-        if (state.isPaused() || state.isFinished()) {
+        if (state.isFreerState()) {
             return lastEvent.getProducedQuantity();
         }
-        return 0.0;
+        return 0;
     }
 
     @Override
-    public double getReturnedQuantity() {
+    public int getReturnedQuantity() {
         if (lastEvent instanceof CasualtyEntryEvent && lastEvent.getProductionState().isReturned()) {
             CasualtyEntryEvent event = (CasualtyEntryEvent) lastEvent;
             return event.getReturnedQuantity();
         }
-        return 0.0;
+        return 0;
     }
 
     @Override

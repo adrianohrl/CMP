@@ -8,7 +8,6 @@ package cmp.production.reports;
 import cmp.exceptions.ReportException;
 import cmp.model.events.EntryEvent;
 import cmp.model.events.TimeClockEvent;
-import cmp.model.production.PhaseProductionOrder;
 
 /**
  *
@@ -16,8 +15,8 @@ import cmp.model.production.PhaseProductionOrder;
  */
 public class EntryTimeClockEventsPeriod extends AbstractEventsPeriod<EntryEvent, TimeClockEvent> {
 
-    public EntryTimeClockEventsPeriod(PhaseProductionOrder phaseProductionOrder, EntryEvent firstEvent, TimeClockEvent lastEvent) throws ReportException {
-        super(phaseProductionOrder, firstEvent, lastEvent);
+    public EntryTimeClockEventsPeriod(EntryEvent firstEvent, TimeClockEvent lastEvent) throws ReportException {
+        super(firstEvent.getPhaseProductionOrder(), firstEvent, lastEvent);
         if (lastEvent.isArrival()) {
             throw new ReportException("An ARRIVAL time clock event must be a last event only if the first event is a DEPARTURE time clock event!!!");
         }

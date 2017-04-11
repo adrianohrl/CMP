@@ -51,6 +51,12 @@ public class CasualtyEntryEvent extends EntryEvent {
         }
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + (returnedQuantity != 0 && getProducedQuantity() != 0 ? " and" : "") + 
+                (returnedQuantity != 0 ? " returned " + returnedQuantity + " [un]" : "");
+    }
+
     public Casualty getCasualty() {
         return casualty;
     }

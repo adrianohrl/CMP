@@ -20,6 +20,10 @@ public enum ProductionStates {
         return this == FINISHED || this == RETURNED;
     }
     
+    public boolean isFreerState() {
+        return this == PAUSED || this == FINISHED || this == RETURNED;
+    }
+    
     public boolean isStarted() {
         return this == STARTED;
     }

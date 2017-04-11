@@ -24,13 +24,16 @@ public abstract class AbstractEventsPeriod<F extends AbstractEvent, L extends Ab
     protected final L lastEvent;
 
     public AbstractEventsPeriod(PhaseProductionOrder phaseProductionOrder, F firstEvent, L lastEvent) throws ReportException {
-        this.phaseProductionOrder = phaseProductionOrder;
+        
         if (firstEvent.getEventDate().after(lastEvent.getEventDate())) {
             throw new ReportException("The first event must not be after the last event!!!");
         }
         if (firstEvent instanceof EntryEvent) {
             EntryEvent entryEvent = (EntryEvent) firstEvent;
-            if (!phaseProductionOrder.equals(entryEvent.getPhaseProductionOrder())) {
+            if (entryEvent.getProductionState().isFreerState()) {
+                phaseProductionOrder = null;
+            }
+            if (phaseProductionOrder != null && !phaseProductionOrder.equals(entryEvent.getPhaseProductionOrder())) {
                 throw new ReportException("The first event must be related to the input phase production order!!!");
             }
         }
@@ -40,26 +43,27 @@ public abstract class AbstractEventsPeriod<F extends AbstractEvent, L extends Ab
         this.firstEvent = firstEvent;
         if (lastEvent instanceof EntryEvent) {
             EntryEvent entryEvent = (EntryEvent) lastEvent;
-            if (!phaseProductionOrder.equals(entryEvent.getPhaseProductionOrder())) {
-                throw new ReportException("The first event must be related to the input phase production order!!!");
+            if (phaseProductionOrder != null && !phaseProductionOrder.equals(entryEvent.getPhaseProductionOrder())) {
+                throw new ReportException("The last event must be related to the input phase production order because the first one is not a freer state!!!");
             }
         }
-        else if (!(firstEvent instanceof TimeClockEvent)) {
-            throw new ReportException("The first event must be an instance of TimeClockEvent or EntryEvent!!!");
+        else if (!(lastEvent instanceof TimeClockEvent)) {
+            throw new ReportException("The first event must be an instance of TimeClockEvent or EntryEvent: " + firstEvent.getClass().getSimpleName() + "!!!");
         }
         this.lastEvent = lastEvent;
+        this.phaseProductionOrder = phaseProductionOrder;
     }
     
     public double getDuration() {
         return (lastEvent.getEventDate().getTimeInMillis() - firstEvent.getEventDate().getTimeInMillis()) / 60000;
     }
     
-    public double getProducedQuantity() {
-        return 0.0;
+    public int getProducedQuantity() {
+        return 0;
     }
     
-    public double getReturnedQuantity() {
-        return 0.0;
+    public int getReturnedQuantity() {
+        return 0;
     }
     
     public double getExpectedWorkingDuration() {

@@ -6,7 +6,6 @@
 package test.cmp.reports;
 
 import cmp.exceptions.CMPException;
-import cmp.model.events.AbstractEmployeeRelatedEvent;
 import cmp.model.events.Casualty;
 import cmp.model.events.TimeClockEvent;
 import cmp.model.personal.Sector;
@@ -18,8 +17,10 @@ import cmp.model.production.PhaseProductionOrder;
 import cmp.model.production.ProductionOrder;
 import cmp.model.production.ProductionStates;
 import cmp.production.control.EntryEventsBuilder;
-import cmp.production.reports.filters.EventsList;
-import cmp.production.reports.filters.FindByEmployee;
+import cmp.production.reports.AbstractEventsPeriod;
+import cmp.production.reports.EmployeeEventsPeriodBuilder;
+import cmp.production.reports.EventsPeriodBuilder;
+import cmp.production.reports.filters.EmployeeRelatedEventsList;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
@@ -27,7 +28,7 @@ import java.util.GregorianCalendar;
  *
  * @author adrianohrl
  */
-public class FindByEmployeeTest {
+public class EventsPeriodBuilderTest {
     
     public static void main(String[] args) throws CMPException {
         Supervisor supervisor = new Supervisor("ahrl", "12345", "sup1", "Adriano Henrique Rossette Leite");
@@ -88,18 +89,22 @@ public class FindByEmployeeTest {
         timeClockEvents.add(new TimeClockEvent(subordinate2, false, new GregorianCalendar(2017, 4, 3, 17, 50), ""));
         timeClockEvents.add(new TimeClockEvent(subordinate3, false, new GregorianCalendar(2017, 4, 3, 18, 15), ""));
         
-        EventsList<AbstractEmployeeRelatedEvent> events = new EventsList();
+        EmployeeRelatedEventsList events = new EmployeeRelatedEventsList();
         events.addAll(entryEventsBuilder.getEntryEvents());
         events.addAll(timeClockEvents);
-        FindByEmployee filter = new FindByEmployee(subordinate1);
-        events.execute(filter);
-        System.out.println("\nBefore filter: ");
-        for (AbstractEmployeeRelatedEvent event : events) {
-            System.out.println(event);
-        }
-        System.out.println("\nAfter filter: ");
-        for (AbstractEmployeeRelatedEvent event : filter) {
-            System.out.println(event);
+        
+        EventsPeriodBuilder builder = new EventsPeriodBuilder(events);
+        for (EmployeeEventsPeriodBuilder b : builder) {
+            System.out.println("Employee: " + b.getEmployee());
+            for (Phase phase : b.getPhases()) {
+                System.out.println("\tPhase: " + phase);
+                System.out.println("\t\tTotal Duration: " + b.getDuration(phase));
+                System.out.println("\t\tProduced Quantity: " + b.getProducedQuantity(phase));
+                System.out.println("\t\tReturned Quantity: " + b.getReturnedQuantity(phase));
+                System.out.println("\t\tExpected Duration: " + b.getExpectedWorkingDuration(phase));
+                System.out.println("\t\tEffective Duration: " + b.getEffectiveWorkingDuration(phase));
+            }
+            System.out.println("");
         }
     }
     

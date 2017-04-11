@@ -9,7 +9,6 @@ import cmp.exceptions.ReportException;
 import cmp.model.events.CasualtyEntryEvent;
 import cmp.model.events.EntryEvent;
 import cmp.model.events.TimeClockEvent;
-import cmp.model.production.PhaseProductionOrder;
 import cmp.model.production.ProductionStates;
 
 /**
@@ -18,29 +17,29 @@ import cmp.model.production.ProductionStates;
  */
 public class TimeClockEntryEventsPeriod extends AbstractEventsPeriod<TimeClockEvent, EntryEvent> {
 
-    public TimeClockEntryEventsPeriod(PhaseProductionOrder phaseProductionOrder, TimeClockEvent firstEvent, EntryEvent lastEvent) throws ReportException {
-        super(phaseProductionOrder, firstEvent, lastEvent);
+    public TimeClockEntryEventsPeriod(TimeClockEvent firstEvent, EntryEvent lastEvent) throws ReportException {
+        super(lastEvent.getPhaseProductionOrder(), firstEvent, lastEvent);
         if (!firstEvent.isArrival()) {
             throw new ReportException("A DEPARTURE time clock event must be a first event only if the last event is an ARRIVAL time clock event!!!");
         }
     }
 
     @Override
-    public double getProducedQuantity() {
+    public int getProducedQuantity() {
         ProductionStates state = lastEvent.getProductionState();
         if (state.isPaused() || state.isFinished()) {
             return lastEvent.getProducedQuantity();
         }
-        return 0.0;
+        return 0;
     }
 
     @Override
-    public double getReturnedQuantity() {
+    public int getReturnedQuantity() {
         if (lastEvent instanceof CasualtyEntryEvent && lastEvent.getProductionState().isReturned()) {
             CasualtyEntryEvent event = (CasualtyEntryEvent) lastEvent;
             return event.getReturnedQuantity();
         }
-        return 0.0;
+        return 0;
     }
 
     @Override

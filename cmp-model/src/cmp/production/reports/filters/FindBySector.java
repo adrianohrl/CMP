@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cmp.production.reports;
+package cmp.production.reports.filters;
 
 import cmp.model.events.EntryEvent;
 import cmp.model.personal.Sector;

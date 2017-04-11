@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cmp.production.reports;
+package cmp.production.reports.filters;
 
 import cmp.model.events.AbstractEmployeeRelatedEvent;
 import cmp.model.personal.Employee;
@@ -12,9 +12,8 @@ import cmp.util.AbstractFilter;
 /**
  *
  * @author adrianohrl
- * @param <T>
  */
-public class FindByEmployee<T extends AbstractEmployeeRelatedEvent> extends AbstractFilter<T> {
+public class FindByEmployee extends AbstractFilter<AbstractEmployeeRelatedEvent> {
     
     private final Employee employee;
 
@@ -26,10 +25,15 @@ public class FindByEmployee<T extends AbstractEmployeeRelatedEvent> extends Abst
     }
 
     @Override
-    public void execute(T event) {
+    public void execute(AbstractEmployeeRelatedEvent event) {
         if (employee.equals(event.getEmployee())) {
             super.add(event);
         }
+    }
+    
+    @Override
+    public EmployeeRelatedEventsList getItems() {
+        return new EmployeeRelatedEventsList(super.getItems());
     }
     
 }

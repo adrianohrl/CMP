@@ -7,7 +7,6 @@ package cmp.production.reports;
 
 import cmp.exceptions.ReportException;
 import cmp.model.events.TimeClockEvent;
-import cmp.model.production.PhaseProductionOrder;
 
 /**
  *
@@ -15,8 +14,8 @@ import cmp.model.production.PhaseProductionOrder;
  */
 public class TimeClockEventsPeriod extends AbstractEventsPeriod<TimeClockEvent, TimeClockEvent> {
 
-    public TimeClockEventsPeriod(PhaseProductionOrder phaseProductionOrder, TimeClockEvent firstEvent, TimeClockEvent lastEvent) throws ReportException {
-        super(phaseProductionOrder, firstEvent, lastEvent);
+    public TimeClockEventsPeriod(TimeClockEvent firstEvent, TimeClockEvent lastEvent) throws ReportException {
+        super(null, firstEvent, lastEvent);
     }
 
     @Override
