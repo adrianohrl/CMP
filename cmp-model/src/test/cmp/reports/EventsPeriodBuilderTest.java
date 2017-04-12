@@ -98,13 +98,23 @@ public class EventsPeriodBuilderTest {
             System.out.println("Employee: " + b.getEmployee());
             for (Phase phase : b.getPhases()) {
                 System.out.println("\tPhase: " + phase);
-                System.out.println("\t\tTotal Duration: " + b.getDuration(phase));
-                System.out.println("\t\tProduced Quantity: " + b.getProducedQuantity(phase));
-                System.out.println("\t\tReturned Quantity: " + b.getReturnedQuantity(phase));
-                System.out.println("\t\tExpected Duration: " + b.getExpectedWorkingDuration(phase));
-                System.out.println("\t\tEffective Duration: " + b.getEffectiveWorkingDuration(phase));
+                System.out.println("\t\tEffective Duration: " + b.getEffectiveDuration(phase) + " [min]");
+                System.out.println("\t\tExpected Duration: " + b.getExpectedDuration(phase) + " [min]");
+                System.out.println("\t\tProduced Quantity: " + b.getProducedQuantity(phase) + " [un]");
+                System.out.println("\t\tReturned Quantity: " + b.getReturnedQuantity(phase) + " [un]");
+                System.out.println("\t\tEffective Efficiency: " + (b.getEffectiveEfficiency(phase) * 100) + " %");
             }
-            System.out.println("");
+            System.out.println("\n\t-------------------------------------------------------------\n");
+            System.out.println("\tTotals:");
+            System.out.println("\t\tEffective Duration: " + b.getTotalEffectiveDuration() + " [min]");
+            System.out.println("\t\tExpected Duration: " + b.getTotalExpectedDuration() + " [min]");
+            System.out.println("\t\tFree Duration: " + b.getTotalFreeDuration() + " [min]");
+            System.out.println("\t\tTotal Duration: " + b.getTotalDuration() + " [min]");
+            System.out.println("\t\tProduced Quantity: " + b.getTotalProducedQuantity() + " [un]");
+            System.out.println("\t\tReturned Quantity: " + b.getTotalReturnedQuantity() + " [un]");
+            System.out.println("\t\tEffective Efficiency: " + (b.getTotalEffectiveEfficiency() * 100) + " %");
+            System.out.println("\t\tTotal Efficiency: " + (b.getTotalEfficiency() * 100) + " %");
+            System.out.println("\n=====================================================================\n");
         }
     }
     

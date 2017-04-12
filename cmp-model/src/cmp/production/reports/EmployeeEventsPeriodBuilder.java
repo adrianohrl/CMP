@@ -23,7 +23,8 @@ import java.util.Iterator;
 public class EmployeeEventsPeriodBuilder implements Iterable<AbstractEventsPeriod> {
     
     private final Employee employee;
-    private final ArrayList<AbstractEventsPeriod> eventsPeriod = new ArrayList<>();
+    private final ArrayList<AbstractEventsPeriod> eventsPeriods = new ArrayList<>();
+    private final ArrayList<TimeClockEventsPeriod> timeClockEventsPeriods = new ArrayList<>();
 
     public EmployeeEventsPeriodBuilder(Employee employee, EmployeeRelatedEventsList events) throws ReportException {
         this.employee = employee;
@@ -35,12 +36,22 @@ public class EmployeeEventsPeriodBuilder implements Iterable<AbstractEventsPerio
     }
     
     private void build(EmployeeRelatedEventsList events) throws ReportException {
-        Iterator<AbstractEmployeeRelatedEvent> it = events.iterator();
-        AbstractEmployeeRelatedEvent previous = it.next();
+        AbstractEmployeeRelatedEvent previous = null;
         AbstractEmployeeRelatedEvent current;
+        for (AbstractEmployeeRelatedEvent event : events) {
+            if (event instanceof TimeClockEvent) {
+                current = (TimeClockEvent) event;
+                if (previous != null) {
+                    timeClockEventsPeriods.add((TimeClockEventsPeriod) create(previous, current));
+                }
+                previous = current;
+            }
+        }
+        Iterator<AbstractEmployeeRelatedEvent> it = events.iterator();
+        previous = it.next();
         while (it.hasNext()) {
             current = it.next();
-            eventsPeriod.add(create(previous, current));
+            eventsPeriods.add(create(previous, current));
             previous = current;
         }
     }
@@ -63,7 +74,7 @@ public class EmployeeEventsPeriodBuilder implements Iterable<AbstractEventsPerio
 
     @Override
     public Iterator<AbstractEventsPeriod> iterator() {
-        return eventsPeriod.iterator();
+        return eventsPeriods.iterator();
     }
 
     public Employee getEmployee() {
@@ -74,8 +85,8 @@ public class EmployeeEventsPeriodBuilder implements Iterable<AbstractEventsPerio
         ArrayList<Phase> phases = new ArrayList<>();
         PhaseProductionOrder phaseProductionOrder;
         Phase phase;
-        for (AbstractEventsPeriod eventPeriod : this) {
-            phaseProductionOrder = eventPeriod.getPhaseProductionOrder();
+        for (AbstractEventsPeriod eventsPeriod : this) {
+            phaseProductionOrder = eventsPeriod.getPhaseProductionOrder();
             if (phaseProductionOrder != null) {
                 phase = phaseProductionOrder.getPhase();
                 if (!phases.contains(phase)) {
@@ -86,7 +97,27 @@ public class EmployeeEventsPeriodBuilder implements Iterable<AbstractEventsPerio
         return phases;
     }
     
-    public double getDuration(Phase phase) {
+    public double getTotalExpectedDuration() {
+        double total = 0.0;
+        for (Phase phase : getPhases()) {
+             total += getExpectedDuration(phase);
+        }
+        return total;
+    }
+    
+    public double getExpectedDuration(Phase phase) {
+        return phase.getExpectedDuration() * getProducedQuantity(phase);
+    }
+    
+    public double getTotalEffectiveDuration() {
+        double total = 0.0;
+        for (Phase phase : getPhases()) {
+             total += getEffectiveDuration(phase);
+        }
+        return total;
+    }
+    
+    public double getEffectiveDuration(Phase phase) {
         double duration = 0.0;
         PhaseProductionOrder phaseProductionOrder;
         for (AbstractEventsPeriod eventPeriod : this) {
@@ -96,6 +127,32 @@ public class EmployeeEventsPeriodBuilder implements Iterable<AbstractEventsPerio
             }
         }
         return duration;
+    }
+    
+    public double getTotalDuration() {
+        double duration = 0.0;
+        for (AbstractEventsPeriod eventsPeriod : (!timeClockEventsPeriods.isEmpty() ? timeClockEventsPeriods : this)) {
+            if (eventsPeriod.isWorkingPeriod()) {
+                duration += eventsPeriod.getDuration();
+            }
+        }
+        return duration;
+    }
+    
+    public double getTotalFreeDuration() {
+        return getTotalDuration() - getTotalEffectiveDuration();
+    }
+    
+    public double getTotalExpectedFreeDuration() {
+        return getTotalDuration() - getTotalExpectedDuration();
+    }
+    
+    public int getTotalProducedQuantity() {
+        int total = 0;
+        for (Phase phase : getPhases()) {
+             total += getProducedQuantity(phase);
+        }
+        return total;
     }
     
     public int getProducedQuantity(Phase phase) {
@@ -110,6 +167,14 @@ public class EmployeeEventsPeriodBuilder implements Iterable<AbstractEventsPerio
         return producedQuantity;
     }
     
+    public int getTotalReturnedQuantity() {
+        int total = 0;
+        for (Phase phase : getPhases()) {
+             total += getReturnedQuantity(phase);
+        }
+        return total;
+    }
+    
     public int getReturnedQuantity(Phase phase) {
         int returnedQuantity = 0;
         PhaseProductionOrder phaseProductionOrder;
@@ -122,12 +187,19 @@ public class EmployeeEventsPeriodBuilder implements Iterable<AbstractEventsPerio
         return returnedQuantity;
     }
     
-    public double getExpectedWorkingDuration(Phase phase) {
-        return phase.getExpectedDuration() * getProducedQuantity(phase);
+    public double getTotalEffectiveEfficiency() {
+        double totalEffectiveDuration = getTotalEffectiveDuration();
+        return totalEffectiveDuration != 0.0 ? getTotalExpectedDuration() / totalEffectiveDuration : 0.0;
     }
     
-    public double getEffectiveWorkingDuration(Phase phase) {
-        return getDuration(phase) * getProducedQuantity(phase);
+    public double getEffectiveEfficiency(Phase phase) {
+        double effectiveDuration = getEffectiveDuration(phase);
+        return effectiveDuration != 0.0 ? getExpectedDuration(phase) / effectiveDuration : 0.0;
+    }
+    
+    public double getTotalEfficiency() {
+        double totalDuration = getTotalDuration();
+        return totalDuration != 0.0 ? getTotalEffectiveDuration() / totalDuration : 0.0;
     }
     
 }
