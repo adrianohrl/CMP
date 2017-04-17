@@ -3,3 +3,5 @@ others/*
 */nbproject/*
 build.xml
 manifest.mf
+/cmp-model/build/
+/cmp-model/tests/

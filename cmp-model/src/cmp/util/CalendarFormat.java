@@ -15,15 +15,15 @@ import java.util.Calendar;
  */
 public class CalendarFormat {
     
-    private final static DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy");
-    private final static DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss aaa");
+    private final static DateFormat dateFormatter = new SimpleDateFormat("d MMM yyyy");
+    private final static DateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss aaa");
     
     public static String formatDate(Calendar date) {
-        return dateFormat.format(date);
+        return dateFormatter.format(date);
     }
     
     public static String formatTime(Calendar time) {
-        return timeFormat.format(time);
+        return timeFormatter.format(time);
     }
     
     public static String format(Calendar calendar) {
@@ -32,9 +32,9 @@ public class CalendarFormat {
     
     public static String format(Calendar calendar, String separator, boolean dateFirst) {
         if (dateFirst) {
-            return dateFormat.format(calendar.getTime()) + separator + timeFormat.format(calendar.getTime());
+            return dateFormatter.format(calendar.getTime()) + separator + timeFormatter.format(calendar.getTime());
         }
-        return timeFormat.format(calendar.getTime()) + separator + dateFormat.format(calendar.getTime());
+        return timeFormatter.format(calendar.getTime()) + separator + dateFormatter.format(calendar.getTime());
     }
     
 }

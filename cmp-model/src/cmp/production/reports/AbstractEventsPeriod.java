@@ -24,7 +24,6 @@ public abstract class AbstractEventsPeriod<F extends AbstractEvent, L extends Ab
     protected final L lastEvent;
 
     public AbstractEventsPeriod(PhaseProductionOrder phaseProductionOrder, F firstEvent, L lastEvent) throws ReportException {
-        
         if (firstEvent.getEventDate().after(lastEvent.getEventDate())) {
             throw new ReportException("The first event must not be after the last event!!!");
         }

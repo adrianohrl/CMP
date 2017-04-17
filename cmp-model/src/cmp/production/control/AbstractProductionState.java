@@ -5,7 +5,6 @@
  */
 package cmp.production.control;
 
-import cmp.model.production.PhaseProductionOrder;
 import java.util.ArrayList;
 
 /**

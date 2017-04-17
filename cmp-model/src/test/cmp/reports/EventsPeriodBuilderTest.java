@@ -17,7 +17,6 @@ import cmp.model.production.PhaseProductionOrder;
 import cmp.model.production.ProductionOrder;
 import cmp.model.production.ProductionStates;
 import cmp.production.control.EntryEventsBuilder;
-import cmp.production.reports.AbstractEventsPeriod;
 import cmp.production.reports.EmployeeEventsPeriodBuilder;
 import cmp.production.reports.EventsPeriodBuilder;
 import cmp.production.reports.filters.EmployeeRelatedEventsList;
