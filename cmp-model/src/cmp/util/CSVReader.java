@@ -5,6 +5,9 @@
  */
 package cmp.util;
 
+import cmp.exceptions.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 /**
@@ -14,9 +17,50 @@ import java.util.Iterator;
 public class CSVReader implements Iterable<String> {
     
     private final FileIO fileReader;
+    private final ArrayList<Field> defaultFields;
 
-    public CSVReader(String fileName) {
+    public CSVReader(String fileName, ArrayList<Field> defaultFields) throws IOException {
+        this.defaultFields = defaultFields;
         fileReader = new FileIO(fileName, ",");
+    }
+    
+    public void readColumnTitles() throws IOException {
+        int counter = 0;
+        int index;
+        for (String fieldTitle : this) {
+            index = indexOf(fieldTitle);
+            if (index == -1) {
+                throw new IOException("Inexistent time clock event field!!!");
+            }
+            defaultFields.get(index).setColumnIndex(counter++);
+        }
+        for (int i = 0; i < defaultFields.size(); i++) {
+            Field field = defaultFields.get(i);
+            if (!field.exists()) {
+                if (field.isMandatory()) {
+                    throw new IOException(field.getTitle() + " column title is mandatory!!!");
+                } else {
+                    defaultFields.remove(field);
+                }
+            }
+        }
+        if (defaultFields.isEmpty()) {
+            throw new IOException("No column titles found!!!");
+        }
+        Collections.sort(defaultFields);
+    }
+    
+    private int indexOf(String fieldTitle) {
+        for (int i = 0; i < defaultFields.size(); i++) {
+            if (defaultFields.get(i).equals(fieldTitle)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public ArrayList<Field> getDefaultFields() {
+        return defaultFields;
     }
     
     public boolean eof() {

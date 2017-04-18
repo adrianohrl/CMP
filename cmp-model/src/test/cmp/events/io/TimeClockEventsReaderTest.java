@@ -11,6 +11,7 @@ import cmp.model.events.AbstractEmployeeRelatedEvent;
 import cmp.model.personal.Employee;
 import cmp.production.reports.filters.EmployeeRelatedEventsList;
 import cmp.production.reports.filters.FindByEmployee;
+import cmp.util.Keyboard;
 
 /**
  *
@@ -19,8 +20,10 @@ import cmp.production.reports.filters.FindByEmployee;
 public class TimeClockEventsReaderTest {
     
     public static void main(String[] args) throws IOException {
-        TimeClockEventsReader reader = new TimeClockEventsReader("tests/ImportTimeClockEvents1.csv");
-        EmployeeRelatedEventsList events = new EmployeeRelatedEventsList(reader.getTimeClockEvents());
+        Keyboard keyboard = Keyboard.getKeyboard();
+        String fileName = keyboard.readString("Enter the file name: ");
+        TimeClockEventsReader reader = new TimeClockEventsReader(fileName);
+        EmployeeRelatedEventsList events = reader.getEmployeeRelatedEventsList();
         FindByEmployee filter;
         for (Employee employee : events.getInvolvedEmployees()) {
             filter = new FindByEmployee(employee);
@@ -32,7 +35,6 @@ public class TimeClockEventsReaderTest {
             }
             System.out.println("\n---------\n");
         }
-        
     }
     
 }
