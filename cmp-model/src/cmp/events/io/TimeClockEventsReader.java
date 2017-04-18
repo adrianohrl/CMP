@@ -20,7 +20,6 @@ import cmp.production.reports.filters.EmployeeRelatedEventsList;
 import cmp.production.reports.filters.FindByEmployee;
 import cmp.util.CSVReader;
 import cmp.util.Calendars;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -54,27 +53,15 @@ public class TimeClockEventsReader implements Iterable<TimeClockEvent> {
         csvReader = new CSVReader(fileName, defaultFields);
         csvReader.readColumnTitles();
         readTimeClockEvents();
+        csvReader.close();
     }
     
     private void readTimeClockEvents() throws IOException {
-        ArrayList<Field> fields;
-        Iterator<String> readValue = csvReader.iterator();
-        while (!csvReader.eof()) {
-            fields = new ArrayList<>(csvReader.getDefaultFields());
-            for (Field field : fields) {
-                if (!readValue.hasNext() && field.isMandatory()) {
-                    throw new IOException("Expected a new value in " + field.getTitle() + " column!!!");
-                }
-                try {
-                    field.setValue(readValue.next());
-                } catch (ParseException e) {
-                    throw new IOException("Parse Exception catched: " + e.getMessage());
-                }
-            }
+        ArrayList<Field> fields = csvReader.fillFields();
+        while (fields != null) {
             timeClockEvents.add(getTimeClockEvent(fields));
-            readValue = csvReader.iterator();
+            fields = csvReader.fillFields();
         }
-        csvReader.close();
         Collections.sort(timeClockEvents);
         validate();
     }

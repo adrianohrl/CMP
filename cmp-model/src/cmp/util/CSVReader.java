@@ -6,6 +6,7 @@
 package cmp.util;
 
 import cmp.exceptions.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -57,6 +58,25 @@ public class CSVReader implements Iterable<String> {
             }
         }
         return -1;
+    }
+    
+    public ArrayList<Field> fillFields() throws IOException {
+        Iterator<String> fieldValueIterator = iterator();
+        if (eof()) {
+            return null;
+        }
+        ArrayList<Field> fields = new ArrayList<>(defaultFields);
+        for (Field field : fields) {
+            if (!fieldValueIterator.hasNext() && field.isMandatory()) {
+                throw new IOException("Expected a new value in " + field.getTitle() + " column!!!");
+            }
+            try {
+                field.setValue(fieldValueIterator.next());
+            } catch (ParseException e) {
+                throw new IOException("Parse Exception catched: " + e.getMessage());
+            }
+        }
+        return fields;
     }
 
     public ArrayList<Field> getDefaultFields() {
