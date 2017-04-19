@@ -20,7 +20,7 @@ public class CalendarField extends Field<Calendar> {
     private String dateFormat;
 
     public CalendarField(String title) {
-        this(title, "hh:mm dd/MM/yyyy");
+        this(title, "HH:mm dd/MM/yyyy");
     }
     
     public CalendarField(String title, String dateFormat) {
@@ -29,7 +29,7 @@ public class CalendarField extends Field<Calendar> {
     }
 
     public CalendarField(String title, boolean mandatory) {
-        this(title, "hh:mm dd/MM/yyyy", mandatory);
+        this(title, "HH:mm dd/MM/yyyy", mandatory);
     }
     
     public CalendarField(String title, String dateFormat, boolean mandatory) {

@@ -42,7 +42,7 @@ public class EmployeeEventsPeriodBuilder implements Iterable<AbstractEventsPerio
             if (event instanceof TimeClockEvent) {
                 current = (TimeClockEvent) event;
                 if (previous != null) {
-                    timeClockEventsPeriods.add((TimeClockEventsPeriod) create(previous, current));
+                    timeClockEventsPeriods.add((TimeClockEventsPeriod) build(previous, current));
                 }
                 previous = current;
             }
@@ -51,12 +51,12 @@ public class EmployeeEventsPeriodBuilder implements Iterable<AbstractEventsPerio
         previous = it.next();
         while (it.hasNext()) {
             current = it.next();
-            eventsPeriods.add(create(previous, current));
+            eventsPeriods.add(build(previous, current));
             previous = current;
         }
     }
     
-    private AbstractEventsPeriod create(AbstractEmployeeRelatedEvent first, AbstractEmployeeRelatedEvent last) throws ReportException {
+    private AbstractEventsPeriod build(AbstractEmployeeRelatedEvent first, AbstractEmployeeRelatedEvent last) throws ReportException {
         AbstractEventsPeriod eventPeriod;
         if (first instanceof EntryEvent && last instanceof EntryEvent) {
             eventPeriod = new EntryEventsPeriod((EntryEvent) first, (EntryEvent) last);

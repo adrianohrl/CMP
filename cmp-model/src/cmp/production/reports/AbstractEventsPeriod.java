@@ -29,9 +29,6 @@ public abstract class AbstractEventsPeriod<F extends AbstractEvent, L extends Ab
         }
         if (firstEvent instanceof EntryEvent) {
             EntryEvent entryEvent = (EntryEvent) firstEvent;
-            if (entryEvent.getProductionState().isFreerState()) {
-                phaseProductionOrder = null;
-            }
             if (phaseProductionOrder != null && !phaseProductionOrder.equals(entryEvent.getPhaseProductionOrder())) {
                 throw new ReportException("The first event must be related to the input phase production order!!!");
             }

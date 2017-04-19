@@ -18,7 +18,7 @@ import cmp.model.production.ProductionStates;
 public class TimeClockEntryEventsPeriod extends AbstractEventsPeriod<TimeClockEvent, EntryEvent> {
 
     public TimeClockEntryEventsPeriod(TimeClockEvent firstEvent, EntryEvent lastEvent) throws ReportException {
-        super(lastEvent.getPhaseProductionOrder(), firstEvent, lastEvent);
+        super(!lastEvent.isStarting() ? lastEvent.getPhaseProductionOrder() : null, firstEvent, lastEvent);
         if (!firstEvent.isArrival()) {
             throw new ReportException("A DEPARTURE time clock event must be a first event only if the last event is an ARRIVAL time clock event!!!");
         }
@@ -27,7 +27,7 @@ public class TimeClockEntryEventsPeriod extends AbstractEventsPeriod<TimeClockEv
     @Override
     public int getProducedQuantity() {
         ProductionStates state = lastEvent.getProductionState();
-        if (state.isPaused() || state.isFinished()) {
+        if (state.isFreerState()) {
             return lastEvent.getProducedQuantity();
         }
         return 0;

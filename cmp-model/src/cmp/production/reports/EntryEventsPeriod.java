@@ -17,23 +17,12 @@ import cmp.model.production.ProductionStates;
 public class EntryEventsPeriod extends AbstractEventsPeriod<EntryEvent, EntryEvent> {
 
     public EntryEventsPeriod(EntryEvent firstEvent, EntryEvent lastEvent) throws ReportException {
-        super(firstEvent.getPhaseProductionOrder(), firstEvent, lastEvent);
+        super(!firstEvent.isSettingFree() ? firstEvent.getPhaseProductionOrder() : null, firstEvent, lastEvent);
         ProductionStates firstState = firstEvent.getProductionState();
         ProductionStates lastState = lastEvent.getProductionState();
         if (firstState == lastState) {
             throw new ReportException("The first event state must be different than the last event one!!!");
         }
-        /*if (firstState.isFinishingState()) {
-            throw new ReportException("The first event state must not be a starting one before another entry event of the same phase production order!!!");
-        }
-        if (lastState.isStartingState()) {
-            if (lastState.isStarted()) {
-                throw new ReportException("The last event state cannot be STARTED!!!");
-            }
-            else if (firstState.isPaused()) {
-                throw new ReportException("The last event state can only be RESTARTED when the first event state is PAUSED!!!");
-            }
-        }*/
         if (firstState.isPaused() && lastState.isFinished()) {
             throw new ReportException("The state transition from PAUSED to FINISHED is NOT allowed!!!");
         }

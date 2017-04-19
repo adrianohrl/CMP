@@ -69,6 +69,18 @@ public class EntryEvent extends AbstractEmployeeRelatedEvent<Subordinate> {
             throw new ProductionException("This constructor must only be used when the production state is STARTED, RESTARTED or FINISHED!!!");    
         }
     }
+    
+    public boolean isStarting() {
+        return getProductionState().isStartingState();
+    }
+    
+    public boolean isFinishing() {
+        return getProductionState().isFinishingState();
+    }
+    
+    public boolean isSettingFree() {
+        return getProductionState().isFreerState();
+    }
 
     @Override
     public boolean equals(AbstractEmployeeRelatedEvent event) {

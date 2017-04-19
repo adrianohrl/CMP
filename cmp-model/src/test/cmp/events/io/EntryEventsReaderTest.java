@@ -21,7 +21,7 @@ public class EntryEventsReaderTest {
     
     public static void main(String[] args) throws IOException {
         Keyboard keyboard = Keyboard.getKeyboard();
-        String fileName = "tests/ImportEntryEvents1.csv";//keyboard.readString("Enter the file name: ");
+        String fileName = keyboard.readString("Enter the file name: ");
         EntryEventsReader reader = new EntryEventsReader(fileName);
         EmployeeRelatedEventsList events = reader.getEmployeeRelatedEventsList();
         FindByEmployee filter;
