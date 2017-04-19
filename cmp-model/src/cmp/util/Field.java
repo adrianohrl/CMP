@@ -6,6 +6,7 @@
 package cmp.util;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 
 /**
  *
@@ -45,6 +46,15 @@ public abstract class Field<T extends Comparable<T>> implements Comparable<Field
     public boolean isFilled() {
         return value != null;
     }
+    
+    public static <T> T getFieldValue(ArrayList<Field> fields, String fieldTitle) {
+        for (Field field : fields) {
+            if (field.equals(fieldTitle)) {
+                return (T) field.getValue();
+            }
+        }
+        return null;
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -61,7 +71,7 @@ public abstract class Field<T extends Comparable<T>> implements Comparable<Field
 
     @Override
     public String toString() {
-        return value.toString();
+        return value != null ? value.toString() : "";
     }
 
     public int getColumnIndex() {

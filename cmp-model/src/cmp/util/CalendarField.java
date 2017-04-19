@@ -44,5 +44,11 @@ public class CalendarField extends Field<Calendar> {
         calendar.setTime(formatter.parse(value));
         super.setValue(calendar);
     }
+
+    @Override
+    public String toString() {
+        DateFormat formatter = new SimpleDateFormat(dateFormat);
+        return formatter.format(getValue().getTime());
+    }
     
 }

@@ -23,6 +23,7 @@ public class Calendars {
         calendar.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
         calendar.set(Calendar.SECOND, time.get(Calendar.SECOND));
         calendar.set(Calendar.MILLISECOND, time.get(Calendar.MILLISECOND));
+        calendar.set(Calendar.AM_PM, time.get(Calendar.AM_PM));
         return calendar;
     }
     

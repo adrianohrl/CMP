@@ -31,7 +31,7 @@ public class IntegerField extends Field<Integer> {
 
     @Override
     public void setValue(String value) throws ParseException {
-        super.setValue(new Integer(value));
+        super.setValue(!value.isEmpty() ? new Integer(value) : 0);
     }
     
 }

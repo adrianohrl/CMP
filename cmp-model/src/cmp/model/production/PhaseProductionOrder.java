@@ -30,8 +30,8 @@ public class PhaseProductionOrder implements Comparable<PhaseProductionOrder> {
     public PhaseProductionOrder(Phase phase, ProductionOrder productionOrder, int totalQuantity) throws ProductionException {
         this.phase = phase;
         this.productionOrder = productionOrder;
-        if (totalQuantity <= 0) {
-            throw new ProductionException("The total quantity must be positive!!!");
+        if (totalQuantity < 0) {
+            throw new ProductionException("The total quantity must not be negative!!!");
         }
         this.totalQuantity = totalQuantity;
     }

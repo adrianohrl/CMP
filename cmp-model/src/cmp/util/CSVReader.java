@@ -67,13 +67,14 @@ public class CSVReader implements Iterable<String> {
         }
         ArrayList<Field> fields = new ArrayList<>(defaultFields);
         for (Field field : fields) {
-            if (!fieldValueIterator.hasNext() && field.isMandatory()) {
-                throw new IOException("Expected a new value in " + field.getTitle() + " column!!!");
-            }
-            try {
-                field.setValue(fieldValueIterator.next());
-            } catch (ParseException e) {
-                throw new IOException("Parse Exception catched: " + e.getMessage());
+            if (fieldValueIterator.hasNext()) {
+                try {
+                    field.setValue(fieldValueIterator.next());
+                } catch (ParseException e) {
+                    throw new IOException("Parse Exception catched: " + e.getMessage());
+                }
+            } else if (field.isMandatory()) {
+                throw new IOException("Expected a new value in " + field.getTitle() + " column!!!");                
             }
         }
         return fields;

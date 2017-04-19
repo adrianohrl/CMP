@@ -5,7 +5,7 @@
  */
 package test.cmp.events.io;
 
-import cmp.events.io.TimeClockEventsReader;
+import cmp.events.io.EntryEventsReader;
 import cmp.exceptions.IOException;
 import cmp.model.events.AbstractEmployeeRelatedEvent;
 import cmp.model.personal.Employee;
@@ -17,12 +17,12 @@ import cmp.util.Keyboard;
  *
  * @author adrianohrl
  */
-public class TimeClockEventsReaderTest {
+public class EntryEventsReaderTest {
     
     public static void main(String[] args) throws IOException {
         Keyboard keyboard = Keyboard.getKeyboard();
-        String fileName = keyboard.readString("Enter the file name: ");
-        TimeClockEventsReader reader = new TimeClockEventsReader(fileName);
+        String fileName = "tests/ImportEntryEvents1.csv";//keyboard.readString("Enter the file name: ");
+        EntryEventsReader reader = new EntryEventsReader(fileName);
         EmployeeRelatedEventsList events = reader.getEmployeeRelatedEventsList();
         FindByEmployee filter;
         for (Employee employee : events.getInvolvedEmployees()) {

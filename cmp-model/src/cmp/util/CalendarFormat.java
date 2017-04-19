@@ -16,14 +16,14 @@ import java.util.Calendar;
 public class CalendarFormat {
     
     private final static DateFormat dateFormatter = new SimpleDateFormat("d MMM yyyy");
-    private final static DateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss aaa");
+    private final static DateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
     
     public static String formatDate(Calendar date) {
-        return dateFormatter.format(date);
+        return dateFormatter.format(date.getTime());
     }
     
     public static String formatTime(Calendar time) {
-        return timeFormatter.format(time);
+        return timeFormatter.format(time.getTime());
     }
     
     public static String format(Calendar calendar) {
