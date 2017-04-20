@@ -5,10 +5,13 @@
  */
 package cmp.model.personal;
 
+import javax.persistence.Entity;
+
 /**
  *
  * @author adrianohrl
  */
+@Entity
 public abstract class Loggable extends Employee {
     
     private String login;

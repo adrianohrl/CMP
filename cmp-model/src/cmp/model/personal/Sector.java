@@ -5,13 +5,21 @@
  */
 package cmp.model.personal;
 
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
 /**
  *
  * @author adrianohrl
  */
-public class Sector implements Comparable<Sector>{
+@Entity
+public class Sector implements Comparable<Sector>, Serializable{
     
+    @Id
     private String name;
+    @OneToOne
     private Supervisor supervisor;
 
     public Sector() {

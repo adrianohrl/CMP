@@ -14,6 +14,7 @@ import cmp.model.personal.Subordinate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  *
@@ -24,7 +25,7 @@ public class SectorEfficiencyReport extends AbstractEfficiencyReport implements 
     private final Sector sector;
     private final MultipleSubordinateEfficiencyReport multipleSubordinateEfficiencyReport;
 
-    public SectorEfficiencyReport(Sector sector, ArrayList<Subordinate> subordinates, ArrayList<TimeClockEvent> timeClockEvents, ArrayList<EntryEvent> entryEvents, Manager manager, Calendar startDate, Calendar endDate) throws ReportException {
+    public SectorEfficiencyReport(Sector sector, List<Subordinate> subordinates, ArrayList<TimeClockEvent> timeClockEvents, ArrayList<EntryEvent> entryEvents, Manager manager, Calendar startDate, Calendar endDate) throws ReportException {
         super(timeClockEvents, entryEvents, manager, startDate, endDate);
         this.sector = sector;
         multipleSubordinateEfficiencyReport = new MultipleSubordinateEfficiencyReport(subordinates, timeClockEvents, entryEvents, manager, startDate, endDate);

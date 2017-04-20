@@ -5,13 +5,19 @@
  */
 package cmp.model.personal;
 
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /**
  *
  * @author adrianohrl
  */
-public abstract class Employee implements Comparable<Employee> {
+@Entity
+public abstract class Employee implements Comparable<Employee>, Serializable {
     
     private String code;
+    @Id
     private String name;
 
     public Employee() {

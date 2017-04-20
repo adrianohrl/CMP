@@ -1,0 +1,28 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package cmp.dao.personal;
+
+import cmp.dao.DAO;
+import cmp.model.personal.Employee;
+import javax.persistence.EntityManager;
+
+/**
+ *
+ * @author adrianohrl
+ * @param <E>
+ */
+public abstract class EmployeeDAO<E extends Employee> extends DAO<E, String> {
+
+    protected EmployeeDAO(EntityManager em, Class clazz) {
+        super(em, clazz);
+    }
+
+    @Override
+    public boolean isRegistered(E entity) {
+        return super.find(entity.getName()) != null;
+    }
+    
+}

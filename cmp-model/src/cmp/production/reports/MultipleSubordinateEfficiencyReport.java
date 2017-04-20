@@ -13,6 +13,7 @@ import cmp.model.personal.Subordinate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  *
@@ -22,7 +23,7 @@ public class MultipleSubordinateEfficiencyReport extends AbstractEfficiencyRepor
 
     private final ArrayList<SubordinateEfficiencyReport> subordinateEfficiencyReports = new ArrayList<>();
 
-    public MultipleSubordinateEfficiencyReport(ArrayList<Subordinate> subordinates, ArrayList<TimeClockEvent> timeClockEvents, ArrayList<EntryEvent> entryEvents, Manager manager, Calendar startDate, Calendar endDate) throws ReportException {
+    public MultipleSubordinateEfficiencyReport(List<Subordinate> subordinates, ArrayList<TimeClockEvent> timeClockEvents, ArrayList<EntryEvent> entryEvents, Manager manager, Calendar startDate, Calendar endDate) throws ReportException {
         super(timeClockEvents, entryEvents, manager, startDate, endDate);
         for (Subordinate subordinate : subordinates) {
             subordinateEfficiencyReports.add(new SubordinateEfficiencyReport(subordinate, timeClockEvents, entryEvents, manager, startDate, endDate));

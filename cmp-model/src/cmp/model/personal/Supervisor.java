@@ -6,14 +6,27 @@
 package cmp.model.personal;
 
 import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 
 /**
  *
  * @author adrianohrl
  */
+@Entity
 public class Supervisor extends Loggable {
     
-    private ArrayList<Subordinate> subordinates = new ArrayList<>();
+    @OneToMany
+    @JoinTable(
+        name = "Supervisor_Subordinates", 
+        joinColumns = @JoinColumn(name = "supervisor_name"),
+        inverseJoinColumns = @JoinColumn(name = "subordinate_name")
+    )
+    private List<Subordinate> subordinates = new ArrayList<>();
 
     public Supervisor() {
     }
@@ -22,7 +35,7 @@ public class Supervisor extends Loggable {
         super(login, password, code, name);
     }
 
-    public ArrayList<Subordinate> getSubordinates() {
+    public List<Subordinate> getSubordinates() {
         return subordinates;
     }
 
