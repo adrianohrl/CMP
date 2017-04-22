@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 /**
  *
@@ -20,7 +20,7 @@ import javax.persistence.OneToMany;
 @Entity
 public class Supervisor extends Loggable {
     
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "Supervisor_Subordinates", 
         joinColumns = @JoinColumn(name = "supervisor_name"),

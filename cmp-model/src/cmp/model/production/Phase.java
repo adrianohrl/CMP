@@ -5,12 +5,18 @@
  */
 package cmp.model.production;
 
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /**
  *
  * @author adrianohrl
  */
-public class Phase implements Comparable<Phase> {
+@Entity
+public class Phase implements Comparable<Phase>, Serializable {
     
+    @Id
     private String name;
     private double expectedDuration;
 

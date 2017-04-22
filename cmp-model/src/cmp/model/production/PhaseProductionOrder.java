@@ -7,16 +7,29 @@ package cmp.model.production;
 
 import cmp.exceptions.ProductionException;
 import cmp.model.personal.Subordinate;
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
  * @author adrianohrl
  */
-public class PhaseProductionOrder implements Comparable<PhaseProductionOrder> {
+@Entity
+public class PhaseProductionOrder implements Comparable<PhaseProductionOrder>, Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long code;
+    @OneToOne
     private Phase phase;
+    @OneToOne
     private ProductionOrder productionOrder;
+    @ManyToOne
     private Subordinate subordinate = null;
     private ProductionStates productionState;
     private int producedQuantity = 0;

@@ -5,13 +5,21 @@
  */
 package cmp.model.production;
 
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
 /**
  *
  * @author adrianohrl
  */
-public class ProductionOrder implements Comparable<ProductionOrder> {
+@Entity
+public class ProductionOrder implements Comparable<ProductionOrder>, Serializable {
     
+    @Id
     private String productionOrder;
+    @OneToOne
     private Model model;
 
     public ProductionOrder() {

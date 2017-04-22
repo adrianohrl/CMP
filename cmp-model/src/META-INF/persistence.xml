@@ -8,6 +8,10 @@
     <class>cmp.model.personal.Sector</class>
     <class>cmp.model.personal.Subordinate</class>
     <class>cmp.model.personal.Supervisor</class>
+    <class>cmp.model.production.Model</class>
+    <class>cmp.model.production.Phase</class>
+    <class>cmp.model.production.PhaseProductionOrder</class>
+    <class>cmp.model.production.ProductionOrder</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/cmp?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="cmp"/>

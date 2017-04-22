@@ -5,17 +5,28 @@
  */
 package cmp.model.production;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
  * @author adrianohrl
  */
-public class Model implements Comparable<Model> {
+@Entity
+public class Model implements Comparable<Model>, Serializable {
     
+    @Id
     private String reference;
+    @Column(nullable = false, unique = true)
     private String name;
-    private ArrayList<Phase> phases = new ArrayList<>();
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Phase> phases = new ArrayList<>();
 
     public Model() {
     }
@@ -60,11 +71,11 @@ public class Model implements Comparable<Model> {
         this.name = name;
     }
 
-    public ArrayList<Phase> getPhases() {
+    public List<Phase> getPhases() {
         return phases;
     }
 
-    public void setPhases(ArrayList<Phase> phases) {
+    public void setPhases(List<Phase> phases) {
         this.phases = phases;
     }
     
