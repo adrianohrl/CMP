@@ -6,6 +6,7 @@
 package cmp.model.personal;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -16,6 +17,7 @@ import javax.persistence.Id;
 @Entity
 public abstract class Employee implements Comparable<Employee>, Serializable {
     
+    @Column(nullable = false, unique = true)
     private String code;
     @Id
     private String name;

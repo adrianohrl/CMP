@@ -5,6 +5,7 @@
  */
 package cmp.model.personal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 /**
@@ -14,6 +15,7 @@ import javax.persistence.Entity;
 @Entity
 public abstract class Loggable extends Employee {
     
+    @Column(unique = true)
     private String login;
     private String password;
 
