@@ -7,10 +7,12 @@ package test.cmp.dao.personal;
 
 import cmp.dao.DataSource;
 import cmp.dao.personal.ManagerDAO;
+import cmp.dao.personal.SectorDAO;
 import cmp.dao.personal.SubordinateDAO;
 import cmp.dao.personal.SupervisorDAO;
 import cmp.model.personal.Employee;
 import cmp.model.personal.Manager;
+import cmp.model.personal.Sector;
 import cmp.model.personal.Subordinate;
 import cmp.model.personal.Supervisor;
 import java.util.ArrayList;
@@ -31,14 +33,26 @@ public class PersonalDAOsTest {
     private static Map<String, Subordinate> subordinates;
     private static Map<String, Supervisor> supervisors;
     private static Map<String, Manager> managers;
+    private static Map<String, Sector> sectors;
     
     public static void main(String[] args) {
-        PersonalDAOsTest.createEmployees();
-        PersonalDAOsTest.register(subordinates.values());
-        PersonalDAOsTest.register(supervisors.values());
-        PersonalDAOsTest.register(managers.values());
-        em.close();
-        DataSource.closeEntityManagerFactory();
+        try {
+            PersonalDAOsTest.createEmployees();
+            PersonalTest.registerEmployees(subordinates.values());
+            PersonalTest.registerEmployees(supervisors.values());
+            PersonalTest.registerEmployees(managers.values());
+            PersonalDAOsTest.createSectors();
+            PersonalTest.registerSectors(sectors.values());
+            PersonalTest.showAllRegisteredSubordinates();
+            PersonalTest.showAllRegisteredSupervisors();
+            PersonalTest.showAllRegisteredManagers();
+            PersonalTest.showAllRegisteredSectors();
+        } catch (RuntimeException e) {
+            System.out.println("Exception catched: " + e.getMessage());
+        } finally {
+            em.close();
+            DataSource.closeEntityManagerFactory();
+        }
     }
     
     private static void createEmployees() {
@@ -89,49 +103,24 @@ public class PersonalDAOsTest {
         managers.put(manager.getName(), manager);
         employees.addAll(managers.values());
         Collections.sort(employees);
-        PersonalDAOsTest.print(employees);
+        PersonalTest.print(employees);
     }
-    
-    private static void print(List<Employee> employees) {
-        for (Employee employee : employees) {
-             if (employee instanceof Subordinate) {
-                Subordinate subordinate = (Subordinate) employee;
-                System.out.println("Subordinate: " + subordinate);
-            } else if (employee instanceof Supervisor) {
-                Supervisor supervisor = (Supervisor) employee;
-                System.out.println("Supervisor: " + supervisor);
-                System.out.println("\tSubordinates:");
-                for (Subordinate subordinate : supervisor.getSubordinates()) {
-                    System.out.println("\t" + subordinate);
-                }
-            } else if (employee instanceof Manager) {
-                Manager manager = (Manager) employee;
-                System.out.println("Manager: " + manager);
-                System.out.println("\tSupervisors:");
-                for (Supervisor supervisor : manager.getSupervisors()) {
-                    System.out.println("\t" + supervisor);
-                }
-            }
-        }
-    }
-    
-    private static void register(Collection<? extends Employee> employees) {
-        for (Employee employee : employees) {
-            PersonalDAOsTest.register(employee);
-        }
-    }
-    
-    private static void register(Employee employee) {
-        if (employee instanceof Subordinate) {
-            SubordinateDAO subordinateDAO = new SubordinateDAO(em);
-            subordinateDAO.create((Subordinate) employee);
-        } else if (employee instanceof Supervisor) {
-            SupervisorDAO supervisorDAO = new SupervisorDAO(em);
-            supervisorDAO.create((Supervisor) employee);
-        } else if (employee instanceof Manager) {
-            ManagerDAO managerDAO = new ManagerDAO(em);
-            managerDAO.create((Manager) employee);
-        }
+
+    private static void createSectors() {
+        sectors = new HashMap<>();
+        SupervisorDAO supervisorDAO = new SupervisorDAO(em);
+        Supervisor supervisor = supervisorDAO.find("Alessandro");
+        Sector sector = new Sector("Passadoria", supervisor);
+        sectors.put(sector.getName(), sector);
+        supervisor = supervisorDAO.find("Ana");
+        sector = new Sector("Costura", supervisor);
+        sectors.put(sector.getName(), sector);
+        supervisor = supervisorDAO.find("Julio");
+        sector = new Sector("Tecimento", supervisor);
+        sectors.put(sector.getName(), sector);
+        supervisor = supervisorDAO.find("Juliane");
+        sector = new Sector("Corte", supervisor);
+        sectors.put(sector.getName(), sector);
     }
     
 }
