@@ -12,13 +12,17 @@ import cmp.model.production.PhaseProductionOrder;
 import cmp.exceptions.ProductionException;
 import cmp.model.production.ProductionStates;
 import java.util.Calendar;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 /**
  *
  * @author adrianohrl
  */
+@Entity
 public class CasualtyEntryEvent extends EntryEvent {
     
+    @ManyToOne
     private Casualty casualty;
     private int returnedQuantity = 0;
 

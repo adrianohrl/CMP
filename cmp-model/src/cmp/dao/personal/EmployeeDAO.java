@@ -14,8 +14,12 @@ import javax.persistence.EntityManager;
  * @author adrianohrl
  * @param <E>
  */
-public abstract class EmployeeDAO<E extends Employee> extends DAO<E, String> {
+public class EmployeeDAO<E extends Employee> extends DAO<E, String> {
 
+    public EmployeeDAO(EntityManager em) {
+        super(em, Employee.class);
+    }
+    
     protected EmployeeDAO(EntityManager em, Class clazz) {
         super(em, clazz);
     }

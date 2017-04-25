@@ -6,17 +6,30 @@
 package cmp.model.events;
 
 import cmp.util.CalendarFormat;
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author adrianohrl
  */
-public abstract class AbstractEvent implements Comparable<AbstractEvent> {
+@MappedSuperclass
+public abstract class AbstractEvent implements Comparable<AbstractEvent>, Serializable {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long code;
     private String observation = "";
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false, updatable = false)
     private Calendar eventDate = new GregorianCalendar();
 
     public AbstractEvent() {

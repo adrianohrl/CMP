@@ -43,6 +43,9 @@ public class TimeClockEventsReader implements Iterable<TimeClockEvent> {
 
     public TimeClockEventsReader(String fileName) throws IOException {
         csvReader = new CSVReader(fileName, getDefaultFields());
+    }
+    
+    public void readFile() throws IOException {
         csvReader.readColumnTitles();
         readTimeClockEvents();
         csvReader.close();

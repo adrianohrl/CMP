@@ -21,10 +21,12 @@ public class EventsReaderTest {
     
     public static void main(String[] args) throws IOException, ReportException {
         Keyboard keyboard = Keyboard.getKeyboard();
-        //String fileName = keyboard.readString("Enter the time clock events file name: ");
-        EntryEventsReader entryEventsReader = new EntryEventsReader("tests/ImportEntryEvents1.csv");
-        //fileName = keyboard.readString("Enter the time clock events file name: ");
-        TimeClockEventsReader timeClockEventsReader = new TimeClockEventsReader("tests/ImportTimeClockEvents1.csv");
+        String fileName = keyboard.readString("Enter the time clock events file name: ");
+        EntryEventsReader entryEventsReader = new EntryEventsReader(fileName);
+        entryEventsReader.readFile();
+        fileName = keyboard.readString("Enter the time clock events file name: ");
+        TimeClockEventsReader timeClockEventsReader = new TimeClockEventsReader(fileName);
+        timeClockEventsReader.readFile();
         
         EmployeeRelatedEventsList events = new EmployeeRelatedEventsList();
         events.addAll(entryEventsReader.getEmployeeRelatedEventsList());

@@ -6,9 +6,10 @@
 package cmp.model.personal;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -19,7 +20,7 @@ public class Sector implements Comparable<Sector>, Serializable{
     
     @Id
     private String name;
-    @OneToOne
+    @ManyToOne
     private Supervisor supervisor;
 
     public Sector() {

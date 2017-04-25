@@ -71,7 +71,10 @@ public class EntryEventsReader implements Iterable<EntryEvent> {
     private final ArrayList<EntryEvent> entryEvents = new ArrayList<>();
 
     public EntryEventsReader(String fileName) throws IOException {
-        csvReader = new CSVReader(fileName, getDefaultFields());
+        csvReader = new CSVReader(fileName, getDefaultFields());   
+    }
+    
+    public void readFile() throws IOException {
         csvReader.readColumnTitles();
         readEntryEvents();
         csvReader.close();
@@ -147,65 +150,92 @@ public class EntryEventsReader implements Iterable<EntryEvent> {
         }
     }
     
-    private Supervisor getSupervisor(String supervisorName) {
+    private Supervisor getSupervisor(String supervisorName) throws IOException {
         if (supervisors.containsKey(supervisorName)) {
             return supervisors.get(supervisorName);
         }
-        Supervisor supervisor = new Supervisor("", "", "", supervisorName);
+        Supervisor supervisor = createSupervisor(supervisorName);
         supervisors.put(supervisorName, supervisor);
         return supervisor;
     }
     
-    private Sector getSector(String sectorName, Supervisor supervisor) {
+    protected Supervisor createSupervisor(String supervisorName) throws IOException {
+        return new Supervisor("", "", "", supervisorName);
+    }
+    
+    private Sector getSector(String sectorName, Supervisor supervisor) throws IOException  {
         if (sectors.containsKey(sectorName)) {
             return sectors.get(sectorName);
         }
-        Sector sector = new Sector(sectorName, supervisor);
+        Sector sector = createSector(sectorName, supervisor);
         builders.put(sector, new EntryEventsBuilder(sector, supervisor));
         sectors.put(sectorName, sector);
         return sector;
     }
     
-    private Subordinate getSubordinate(String subordinateName, Supervisor supervisor) {
+    protected Sector createSector(String sectorName, Supervisor supervisor) throws IOException  {
+        return new Sector(sectorName, supervisor);
+    }
+    
+    private Subordinate getSubordinate(String subordinateName, Supervisor supervisor) throws IOException {
         if (subordinates.containsKey(subordinateName)) {
             return subordinates.get(subordinateName);
         }
-        Subordinate subordinate = new Subordinate("", subordinateName);
+        Subordinate subordinate = createSubordinate(subordinateName, supervisor);
         supervisor.getSubordinates().add(subordinate);
         subordinates.put(subordinateName, subordinate);
         return subordinate;
     }
     
-    private Model getModel(String modelReference) {
+    protected Subordinate createSubordinate(String subordinateName, Supervisor supervisor) throws IOException {
+        Subordinate subordinate = new Subordinate("", subordinateName);
+        supervisor.getSubordinates().add(subordinate);
+        return subordinate;
+    }
+    
+    private Model getModel(String modelReference) throws IOException {
         if (models.containsKey(modelReference)) {
             return models.get(modelReference);
         }
-        Model model = new Model(modelReference, "");
+        Model model = createModel(modelReference);
         models.put(modelReference, model);
         return model;
     }
     
-    private ProductionOrder getProductionOrder(String productionOrderName, Model model) {
+    protected Model createModel(String modelReference) throws IOException {
+        return new Model(modelReference, "");
+    }
+    
+    private ProductionOrder getProductionOrder(String productionOrderName, Model model) throws IOException {
         if (productionOrders.containsKey(productionOrderName)) {
             return productionOrders.get(productionOrderName);
         }
-        ProductionOrder productionOrder = new ProductionOrder(productionOrderName, model);
+        ProductionOrder productionOrder = createProductionOrder(productionOrderName, model);
         productionOrders.put(productionOrderName, productionOrder);
         return productionOrder;
     }
     
-    private Phase getPhase(String phaseName, double expectedDuration, Model model) {
+    protected ProductionOrder createProductionOrder(String productionOrderName, Model model) throws IOException {
+        return new ProductionOrder(productionOrderName, model);
+    }
+    
+    private Phase getPhase(String phaseName, double expectedDuration, Model model) throws IOException {
         if (phases.containsKey(phaseName)) {
             return phases.get(phaseName);
         }
-        Phase phase = new Phase(phaseName, expectedDuration);
-        model.getPhases().add(phase);
+        Phase phase = createPhase(phaseName, expectedDuration, model);
         phases.put(phaseName, phase);
         return phase;
     }
     
-    private PhaseProductionOrder getPhaseProductionOrder(Phase phase, ProductionOrder productionOrder, int totalQuantity) throws ProductionException {
-        PhaseProductionOrder phaseProductionOrder = new PhaseProductionOrder(phase, productionOrder, totalQuantity);
+    protected Phase createPhase(String phaseName, double expectedDuration, Model model) throws IOException {
+        Phase phase = new Phase(phaseName, expectedDuration);
+        model.getPhases().add(phase);
+        return phase;
+    }
+    
+    private PhaseProductionOrder getPhaseProductionOrder(Phase phase, ProductionOrder productionOrder, int totalQuantity) throws ProductionException, IOException {
+        PhaseProductionOrder phaseProductionOrder = createPhaseProductionOrder(phase, productionOrder, totalQuantity);
         int index = phaseProductionOrders.indexOf(phaseProductionOrder);
         if (index != -1) {
             return phaseProductionOrders.get(index);
@@ -214,16 +244,24 @@ public class EntryEventsReader implements Iterable<EntryEvent> {
         return phaseProductionOrder;        
     }
     
-    private Casualty getCasualty(String casualtyName) {
+    protected PhaseProductionOrder createPhaseProductionOrder(Phase phase, ProductionOrder productionOrder, int totalQuantity) throws ProductionException, IOException {
+        return new PhaseProductionOrder(phase, productionOrder, totalQuantity);
+    }
+    
+    private Casualty getCasualty(String casualtyName) throws IOException {
         if (casualtyName == null || casualtyName.isEmpty()) {
             return null;
         }
         if (casualties.containsKey(casualtyName)) {
             return casualties.get(casualtyName);
         }
-        Casualty casualty = new Casualty(casualtyName);
+        Casualty casualty = createCasualty(casualtyName);
         casualties.put(casualtyName, casualty);
         return casualty;
+    }
+    
+    protected Casualty createCasualty(String casualtyName) throws IOException {
+        return new Casualty(casualtyName);
     }
     
     public EmployeeRelatedEventsList getEmployeeRelatedEventsList() {

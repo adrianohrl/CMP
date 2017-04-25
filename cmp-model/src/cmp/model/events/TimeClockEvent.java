@@ -7,11 +7,13 @@ package cmp.model.events;
 
 import cmp.model.personal.Employee;
 import java.util.Calendar;
+import javax.persistence.Entity;
 
 /**
  *
  * @author adrianohrl
  */
+@Entity
 public class TimeClockEvent extends AbstractEmployeeRelatedEvent {
     
     private boolean arrival;

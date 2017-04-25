@@ -7,14 +7,21 @@ package cmp.model.events;
 
 import cmp.model.personal.Employee;
 import java.util.Calendar;
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
 
 /**
  *
  * @author adrianohrl
  * @param <T>
  */
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class AbstractEmployeeRelatedEvent<T extends Employee> extends AbstractEvent {
     
+    @ManyToOne(targetEntity = Employee.class)
     private T employee;
 
     public AbstractEmployeeRelatedEvent() {

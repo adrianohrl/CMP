@@ -24,4 +24,8 @@ public class PhaseProductionOrderDAO extends DAO<PhaseProductionOrder, Long> {
         return super.find(entity.getCode()) != null;
     }
     
+    public PhaseProductionOrder find(String phaseName, String productionOrderName) {
+        return (PhaseProductionOrder) em.createQuery("SELECT ppo FROM PhaseProductionOrder ppo WHERE ppo.phase.name = '" + phaseName + "' AND ppo.productionOrder.productionOrder = '" + productionOrderName + "'").getSingleResult();
+    }
+    
 }

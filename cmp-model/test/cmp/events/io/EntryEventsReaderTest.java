@@ -22,6 +22,7 @@ public class EntryEventsReaderTest {
         Keyboard keyboard = Keyboard.getKeyboard();
         String fileName = keyboard.readString("Enter the file name: ");
         EntryEventsReader reader = new EntryEventsReader(fileName);
+        reader.readFile();
         EmployeeRelatedEventsList events = reader.getEmployeeRelatedEventsList();
         FindByEmployee filter;
         for (Employee employee : events.getInvolvedEmployees()) {

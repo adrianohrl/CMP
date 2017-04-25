@@ -12,6 +12,12 @@
     <class>cmp.model.production.Phase</class>
     <class>cmp.model.production.PhaseProductionOrder</class>
     <class>cmp.model.production.ProductionOrder</class>
+    <class>cmp.model.events.AbstractEmployeeRelatedEvent</class>
+    <class>cmp.model.events.Casualty</class>
+    <class>cmp.model.events.CasualtyEntryEvent</class>
+    <class>cmp.model.events.EntryEvent</class>
+    <class>cmp.model.events.LogEvent</class>
+    <class>cmp.model.events.TimeClockEvent</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/cmp?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="cmp"/>

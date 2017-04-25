@@ -57,7 +57,7 @@ public class PersonalDAOsTest {
         subordinates.put("Joaquina", new Subordinate("00001", "Joaquina"));
         subordinates.put("Joaquim", new Subordinate("00002", "Joaquim"));
         subordinates.put("Rosana", new Subordinate("00003", "Rosana"));
-        subordinates.put("Rose", new Subordinate("00004", "Rose"));
+        subordinates.put("Joana", new Subordinate("00004", "Joana"));
         subordinates.put("Maria", new Subordinate("00005", "Maria"));
         subordinates.put("João", new Subordinate("00006", "João"));
         subordinates.put("José", new Subordinate("00007", "José"));
@@ -73,8 +73,8 @@ public class PersonalDAOsTest {
         supervisor.getSubordinates().add((Subordinate) subordinates.get("José"));
         supervisor.getSubordinates().add((Subordinate) subordinates.get("Murilo"));
         supervisors.put(supervisor.getName(), supervisor);
-        supervisor = new Supervisor("ale", "123", "00012", "Alessandro");
-        supervisor.getSubordinates().add((Subordinate) subordinates.get("Rose"));
+        supervisor = new Supervisor("rose", "123", "00012", "Rose");
+        supervisor.getSubordinates().add((Subordinate) subordinates.get("Joana"));
         supervisor.getSubordinates().add((Subordinate) subordinates.get("Maria"));
         supervisors.put(supervisor.getName(), supervisor);
         supervisor = new Supervisor("julio", "1234", "00013", "Julio");
@@ -93,7 +93,7 @@ public class PersonalDAOsTest {
         manager.getSupervisors().add(supervisors.get("Ana"));
         managers.put(manager.getName(), manager);
         manager = new Manager("rafa", "147258", "00016", "Rafaela");
-        manager.getSupervisors().add(supervisors.get("Alessandro"));
+        manager.getSupervisors().add(supervisors.get("Rose"));
         manager.getSupervisors().add(supervisors.get("Julio"));
         managers.put(manager.getName(), manager);
         employees.addAll(managers.values());
@@ -104,10 +104,10 @@ public class PersonalDAOsTest {
     private static void createSectors() {
         sectors = new HashMap<>();
         SupervisorDAO supervisorDAO = new SupervisorDAO(em);
-        Supervisor supervisor = supervisorDAO.find("Alessandro");
+        Supervisor supervisor = supervisorDAO.find("Ana");
         Sector sector = new Sector("Passadoria", supervisor);
         sectors.put(sector.getName(), sector);
-        supervisor = supervisorDAO.find("Ana");
+        supervisor = supervisorDAO.find("Rose");
         sector = new Sector("Costura", supervisor);
         sectors.put(sector.getName(), sector);
         supervisor = supervisorDAO.find("Julio");

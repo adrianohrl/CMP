@@ -5,12 +5,18 @@
  */
 package cmp.model.events;
 
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /**
  *
  * @author adrianohrl
  */
-public class Casualty implements Comparable<Casualty> {
+@Entity
+public class Casualty implements Comparable<Casualty>, Serializable {
     
+    @Id
     private String name;
     private boolean collective = false;
 

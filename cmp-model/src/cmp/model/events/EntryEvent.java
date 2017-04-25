@@ -12,15 +12,21 @@ import cmp.model.production.PhaseProductionOrder;
 import cmp.exceptions.ProductionException;
 import cmp.model.production.ProductionStates;
 import java.util.Calendar;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 /**
  *
  * @author adrianohrl
  */
+@Entity
 public class EntryEvent extends AbstractEmployeeRelatedEvent<Subordinate> {
     
+    @ManyToOne
     private Sector sector;
+    @ManyToOne
     private Supervisor supervisor;
+    @ManyToOne
     private PhaseProductionOrder phaseProductionOrder;
     private ProductionStates productionState;
     private int producedQuantity = 0;

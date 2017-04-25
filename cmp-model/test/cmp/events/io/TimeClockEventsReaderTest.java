@@ -20,8 +20,9 @@ public class TimeClockEventsReaderTest {
     
     public static void main(String[] args) throws IOException {
         Keyboard keyboard = Keyboard.getKeyboard();
-        //String fileName = keyboard.readString("Enter the file name: ");
-        TimeClockEventsReader reader = new TimeClockEventsReader("tests/ImportTimeClockEvents1.csv");//fileName);
+        String fileName = keyboard.readString("Enter the file name: ");
+        TimeClockEventsReader reader = new TimeClockEventsReader(fileName);
+        reader.readFile();
         EmployeeRelatedEventsList events = reader.getEmployeeRelatedEventsList();
         FindByEmployee filter;
         for (Employee employee : events.getInvolvedEmployees()) {
