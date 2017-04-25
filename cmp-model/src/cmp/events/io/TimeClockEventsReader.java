@@ -71,10 +71,14 @@ public class TimeClockEventsReader implements Iterable<TimeClockEvent> {
         validate();
     }
     
-    private TimeClockEvent getTimeClockEvent(ArrayList<Field> fields) {
+    private TimeClockEvent getTimeClockEvent(ArrayList<Field> fields) throws IOException {
         Calendar calendar = Calendars.sum(Field.getFieldValue(fields, DATE_COLUMN_TITLE), Field.getFieldValue(fields, TIME_COLUMN_TITLE));
-        Employee employee = new Subordinate("", Field.getFieldValue(fields, EMPLOYEE_COLUMN_TITLE));
+        Employee employee = createEmployee(Field.getFieldValue(fields, EMPLOYEE_COLUMN_TITLE));
         return new TimeClockEvent(employee, Field.getFieldValue(fields, ARRIVAL_COLUMN_TITLE), calendar, Field.getFieldValue(fields, OBSERVATION_COLUMN_TITLE));
+    }
+    
+    protected Employee createEmployee(String employeeName) throws IOException {
+        return new Subordinate("", employeeName);
     }
     
     private void validate() throws IOException {

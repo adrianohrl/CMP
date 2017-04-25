@@ -88,7 +88,7 @@ public class PersonalDAOsTest {
         employees.addAll(supervisors.values());
         /************************* Managers *************************/
         managers = new HashMap<>();
-        Manager manager = new Manager("rod", "147258369", "00015", "Rodrigo");
+        Manager manager = new Manager("carlos", "147258369", "00015", "Carlos");
         manager.getSupervisors().add(supervisors.get("Juliane"));
         manager.getSupervisors().add(supervisors.get("Ana"));
         managers.put(manager.getName(), manager);
