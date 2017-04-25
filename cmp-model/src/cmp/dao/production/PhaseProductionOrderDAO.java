@@ -21,7 +21,7 @@ public class PhaseProductionOrderDAO extends DAO<PhaseProductionOrder, Long> {
 
     @Override
     public boolean isRegistered(PhaseProductionOrder entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return super.find(entity.getCode()) != null;
     }
     
 }

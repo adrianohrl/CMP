@@ -21,7 +21,7 @@ public class PhaseDAO extends DAO<Phase, String> {
 
     @Override
     public boolean isRegistered(Phase entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return super.find(entity.getName()) != null;
     }
     
 }

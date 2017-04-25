@@ -3,13 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package test.cmp.dao.personal;
+package cmp.dao.personal;
 
 import cmp.dao.DataSource;
-import cmp.dao.personal.ManagerDAO;
-import cmp.dao.personal.SectorDAO;
-import cmp.dao.personal.SubordinateDAO;
-import cmp.dao.personal.SupervisorDAO;
 import cmp.model.personal.Employee;
 import cmp.model.personal.Manager;
 import cmp.model.personal.Sector;
@@ -179,7 +175,7 @@ public class PersonalTest {
     private static void createSubordinate() {
         System.out.println("\nRegistering a new subordinate ...");
         Keyboard keyboard = Keyboard.getKeyboard();
-        System.out.println("Enter the info of the new subordinate above:");
+        System.out.println("Enter the info of the new subordinate below:");
         String code = keyboard.readString("code: ");
         String name = keyboard.readString("name: ");
         try {
@@ -194,7 +190,7 @@ public class PersonalTest {
     private static void createSupervisor() {
         System.out.println("\nRegistering a new supervisor ...");
         Keyboard keyboard = Keyboard.getKeyboard();
-        System.out.println("Enter the info of the new supervisor above:");
+        System.out.println("Enter the info of the new supervisor below:");
         String code = keyboard.readString("code: ");
         String name = keyboard.readString("name: ");
         String login = keyboard.readString("login: ");
@@ -202,7 +198,7 @@ public class PersonalTest {
         try {
             Supervisor supervisor = new Supervisor(login, password, code, name);
             PersonalTest.register(supervisor);
-            assignNewSubordinatesToSupervisor(supervisor);
+            PersonalTest.assignNewSubordinatesToSupervisor(supervisor);
             System.out.println("The supervisor registration succeeded!!!");
         } catch (RuntimeException e) {
             System.out.println("The supervisor registration failed: " + e.getMessage() + "!!!");
@@ -213,7 +209,7 @@ public class PersonalTest {
     private static void createManager() {
         System.out.println("\nRegistering a new manager ...");
         Keyboard keyboard = Keyboard.getKeyboard();
-        System.out.println("Enter the info of the new manager above:");
+        System.out.println("Enter the info of the new manager below:");
         String code = keyboard.readString("code: ");
         String name = keyboard.readString("name: ");
         String login = keyboard.readString("login: ");
@@ -238,7 +234,7 @@ public class PersonalTest {
             System.out.println("There is no supervisor registered yet!!!");
             return;
         }
-        System.out.println("Enter the info of the new sector above:");
+        System.out.println("Enter the info of the new sector below:");
         String name = keyboard.readString("name: ");
         System.out.println("Enter its supervisor:");
         for (int i = 0; i < supervisors.size(); i++) {
@@ -246,7 +242,7 @@ public class PersonalTest {
         }
         System.out.println("-1) quit");
         int option = keyboard.readInteger("Enter an option: ");
-        while (option < -1 || option >= supervisors.size()) {
+        while (option < 0 || option >= supervisors.size()) {
             if (option == -1) {
                 System.out.println("Aborting registration ...");
                 return;
@@ -256,8 +252,7 @@ public class PersonalTest {
         }
         Supervisor supervisor = supervisors.get(option);
         try {
-            Sector sector = new Sector(name, supervisor);
-            PersonalTest.register(sector);
+            PersonalTest.register(new Sector(name, supervisor));
             System.out.println("The sector registration succeeded!!!");
         } catch (RuntimeException e) {
             System.out.println("The sector registration failed: " + e.getMessage() + "!!!");
@@ -280,7 +275,7 @@ public class PersonalTest {
         }
         System.out.println("-1) quit");
         int option = keyboard.readInteger("Enter an option: ");
-        while (option < -1 || option >= supervisors.size()) {
+        while (option < 0 || option >= supervisors.size()) {
             if (option == -1) {
                 System.out.println("Aborting registration ...");
                 return;
@@ -344,7 +339,7 @@ public class PersonalTest {
         }
         System.out.println("-1) quit");
         int option = keyboard.readInteger("Enter an option: ");
-        while (option < -1 || option >= managers.size()) {
+        while (option < 0 || option >= managers.size()) {
             if (option == -1) {
                 System.out.println("Aborting registration ...");
                 return;

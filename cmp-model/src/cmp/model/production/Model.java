@@ -12,7 +12,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 /**
  *
@@ -25,7 +25,7 @@ public class Model implements Comparable<Model>, Serializable {
     private String reference;
     @Column(nullable = false, unique = true)
     private String name;
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Phase> phases = new ArrayList<>();
 
     public Model() {

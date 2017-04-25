@@ -43,8 +43,7 @@ public class Phase implements Comparable<Phase>, Serializable {
     }
     
     @Override
-    public String toString()
-    {
+    public String toString() {
         return name;
     }
 

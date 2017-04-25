@@ -13,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 /**
  *
@@ -25,9 +24,9 @@ public class PhaseProductionOrder implements Comparable<PhaseProductionOrder>, S
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long code;
-    @OneToOne
+    @ManyToOne
     private Phase phase;
-    @OneToOne
+    @ManyToOne
     private ProductionOrder productionOrder;
     @ManyToOne
     private Subordinate subordinate = null;

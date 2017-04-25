@@ -3,10 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package test.cmp.model.events;
+package cmp.model.events;
 
-import cmp.model.events.Casualty;
-import cmp.model.events.TimeClockEvent;
 import cmp.model.personal.Manager;
 import cmp.model.personal.Sector;
 import cmp.model.personal.Subordinate;
@@ -15,7 +13,6 @@ import cmp.model.production.Model;
 import cmp.model.production.Phase;
 import cmp.model.production.PhaseProductionOrder;
 import cmp.exceptions.ProductionException;
-import cmp.model.events.AbstractEvent;
 import cmp.model.production.ProductionOrder;
 import cmp.model.production.ProductionStates;
 import cmp.production.control.EntryEventsBuilder;

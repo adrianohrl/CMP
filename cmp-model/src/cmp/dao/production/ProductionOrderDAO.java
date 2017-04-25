@@ -21,7 +21,7 @@ public class ProductionOrderDAO extends DAO<ProductionOrder, String> {
 
     @Override
     public boolean isRegistered(ProductionOrder entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return super.find(entity.getProductionOrder()) != null;
     }
     
 }

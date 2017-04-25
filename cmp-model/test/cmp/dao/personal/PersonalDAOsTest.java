@@ -3,20 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package test.cmp.dao.personal;
+package cmp.dao.personal;
 
 import cmp.dao.DataSource;
-import cmp.dao.personal.ManagerDAO;
-import cmp.dao.personal.SectorDAO;
-import cmp.dao.personal.SubordinateDAO;
-import cmp.dao.personal.SupervisorDAO;
 import cmp.model.personal.Employee;
 import cmp.model.personal.Manager;
 import cmp.model.personal.Sector;
 import cmp.model.personal.Subordinate;
 import cmp.model.personal.Supervisor;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;

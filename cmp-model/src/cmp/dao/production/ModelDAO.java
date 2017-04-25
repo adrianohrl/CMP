@@ -21,7 +21,7 @@ public class ModelDAO extends DAO<Model, String> {
 
     @Override
     public boolean isRegistered(Model entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return super.find(entity.getReference()) != null;
     }
     
 }

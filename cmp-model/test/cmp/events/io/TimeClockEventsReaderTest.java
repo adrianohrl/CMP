@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package test.cmp.events.io;
+package cmp.events.io;
 
-import cmp.events.io.TimeClockEventsReader;
 import cmp.exceptions.IOException;
 import cmp.model.events.AbstractEmployeeRelatedEvent;
 import cmp.model.personal.Employee;
