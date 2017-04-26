@@ -25,21 +25,21 @@ public class PersonalTest {
     private static EntityManager em = DataSource.createEntityManager();
     
     public static void main(String[] args) {
-        MenuOptions option = MenuOptions.getOption();
+        PersonalMenuOptions option = PersonalMenuOptions.getOption();
         while (!option.quit()) {
             try {
-                process(option);
+                PersonalTest.process(option);
             } catch (RuntimeException e) {
                 System.out.println("Exception catched: " + e.getMessage());
             }
-            option = MenuOptions.getOption();
+            option = PersonalMenuOptions.getOption();
         }
         System.out.println("Quitting!!!");
         em.close();
         DataSource.closeEntityManagerFactory();
     }
     
-    private static void process(MenuOptions option) {
+    public static void process(PersonalMenuOptions option) {
         if (option.quit()) {
             return;
         }
@@ -228,29 +228,9 @@ public class PersonalTest {
     private static void createSector() {
         System.out.println("\nResgistering a new sector ...");
         Keyboard keyboard = Keyboard.getKeyboard();
-        SupervisorDAO supervisorDAO = new SupervisorDAO(em);
-        List<Supervisor> supervisors = supervisorDAO.findAll();
-        if (supervisors.isEmpty()) {
-            System.out.println("There is no supervisor registered yet!!!");
-            return;
-        }
         System.out.println("Enter the info of the new sector below:");
         String name = keyboard.readString("name: ");
-        System.out.println("Enter its supervisor:");
-        for (int i = 0; i < supervisors.size(); i++) {
-            System.out.println(i + ") " + supervisors.get(i));
-        }
-        System.out.println("-1) quit");
-        int option = keyboard.readInteger("Enter an option: ");
-        while (option < 0 || option >= supervisors.size()) {
-            if (option == -1) {
-                System.out.println("Aborting registration ...");
-                return;
-            }
-            System.out.println("Invalid option: " + option + "!!! Try again.");
-            option = keyboard.readInteger("Enter an option: ");
-        }
-        Supervisor supervisor = supervisors.get(option);
+        Supervisor supervisor = PersonalKeyboardEntries.selectOneSupervisor();
         try {
             PersonalTest.register(new Sector(name, supervisor));
             System.out.println("The sector registration succeeded!!!");
@@ -262,129 +242,43 @@ public class PersonalTest {
 
     private static void assignNewSubordinatesToSupervisor() {
         System.out.println("\nAssigning new subordinates to a supervisor ...");
-        Keyboard keyboard = Keyboard.getKeyboard();
-        SupervisorDAO supervisorDAO = new SupervisorDAO(em);
-        List<Supervisor> supervisors = supervisorDAO.findAll();
-        if (supervisors.isEmpty()) {
-            System.out.println("There is no supervisor registered yet!!!");
-            return;
-        }
-        System.out.println("Pick one supervisor:");
-        for (int i = 0; i < supervisors.size(); i++) {
-            System.out.println(i + ") " + supervisors.get(i));
-        }
-        System.out.println("-1) quit");
-        int option = keyboard.readInteger("Enter an option: ");
-        while (option < 0 || option >= supervisors.size()) {
-            if (option == -1) {
-                System.out.println("Aborting registration ...");
-                return;
-            }
-            System.out.println("Invalid option: " + option + "!!! Try again.");
-            option = keyboard.readInteger("Enter an option: ");
-        }
-        Supervisor supervisor = supervisors.get(option);
+        Supervisor supervisor = PersonalKeyboardEntries.selectOneSupervisor();
         assignNewSubordinatesToSupervisor(supervisor);
     }
     
     public static void assignNewSubordinatesToSupervisor(Supervisor supervisor) {
-        SubordinateDAO subordinateDAO = new SubordinateDAO(em);
-        List<Subordinate> subordinates = subordinateDAO.findAll();
-        if (subordinates.isEmpty()) {
-            System.out.println("There is no subordinate registered yet!!! Try to assign subordinates to this supervisor after new subordinate registrations.");
+        List<Subordinate> subordinates = PersonalKeyboardEntries.selectManySubordinates(supervisor);
+        if (subordinates == null) {
             return;
         }
-        subordinates.removeAll(supervisor.getSubordinates());
-        if (subordinates.isEmpty()) {
-            System.out.println("There is no subordinate that is not under his(her) supervision!!! Try to assign subordinates to this supervisor after new subordinate registrations.");
-            return;
-        }
-        System.out.println("Enter his(her) subordinates:");
-        Keyboard keyboard = Keyboard.getKeyboard();
+        supervisor.getSubordinates().addAll(subordinates);
         SupervisorDAO supervisorDAO = new SupervisorDAO(em);
-        int option = 0;
-        while (option != -1 && !subordinates.isEmpty()) {
-            for (int i = 0; i < subordinates.size(); i++) {
-                System.out.println(i + ") " + subordinates.get(i));
-            }
-            System.out.println("-1) quit");
-            option = keyboard.readInteger("Enter an option: ");
-            if (option >= 0 && option < subordinates.size()) {
-                Subordinate subordinate = subordinates.get(option);
-                System.out.println("Assigning " + subordinate + " to " + supervisor +"'s supervision!!!");
-                supervisor.getSubordinates().add(subordinate);
-                try {
-                    supervisorDAO.update(supervisor);
-                    subordinates.remove(subordinate);
-                } catch (RuntimeException e) {
-                    System.out.println("Exception catched: " + e.getMessage());
-                    em.clear();
-                }
-            }
+        try {
+            supervisorDAO.update(supervisor);
+        } catch (RuntimeException e) {
+            System.out.println("Exception catched: " + e.getMessage());
+            em.clear();
         }
     }
 
     private static void assignNewSupervisorsToManager() {
         System.out.println("\nAssigning new supervisors to a manager ...");
-        Keyboard keyboard = Keyboard.getKeyboard();
-        ManagerDAO managerDAO = new ManagerDAO(em);
-        List<Manager> managers = managerDAO.findAll();
-        if (managers.isEmpty()) {
-            System.out.println("There is no manager registered yet!!!");
-            return;
-        }
-        System.out.println("Pick one manager:");
-        for (int i = 0; i < managers.size(); i++) {
-            System.out.println(i + ") " + managers.get(i));
-        }
-        System.out.println("-1) quit");
-        int option = keyboard.readInteger("Enter an option: ");
-        while (option < 0 || option >= managers.size()) {
-            if (option == -1) {
-                System.out.println("Aborting registration ...");
-                return;
-            }
-            System.out.println("Invalid option: " + option + "!!! Try again.");
-            option = keyboard.readInteger("Enter an option: ");
-        }
-        Manager manager = managers.get(option);
+        Manager manager = PersonalKeyboardEntries.selectOneManager();
         assignNewSupervisorsToManager(manager);
     }
 
     public static void assignNewSupervisorsToManager(Manager manager) {
-        SupervisorDAO supervisorDAO = new SupervisorDAO(em);
-        List<Supervisor> supervisors = supervisorDAO.findAll();
-        if (supervisors.isEmpty()) {
-            System.out.println("There is no supervisor registered yet!!! Try to assign supervisors to this manager after new supervisor registrations.");
+        List<Supervisor> supervisors = PersonalKeyboardEntries.selectOneSupervisors(manager);
+        if (supervisors == null) {
             return;
         }
-        supervisors.removeAll(manager.getSupervisors());
-        if (supervisors.isEmpty()) {
-            System.out.println("There is no supervisor that is not under his(her) management!!! Try to assign supervisors to this manager after new supervisor registrations.");
-            return;
-        }
-        System.out.println("Enter his(her) supervisors:");
-        Keyboard keyboard = Keyboard.getKeyboard();
+        manager.getSupervisors().addAll(supervisors);
         ManagerDAO managerDAO = new ManagerDAO(em);
-        int option = 0;
-        while (option != -1 && !supervisors.isEmpty()) {
-            for (int i = 0; i < supervisors.size(); i++) {
-                System.out.println(i + ") " + supervisors.get(i));
-            }
-            System.out.println("-1) quit");
-            option = keyboard.readInteger("Enter an option: ");
-            if (option >= 0 && option < supervisors.size()) {
-                Supervisor supervisor = supervisors.get(option);
-                System.out.println("Assigning " + supervisor + " to " + manager +"'s management!!!");
-                manager.getSupervisors().add(supervisor);
-                try {
-                    managerDAO.update(manager);
-                    supervisors.remove(supervisor);
-                } catch (RuntimeException e) {
-                    System.out.println("Exception catched: " + e.getMessage());
-                    em.clear();
-                }
-            }
+        try {
+            managerDAO.update(manager);
+        } catch (RuntimeException e) {
+            System.out.println("Exception catched: " + e.getMessage());
+            em.clear();
         }
     }
 

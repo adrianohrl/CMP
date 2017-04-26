@@ -44,4 +44,8 @@ public enum ProductionStates {
         return this == RETURNED;
     }
     
+    public boolean hasCasualty() {
+        return this == PAUSED || this == RETURNED;
+    }
+    
 }

@@ -11,7 +11,7 @@ import cmp.util.Keyboard;
  *
  * @author adrianohrl
  */
-public enum MenuOptions {
+public enum ProductionMenuOptions {
     INVALID(0, ""),
     REGISTER_PHASE(1, "register new phase"), 
     REGISTER_MODEL(2, "register new model"), 
@@ -21,13 +21,14 @@ public enum MenuOptions {
     SHOW_ALL_MODELS(6, "show all registered models"),
     SHOW_ALL_PRODUCTION_ORDERS(7, "show all registered production orders"),
     SHOW_ALL_PHASE_PRODUCTION_ORDERS(8, "show all registered phase production orders"),
-    ASSIGN_NEW_PHASES(9, "assign new phases to a model"),
+    SHOW_ALL_PENDENT_PHASE_PRODUCTION_ORDERS(9, "show all registered pendent phase production orders"),
+    ASSIGN_NEW_PHASES(10, "assign new phases to a model"),
     QUIT(-1, "quit");
     
     private final int value;
     private final String description;
     
-    private MenuOptions(int value, String description) {
+    private ProductionMenuOptions(int value, String description) {
         this.value = value;
         this.description = description;
     }
@@ -41,7 +42,7 @@ public enum MenuOptions {
     }
     
     public boolean equals(int value) {
-        return this.value == value || this == INVALID && (value < -1 || value > MenuOptions.size());
+        return this.value == value || this == INVALID && (value < -1 || value > ProductionMenuOptions.size());
     }    
 
     @Override
@@ -50,11 +51,11 @@ public enum MenuOptions {
     }
     
     public static int size() {
-        return MenuOptions.values().length - 2;
+        return ProductionMenuOptions.values().length - 2;
     }
     
-    public static MenuOptions fromInteger(int value) {
-        for (MenuOptions option : MenuOptions.values()) {
+    public static ProductionMenuOptions fromInteger(int value) {
+        for (ProductionMenuOptions option : ProductionMenuOptions.values()) {
             if (option.equals(value)) {
                 return option;
             }
@@ -64,17 +65,17 @@ public enum MenuOptions {
     
     public static void printMenu() {
         System.out.println("\nSelect one of the following options:");
-        for (MenuOptions option : MenuOptions.values()) {
+        for (ProductionMenuOptions option : ProductionMenuOptions.values()) {
             if (option.isValid()) {
                 System.out.println(option);
             }
         }
     }
     
-    public static MenuOptions getOption() {
+    public static ProductionMenuOptions getOption() {
         Keyboard keyboard = Keyboard.getKeyboard();
-        MenuOptions.printMenu();
+        ProductionMenuOptions.printMenu();
         int value = keyboard.readInteger("Enter the desired option: ");
-        return MenuOptions.fromInteger(value);
+        return ProductionMenuOptions.fromInteger(value);
     }
 }

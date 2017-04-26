@@ -35,6 +35,10 @@ public class Model implements Comparable<Model>, Serializable {
         this.reference = reference;
         this.name = name;
     }
+    
+    public boolean belongs(Phase phase) {
+        return phases.contains(phase);
+    }
 
     @Override
     public int compareTo(Model model) {

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cmp.dao.personal;
+package cmp.dao;
 
 import cmp.util.Keyboard;
 
@@ -11,26 +11,17 @@ import cmp.util.Keyboard;
  *
  * @author adrianohrl
  */
-public enum MenuOptions {
+public enum GeneralMenuOptions {
     INVALID(0, ""),
-    REGISTER_SUBORDINATE(1, "register new subordinate"), 
-    REGISTER_SUPERVISOR(2, "register new supervisor"), 
-    REGISTER_MANAGER(3, "register new manager"),
-    REGISTER_SECTOR(4, "register new sector"),
-    SHOW_ALL_SUBORDINATES(5, "show all registered subordinates"),
-    SHOW_ALL_SUPERVISORS(6, "show all registered supervisors"),
-    SHOW_ALL_MANAGERS(7, "show all registered managers"),
-    SHOW_ALL_SECTORS(8, "show all registered sectors"),
-    ASSIGN_NEW_SUBORDINATES(9, "assign new subordinates to a supervisor"),
-    ASSIGN_NEW_SUPERVISORS(10, "assign new supervisors to a manager"),
-    UPGRADE_EMPLOYEE(11, "upgrade employee"),
-    DOWNGRADE_EMPLOYEE(12, "downgrade employee"),
+    EVENTS_MENU(1, "events related operations"),
+    PERSONAL_MENU(2, "personal related operations"),
+    PRODUCTION(3, "production related operations"),
     QUIT(-1, "quit");
     
     private final int value;
     private final String description;
     
-    private MenuOptions(int value, String description) {
+    private GeneralMenuOptions(int value, String description) {
         this.value = value;
         this.description = description;
     }
@@ -44,7 +35,7 @@ public enum MenuOptions {
     }
     
     public boolean equals(int value) {
-        return this.value == value || this == INVALID && (value < -1 || value > MenuOptions.size());
+        return this.value == value || this == INVALID && (value < -1 || value > GeneralMenuOptions.size());
     }    
 
     @Override
@@ -53,11 +44,11 @@ public enum MenuOptions {
     }
     
     public static int size() {
-        return MenuOptions.values().length - 2;
+        return GeneralMenuOptions.values().length - 2;
     }
     
-    public static MenuOptions fromInteger(int value) {
-        for (MenuOptions option : MenuOptions.values()) {
+    public static GeneralMenuOptions fromInteger(int value) {
+        for (GeneralMenuOptions option : GeneralMenuOptions.values()) {
             if (option.equals(value)) {
                 return option;
             }
@@ -67,17 +58,17 @@ public enum MenuOptions {
     
     public static void printMenu() {
         System.out.println("\nSelect one of the following options:");
-        for (MenuOptions option : MenuOptions.values()) {
+        for (GeneralMenuOptions option : GeneralMenuOptions.values()) {
             if (option.isValid()) {
                 System.out.println(option);
             }
         }
     }
     
-    public static MenuOptions getOption() {
+    public static GeneralMenuOptions getOption() {
         Keyboard keyboard = Keyboard.getKeyboard();
-        MenuOptions.printMenu();
+        GeneralMenuOptions.printMenu();
         int value = keyboard.readInteger("Enter the desired option: ");
-        return MenuOptions.fromInteger(value);
+        return GeneralMenuOptions.fromInteger(value);
     }
 }

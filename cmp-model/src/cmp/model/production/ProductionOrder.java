@@ -8,7 +8,7 @@ package cmp.model.production;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -19,7 +19,7 @@ public class ProductionOrder implements Comparable<ProductionOrder>, Serializabl
     
     @Id
     private String productionOrder;
-    @OneToOne
+    @ManyToOne
     private Model model;
 
     public ProductionOrder() {
@@ -28,6 +28,10 @@ public class ProductionOrder implements Comparable<ProductionOrder>, Serializabl
     public ProductionOrder(String productionOrder, Model model) {
         this.productionOrder = productionOrder;
         this.model = model;
+    }
+    
+    public boolean belongs(Phase phase) {
+        return model.belongs(phase);
     }
 
     @Override

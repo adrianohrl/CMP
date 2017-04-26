@@ -6,8 +6,13 @@
 package cmp.model.production;
 
 import cmp.exceptions.ProductionException;
+import cmp.exceptions.ProductionStateMachineException;
+import cmp.model.events.EntryEvent;
 import cmp.model.personal.Subordinate;
+import cmp.production.control.ProductionStateMachineController;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -42,10 +47,26 @@ public class PhaseProductionOrder implements Comparable<PhaseProductionOrder>, S
     public PhaseProductionOrder(Phase phase, ProductionOrder productionOrder, int totalQuantity) throws ProductionException {
         this.phase = phase;
         this.productionOrder = productionOrder;
+        if (!productionOrder.belongs(phase)) {
+            throw new ProductionException("This phase does not belong to the model of the given production order!!!");
+        }
         if (totalQuantity < 0) {
             throw new ProductionException("The total quantity must not be negative!!!");
         }
         this.totalQuantity = totalQuantity;
+    }
+    
+    public void process(EntryEvent entryEvent) throws ProductionStateMachineException {
+        ProductionStateMachineController controller = new ProductionStateMachineController(this);
+        controller.process(entryEvent);
+    }
+    
+    public List<ProductionStates> getPossibleNextStates() {
+        try {
+            ProductionStateMachineController controller = new ProductionStateMachineController(this);
+            return controller.getPossibleNextStates();
+        } catch (ProductionStateMachineException e) {}
+        return new ArrayList<>();
     }
     
     public void produced(int quantity) throws ProductionException {

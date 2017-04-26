@@ -25,21 +25,21 @@ public class ProductionTest {
     private static EntityManager em = DataSource.createEntityManager();
     
     public static void main(String[] args) {
-        MenuOptions option = MenuOptions.getOption();
+        ProductionMenuOptions option = ProductionMenuOptions.getOption();
         while (!option.quit()) {
             try {
-                process(option);
+                ProductionTest.process(option);
             } catch (RuntimeException e) {
                 System.out.println("Exception catched: " + e.getMessage());
             }
-            option = MenuOptions.getOption();
+            option = ProductionMenuOptions.getOption();
         }
         System.out.println("Quitting!!!");
         em.close();
         DataSource.closeEntityManagerFactory();
     }
     
-    private static void process(MenuOptions option) {
+    public static void process(ProductionMenuOptions option) {
         if (option.quit()) {
             return;
         }
@@ -67,6 +67,9 @@ public class ProductionTest {
                 break;
             case SHOW_ALL_PHASE_PRODUCTION_ORDERS:
                 ProductionTest.showAllRegisteredPhaseProductionOrders();
+                break;
+            case SHOW_ALL_PENDENT_PHASE_PRODUCTION_ORDERS:
+                ProductionTest.showAllRegisteredPendentPhaseProductionOrders();
                 break;
             case ASSIGN_NEW_PHASES:
                 ProductionTest.assignNewPhasesToModel();
@@ -157,6 +160,14 @@ public class ProductionTest {
         }
     }
 
+    private static void showAllRegisteredPendentPhaseProductionOrders() {
+        System.out.println("Showing all registered pendent phase production orders ...");
+        PhaseProductionOrderDAO phaseProductionOrderDAO = new PhaseProductionOrderDAO(em);
+        for (PhaseProductionOrder phaseProductionOrder : phaseProductionOrderDAO.findPendents()) {
+            System.out.println("Phase Production Order: " + phaseProductionOrder);
+        }
+    }
+
     private static void createPhase() {
         System.out.println("\nRegistering a new phase ...");
         Keyboard keyboard = Keyboard.getKeyboard();
@@ -192,29 +203,10 @@ public class ProductionTest {
     private static void createProductionOrder() {
         System.out.println("\nResgistering a new production order ...");
         Keyboard keyboard = Keyboard.getKeyboard();
-        ModelDAO modelDAO = new ModelDAO(em);
-        List<Model> models = modelDAO.findAll();
-        if (models.isEmpty()) {
-            System.out.println("There is no model registered yet!!!");
-            return;
-        }
         System.out.println("Enter the info of the new model below:");
         String produtionOrder = keyboard.readString("P.O.: ");
-        System.out.println("Enter its supervisor:");
-        for (int i = 0; i < models.size(); i++) {
-            System.out.println(i + ") " + models.get(i));
-        }
-        System.out.println("-1) quit");
-        int option = keyboard.readInteger("Enter an option: ");
-        while (option < 0 || option >= models.size()) {
-            if (option == -1) {
-                System.out.println("Aborting registration ...");
-                return;
-            }
-            System.out.println("Invalid option: " + option + "!!! Try again.");
-            option = keyboard.readInteger("Enter an option: ");
-        }
-        Model model = models.get(option);
+        System.out.println("Enter its model:");
+        Model model = ProductionKeyboardEntries.selectOneModel();
         try {
             ProductionTest.register(new ProductionOrder(produtionOrder, model));
             System.out.println("The production order registration succeeded!!!");
@@ -227,49 +219,11 @@ public class ProductionTest {
     private static void createPhaseProductionOrder() {
         System.out.println("\nResgistering a new phase production order ...");
         Keyboard keyboard = Keyboard.getKeyboard();
-        PhaseDAO phaseDAO = new PhaseDAO(em);
-        List<Phase> phases = phaseDAO.findAll();
-        if (phases.isEmpty()) {
-            System.out.println("There is no phase registered yet!!!");
-            return;
-        }
-        ProductionOrderDAO productionOrderDAO = new ProductionOrderDAO(em);
-        List<ProductionOrder> productionOrders = productionOrderDAO.findAll();
-        if (productionOrders.isEmpty()) {
-            System.out.println("There is no production order registered yet!!!");
-            return;
-        }
         System.out.println("Enter the info of the new phase production order below:");
         System.out.println("Enter its phase:");
-        for (int i = 0; i < phases.size(); i++) {
-            System.out.println(i + ") " + phases.get(i));
-        }
-        System.out.println("-1) quit");
-        int option = keyboard.readInteger("Enter an option: ");
-        while (option < 0 || option >= phases.size()) {
-            if (option == -1) {
-                System.out.println("Aborting registration ...");
-                return;
-            }
-            System.out.println("Invalid option: " + option + "!!! Try again.");
-            option = keyboard.readInteger("Enter an option: ");
-        }
-        Phase phase = phases.get(option);
+        Phase phase = ProductionKeyboardEntries.selectOnePhase();
         System.out.println("Enter its production order:");
-        for (int i = 0; i < productionOrders.size(); i++) {
-            System.out.println(i + ") " + productionOrders.get(i));
-        }
-        System.out.println("-1) quit");
-        option = keyboard.readInteger("Enter an option: ");
-        while (option < 0 || option >= productionOrders.size()) {
-            if (option == -1) {
-                System.out.println("Aborting registration ...");
-                return;
-            }
-            System.out.println("Invalid option: " + option + "!!! Try again.");
-            option = keyboard.readInteger("Enter an option: ");
-        }
-        ProductionOrder productionOrder = productionOrders.get(option);
+        ProductionOrder productionOrder = ProductionKeyboardEntries.selectOneProductionOrder();
         int totalQuantity = keyboard.readInteger("total quantity: ");
         try {
             ProductionTest.register(new PhaseProductionOrder(phase, productionOrder, totalQuantity));
@@ -284,67 +238,24 @@ public class ProductionTest {
 
     private static void assignNewPhasesToModel() {
         System.out.println("\nAssigning new phases to a model ...");
-        Keyboard keyboard = Keyboard.getKeyboard();
-        ModelDAO modelDAO = new ModelDAO(em);
-        List<Model> models = modelDAO.findAll();
-        if (models.isEmpty()) {
-            System.out.println("There is no model registered yet!!!");
-            return;
-        }
-        System.out.println("Pick one model:");
-        for (int i = 0; i < models.size(); i++) {
-            System.out.println(i + ") " + models.get(i));
-        }
-        System.out.println("-1) quit");
-        int option = keyboard.readInteger("Enter an option: ");
-        while (option < 0 || option >= models.size()) {
-            if (option == -1) {
-                System.out.println("Aborting registration ...");
-                return;
-            }
-            System.out.println("Invalid option: " + option + "!!! Try again.");
-            option = keyboard.readInteger("Enter an option: ");
-        }
-        Model model = models.get(option);
+        System.out.println("Select one model:");
+        Model model = ProductionKeyboardEntries.selectOneModel();
         assignNewPhasesToModel(model);
     }
 
     private static void assignNewPhasesToModel(Model model) {
-        PhaseDAO phaseDAO = new PhaseDAO(em);
-        List<Phase> phases = phaseDAO.findAll();
-        if (phases.isEmpty()) {
-            System.out.println("There is no phase registered yet!!! Try to assign phases to this model after new phase registrations.");
+        List<Phase> phases = ProductionKeyboardEntries.selectManyPhases(model);
+        if (phases == null) {
             return;
         }
-        phases.removeAll(model.getPhases());
-        if (phases.isEmpty()) {
-            System.out.println("There is no phase that does not belongs to this model!!! Try to assign phases to this model after new phase registrations.");
-            return;
-        }
-        System.out.println("Enter its phases:");
-        Keyboard keyboard = Keyboard.getKeyboard();
+        model.getPhases().addAll(phases);
         ModelDAO modelDAO = new ModelDAO(em);
-        int option = 0;
-        while (option != -1 && !phases.isEmpty()) {
-            for (int i = 0; i < phases.size(); i++) {
-                Phase phase = phases.get(i);
-                System.out.println(i + ") " + phase + " (" + phase.getExpectedDuration() + " [min])");
-            }
-            System.out.println("-1) quit");
-            option = keyboard.readInteger("Enter an option: ");
-            if (option >= 0 && option < phases.size()) {
-                Phase phase = phases.get(option);
-                System.out.println("Assigning " + phase + " to " + model +"!!!");
-                model.getPhases().add(phase);
-                try {
-                    modelDAO.update(model);
-                    phases.remove(phase);
-                } catch (RuntimeException e) {
-                    System.out.println("Exception catched: " + e.getMessage());
-                    em.clear();
-                }
-            }
-        }
+        try {
+            modelDAO.update(model);
+        } catch (RuntimeException e) {
+            System.out.println("Exception catched: " + e.getMessage());
+            em.clear();
+        } 
     }
     
 }

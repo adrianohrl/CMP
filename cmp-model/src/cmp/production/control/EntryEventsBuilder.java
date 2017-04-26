@@ -98,21 +98,7 @@ public class EntryEventsBuilder {
         }
     }
     
-    private void buildEntryEvent(CasualtyEntryEvent entryEvent) throws ProductionException {
-        try {
-            processStateTransition(entryEvent);
-            entryEvents.add(entryEvent);
-        } catch (ProductionStateMachineException e) {
-            throw new ProductionException("Production state transition: " + e.getMessage());
-        }
-    }
-    
     private void processStateTransition(EntryEvent entryEvent) throws ProductionStateMachineException {
-        ProductionStateMachineController controller = new ProductionStateMachineController(entryEvent.getPhaseProductionOrder());
-        controller.process(entryEvent);
-    }
-    
-    private void processStateTransition(CasualtyEntryEvent entryEvent) throws ProductionStateMachineException {
         ProductionStateMachineController controller = new ProductionStateMachineController(entryEvent.getPhaseProductionOrder());
         controller.process(entryEvent);
     }

@@ -21,7 +21,7 @@ import java.util.ArrayList;
  */
 public class ProductionStateMachineController {
     
-    private final PhaseProductionOrder order;
+    private final PhaseProductionOrder phaseProductionOrder;
     private final StartedState startedState = new StartedState(this);
     private final RestartedState restartedState = new RestartedState(this);
     private final PausedState pausedState = new PausedState(this);
@@ -30,7 +30,10 @@ public class ProductionStateMachineController {
     private AbstractProductionState currentState = null;
     
     public ProductionStateMachineController(PhaseProductionOrder order) throws ProductionStateMachineException {
-        this.order = order;
+        this.phaseProductionOrder = order;
+        if (order == null) {
+            throw new ProductionStateMachineException("The given phase production order must not be null!!!");
+        }
         startedState.init();
         restartedState.init();
         pausedState.init();
@@ -44,6 +47,9 @@ public class ProductionStateMachineController {
     }
     
     public void process(EntryEvent entryEvent) throws ProductionStateMachineException {
+        if (phaseProductionOrder.equals(entryEvent.getPhaseProductionOrder())) {
+            throw new ProductionStateMachineException("The phase production order of the entry event must be equal to this one!!!");
+        }
         process(getProductionState(entryEvent.getProductionState()), entryEvent.getSubordinate(), entryEvent.getProducedQuantity());
     }
     
@@ -59,24 +65,24 @@ public class ProductionStateMachineController {
         } else if (!nextState.equals(startedState)) {
             throw new ProductionStateMachineException("The production state machine has not been started yet!!!");
         }
-        if (!subordinate.equals(order.getSubordinate()) && !nextState.isAllowedToChangeSubordinate()) {
+        if (!subordinate.equals(phaseProductionOrder.getSubordinate()) && !nextState.isAllowedToChangeSubordinate()) {
             throw new ProductionStateTransitionException("It is not allowed to change the subordinated from ", currentState, nextState);
         }
         currentState = nextState;
-        order.setPendent(currentState.isPendent());
-        order.setSubordinate(subordinate);
+        phaseProductionOrder.setPendent(currentState.isPendent());
+        phaseProductionOrder.setSubordinate(subordinate);
         try {
-            order.produced(producedQuantity);
+            phaseProductionOrder.produced(producedQuantity);
         } catch (ProductionException e) {
             throw new ProductionStateMachineException("ProductionException: " + e.getMessage());
         }
-        order.setProductionState(getState(currentState));
+        phaseProductionOrder.setProductionState(getState(currentState));
     }
     
     private void process(AbstractProductionState nextState, Subordinate subordinate, int producedQuantity, int returnedQuantity) throws ProductionStateMachineException {
         process(nextState, subordinate, producedQuantity);
         try {
-            order.returned(returnedQuantity);
+            phaseProductionOrder.returned(returnedQuantity);
         } catch (ProductionException e) {
             throw new ProductionStateMachineException("ProductionException: " + e.getMessage());
         }

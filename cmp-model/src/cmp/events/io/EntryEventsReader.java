@@ -29,6 +29,7 @@ import cmp.util.DoubleField;
 import cmp.util.Field;
 import cmp.util.IntegerField;
 import cmp.util.StringField;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -114,7 +115,7 @@ public class EntryEventsReader implements Iterable<EntryEvent> {
     }
     
     private void buildEntryEvent(ArrayList<Field> fields) throws IOException {
-        Calendar calendar = Calendars.sum(Field.getFieldValue(fields, DATE_COLUMN_TITLE), Field.getFieldValue(fields, TIME_COLUMN_TITLE));
+        Calendar calendar = Calendars.sum((Calendar) Field.getFieldValue(fields, DATE_COLUMN_TITLE), (Calendar) Field.getFieldValue(fields, TIME_COLUMN_TITLE));
         Supervisor supervisor = getSupervisor(Field.getFieldValue(fields, SUPERVISOR_COLUMN_TITLE));
         Sector sector = getSector(Field.getFieldValue(fields, SECTOR_COLUMN_TITLE), supervisor);
         Subordinate subordinate = getSubordinate(Field.getFieldValue(fields, SUBORDINATE_COLUMN_TITLE), supervisor);

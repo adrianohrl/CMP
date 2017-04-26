@@ -72,7 +72,7 @@ public class TimeClockEventsReader implements Iterable<TimeClockEvent> {
     }
     
     private TimeClockEvent getTimeClockEvent(ArrayList<Field> fields) throws IOException {
-        Calendar calendar = Calendars.sum(Field.getFieldValue(fields, DATE_COLUMN_TITLE), Field.getFieldValue(fields, TIME_COLUMN_TITLE));
+        Calendar calendar = Calendars.sum((Calendar) Field.getFieldValue(fields, DATE_COLUMN_TITLE), (Calendar) Field.getFieldValue(fields, TIME_COLUMN_TITLE));
         Employee employee = createEmployee(Field.getFieldValue(fields, EMPLOYEE_COLUMN_TITLE));
         return new TimeClockEvent(employee, Field.getFieldValue(fields, ARRIVAL_COLUMN_TITLE), calendar, Field.getFieldValue(fields, OBSERVATION_COLUMN_TITLE));
     }

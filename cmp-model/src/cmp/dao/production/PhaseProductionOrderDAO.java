@@ -6,7 +6,10 @@
 package cmp.dao.production;
 
 import cmp.dao.DAO;
+import cmp.model.production.Phase;
 import cmp.model.production.PhaseProductionOrder;
+import cmp.model.production.ProductionOrder;
+import java.util.List;
 import javax.persistence.EntityManager;
 
 /**
@@ -26,6 +29,14 @@ public class PhaseProductionOrderDAO extends DAO<PhaseProductionOrder, Long> {
     
     public PhaseProductionOrder find(String phaseName, String productionOrderName) {
         return (PhaseProductionOrder) em.createQuery("SELECT ppo FROM PhaseProductionOrder ppo WHERE ppo.phase.name = '" + phaseName + "' AND ppo.productionOrder.productionOrder = '" + productionOrderName + "'").getSingleResult();
+    }
+    
+    public PhaseProductionOrder find(Phase phase, ProductionOrder productionOrder) {
+        return find(phase.getName(), productionOrder.getProductionOrder());
+    }
+    
+    public List<PhaseProductionOrder> findPendents() {
+        return em.createQuery("SELECT ppo FROM PhaseProductionOrder ppo WHERE ppo.pendent = TRUE").getResultList();
     }
     
 }

@@ -6,7 +6,6 @@
 package cmp.model.personal;
 
 import java.io.Serializable;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -29,6 +28,10 @@ public class Sector implements Comparable<Sector>, Serializable{
     public Sector(String name, Supervisor supervisor) {
         this.name = name;
         this.supervisor = supervisor;
+    }
+    
+    public boolean isSupervisedBy(Supervisor supervisor) {
+        return supervisor != null && supervisor.equals(this.supervisor);
     }
 
     @Override
