@@ -5,11 +5,15 @@
  */
 package cmp.dao.events;
 
+import cmp.dao.production.PhaseProductionOrderDAO;
+import cmp.exceptions.ProductionStateMachineException;
 import cmp.model.events.EntryEvent;
 import cmp.model.personal.Sector;
 import cmp.model.personal.Supervisor;
+import cmp.model.production.PhaseProductionOrder;
 import cmp.model.production.ProductionStates;
 import cmp.production.reports.filters.EntryEventsList;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 
 /**
@@ -26,6 +30,22 @@ public class EntryEventDAO<E extends EntryEvent> extends AbstractEmployeeRelated
     protected EntryEventDAO(EntityManager em, Class clazz) {
         super(em, clazz);
     }
+
+    @Override
+    public void create(E entryEvent) throws EntityExistsException {
+        super.create(entryEvent);
+        try {
+            PhaseProductionOrder phaseProductionOrder = entryEvent.getPhaseProductionOrder();
+            phaseProductionOrder.process(entryEvent);
+            PhaseProductionOrderDAO phaseProductionOrderDAO = new PhaseProductionOrderDAO(em);
+            phaseProductionOrderDAO.update(phaseProductionOrder);  
+        } catch (ProductionStateMachineException e) {
+            super.remove(entryEvent);
+            throw new EntityExistsException("ProductionStateMachineException catched: " + e.getMessage());
+        }
+    }
+    
+    
     
     public EntryEventsList<EntryEvent> findEntryEventsThatCanBeRestarted() {
         return new EntryEventsList(em.createQuery("SELECT ee "

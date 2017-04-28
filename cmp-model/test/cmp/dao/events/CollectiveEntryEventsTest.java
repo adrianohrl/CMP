@@ -18,7 +18,7 @@ import javax.persistence.EntityManager;
  *
  * @author adrianohrl
  */
-public class test {
+public class CollectiveEntryEventsTest {
     
     public static void main(String[] args) {
         EntityManager em = DataSource.createEntityManager();

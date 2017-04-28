@@ -508,20 +508,12 @@ public class EventsTest {
         if (event instanceof TimeClockEvent) {
             TimeClockEventDAO timeClockEventDAO = new TimeClockEventDAO(em);
             timeClockEventDAO.create((TimeClockEvent) event);
+        } else if (event instanceof CasualtyEntryEvent) {
+            CasualtyEntryEventDAO casualtyEntryEventDAO = new CasualtyEntryEventDAO(em);
+            casualtyEntryEventDAO.create((CasualtyEntryEvent) event);
         } else if (event instanceof EntryEvent) {
-            EntryEventDAO entryEventDAO;
-            EntryEvent entryEvent = (EntryEvent) event;
-            if (entryEvent instanceof CasualtyEntryEvent) {
-                entryEventDAO = new CasualtyEntryEventDAO(em);
-                entryEventDAO.create((CasualtyEntryEvent) entryEvent);
-            } else {
-                entryEventDAO = new EntryEventDAO(em);
-                entryEventDAO.create(entryEvent);
-            }
-            PhaseProductionOrder phaseProductionOrder = entryEvent.getPhaseProductionOrder();
-            phaseProductionOrder.process(entryEvent);
-            PhaseProductionOrderDAO phaseProductionOrderDAO = new PhaseProductionOrderDAO(em);
-            phaseProductionOrderDAO.update(phaseProductionOrder);                
+            EntryEventDAO entryEventDAO = new EntryEventDAO(em);
+            entryEventDAO.create(event);
         } 
     }
     
