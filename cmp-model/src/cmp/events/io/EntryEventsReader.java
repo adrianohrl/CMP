@@ -29,7 +29,6 @@ import cmp.util.DoubleField;
 import cmp.util.Field;
 import cmp.util.IntegerField;
 import cmp.util.StringField;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -265,8 +264,8 @@ public class EntryEventsReader implements Iterable<EntryEvent> {
         return new Casualty(casualtyName);
     }
     
-    public EmployeeRelatedEventsList getEmployeeRelatedEventsList() {
-        return new EmployeeRelatedEventsList(entryEvents);
+    public EmployeeRelatedEventsList<EntryEvent> getEmployeeRelatedEventsList() {
+        return new EmployeeRelatedEventsList<>(entryEvents);
     }
     
     public EventsPeriodBuilder getEventsPeriodBuilder() throws ReportException {

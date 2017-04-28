@@ -23,20 +23,42 @@ public class Calendars {
     private final static DateFormat dateFormatter = new SimpleDateFormat(Calendars.DATE_FORMAT);
     private final static DateFormat timeFormatter = new SimpleDateFormat(Calendars.TIME_FORMAT);
     
-    public static Calendar sum(String date, String time) throws IOException {
-        Calendar dateCalendar = new GregorianCalendar();
+    private static Calendar getTime(String time) throws IOException {
         Calendar timeCalendar = new GregorianCalendar();
-        try {
-            dateCalendar.setTime(dateFormatter.parse(date));
-        } catch (ParseException e) {
-            throw new IOException("Wrong date format: " + e.getMessage());
+        if (time == null || time.isEmpty()) {
+            return timeCalendar;
         }
         try {
             timeCalendar.setTime(timeFormatter.parse(time));
         } catch (ParseException e) {
             throw new IOException("Wrong time format: " + e.getMessage());
         }
-        return Calendars.sum(dateCalendar, timeCalendar);
+        return timeCalendar;
+    }
+    
+    private static Calendar getDate(String date) throws IOException {
+        Calendar dateCalendar = new GregorianCalendar();
+        if (date == null || date.isEmpty()) {
+            return dateCalendar;
+        }
+        try {
+            dateCalendar.setTime(dateFormatter.parse(date));
+        } catch (ParseException e) {
+            throw new IOException("Wrong date format: " + e.getMessage());
+        }
+        return dateCalendar;
+    }
+    
+    public static Calendar sum(String date, String time) throws IOException {
+        return Calendars.sum(Calendars.getDate(date), Calendars.getTime(time));
+    }
+    
+    public static Calendar sum(Calendar date, String time) throws IOException {
+        return Calendars.sum(date, Calendars.getTime(time));
+    }
+    
+    public static Calendar sum(String date, Calendar time) throws IOException {
+        return Calendars.sum(Calendars.getDate(date), time);
     }
     
     public static Calendar sum(Calendar date, Calendar time) {

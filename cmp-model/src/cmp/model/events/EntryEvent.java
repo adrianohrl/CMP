@@ -106,7 +106,7 @@ public class EntryEvent extends AbstractEmployeeRelatedEvent<Subordinate> {
     public String toString() {
         return super.toString() + supervisor + " has changed " + getEmployee() + 
                 "'s phase production order (" + phaseProductionOrder.getPhase() + " of " + 
-                phaseProductionOrder.getProductionOrder().getProductionOrder() + ") at " + 
+                phaseProductionOrder.getProductionOrder().getReference() + ") at " + 
                 sector + " to " + productionState + 
                 (producedQuantity != 0 ? " produced " + producedQuantity + " [un]" : "");
     }

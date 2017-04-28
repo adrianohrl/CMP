@@ -99,8 +99,8 @@ public class EntryEventsBuilder {
     }
     
     private void processStateTransition(EntryEvent entryEvent) throws ProductionStateMachineException {
-        ProductionStateMachineController controller = new ProductionStateMachineController(entryEvent.getPhaseProductionOrder());
-        controller.process(entryEvent);
+        PhaseProductionOrder phaseProductionOrder = entryEvent.getPhaseProductionOrder();
+        phaseProductionOrder.process(entryEvent);
     }
 
     public ArrayList<AbstractEmployeeRelatedEvent> getEntryEvents() {

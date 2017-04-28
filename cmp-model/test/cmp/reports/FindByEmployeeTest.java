@@ -22,6 +22,7 @@ import cmp.production.reports.filters.EventsList;
 import cmp.production.reports.filters.FindByEmployee;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  *
@@ -36,7 +37,7 @@ public class FindByEmployeeTest {
         Subordinate subordinate2 = new Subordinate("sub2", "Subordinate 2");
         Subordinate subordinate3 = new Subordinate("sub3", "Subordinate 3");
         Subordinate subordinate4 = new Subordinate("sub4", "Subordinate 4");
-        ArrayList<Subordinate> subordinates = new ArrayList<>();
+        List<Subordinate> subordinates = new ArrayList<>();
         subordinates.add(subordinate1);
         subordinates.add(subordinate2);
         subordinates.add(subordinate3);
@@ -47,7 +48,7 @@ public class FindByEmployeeTest {
         Phase phase1 = new Phase("phase 1", 10);
         Phase phase2 = new Phase("phase 2", 7.5);
         Phase phase3 = new Phase("phase 3", 5);
-        ArrayList<Phase> phases = new ArrayList<>();
+        List<Phase> phases = new ArrayList<>();
         phases.add(phase1);
         phases.add(phase2);
         phases.add(phase3);
@@ -74,7 +75,7 @@ public class FindByEmployeeTest {
         entryEventsBuilder.buildEntryEvent(phaseProductionOrder2, subordinate2, ProductionStates.FINISHED, new GregorianCalendar(2017, 4, 3, 10, 45), "");
         entryEventsBuilder.buildEntryEvent(phaseProductionOrder3, subordinate3, ProductionStates.FINISHED, new GregorianCalendar(2017, 4, 3, 13, 45), "");
         
-        ArrayList<TimeClockEvent> timeClockEvents = new ArrayList<>();
+        List<TimeClockEvent> timeClockEvents = new ArrayList<>();
         timeClockEvents.add(new TimeClockEvent(subordinate1, true, new GregorianCalendar(2017, 4, 3, 7, 1), ""));
         timeClockEvents.add(new TimeClockEvent(subordinate2, true, new GregorianCalendar(2017, 4, 3, 7, 0), ""));
         timeClockEvents.add(new TimeClockEvent(subordinate3, true, new GregorianCalendar(2017, 4, 3, 8, 30), ""));
@@ -88,10 +89,10 @@ public class FindByEmployeeTest {
         timeClockEvents.add(new TimeClockEvent(subordinate2, false, new GregorianCalendar(2017, 4, 3, 17, 50), ""));
         timeClockEvents.add(new TimeClockEvent(subordinate3, false, new GregorianCalendar(2017, 4, 3, 18, 15), ""));
         
-        EventsList<AbstractEmployeeRelatedEvent> events = new EventsList();
+        EventsList<AbstractEmployeeRelatedEvent> events = new EventsList<>();
         events.addAll(entryEventsBuilder.getEntryEvents());
         events.addAll(timeClockEvents);
-        FindByEmployee filter = new FindByEmployee(subordinate1);
+        FindByEmployee<AbstractEmployeeRelatedEvent> filter = new FindByEmployee<>(subordinate1);
         events.execute(filter);
         System.out.println("\nBefore filter: ");
         for (AbstractEmployeeRelatedEvent event : events) {

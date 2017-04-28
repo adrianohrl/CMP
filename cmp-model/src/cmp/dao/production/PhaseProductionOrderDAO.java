@@ -11,6 +11,7 @@ import cmp.model.production.PhaseProductionOrder;
 import cmp.model.production.ProductionOrder;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 /**
  *
@@ -28,15 +29,24 @@ public class PhaseProductionOrderDAO extends DAO<PhaseProductionOrder, Long> {
     }
     
     public PhaseProductionOrder find(String phaseName, String productionOrderName) {
-        return (PhaseProductionOrder) em.createQuery("SELECT ppo FROM PhaseProductionOrder ppo WHERE ppo.phase.name = '" + phaseName + "' AND ppo.productionOrder.productionOrder = '" + productionOrderName + "'").getSingleResult();
+        try {
+            return (PhaseProductionOrder) em.createQuery("SELECT ppo "
+                    + "FROM PhaseProductionOrder ppo "
+                    + "WHERE ppo.phase.name = '" + phaseName + "' "
+                    + "AND ppo.productionOrder.reference = '" + productionOrderName + "'").getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
     }
     
     public PhaseProductionOrder find(Phase phase, ProductionOrder productionOrder) {
-        return find(phase.getName(), productionOrder.getProductionOrder());
+        return find(phase.getName(), productionOrder.getReference());
     }
     
     public List<PhaseProductionOrder> findPendents() {
-        return em.createQuery("SELECT ppo FROM PhaseProductionOrder ppo WHERE ppo.pendent = TRUE").getResultList();
+        return em.createQuery("SELECT ppo "
+                + "FROM PhaseProductionOrder ppo "
+                + "WHERE ppo.pendent = TRUE").getResultList();
     }
     
 }

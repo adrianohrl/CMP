@@ -14,7 +14,6 @@ import cmp.model.personal.Supervisor;
 import cmp.util.KeyboardEntries;
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.Predicate;
 import javax.persistence.EntityManager;
 
 /**
@@ -149,7 +148,7 @@ public class PersonalKeyboardEntries {
         return KeyboardEntries.selectMany(supervisors, "supervisor");
     }
     
-    public static  List<Supervisor> selectOneSupervisors(Manager manager) {
+    public static  List<Supervisor> selectManySupervisors(Manager manager) {
         SupervisorDAO supervisorDAO = new SupervisorDAO(em);
         List<Supervisor> supervisors = supervisorDAO.findAll();
         if (supervisors.isEmpty()) {
@@ -160,7 +159,7 @@ public class PersonalKeyboardEntries {
         return KeyboardEntries.selectMany(supervisors, "supervisor that is not under to this manager");
     }
     
-    public static  List<Supervisor> selectOneSupervisorsOfManager(String managerName) {
+    public static  List<Supervisor> selectManySupervisorsOfManager(String managerName) {
         ManagerDAO managerDAO = new ManagerDAO(em);
         Manager manager = managerDAO.find(managerName);
         if (manager == null) {

@@ -18,15 +18,15 @@ import javax.persistence.ManyToOne;
 public class ProductionOrder implements Comparable<ProductionOrder>, Serializable {
     
     @Id
-    private String productionOrder;
+    private String reference;
     @ManyToOne
     private Model model;
 
     public ProductionOrder() {
     }
 
-    public ProductionOrder(String productionOrder, Model model) {
-        this.productionOrder = productionOrder;
+    public ProductionOrder(String reference, Model model) {
+        this.reference = reference;
         this.model = model;
     }
     
@@ -35,8 +35,8 @@ public class ProductionOrder implements Comparable<ProductionOrder>, Serializabl
     }
 
     @Override
-    public int compareTo(ProductionOrder order) {
-        return productionOrder.compareToIgnoreCase(order.productionOrder);
+    public int compareTo(ProductionOrder productionOrder) {
+        return reference.compareToIgnoreCase(productionOrder.reference);
     }
     
     @Override
@@ -44,21 +44,21 @@ public class ProductionOrder implements Comparable<ProductionOrder>, Serializabl
         return obj != null && obj instanceof ProductionOrder && equals((ProductionOrder) obj);
     }
     
-    public boolean equals(ProductionOrder order) {
-       return order != null && productionOrder.equalsIgnoreCase(order.productionOrder);
+    public boolean equals(ProductionOrder productionOrder) {
+       return productionOrder != null && reference.equalsIgnoreCase(productionOrder.reference);
     }
 
     @Override
     public String toString() {
-        return productionOrder;
+        return reference;
     }
 
-    public String getProductionOrder() {
-        return productionOrder;
+    public String getReference() {
+        return reference;
     }
 
-    public void setProductionOrder(String productionOrder) {
-        this.productionOrder = productionOrder;
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 
     public Model getModel() {

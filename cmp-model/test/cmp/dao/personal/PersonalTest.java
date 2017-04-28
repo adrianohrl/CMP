@@ -268,7 +268,7 @@ public class PersonalTest {
     }
 
     public static void assignNewSupervisorsToManager(Manager manager) {
-        List<Supervisor> supervisors = PersonalKeyboardEntries.selectOneSupervisors(manager);
+        List<Supervisor> supervisors = PersonalKeyboardEntries.selectManySupervisors(manager);
         if (supervisors == null) {
             return;
         }
@@ -283,11 +283,11 @@ public class PersonalTest {
     }
 
     private static void upgradeEmployee() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     private static void downgradeEmployee() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

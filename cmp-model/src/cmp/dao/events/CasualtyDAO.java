@@ -7,6 +7,7 @@ package cmp.dao.events;
 
 import cmp.dao.DAO;
 import cmp.model.events.Casualty;
+import java.util.List;
 import javax.persistence.EntityManager;
 
 /**
@@ -21,7 +22,15 @@ public class CasualtyDAO extends DAO<Casualty, String> {
 
     @Override
     public boolean isRegistered(Casualty entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return super.find(entity.getName()) != null;
+    }
+    
+    public List<Casualty> findCollectives() {
+        return em.createQuery("SELECT c FROM Casualty c WHERE c.collective = TRUE").getResultList();
+    }
+    
+    public List<Casualty> findNonCollectives() {
+        return em.createQuery("SELECT c FROM Casualty c WHERE c.collective = FALSE").getResultList();
     }
     
 }

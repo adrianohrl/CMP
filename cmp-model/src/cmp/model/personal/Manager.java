@@ -24,7 +24,7 @@ public class Manager extends Loggable {
     @JoinTable(
         name = "Manager_Supervisors",
         joinColumns = @JoinColumn(name = "manager_name"),
-        inverseJoinColumns = @JoinColumn(name = "supervisor_name")
+        inverseJoinColumns = @JoinColumn(name = "supervisor_name", unique = true)
     )
     private List<Supervisor> supervisors = new ArrayList<>();
 
@@ -39,7 +39,7 @@ public class Manager extends Loggable {
         return supervisors;
     }
 
-    public void setSupervisor(ArrayList<Supervisor> supervisors) {
+    public void setSupervisor(List<Supervisor> supervisors) {
         this.supervisors = supervisors;
     }
 }

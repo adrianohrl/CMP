@@ -26,13 +26,13 @@ import cmp.model.personal.Supervisor;
 import cmp.model.production.PhaseProductionOrder;
 import cmp.model.production.ProductionStates;
 import cmp.production.reports.filters.EmployeeRelatedEventsList;
-import cmp.util.Calendars;
+import cmp.production.reports.filters.EntryEventsList;
+import cmp.production.reports.filters.FindByEmployee;
 import cmp.util.Keyboard;
 import cmp.util.KeyboardEntries;
-import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 import javax.persistence.EntityManager;
 
 /**
@@ -63,26 +63,32 @@ public class EventsTest {
             return;
         }
         switch (option) {
+            case REGISTER_CASUALTY:
+                EventsTest.createCasualty();
+                break;
             case REGISTER_ENTRY_EVENT:
                 EventsTest.createEntryEvent();
                 break;
             case REGISTER_TIME_CLOCK_EVENT:
                 EventsTest.createTimeClockEvent();
                 break;
-            case REGISTER_CASUALTY_ENTRY_EVENT_PER_SUBORDINATES:
-                EventsTest.createCasualtyEntryEventPerSubordinates();
+            case REGISTER_COLLECTIVE_ENTRY_EVENT_PER_SUBORDINATES:
+                EventsTest.createCollectiveEntryEventPerSubordinates();
                 break;
-            case REGISTER_CASUALTY_ENTRY_EVENT_PER_SUPERVISOR:
-                EventsTest.createCasualtyEntryEventPerSupervisor();
+            case REGISTER_COLLECTIVE_ENTRY_EVENT_PER_SUPERVISOR:
+                EventsTest.createCollectiveEntryEventPerSupervisor();
                 break;
-            case REGISTER_CASUALTY_ENTRY_EVENT_PER_SUPERVISORS:
-                EventsTest.createCasualtyEntryEventPerSupervisors();
+            case REGISTER_COLLECTIVE_ENTRY_EVENT_PER_SUPERVISORS:
+                EventsTest.createCollectiveEntryEventPerSupervisors();
                 break;
-            case REGISTER_CASUALTY_ENTRY_EVENT_PER_SECTOR:
-                EventsTest.createCasualtyEntryEventPerSector();
+            case REGISTER_COLLECTIVE_ENTRY_EVENT_PER_SECTOR:
+                EventsTest.createCollectiveEntryEventPerSector();
                 break;
-            case REGISTER_CASUALTY_ENTRY_EVENT_PER_SECTORS:
-                EventsTest.createCasualtyEntryEventPerSectors();
+            case REGISTER_COLLECTIVE_ENTRY_EVENT_PER_SECTORS:
+                EventsTest.createCollectiveEntryEventPerSectors();
+                break;
+            case SHOW_ALL_CASUALTIES:
+                EventsTest.showAllCasualties();
                 break;
             case SHOW_ALL_ENTRY_EVENTS:
                 EventsTest.showAllEntryEvents();
@@ -121,9 +127,24 @@ public class EventsTest {
                 System.out.println("Invalid option!!!");
         }
     }
+
+    private static void createCasualty() {
+        System.out.println("\nRegistering a new casualty ...");
+        Keyboard keyboard = Keyboard.getKeyboard();
+        System.out.println("Enter the info of the new casualty below:");
+        String name = keyboard.readString("name: ");
+        boolean collective = KeyboardEntries.askForYesOrNo("collective");
+        try {
+            EventsTest.register(new Casualty(name, collective));
+            System.out.println("The casualty registration succeeded!!!");
+        } catch (RuntimeException e) {
+            System.out.println("The casualty registration failed: " + e.getMessage() + "!!!");
+            em.clear();
+        }
+    }
     
     private static void createEntryEvent() {
-        System.out.println("\nRegistering entry event ...");
+        System.out.println("\nRegistering a new entry event ...");
         System.out.println("Enter the supervisor:");
         Supervisor supervisor = PersonalKeyboardEntries.selectOneSupervisor();
         EventsTest.createEntryEvent(supervisor);
@@ -175,21 +196,17 @@ public class EventsTest {
                     System.out.println("Invalid production state!!!");
             }
             EventsTest.register(entryEvent);
-            phaseProductionOrder.process(entryEvent);
-            PhaseProductionOrderDAO phaseProductionOrderDAO = new PhaseProductionOrderDAO(em);
-            phaseProductionOrderDAO.update(phaseProductionOrder);
-        } catch (ProductionException pe) {
-            System.out.println("Production exception catched: " + pe.getMessage());
-        } catch (ProductionStateMachineException ex) {
-            System.out.println("Production state machine exception catched: " + ex.getMessage());
+            System.out.println("The entry event registration succeeded!!!");
+        } catch (ProductionException | ProductionStateMachineException e) {
+            System.out.println("The entry event registration failed: " + e.getMessage());
         } catch (RuntimeException re) {
-            System.out.println("Runtime exception catched: " + re.getMessage());
+            System.out.println("The entry event registration failed: " + re.getMessage());
             em.clear();
         }
     }
 
     private static void createTimeClockEvent() {
-        System.out.println("\nRegistering time clock event ...");
+        System.out.println("\nRegistering a new time clock event ...");
         Employee employee = PersonalKeyboardEntries.selectOneEmployee();
         if (employee == null) {
             return;
@@ -208,43 +225,216 @@ public class EventsTest {
             TimeClockEvent timeClockEvent = new TimeClockEvent(employee, arrival, timestamp, observation);
             EventsTest.register(timeClockEvent);
             System.out.println("The time clock event registration succeeded!!!");
+        } catch (ProductionStateMachineException e) {
+            System.out.println("The time clock event registration failed: " + e.getMessage() + "!!!");
         } catch (RuntimeException e) {
             System.out.println("The time clock event registration failed: " + e.getMessage() + "!!!");
             em.clear();
-        }
+        } 
         
     }
 
-    private static void createCasualtyEntryEventPerSubordinates() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private static void createCollectiveEntryEventPerSubordinates() {
+        ProductionStates state = EventsTest.getProductionState("\nRegistering a new collective entry event for a group of subordinates ...");
+        if (state == null) {
+            return;
+        }
+        EntryEventDAO entryEventDAO = new EntryEventDAO(em);
+        EntryEventsList entryEvents = null;
+        if (state == ProductionStates.RESTARTED) {
+            entryEvents = entryEventDAO.findEntryEventsThatCanBeRestarted();
+        } else if (state == ProductionStates.PAUSED) {
+            entryEvents = entryEventDAO.findEntryEventsThatCanBePaused();
+        } 
+        EventsTest.createCollectiveEntryEvents(entryEvents, state);
     }
 
-    private static void createCasualtyEntryEventPerSupervisor() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private static void createCollectiveEntryEventPerSupervisor() {
+        ProductionStates state = EventsTest.getProductionState("\nRegistering a new collective entry event for all supervisor subordinates ...");
+        if (state == null) {
+            return;
+        }
+        System.out.println("Enter the supervisor:");
+        Supervisor supervisor = PersonalKeyboardEntries.selectOneSupervisor();
+        if (supervisor == null) {
+            return;
+        }
+        EntryEventDAO entryEventDAO = new EntryEventDAO(em);
+        EntryEventsList entryEvents = null;
+        if (state == ProductionStates.RESTARTED) {
+            entryEvents = entryEventDAO.findEntryEventsThatCanBeRestarted(supervisor);
+        } else if (state == ProductionStates.PAUSED) {
+            entryEvents = entryEventDAO.findEntryEventsThatCanBePaused(supervisor);
+        } 
+        EventsTest.createCollectiveEntryEvents(entryEvents, state);
     }
 
-    private static void createCasualtyEntryEventPerSupervisors() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private static void createCollectiveEntryEventPerSupervisors() {
+        ProductionStates state = EventsTest.getProductionState("\nRegistering a new collective entry event for all supervisors subordinates ...");
+        if (state == null) {
+            return;
+        }
+        System.out.println("Enter the supervisors:");
+        List<Supervisor> supervisors = PersonalKeyboardEntries.selectManySupervisors();
+        if (supervisors == null) {
+            return;
+        }
+        EntryEventDAO entryEventDAO = new EntryEventDAO(em);
+        EntryEventsList entryEvents = new EntryEventsList();
+        for (Supervisor supervisor : supervisors) {
+            if (state == ProductionStates.RESTARTED) {
+                entryEvents.addAll(entryEventDAO.findEntryEventsThatCanBeRestarted(supervisor));
+            } else if (state == ProductionStates.PAUSED) {
+                entryEvents.addAll(entryEventDAO.findEntryEventsThatCanBePaused(supervisor));
+            } 
+        }
+        EventsTest.createCollectiveEntryEvents(entryEvents, state);
     }
 
-    private static void createCasualtyEntryEventPerSector() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private static void createCollectiveEntryEventPerSector() {
+        ProductionStates state = EventsTest.getProductionState("\nRegistering a new collective entry event for all sector subordinates ...");
+        if (state == null) {
+            return;
+        }
+        System.out.println("Enter the sector:");
+        Sector sector = PersonalKeyboardEntries.selectOneSector();
+        if (sector == null) {
+            return;
+        }
+        EntryEventDAO entryEventDAO = new EntryEventDAO(em);
+        EntryEventsList entryEvents = null;
+        if (state == ProductionStates.RESTARTED) {
+            entryEvents = entryEventDAO.findEntryEventsThatCanBeRestarted(sector);
+        } else if (state == ProductionStates.PAUSED) {
+            entryEvents = entryEventDAO.findEntryEventsThatCanBePaused(sector);
+        } 
+        EventsTest.createCollectiveEntryEvents(entryEvents, state);
     }
 
-    private static void createCasualtyEntryEventPerSectors() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private static void createCollectiveEntryEventPerSectors() {
+        ProductionStates state = EventsTest.getProductionState("\nRegistering a new collective entry event for all sectors subordinates ...");
+        if (state == null) {
+            return;
+        }
+        System.out.println("Enter the sectors:");
+        List<Sector> sectors = PersonalKeyboardEntries.selectManySectors();
+        if (sectors == null) {
+            return;
+        }
+        EntryEventDAO entryEventDAO = new EntryEventDAO(em);
+        EntryEventsList entryEvents = new EntryEventsList();
+        for (Sector sector : sectors) {
+            if (state == ProductionStates.RESTARTED) {
+                entryEvents.addAll(entryEventDAO.findEntryEventsThatCanBeRestarted(sector));
+            } else if (state == ProductionStates.PAUSED) {
+                entryEvents.addAll(entryEventDAO.findEntryEventsThatCanBePaused(sector));
+            } 
+        }
+        EventsTest.createCollectiveEntryEvents(entryEvents, state);
+    }
+    
+    private static ProductionStates getProductionState(String prompt) {
+        System.out.println(prompt);
+        System.out.println("Enter the production state:");
+        return ProductionKeyboardEntries.selectOneRestartedOrPausedState();
+    }
+
+    private static void createCollectiveEntryEvents(EntryEventsList entryEvents, ProductionStates state) {
+        if (entryEvents == null) {
+            return;
+        }
+        if (entryEvents.isEmpty()) {
+            System.out.println("There is no phase production order that can be taken to this state in the present moment!!!");
+        }
+        List<Subordinate> subordinates = KeyboardEntries.selectMany(entryEvents.getInvolvedSubordinates(), "subordinate");
+        Calendar timestamp = KeyboardEntries.askForDateAndTime();
+        Keyboard keyboard = Keyboard.getKeyboard();
+        String observation = keyboard.readString("observation: ");        
+        FindByEmployee filter;
+        List<EntryEvent> filteredEntryEvents = new ArrayList<>();
+        for (Subordinate subordinate : subordinates) {
+            filter = new FindByEmployee(subordinate);
+            entryEvents.execute(filter);
+            filteredEntryEvents.addAll(filter.getItems());
+        }
+        if (state == ProductionStates.RESTARTED) {
+            EventsTest.createCollectiveEntryEvents(filteredEntryEvents, timestamp, observation);
+        } else if (state == ProductionStates.PAUSED) {
+            Casualty casualty = EventsKeyboardEntries.selectOneCollectiveCasualty();
+            if (casualty == null) {
+                return;
+            }
+            EventsTest.createCollectiveEntryEvents(filteredEntryEvents, casualty, timestamp, observation);
+        }        
+    }
+    
+    private static void createCollectiveEntryEvents(List<EntryEvent> entryEvents, Calendar timestamp, String observation)  {
+        Sector sector;
+        Supervisor supervisor;
+        PhaseProductionOrder phaseProductionOrder;
+        Subordinate subordinate;
+        EntryEvent entryEvent;
+        for (EntryEvent previousEntryEvent : entryEvents) {
+            sector = previousEntryEvent.getSector();
+            supervisor = previousEntryEvent.getSupervisor();
+            phaseProductionOrder = previousEntryEvent.getPhaseProductionOrder();
+            subordinate = previousEntryEvent.getSubordinate();
+            try {
+                entryEvent = new EntryEvent(sector, supervisor, phaseProductionOrder, subordinate, ProductionStates.RESTARTED, timestamp, observation);
+                EventsTest.register(entryEvent);
+                System.out.println(subordinate + "'s phase production order transaction succeeded!!!");
+            } catch (ProductionException | ProductionStateMachineException e) {
+                System.out.println(subordinate + "'s phase production order transaction failed: " + e.getMessage());
+            } catch (RuntimeException e) {
+                System.out.println(subordinate + "'s phase production order transaction failed: " + e.getMessage());
+                em.clear();
+            }
+        }
+    }
+    
+    private static void createCollectiveEntryEvents(List<EntryEvent> entryEvents, Casualty casualty, Calendar timestamp, String observation)  {
+        Sector sector;
+        Supervisor supervisor;
+        PhaseProductionOrder phaseProductionOrder;
+        Subordinate subordinate;
+        CasualtyEntryEvent casualtyEntryEvent;
+        for (EntryEvent previousEntryEvent : entryEvents) {
+            sector = previousEntryEvent.getSector();
+            supervisor = previousEntryEvent.getSupervisor();
+            phaseProductionOrder = previousEntryEvent.getPhaseProductionOrder();
+            subordinate = previousEntryEvent.getSubordinate();
+            try {
+                casualtyEntryEvent = new CasualtyEntryEvent(casualty, sector, supervisor, phaseProductionOrder, subordinate, ProductionStates.PAUSED, 0, timestamp, observation);
+                EventsTest.register(casualtyEntryEvent);
+                System.out.println(subordinate + "'s phase production order transaction succeeded!!!");
+            } catch (ProductionException | ProductionStateMachineException e) {
+                System.out.println(subordinate + "'s phase production order transaction failed: " + e.getMessage());
+            } catch (RuntimeException e) {
+                System.out.println(subordinate + "'s phase production order transaction failed: " + e.getMessage());
+                em.clear();
+            }
+        }
+    }
+
+    private static void showAllCasualties() {
+        System.out.println("Showing all registered casualties ...");
+        CasualtyDAO casualtyDAO = new CasualtyDAO(em);
+        for (Casualty casualty : casualtyDAO.findAll()) {
+            System.out.println("Casualty: " + casualty);
+        }
+        System.out.println("\nOBS.: (*) collective casualty.");
     }
 
     private static void showAllEntryEvents() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     private static void showAllTimeClockEvents() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     private static void showAllEvents() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     private static void importEntryEvents() {
@@ -258,8 +448,8 @@ public class EventsTest {
             events.addAll(reader.getEmployeeRelatedEventsList());
             EventsTest.register(events);
             System.out.println("Entry events importation succeeded!!!");
-        } catch (IOException ioe) {
-            System.out.println("Entry events importation failed: " + ioe.getMessage());
+        } catch (IOException | ProductionStateMachineException e) {
+            System.out.println("Entry events importation failed: " + e.getMessage());
         }
     }
 
@@ -274,51 +464,64 @@ public class EventsTest {
             events.addAll(reader.getEmployeeRelatedEventsList());
             EventsTest.register(events);
             System.out.println("Time clock events importation succeeded!!!");
-        } catch (IOException ioe) {
-            System.out.println("Time clock events importation failed: " + ioe.getMessage());
+        } catch (IOException | ProductionStateMachineException e) {
+            System.out.println("Time clock events importation failed: " + e.getMessage());
         }
     }
 
     private static void reportPerformancePerSubordinate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     private static void reportPerformancePerSubordinates() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     private static void reportPerformancePerSupervisor() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     private static void reportPerformancePerSupervisors() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     private static void reportPerformancePerSector() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     private static void reportPerformancePerSectors() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
-    public static void register(EmployeeRelatedEventsList events) {
-        for (AbstractEmployeeRelatedEvent event : events) {
+    public static void register(Casualty casualty) {
+        CasualtyDAO casualtyDAO = new CasualtyDAO(em);
+        casualtyDAO.create(casualty);
+    }
+    
+    public static void register(EmployeeRelatedEventsList<? extends AbstractEmployeeRelatedEvent> events) throws ProductionStateMachineException {
+        for (AbstractEmployeeRelatedEvent event : events) { 
             EventsTest.register(event);
         }
     }
     
-    public static void register(AbstractEmployeeRelatedEvent event) {
+    public static void register(AbstractEmployeeRelatedEvent event) throws ProductionStateMachineException {
         if (event instanceof TimeClockEvent) {
             TimeClockEventDAO timeClockEventDAO = new TimeClockEventDAO(em);
             timeClockEventDAO.create((TimeClockEvent) event);
-        } else if (event instanceof CasualtyEntryEvent) {
-            CasualtyEntryEventDAO casualtyEntryEventDAO = new CasualtyEntryEventDAO(em);
-            casualtyEntryEventDAO.create((CasualtyEntryEvent) event);
         } else if (event instanceof EntryEvent) {
-            EntryEventDAO entryEventDAO = new EntryEventDAO(em);
-            entryEventDAO.create((EntryEvent) event);
+            EntryEventDAO entryEventDAO;
+            EntryEvent entryEvent = (EntryEvent) event;
+            if (entryEvent instanceof CasualtyEntryEvent) {
+                entryEventDAO = new CasualtyEntryEventDAO(em);
+                entryEventDAO.create((CasualtyEntryEvent) entryEvent);
+            } else {
+                entryEventDAO = new EntryEventDAO(em);
+                entryEventDAO.create(entryEvent);
+            }
+            PhaseProductionOrder phaseProductionOrder = entryEvent.getPhaseProductionOrder();
+            phaseProductionOrder.process(entryEvent);
+            PhaseProductionOrderDAO phaseProductionOrderDAO = new PhaseProductionOrderDAO(em);
+            phaseProductionOrderDAO.update(phaseProductionOrder);                
         } 
     }
     

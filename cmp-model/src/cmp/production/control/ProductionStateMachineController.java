@@ -29,25 +29,24 @@ public class ProductionStateMachineController {
     private final ReturnedState returnedState = new ReturnedState(this);
     private AbstractProductionState currentState = null;
     
-    public ProductionStateMachineController(PhaseProductionOrder order) throws ProductionStateMachineException {
-        this.phaseProductionOrder = order;
-        if (order == null) {
+    public ProductionStateMachineController(PhaseProductionOrder phaseProductionOrder) throws ProductionStateMachineException {
+        if (phaseProductionOrder == null) {
             throw new ProductionStateMachineException("The given phase production order must not be null!!!");
         }
+        this.phaseProductionOrder = phaseProductionOrder;
         startedState.init();
         restartedState.init();
         pausedState.init();
         finishedState.init();
         returnedState.init();
-        ProductionStates state = order.getProductionState();
-        if (state != null)
-        {
+        ProductionStates state = phaseProductionOrder.getProductionState();
+        if (state != null) {
             currentState = getProductionState(state);
         }
     }
     
     public void process(EntryEvent entryEvent) throws ProductionStateMachineException {
-        if (phaseProductionOrder.equals(entryEvent.getPhaseProductionOrder())) {
+        if (!phaseProductionOrder.equals(entryEvent.getPhaseProductionOrder())) {
             throw new ProductionStateMachineException("The phase production order of the entry event must be equal to this one!!!");
         }
         process(getProductionState(entryEvent.getProductionState()), entryEvent.getSubordinate(), entryEvent.getProducedQuantity());
@@ -158,8 +157,12 @@ public class ProductionStateMachineController {
     
     public ArrayList<ProductionStates> getPossibleNextStates() throws ProductionStateMachineException {
         ArrayList<ProductionStates> nextStates = new ArrayList<>();
-        for (AbstractProductionState productionState : currentState.getPossibleNextStates()) {
-            nextStates.add(getState(productionState));
+        if (currentState != null) {
+            for (AbstractProductionState productionState : currentState.getPossibleNextStates()) {
+                nextStates.add(getState(productionState));
+            }
+        } else {
+            nextStates.add(ProductionStates.STARTED);
         }
         return nextStates;
     }

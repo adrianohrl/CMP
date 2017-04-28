@@ -28,11 +28,7 @@ public class EventsPeriodBuilder implements Iterable<EmployeeEventsPeriodBuilder
         build(events);
     }
     
-    public EventsPeriodBuilder(ArrayList<AbstractEmployeeRelatedEvent> events) throws ReportException {
-        this(new EmployeeRelatedEventsList(events));
-    }
-    
-    private void build(EmployeeRelatedEventsList events) throws ReportException {
+    private void build(EmployeeRelatedEventsList<? extends AbstractEmployeeRelatedEvent> events) throws ReportException {
         FindByEmployee filter;
         for (Employee employee : events.getInvolvedEmployees()) {
             filter = new FindByEmployee(employee);

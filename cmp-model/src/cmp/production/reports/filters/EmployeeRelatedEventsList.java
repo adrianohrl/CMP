@@ -10,22 +10,24 @@ import cmp.model.personal.Employee;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 /**
  *
  * @author adrianohrl
+ * @param <T>
  */
-public class EmployeeRelatedEventsList extends EventsList<AbstractEmployeeRelatedEvent> {
+public class EmployeeRelatedEventsList<T extends AbstractEmployeeRelatedEvent> extends EventsList<T> {
 
     public EmployeeRelatedEventsList() {
     }
 
-    public EmployeeRelatedEventsList(Collection<? extends AbstractEmployeeRelatedEvent> c) {
+    public EmployeeRelatedEventsList(Collection<? extends T> c) {
         super(c);
     }
     
-    public ArrayList<Employee> getInvolvedEmployees() {
-        ArrayList<Employee> employees = new ArrayList<>();
+    public List<Employee> getInvolvedEmployees() {
+        List<Employee> employees = new ArrayList<>();
         for (AbstractEmployeeRelatedEvent event : this) {
             Employee employee = event.getEmployee();
             if (!employees.contains(employee)) {

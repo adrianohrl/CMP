@@ -25,11 +25,11 @@ public enum ProductionMenuOptions {
     ASSIGN_NEW_PHASES(10, "assign new phases to a model"),
     QUIT(-1, "quit");
     
-    private final int value;
+    private final int index;
     private final String description;
     
-    private ProductionMenuOptions(int value, String description) {
-        this.value = value;
+    private ProductionMenuOptions(int index, String description) {
+        this.index = index;
         this.description = description;
     }
     
@@ -41,22 +41,22 @@ public enum ProductionMenuOptions {
         return this == QUIT;
     }
     
-    public boolean equals(int value) {
-        return this.value == value || this == INVALID && (value < -1 || value > ProductionMenuOptions.size());
+    public boolean equals(int index) {
+        return this.index == index || this == INVALID && (index < -1 || index > ProductionMenuOptions.size());
     }    
 
     @Override
     public String toString() {
-        return value + ") " + description + ";";
+        return index + ") " + description + ";";
     }
     
     public static int size() {
         return ProductionMenuOptions.values().length - 2;
     }
     
-    public static ProductionMenuOptions fromInteger(int value) {
+    public static ProductionMenuOptions fromIndex(int index) {
         for (ProductionMenuOptions option : ProductionMenuOptions.values()) {
-            if (option.equals(value)) {
+            if (option.equals(index)) {
                 return option;
             }
         }
@@ -75,7 +75,7 @@ public enum ProductionMenuOptions {
     public static ProductionMenuOptions getOption() {
         Keyboard keyboard = Keyboard.getKeyboard();
         ProductionMenuOptions.printMenu();
-        int value = keyboard.readInteger("Enter the desired option: ");
-        return ProductionMenuOptions.fromInteger(value);
+        int index = keyboard.readInteger("Enter the desired option: ");
+        return ProductionMenuOptions.fromIndex(index);
     }
 }

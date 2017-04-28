@@ -102,6 +102,9 @@ public class Keyboard {
      */
     public List<String> readStrings(String prompt, String separator) {
         String line = readString(prompt);
+        if (line.equals("--all")) {
+            return null;
+        }
         return Arrays.asList(line.split(separator));
     }
 
@@ -113,6 +116,9 @@ public class Keyboard {
      */
     public List<Integer> readIntegers(String prompt, String separator) {
         List<String> integerStrings = readStrings(prompt, separator);
+        if (integerStrings == null) {
+            return null;
+        }
         List<Integer> integers = new ArrayList<>();
         for (String integerString : integerStrings) {
             try {
@@ -130,6 +136,9 @@ public class Keyboard {
      */
     public List<Double> readDoubles(String prompt, String separator) {
         List<String> doubleStrings = readStrings(prompt, separator);
+        if (doubleStrings == null) {
+            return null;
+        }
         List<Double> doubles = new ArrayList<>();
         for (String doubleString : doubleStrings) {
             try {

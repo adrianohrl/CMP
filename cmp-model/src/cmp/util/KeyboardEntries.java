@@ -6,7 +6,6 @@
 package cmp.util;
 
 import cmp.exceptions.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -54,7 +53,10 @@ public class KeyboardEntries {
         List<Integer> options;
         List<T> selectedOptions = new ArrayList<>();
         while (selectedOptions.isEmpty()) {
-            options = keyboard.readIntegers("Enter desired options (use ' ' between each option): ", " ");
+            options = keyboard.readIntegers("Enter the desired options (use '--all' to select all options or use ' ' between each option) ", " ");
+            if (options == null) {
+                return possibleOptions;
+            }
             for (Integer option : options) {
                 if (option == -1) {
                     System.out.println("Aborting ...");
@@ -82,7 +84,7 @@ public class KeyboardEntries {
     public static boolean askForYesOrNo(String prompt, String yes, String no) {
         Keyboard keyboard = Keyboard.getKeyboard();
         String answer = keyboard.readString(prompt + " (" + yes + "/" + no + "): ");;
-        while (!answer.startsWith(yes) || !answer.startsWith(no)) {
+        while (!answer.startsWith(yes) && !answer.startsWith(no)) {
             System.out.println("Invalid option!!! Try again.");
             answer = keyboard.readString(prompt + " (" + yes + "/" + no + "): ");
         }
@@ -111,17 +113,15 @@ public class KeyboardEntries {
     
     public static Calendar askForDateAndTime() {
         Keyboard keyboard = Keyboard.getKeyboard();
-        String date = "";
-        String time = "";
+        String date;
+        String time;
         Calendar timestamp = null;
-        while (date.isEmpty() || time.isEmpty()) {
+        while (timestamp == null) {
             try {
-                date = keyboard.readString("date (" + Calendars.DATE_FORMAT + "): ");
-                time = keyboard.readString("time (" + Calendars.TIME_FORMAT + "): ");
+                date = keyboard.readString("date (" + Calendars.DATE_FORMAT + ") (default: today):");
+                time = keyboard.readString("time (" + Calendars.TIME_FORMAT + ") (default: now): ");
                 timestamp = Calendars.sum(date, time);
             } catch (IOException ioe) {
-                date = "";
-                time = "";
                 System.out.println(ioe.getMessage());
             }
         }

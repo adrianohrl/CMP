@@ -19,7 +19,10 @@ public class SupervisorDAO extends LoggableDAO<Supervisor> {
     }
     
     public boolean isSupervisorSubordinate(String supervisorName, String subordinateName) {
-        long counter = (long) em.createQuery("SELECT COUNT(*) FROM Supervisor s JOIN s.subordinates sub WHERE s.name = '" + supervisorName + "' AND sub.name = '" + subordinateName + "'").getSingleResult();
+        long counter = (long) em.createQuery("SELECT COUNT(*) "
+                + "FROM Supervisor s JOIN s.subordinates sub "
+                + "WHERE s.name = '" + supervisorName + "' "
+                + "AND sub.name = '" + subordinateName + "'").getSingleResult();
         return counter > 0;
     }
     

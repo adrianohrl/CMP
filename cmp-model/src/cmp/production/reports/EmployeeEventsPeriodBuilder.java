@@ -30,12 +30,8 @@ public class EmployeeEventsPeriodBuilder implements Iterable<AbstractEventsPerio
         this.employee = employee;
         build(events);
     }
-
-    public EmployeeEventsPeriodBuilder(Employee employee, ArrayList<AbstractEmployeeRelatedEvent> events) throws ReportException {
-        this(employee, new EmployeeRelatedEventsList(events));
-    }
     
-    private void build(EmployeeRelatedEventsList events) throws ReportException {
+    private void build(EmployeeRelatedEventsList<? extends AbstractEmployeeRelatedEvent> events) throws ReportException {
         AbstractEmployeeRelatedEvent previous = null;
         AbstractEmployeeRelatedEvent current;
         for (AbstractEmployeeRelatedEvent event : events) {
@@ -47,7 +43,7 @@ public class EmployeeEventsPeriodBuilder implements Iterable<AbstractEventsPerio
                 previous = current;
             }
         }
-        Iterator<AbstractEmployeeRelatedEvent> it = events.iterator();
+        Iterator<? extends AbstractEmployeeRelatedEvent> it = events.iterator();
         previous = it.next();
         while (it.hasNext()) {
             current = it.next();

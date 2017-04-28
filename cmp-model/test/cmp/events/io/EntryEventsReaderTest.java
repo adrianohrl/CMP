@@ -6,7 +6,7 @@
 package cmp.events.io;
 
 import cmp.exceptions.IOException;
-import cmp.model.events.AbstractEmployeeRelatedEvent;
+import cmp.model.events.EntryEvent;
 import cmp.model.personal.Employee;
 import cmp.production.reports.filters.EmployeeRelatedEventsList;
 import cmp.production.reports.filters.FindByEmployee;
@@ -23,14 +23,14 @@ public class EntryEventsReaderTest {
         String fileName = keyboard.readString("Enter the file name: ");
         EntryEventsReader reader = new EntryEventsReader(fileName);
         reader.readFile();
-        EmployeeRelatedEventsList events = reader.getEmployeeRelatedEventsList();
-        FindByEmployee filter;
+        EmployeeRelatedEventsList<EntryEvent> events = reader.getEmployeeRelatedEventsList();
+        FindByEmployee<EntryEvent> filter;
         for (Employee employee : events.getInvolvedEmployees()) {
-            filter = new FindByEmployee(employee);
+            filter = new FindByEmployee<>(employee);
             events.execute(filter);
             System.out.println("Employee: " + employee);
             int counter = 0;
-            for (AbstractEmployeeRelatedEvent event : filter) {
+            for (Object event : filter) {
                 System.out.println("Event " + counter++ + ": " + event);
             }
             System.out.println("\n---------\n");

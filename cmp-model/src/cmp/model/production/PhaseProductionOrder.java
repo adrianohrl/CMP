@@ -101,9 +101,9 @@ public class PhaseProductionOrder implements Comparable<PhaseProductionOrder>, S
     }
 
     @Override
-    public int compareTo(PhaseProductionOrder order) {
-        int cmp = productionOrder.compareTo(order.productionOrder);
-        return cmp == 0 ? phase.compareTo(order.phase) : cmp;
+    public int compareTo(PhaseProductionOrder phaseProductionOrder) {
+        int cmp = productionOrder.compareTo(phaseProductionOrder.productionOrder);
+        return cmp == 0 ? phase.compareTo(phaseProductionOrder.phase) : cmp;
     }
 
     @Override
@@ -111,8 +111,8 @@ public class PhaseProductionOrder implements Comparable<PhaseProductionOrder>, S
         return obj != null && obj instanceof PhaseProductionOrder && equals((PhaseProductionOrder) obj);
     }
 
-    public boolean equals(PhaseProductionOrder order) {
-        return order != null && productionOrder.equals(order.productionOrder) && phase.equals(order.phase);
+    public boolean equals(PhaseProductionOrder phaseProductionOrder) {
+        return phaseProductionOrder != null && productionOrder.equals(phaseProductionOrder.productionOrder) && phase.equals(phaseProductionOrder.phase);
     }
 
     @Override

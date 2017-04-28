@@ -83,15 +83,13 @@ public class TimeClockEventsReader implements Iterable<TimeClockEvent> {
     
     private void validate() throws IOException {
         TimeClockEvent previous;
-        TimeClockEvent current;
-        FindByEmployee filter;
-        EmployeeRelatedEventsList events = new EmployeeRelatedEventsList(timeClockEvents);
+        FindByEmployee<TimeClockEvent> filter;
+        EmployeeRelatedEventsList<TimeClockEvent> events = new EmployeeRelatedEventsList<>(timeClockEvents);
         for (Employee employee : events.getInvolvedEmployees()) {
-            filter = new FindByEmployee(employee);
+            filter = new FindByEmployee<>(employee);
             events.execute(filter);
             previous = null;
-            for (AbstractEmployeeRelatedEvent event : filter.getItems()) {
-                current = (TimeClockEvent) event;
+            for (TimeClockEvent current : filter.getItems()) {
                 if (previous != null) {
                     if (previous.compareTo(current) >= 0) {
                         throw new IOException(previous + " must happen before " + current);

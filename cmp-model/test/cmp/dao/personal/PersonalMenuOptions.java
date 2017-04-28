@@ -27,11 +27,11 @@ public enum PersonalMenuOptions {
     DOWNGRADE_EMPLOYEE(12, "downgrade employee"),
     QUIT(-1, "quit");
     
-    private final int value;
+    private final int index;
     private final String description;
     
-    private PersonalMenuOptions(int value, String description) {
-        this.value = value;
+    private PersonalMenuOptions(int index, String description) {
+        this.index = index;
         this.description = description;
     }
     
@@ -43,22 +43,22 @@ public enum PersonalMenuOptions {
         return this == QUIT;
     }
     
-    public boolean equals(int value) {
-        return this.value == value || this == INVALID && (value < -1 || value > PersonalMenuOptions.size());
+    public boolean equals(int index) {
+        return this.index == index || this == INVALID && (index < -1 || index > PersonalMenuOptions.size());
     }    
 
     @Override
     public String toString() {
-        return value + ") " + description + ";";
+        return index + ") " + description + ";";
     }
     
     public static int size() {
         return PersonalMenuOptions.values().length - 2;
     }
     
-    public static PersonalMenuOptions fromInteger(int value) {
+    public static PersonalMenuOptions fromIndex(int index) {
         for (PersonalMenuOptions option : PersonalMenuOptions.values()) {
-            if (option.equals(value)) {
+            if (option.equals(index)) {
                 return option;
             }
         }
@@ -77,7 +77,7 @@ public enum PersonalMenuOptions {
     public static PersonalMenuOptions getOption() {
         Keyboard keyboard = Keyboard.getKeyboard();
         PersonalMenuOptions.printMenu();
-        int value = keyboard.readInteger("Enter the desired option: ");
-        return PersonalMenuOptions.fromInteger(value);
+        int index = keyboard.readInteger("Enter the desired option: ");
+        return PersonalMenuOptions.fromIndex(index);
     }
 }

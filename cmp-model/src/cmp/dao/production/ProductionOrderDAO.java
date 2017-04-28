@@ -21,7 +21,7 @@ public class ProductionOrderDAO extends DAO<ProductionOrder, String> {
 
     @Override
     public boolean isRegistered(ProductionOrder entity) {
-        return super.find(entity.getProductionOrder()) != null;
+        return super.find(entity.getReference()) != null;
     }
     
 }

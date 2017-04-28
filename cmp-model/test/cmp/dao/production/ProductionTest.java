@@ -160,7 +160,7 @@ public class ProductionTest {
         }
     }
 
-    private static void showAllRegisteredPendentPhaseProductionOrders() {
+    public static void showAllRegisteredPendentPhaseProductionOrders() {
         System.out.println("Showing all registered pendent phase production orders ...");
         PhaseProductionOrderDAO phaseProductionOrderDAO = new PhaseProductionOrderDAO(em);
         for (PhaseProductionOrder phaseProductionOrder : phaseProductionOrderDAO.findPendents()) {

@@ -22,7 +22,7 @@ public class AbstractEventDAO<E extends AbstractEvent> extends DAO<E, Long> {
 
     @Override
     public boolean isRegistered(E entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return super.find(entity.getCode()) != null;
     }
     
 }

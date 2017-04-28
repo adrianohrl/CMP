@@ -25,7 +25,10 @@ public class SectorDAO extends DAO<Sector, String> {
     }
     
     public boolean isSectorSupervisor(String sectorName, String supervisorName) {
-        long counter = (long) em.createQuery("SELECT COUNT(*) FROM Sector s JOIN s.supervisor sup WHERE s.name = '" + sectorName +"' AND sup.name = '" + supervisorName + "'").getSingleResult();
+        long counter = (long) em.createQuery("SELECT COUNT(*) "
+                + "FROM Sector s JOIN s.supervisor sup "
+                + "WHERE s.name = '" + sectorName +"' "
+                + "AND sup.name = '" + supervisorName + "'").getSingleResult();
         return counter > 0;
     }
     

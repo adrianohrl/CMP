@@ -6,6 +6,7 @@
 package cmp.model.events;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -18,6 +19,7 @@ public class Casualty implements Comparable<Casualty>, Serializable {
     
     @Id
     private String name;
+    @Column(updatable = false)
     private boolean collective = false;
 
     public Casualty() {
@@ -48,7 +50,7 @@ public class Casualty implements Comparable<Casualty>, Serializable {
     
     @Override
     public String toString() {
-        return name;
+        return name + (collective ? "*" : "");
     }
 
     public String getName() {

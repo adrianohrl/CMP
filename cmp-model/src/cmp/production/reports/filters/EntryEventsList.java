@@ -7,32 +7,36 @@ package cmp.production.reports.filters;
 
 import cmp.model.events.AbstractEmployeeRelatedEvent;
 import cmp.model.events.EntryEvent;
+import cmp.model.personal.Subordinate;
 import cmp.model.production.Phase;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  *
  * @author adrianohrl
+ * @param <T>
  */
-public class EntryEventsList extends EventsList<EntryEvent> {
+public class EntryEventsList<T extends EntryEvent> extends EmployeeRelatedEventsList<T> {
 
     public EntryEventsList() {
     }
 
-    public EntryEventsList(ArrayList<AbstractEmployeeRelatedEvent> events) {
+    public EntryEventsList(List<AbstractEmployeeRelatedEvent> events) {
         for (AbstractEmployeeRelatedEvent event : events) {
             if (event instanceof EntryEvent) {
-                super.add((EntryEvent) event);
+                super.add((T) event);
             }
         }
     }
 
-    public EntryEventsList(Collection<? extends EntryEvent> c) {
+    public EntryEventsList(Collection<? extends T> c) {
         super(c);
     }
     
-    public ArrayList<Phase> getPhases() {
+    public List<Phase> getPhases() {
         ArrayList<Phase> phases = new ArrayList<>();
         for (EntryEvent event : this) {
             Phase phase = event.getPhaseProductionOrder().getPhase();
@@ -41,6 +45,18 @@ public class EntryEventsList extends EventsList<EntryEvent> {
             }
         }
         return phases;
+    }
+    
+    public List<Subordinate> getInvolvedSubordinates() {
+        List<Subordinate> subordinates = new ArrayList<>();
+        for (EntryEvent event : this) {
+            Subordinate subordinate = event.getEmployee();
+            if (!subordinates.contains(subordinate)) {
+                subordinates.add(subordinate);
+            }
+        }
+        Collections.sort(subordinates);
+        return subordinates;
     }
     
 }

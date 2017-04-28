@@ -7,18 +7,15 @@ package cmp.dao.production;
 
 import cmp.dao.DataSource;
 import cmp.exceptions.ProductionException;
-import cmp.exceptions.ProductionStateMachineException;
 import cmp.model.production.Model;
 import cmp.model.production.Phase;
 import cmp.model.production.PhaseProductionOrder;
 import cmp.model.production.ProductionOrder;
 import cmp.model.production.ProductionStates;
-import cmp.production.control.ProductionStateMachineController;
-import cmp.util.Keyboard;
 import cmp.util.KeyboardEntries;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  *
@@ -74,8 +71,8 @@ public class ProductionKeyboardEntries {
             List<PhaseProductionOrder> phaseProductionOrders = phaseProductionOrderDAO.findPendents();
             return KeyboardEntries.selectOne(phaseProductionOrders, "pendent phase production order");
         }
-        Phase phase = ProductionKeyboardEntries.selectOnePhase();
         ProductionOrder productionOrder = ProductionKeyboardEntries.selectOneProductionOrder();
+        Phase phase = ProductionKeyboardEntries.selectOnePhaseOfModel(productionOrder.getModel().getName());
         PhaseProductionOrder phaseProductionOrder = phaseProductionOrderDAO.find(phase, productionOrder);
         if (phaseProductionOrder == null) {
             int totalQuantity = KeyboardEntries.askForPositiveInteger("total quantity: ");
@@ -84,11 +81,18 @@ public class ProductionKeyboardEntries {
             } catch (ProductionException pe) {
                 System.out.println("Exception catched: " + pe.getMessage());
             }
-        } else if (phaseProductionOrder.isPendent()) {
-            System.out.println("This phase production order already exists but it is not pendent anymore!!!");
+        } else if (!phaseProductionOrder.isPendent()) {
+            System.out.println("This phase production order already exists, but it is not pendent anymore!!!");
             return null;
         }
         return phaseProductionOrder;
+    }
+    
+    public static ProductionStates selectOneRestartedOrPausedState() {
+        List<ProductionStates> states = new ArrayList<>();
+        states.add(ProductionStates.RESTARTED);
+        states.add(ProductionStates.PAUSED);
+        return KeyboardEntries.selectOne(states, "production state");
     }
     
     public static List<Phase> selectManyPhases() {

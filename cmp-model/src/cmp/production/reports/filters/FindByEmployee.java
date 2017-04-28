@@ -12,8 +12,9 @@ import cmp.util.AbstractFilter;
 /**
  *
  * @author adrianohrl
+ * @param <T>
  */
-public class FindByEmployee extends AbstractFilter<AbstractEmployeeRelatedEvent> {
+public class FindByEmployee<T extends AbstractEmployeeRelatedEvent> extends AbstractFilter<T> {
     
     private final Employee employee;
 
@@ -25,14 +26,14 @@ public class FindByEmployee extends AbstractFilter<AbstractEmployeeRelatedEvent>
     }
 
     @Override
-    public void execute(AbstractEmployeeRelatedEvent event) {
+    public void execute(T event) {
         if (employee.equals(event.getEmployee())) {
             super.add(event);
         }
     }
     
     @Override
-    public EmployeeRelatedEventsList getItems() {
+    public EmployeeRelatedEventsList<T> getItems() {
         return new EmployeeRelatedEventsList(super.getItems());
     }
     

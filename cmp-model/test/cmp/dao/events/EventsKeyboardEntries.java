@@ -25,10 +25,34 @@ public class EventsKeyboardEntries {
         return KeyboardEntries.selectOne(casualties, "casualty");
     }
     
+    public static Casualty selectOneCollectiveCasualty() {
+        CasualtyDAO casualtyDAO = new CasualtyDAO(em);
+        List<Casualty> casualties = casualtyDAO.findCollectives();
+        return KeyboardEntries.selectOne(casualties, "collective casualty");
+    }
+    
+    public static Casualty selectOneNonCollectiveCasualty() {
+        CasualtyDAO casualtyDAO = new CasualtyDAO(em);
+        List<Casualty> casualties = casualtyDAO.findNonCollectives();
+        return KeyboardEntries.selectOne(casualties, "non collective casualty");
+    }
+    
     public static List<Casualty> selectManyCasualties() {
         CasualtyDAO casualtyDAO = new CasualtyDAO(em);
         List<Casualty> casualties = casualtyDAO.findAll();
         return KeyboardEntries.selectMany(casualties, "casualty");
+    }
+    
+    public static List<Casualty> selectManyCollectiveCasualties() {
+        CasualtyDAO casualtyDAO = new CasualtyDAO(em);
+        List<Casualty> casualties = casualtyDAO.findCollectives();
+        return KeyboardEntries.selectMany(casualties, "collective casualty");
+    }
+    
+    public static List<Casualty> selectManyNonCollectiveCasualties() {
+        CasualtyDAO casualtyDAO = new CasualtyDAO(em);
+        List<Casualty> casualties = casualtyDAO.findNonCollectives();
+        return KeyboardEntries.selectMany(casualties, "non collective casualty");
     }
     
 }

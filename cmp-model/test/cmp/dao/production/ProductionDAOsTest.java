@@ -43,6 +43,7 @@ public class ProductionDAOsTest {
             ProductionTest.showAllRegisteredModels();
             ProductionTest.showAllRegisteredProductionOrders();
             ProductionTest.showAllRegisteredPhaseProductionOrders();
+            ProductionTest.showAllRegisteredPendentPhaseProductionOrders();
         } catch (RuntimeException e) {
             System.out.println("Exception catched: " + e.getMessage());
         } catch (ProductionException pe) {

@@ -32,10 +32,16 @@ import javax.persistence.EntityManager;
  */
 public class EntryEventsReaderDAO extends EntryEventsReader {
     
+    private final boolean acceptNewRegistrations;
     private EntityManager em;
 
     public EntryEventsReaderDAO(EntityManager em, String fileName) throws IOException {
+        this(em, fileName, false);
+    }
+
+    public EntryEventsReaderDAO(EntityManager em, String fileName, boolean acceptNewRegistrations) throws IOException {
         super(fileName);
+        this.acceptNewRegistrations = acceptNewRegistrations;
         this.em = em;
     }
     
@@ -113,7 +119,7 @@ public class EntryEventsReaderDAO extends EntryEventsReader {
     @Override
     protected PhaseProductionOrder createPhaseProductionOrder(Phase phase, ProductionOrder productionOrder, int totalQuantity) throws ProductionException, IOException {
         PhaseProductionOrderDAO phaseProductionOrderDAO = new PhaseProductionOrderDAO(em);
-        PhaseProductionOrder phaseProductionOrder = phaseProductionOrderDAO.find(phase.getName(), productionOrder.getProductionOrder());
+        PhaseProductionOrder phaseProductionOrder = phaseProductionOrderDAO.find(phase.getName(), productionOrder.getReference());
         if (phaseProductionOrder == null) {
             phaseProductionOrder = new PhaseProductionOrder(phase, productionOrder, totalQuantity);
             phaseProductionOrderDAO.create(phaseProductionOrder);
@@ -126,6 +132,9 @@ public class EntryEventsReaderDAO extends EntryEventsReader {
         CasualtyDAO casualtyDAO = new CasualtyDAO(em);
         Casualty casualty = casualtyDAO.find(casualtyName);
         if (casualty == null) {
+            if (!acceptNewRegistrations) {
+                throw new IOException("The input casualty (whose name is " + casualtyName + ") is not registered yet!!!");
+            }
             casualty = new Casualty(casualtyName);
             casualtyDAO.create(casualty);
         }
