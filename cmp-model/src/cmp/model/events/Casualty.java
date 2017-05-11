@@ -50,7 +50,7 @@ public class Casualty implements Comparable<Casualty>, Serializable {
     
     @Override
     public String toString() {
-        return name + (collective ? "*" : "");
+        return name;
     }
 
     public String getName() {

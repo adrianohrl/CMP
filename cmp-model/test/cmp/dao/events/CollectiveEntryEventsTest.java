@@ -24,7 +24,7 @@ public class CollectiveEntryEventsTest {
         EntityManager em = DataSource.createEntityManager();
         try {
             EntryEventDAO entryEventDAO = new EntryEventDAO(em);
-            EntryEventsList<EntryEvent> entryEvents = entryEventDAO.findEntryEventsThatCanBeRestarted();
+            EntryEventsList entryEvents = entryEventDAO.findEntryEventsThatCanBeRestarted();
             System.out.println("\nEntryEventsThatCanBeRestarted");
             for (EntryEvent entryEvent : entryEvents) {
                 System.out.println("\t" + entryEvent);

@@ -6,11 +6,9 @@
 package cmp.dao.events;
 
 import cmp.dao.production.PhaseProductionOrderDAO;
-import cmp.exceptions.ProductionStateMachineException;
 import cmp.model.events.EntryEvent;
 import cmp.model.personal.Sector;
 import cmp.model.personal.Supervisor;
-import cmp.model.production.PhaseProductionOrder;
 import cmp.model.production.ProductionStates;
 import cmp.production.reports.filters.EntryEventsList;
 import javax.persistence.EntityExistsException;
@@ -33,35 +31,26 @@ public class EntryEventDAO<E extends EntryEvent> extends AbstractEmployeeRelated
 
     @Override
     public void create(E entryEvent) throws EntityExistsException {
+        PhaseProductionOrderDAO phaseProductionOrderDAO = new PhaseProductionOrderDAO(em);
+        phaseProductionOrderDAO.update(entryEvent.getPhaseProductionOrder());  
         super.create(entryEvent);
-        try {
-            PhaseProductionOrder phaseProductionOrder = entryEvent.getPhaseProductionOrder();
-            phaseProductionOrder.process(entryEvent);
-            PhaseProductionOrderDAO phaseProductionOrderDAO = new PhaseProductionOrderDAO(em);
-            phaseProductionOrderDAO.update(phaseProductionOrder);  
-        } catch (ProductionStateMachineException e) {
-            super.remove(entryEvent);
-            throw new EntityExistsException("ProductionStateMachineException catched: " + e.getMessage());
-        }
     }
     
-    
-    
-    public EntryEventsList<EntryEvent> findEntryEventsThatCanBeRestarted() {
+    public EntryEventsList findEntryEventsThatCanBeRestarted() {
         return new EntryEventsList(em.createQuery("SELECT ee "
                 + "FROM EntryEvent ee "
                 + "WHERE ee.phaseProductionOrder.pendent = TRUE "
                 + "AND ee.productionState != " + ProductionStates.PAUSED.ordinal()).getResultList());
     }
     
-    public EntryEventsList<EntryEvent> findEntryEventsThatCanBePaused() {
+    public EntryEventsList findEntryEventsThatCanBePaused() {
         return new EntryEventsList(em.createQuery("SELECT ee "
                 + "FROM EntryEvent ee "
                 + "WHERE ee.phaseProductionOrder.pendent = TRUE "
                 + "AND ee.productionState = " + ProductionStates.PAUSED.ordinal()).getResultList());
     }
     
-    public EntryEventsList<EntryEvent> findEntryEventsThatCanBeRestarted(Supervisor supervisor) {
+    public EntryEventsList findEntryEventsThatCanBeRestarted(Supervisor supervisor) {
         return new EntryEventsList(em.createQuery("SELECT ee "
                 + "FROM EntryEvent ee JOIN ee.supervisor sup "
                 + "WHERE ee.phaseProductionOrder.pendent = TRUE "
@@ -69,7 +58,7 @@ public class EntryEventDAO<E extends EntryEvent> extends AbstractEmployeeRelated
                 + "AND ee.productionState != " + ProductionStates.PAUSED.ordinal()).getResultList());
     }
     
-    public EntryEventsList<EntryEvent> findEntryEventsThatCanBePaused(Supervisor supervisor) {
+    public EntryEventsList findEntryEventsThatCanBePaused(Supervisor supervisor) {
         return new EntryEventsList(em.createQuery("SELECT ee "
                 + "FROM EntryEvent ee JOIN ee.supervisor sup "
                 + "WHERE ee.phaseProductionOrder.pendent = TRUE "
@@ -77,7 +66,7 @@ public class EntryEventDAO<E extends EntryEvent> extends AbstractEmployeeRelated
                 + "AND ee.productionState = " + ProductionStates.PAUSED.ordinal()).getResultList());
     }
     
-    public EntryEventsList<EntryEvent> findEntryEventsThatCanBeRestarted(Sector sector) {
+    public EntryEventsList findEntryEventsThatCanBeRestarted(Sector sector) {
         return new EntryEventsList(em.createQuery("SELECT ee "
                 + "FROM EntryEvent ee JOIN ee.sector sec "
                 + "WHERE ee.phaseProductionOrder.pendent = TRUE "
@@ -85,7 +74,7 @@ public class EntryEventDAO<E extends EntryEvent> extends AbstractEmployeeRelated
                 + "AND ee.productionState != " + ProductionStates.PAUSED.ordinal()).getResultList());
     }
     
-    public EntryEventsList<EntryEvent> findEntryEventsThatCanBePaused(Sector sector) {
+    public EntryEventsList findEntryEventsThatCanBePaused(Sector sector) {
         return new EntryEventsList(em.createQuery("SELECT ee "
                 + "FROM EntryEvent ee JOIN ee.sector sec "
                 + "WHERE ee.phaseProductionOrder.pendent = TRUE "

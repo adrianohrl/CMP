@@ -11,7 +11,6 @@ import cmp.util.CalendarField;
 import cmp.util.StringField;
 import cmp.exceptions.IOException;
 import cmp.exceptions.ReportException;
-import cmp.model.events.AbstractEmployeeRelatedEvent;
 import cmp.model.events.TimeClockEvent;
 import cmp.model.personal.Employee;
 import cmp.model.personal.Subordinate;

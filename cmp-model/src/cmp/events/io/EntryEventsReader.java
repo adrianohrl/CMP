@@ -182,7 +182,6 @@ public class EntryEventsReader implements Iterable<EntryEvent> {
             return subordinates.get(subordinateName);
         }
         Subordinate subordinate = createSubordinate(subordinateName, supervisor);
-        supervisor.getSubordinates().add(subordinate);
         subordinates.put(subordinateName, subordinate);
         return subordinate;
     }

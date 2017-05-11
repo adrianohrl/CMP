@@ -9,11 +9,9 @@ import cmp.dao.DataSource;
 import cmp.dao.events.io.EntryEventsReaderDAO;
 import cmp.dao.events.io.TimeClockEventsReaderDAO;
 import cmp.dao.personal.PersonalKeyboardEntries;
-import cmp.dao.production.PhaseProductionOrderDAO;
 import cmp.dao.production.ProductionKeyboardEntries;
 import cmp.exceptions.IOException;
 import cmp.exceptions.ProductionException;
-import cmp.exceptions.ProductionStateMachineException;
 import cmp.model.events.AbstractEmployeeRelatedEvent;
 import cmp.model.events.Casualty;
 import cmp.model.events.CasualtyEntryEvent;
@@ -32,6 +30,7 @@ import cmp.util.Keyboard;
 import cmp.util.KeyboardEntries;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 
@@ -89,6 +88,12 @@ public class EventsTest {
                 break;
             case SHOW_ALL_CASUALTIES:
                 EventsTest.showAllCasualties();
+                break;
+            case SHOW_ALL_COLLECTIVE_CASUALTIES:
+                EventsTest.showAllCollectiveCasualties();
+                break;
+            case SHOW_ALL_NON_COLLECTIVE_CASUALTIES:
+                EventsTest.showAllNonCollectiveCasualties();
                 break;
             case SHOW_ALL_ENTRY_EVENTS:
                 EventsTest.showAllEntryEvents();
@@ -197,11 +202,11 @@ public class EventsTest {
             }
             EventsTest.register(entryEvent);
             System.out.println("The entry event registration succeeded!!!");
-        } catch (ProductionException | ProductionStateMachineException e) {
+        } catch (RuntimeException e) {
             System.out.println("The entry event registration failed: " + e.getMessage());
-        } catch (RuntimeException re) {
-            System.out.println("The entry event registration failed: " + re.getMessage());
             em.clear();
+        } catch (ProductionException e) {
+            System.out.println("The entry event registration failed: " + e.getMessage());
         }
     }
 
@@ -225,8 +230,6 @@ public class EventsTest {
             TimeClockEvent timeClockEvent = new TimeClockEvent(employee, arrival, timestamp, observation);
             EventsTest.register(timeClockEvent);
             System.out.println("The time clock event registration succeeded!!!");
-        } catch (ProductionStateMachineException e) {
-            System.out.println("The time clock event registration failed: " + e.getMessage() + "!!!");
         } catch (RuntimeException e) {
             System.out.println("The time clock event registration failed: " + e.getMessage() + "!!!");
             em.clear();
@@ -383,7 +386,7 @@ public class EventsTest {
                 entryEvent = new EntryEvent(sector, supervisor, phaseProductionOrder, subordinate, ProductionStates.RESTARTED, timestamp, observation);
                 EventsTest.register(entryEvent);
                 System.out.println(subordinate + "'s phase production order transaction succeeded!!!");
-            } catch (ProductionException | ProductionStateMachineException e) {
+            } catch (ProductionException e) {
                 System.out.println(subordinate + "'s phase production order transaction failed: " + e.getMessage());
             } catch (RuntimeException e) {
                 System.out.println(subordinate + "'s phase production order transaction failed: " + e.getMessage());
@@ -407,7 +410,7 @@ public class EventsTest {
                 casualtyEntryEvent = new CasualtyEntryEvent(casualty, sector, supervisor, phaseProductionOrder, subordinate, ProductionStates.PAUSED, 0, timestamp, observation);
                 EventsTest.register(casualtyEntryEvent);
                 System.out.println(subordinate + "'s phase production order transaction succeeded!!!");
-            } catch (ProductionException | ProductionStateMachineException e) {
+            } catch (ProductionException e) {
                 System.out.println(subordinate + "'s phase production order transaction failed: " + e.getMessage());
             } catch (RuntimeException e) {
                 System.out.println(subordinate + "'s phase production order transaction failed: " + e.getMessage());
@@ -416,28 +419,44 @@ public class EventsTest {
         }
     }
 
-    private static void showAllCasualties() {
+    public static void showAllCasualties() {
         System.out.println("Showing all registered casualties ...");
         CasualtyDAO casualtyDAO = new CasualtyDAO(em);
         for (Casualty casualty : casualtyDAO.findAll()) {
-            System.out.println("Casualty: " + casualty);
+            System.out.println("Casualty: " + casualty + (casualty.isCollective() ? "*" : ""));
         }
         System.out.println("\nOBS.: (*) collective casualty.");
     }
 
-    private static void showAllEntryEvents() {
+    public static void showAllCollectiveCasualties() {
+        System.out.println("Showing all registered collective casualties ...");
+        CasualtyDAO casualtyDAO = new CasualtyDAO(em);
+        for (Casualty casualty : casualtyDAO.findCollectives()) {
+            System.out.println("Casualty: " + casualty);
+        }
+    }
+
+    public static void showAllNonCollectiveCasualties() {
+        System.out.println("Showing all registered non collective casualties ...");
+        CasualtyDAO casualtyDAO = new CasualtyDAO(em);
+        for (Casualty casualty : casualtyDAO.findNonCollectives()) {
+            System.out.println("Casualty: " + casualty);
+        }
+    }
+
+    public static void showAllEntryEvents() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private static void showAllTimeClockEvents() {
+    public static void showAllTimeClockEvents() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private static void showAllEvents() {
+    public static void showAllEvents() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private static void importEntryEvents() {
+    public static void importEntryEvents() {
         System.out.println("\nImporting entry events ...");
         Keyboard keyboard = Keyboard.getKeyboard();
         String fileName = keyboard.readString("Enter the file name: ");
@@ -448,12 +467,12 @@ public class EventsTest {
             events.addAll(reader.getEmployeeRelatedEventsList());
             EventsTest.register(events);
             System.out.println("Entry events importation succeeded!!!");
-        } catch (IOException | ProductionStateMachineException e) {
+        } catch (IOException e) {
             System.out.println("Entry events importation failed: " + e.getMessage());
         }
     }
 
-    private static void importTimeClockEvents() {
+    public static void importTimeClockEvents() {
         System.out.println("\nImporting time clock events ...");
         Keyboard keyboard = Keyboard.getKeyboard();
         String fileName = keyboard.readString("Enter the file name: ");
@@ -464,7 +483,7 @@ public class EventsTest {
             events.addAll(reader.getEmployeeRelatedEventsList());
             EventsTest.register(events);
             System.out.println("Time clock events importation succeeded!!!");
-        } catch (IOException | ProductionStateMachineException e) {
+        } catch (IOException e) {
             System.out.println("Time clock events importation failed: " + e.getMessage());
         }
     }
@@ -477,7 +496,7 @@ public class EventsTest {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private static void reportPerformancePerSupervisor() {
+    public static void reportPerformancePerSupervisor() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -493,18 +512,24 @@ public class EventsTest {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
+    public static void registerCasualties(Collection<Casualty> casualties) {
+        for (Casualty casualty : casualties) {
+            register(casualty);
+        }
+    }
+    
     public static void register(Casualty casualty) {
         CasualtyDAO casualtyDAO = new CasualtyDAO(em);
         casualtyDAO.create(casualty);
     }
     
-    public static void register(EmployeeRelatedEventsList<? extends AbstractEmployeeRelatedEvent> events) throws ProductionStateMachineException {
+    public static void register(EmployeeRelatedEventsList<? extends AbstractEmployeeRelatedEvent> events) {
         for (AbstractEmployeeRelatedEvent event : events) { 
             EventsTest.register(event);
         }
     }
     
-    public static void register(AbstractEmployeeRelatedEvent event) throws ProductionStateMachineException {
+    public static void register(AbstractEmployeeRelatedEvent event) {
         if (event instanceof TimeClockEvent) {
             TimeClockEventDAO timeClockEventDAO = new TimeClockEventDAO(em);
             timeClockEventDAO.create((TimeClockEvent) event);

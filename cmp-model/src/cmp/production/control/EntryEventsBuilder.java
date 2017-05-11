@@ -89,7 +89,7 @@ public class EntryEventsBuilder {
         buildEntryEvent(new CasualtyEntryEvent(casualty, sector, supervisor, phaseProductionOrder, subordinate, productionState, producedQuantity, eventDate, observation));
     }
     
-    private void buildEntryEvent(EntryEvent entryEvent) throws ProductionException {
+    protected void buildEntryEvent(EntryEvent entryEvent) throws ProductionException {
         try {
             processStateTransition(entryEvent);
             entryEvents.add(entryEvent);

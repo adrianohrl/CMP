@@ -17,23 +17,22 @@ import java.util.List;
 /**
  *
  * @author adrianohrl
- * @param <T>
  */
-public class EntryEventsList<T extends EntryEvent> extends EmployeeRelatedEventsList<T> {
+public class EntryEventsList extends EmployeeRelatedEventsList<EntryEvent> {
 
     public EntryEventsList() {
     }
 
-    public EntryEventsList(List<AbstractEmployeeRelatedEvent> events) {
-        for (AbstractEmployeeRelatedEvent event : events) {
-            if (event instanceof EntryEvent) {
-                super.add((T) event);
-            }
-        }
+    public EntryEventsList(Collection<? extends EntryEvent> c) {
+        super(c);
     }
 
-    public EntryEventsList(Collection<? extends T> c) {
-        super(c);
+    public EntryEventsList(EmployeeRelatedEventsList<? extends AbstractEmployeeRelatedEvent> events) {
+        for (AbstractEmployeeRelatedEvent event : events) {
+            if (event instanceof EntryEvent) {
+                super.add((EntryEvent) event);
+            }
+        }
     }
     
     public List<Phase> getPhases() {

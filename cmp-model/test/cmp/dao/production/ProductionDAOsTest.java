@@ -37,8 +37,8 @@ public class ProductionDAOsTest {
             ProductionTest.registerModels(models.values());
             ProductionDAOsTest.createProductionOrders();
             ProductionTest.registerProductionOrders(productionOrders.values());
-            ProductionDAOsTest.createPhaseProductionOrders();
-            ProductionTest.registerPhaseProductionOrders(phaseProductionOrders);
+            //ProductionDAOsTest.createPhaseProductionOrders();
+            //ProductionTest.registerPhaseProductionOrders(phaseProductionOrders);
             ProductionTest.showAllRegisteredPhases();
             ProductionTest.showAllRegisteredModels();
             ProductionTest.showAllRegisteredProductionOrders();
@@ -46,9 +46,9 @@ public class ProductionDAOsTest {
             ProductionTest.showAllRegisteredPendentPhaseProductionOrders();
         } catch (RuntimeException e) {
             System.out.println("Exception catched: " + e.getMessage());
-        } catch (ProductionException pe) {
+        } /*catch (ProductionException pe) {
             System.out.println("Production exception catched: " + pe.getMessage());
-        } finally {
+        } */finally {
             em.close();
             DataSource.closeEntityManagerFactory();
         }
