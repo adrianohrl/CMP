@@ -6,11 +6,14 @@
 package cmp.dao.events;
 
 import cmp.dao.production.PhaseProductionOrderDAO;
+import cmp.exceptions.DAOException;
 import cmp.model.events.EntryEvent;
 import cmp.model.personal.Sector;
+import cmp.model.personal.Subordinate;
 import cmp.model.personal.Supervisor;
 import cmp.model.production.ProductionStates;
 import cmp.production.reports.filters.EntryEventsList;
+import java.util.Calendar;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 
@@ -80,6 +83,14 @@ public class EntryEventDAO<E extends EntryEvent> extends AbstractEmployeeRelated
                 + "WHERE ee.phaseProductionOrder.pendent = TRUE "
                 + "AND sec.name = '" + sector.getName() + "' "
                 + "AND ee.productionState = " + ProductionStates.PAUSED.ordinal()).getResultList());
+    }
+    
+    public EntryEventsList findSubordinateEntryEvents(Subordinate subordinate) {
+        return new EntryEventsList(super.findEmployeeEvents(subordinate));
+    }
+    
+    public EntryEventsList findSubordinateEntryEvents(Subordinate subordinate, Calendar start, Calendar end) throws DAOException {
+        return new EntryEventsList(super.findEmployeeEvents(subordinate, start, end));
     }
     
 }

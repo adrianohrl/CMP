@@ -19,7 +19,7 @@ import javax.persistence.PersistenceException;
 public abstract class DAO<E, K> {
     
     protected EntityManager em;
-    private final Class<E> clazz;
+    protected final Class<E> clazz;
     
     protected DAO(EntityManager em, Class clazz) {
         this.em = em;

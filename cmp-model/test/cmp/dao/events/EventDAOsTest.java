@@ -45,7 +45,7 @@ public class EventDAOsTest {
             //String fileName = keyboard.readString("Enter the file name to import time clock events: ");
             String fileName = "../others/tests/ImportTimeClockEvents1.csv";
             TimeClockEventsReaderDAO timeClockEventsReader = new TimeClockEventsReaderDAO(em, fileName);
-            //timeClockEventsReader.readFile();
+            timeClockEventsReader.readFile();
             //fileName = keyboard.readString("Enter the file name to import entry events: ");
             fileName = "../others/tests/ImportEntryEvents1.csv";
             EntryEventsReaderDAO entryEventsReader = new EntryEventsReaderDAO(em, fileName);

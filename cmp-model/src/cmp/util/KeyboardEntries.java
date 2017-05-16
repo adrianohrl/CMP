@@ -118,7 +118,7 @@ public class KeyboardEntries {
         Calendar timestamp = null;
         while (timestamp == null) {
             try {
-                date = keyboard.readString("date (" + Calendars.DATE_FORMAT + ") (default: today):");
+                date = keyboard.readString("date (" + Calendars.DATE_FORMAT + ") (default: today): ");
                 time = keyboard.readString("time (" + Calendars.TIME_FORMAT + ") (default: now): ");
                 timestamp = Calendars.sum(date, time);
             } catch (IOException ioe) {

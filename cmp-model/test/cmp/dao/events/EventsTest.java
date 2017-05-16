@@ -10,8 +10,10 @@ import cmp.dao.events.io.EntryEventsReaderDAO;
 import cmp.dao.events.io.TimeClockEventsReaderDAO;
 import cmp.dao.personal.PersonalKeyboardEntries;
 import cmp.dao.production.ProductionKeyboardEntries;
+import cmp.exceptions.DAOException;
 import cmp.exceptions.IOException;
 import cmp.exceptions.ProductionException;
+import cmp.exceptions.ProductionStateMachineException;
 import cmp.model.events.AbstractEmployeeRelatedEvent;
 import cmp.model.events.Casualty;
 import cmp.model.events.CasualtyEntryEvent;
@@ -26,6 +28,7 @@ import cmp.model.production.ProductionStates;
 import cmp.production.reports.filters.EmployeeRelatedEventsList;
 import cmp.production.reports.filters.EntryEventsList;
 import cmp.production.reports.filters.FindByEmployee;
+import cmp.util.CalendarFormat;
 import cmp.util.Keyboard;
 import cmp.util.KeyboardEntries;
 import java.util.ArrayList;
@@ -98,11 +101,20 @@ public class EventsTest {
             case SHOW_ALL_ENTRY_EVENTS:
                 EventsTest.showAllEntryEvents();
                 break;
+            case SHOW_PERIOD_ENTRY_EVENTS:
+                EventsTest.showPeriodEntryEvents();
+                break;
             case SHOW_ALL_TIME_CLOCK_EVENTS:
                 EventsTest.showAllTimeClockEvents();
                 break;
+            case SHOW_PERIOD_TIME_CLOCK_EVENTS:
+                EventsTest.showPeriodTimeClockEvents();
+                break;
             case SHOW_ALL_EVENTS:
                 EventsTest.showAllEvents();
+                break;
+            case SHOW_PERIOD_EVENTS:
+                EventsTest.showPeriodEvents();
                 break;
             case IMPORT_ENTRY_EVENTS:
                 EventsTest.importEntryEvents();
@@ -200,12 +212,13 @@ public class EventsTest {
                 default:
                     System.out.println("Invalid production state!!!");
             }
+            phaseProductionOrder.process(entryEvent);
             EventsTest.register(entryEvent);
             System.out.println("The entry event registration succeeded!!!");
         } catch (RuntimeException e) {
             System.out.println("The entry event registration failed: " + e.getMessage());
             em.clear();
-        } catch (ProductionException e) {
+        } catch (ProductionException | ProductionStateMachineException e) {
             System.out.println("The entry event registration failed: " + e.getMessage());
         }
     }
@@ -234,7 +247,6 @@ public class EventsTest {
             System.out.println("The time clock event registration failed: " + e.getMessage() + "!!!");
             em.clear();
         } 
-        
     }
 
     private static void createCollectiveEntryEventPerSubordinates() {
@@ -445,15 +457,111 @@ public class EventsTest {
     }
 
     public static void showAllEntryEvents() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        System.out.println("Showing all registered subordinate entry events ...");
+        Subordinate subordinate = PersonalKeyboardEntries.selectOneSubordinate();
+        if (subordinate == null) {
+            return;
+        }
+        EventsTest.showSubordinateEntryEvents(subordinate);        
+    }
+    
+    public static void showPeriodEntryEvents() {
+        Calendar start = KeyboardEntries.askForDateAndTime();
+        Calendar end = KeyboardEntries.askForDateAndTime();
+        System.out.println("Showing registered subordinate period entry events from " + CalendarFormat.format(start) + " to " + CalendarFormat.format(end) + " ...");
+        Subordinate subordinate = PersonalKeyboardEntries.selectOneSubordinate();
+        if (subordinate == null) {
+            return;
+        }
+        try {
+            EventsTest.showSubordinateEntryEvents(subordinate, start, end);
+        } catch (DAOException e) {
+            System.out.println("DAOException catched: " + e.getMessage());
+        }
+    }
+    
+    private static void showSubordinateEntryEvents(Subordinate subordinate) {
+        EntryEventDAO entryEventDAO = new EntryEventDAO(em);
+        EventsTest.showEvents(entryEventDAO.findSubordinateEntryEvents(subordinate));
+    }
+    
+    private static void showSubordinateEntryEvents(Subordinate subordinate, Calendar start, Calendar end) throws DAOException {
+        EntryEventDAO entryEventDAO = new EntryEventDAO(em);
+        EventsTest.showEvents(entryEventDAO.findSubordinateEntryEvents(subordinate, start, end));
+    }
+    
+    private static void showEvents(List<? extends AbstractEmployeeRelatedEvent> events) {
+        for (AbstractEmployeeRelatedEvent event : events) {
+            System.out.println("\t" + event);
+        }
     }
 
     public static void showAllTimeClockEvents() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        System.out.println("Showing all registered employee time clock events ...");
+        Employee employee = PersonalKeyboardEntries.selectOneEmployee();
+        if (employee == null) {
+            return;
+        }
+        EventsTest.showEmployeeTimeClockEvents(employee);
+    }
+    
+    public static void showPeriodTimeClockEvents() {
+        Calendar start = KeyboardEntries.askForDateAndTime();
+        Calendar end = KeyboardEntries.askForDateAndTime();
+        System.out.println("Showing registered employee period time clock events from " + CalendarFormat.format(start) + " to " + CalendarFormat.format(end) + " ...");
+        Employee employee = PersonalKeyboardEntries.selectOneEmployee();
+        if (employee == null) {
+            return;
+        }
+        try {
+            EventsTest.showEmployeeTimeClockEvents(employee, start, end);
+        } catch (DAOException e) {
+            System.out.println("DAOException catched: " + e.getMessage());
+        }
+    }
+    
+    private static void showEmployeeTimeClockEvents(Employee employee) {
+        TimeClockEventDAO timeClockEventDAO = new TimeClockEventDAO(em);
+        EventsTest.showEvents(timeClockEventDAO.findEmployeeEvents(employee));
+    }
+    
+    private static void showEmployeeTimeClockEvents(Employee employee, Calendar start, Calendar end) throws DAOException {
+        TimeClockEventDAO timeClockEventDAO = new TimeClockEventDAO(em);
+        EventsTest.showEvents(timeClockEventDAO.findEmployeeEvents(employee, start, end));
     }
 
     public static void showAllEvents() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        System.out.println("Showing all registered employee events ...");
+        Employee employee = PersonalKeyboardEntries.selectOneEmployee();
+        if (employee == null) {
+            return;
+        }
+        EventsTest.showEmployeeEvents(employee);
+    }
+
+    public static void showPeriodEvents() {
+        Calendar start = KeyboardEntries.askForDateAndTime();
+        Calendar end = KeyboardEntries.askForDateAndTime();
+        System.out.println("Showing registered employee period events " + CalendarFormat.format(start) + " to " + CalendarFormat.format(end) + " ...");
+        Employee employee = PersonalKeyboardEntries.selectOneEmployee();
+        if (employee == null) {
+            return;
+        }
+        try {
+            EventsTest.showEmployeeEvents(employee, start, end);
+        } catch (DAOException e) {
+            System.out.println("DAOException catched: " + e.getMessage());
+        }
+    }
+    
+    private static void showEmployeeEvents(Employee employee) {
+        AbstractEmployeeRelatedEventDAO eventDAO = new AbstractEmployeeRelatedEventDAO(em);
+        EventsTest.showEvents(eventDAO.findEmployeeEvents(employee));
+    }
+    
+    private static void showEmployeeEvents(Employee employee, Calendar start, Calendar end) throws DAOException {
+        AbstractEmployeeRelatedEventDAO eventDAO = new AbstractEmployeeRelatedEventDAO(em);
+        EventsTest.showEvents(eventDAO.findEmployeeEvents(employee, start, end));
     }
 
     public static void importEntryEvents() {
