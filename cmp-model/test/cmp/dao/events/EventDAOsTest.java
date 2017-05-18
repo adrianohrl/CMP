@@ -5,13 +5,13 @@
  */
 package cmp.dao.events;
 
-import cmp.dao.DataSource;
-import cmp.dao.events.io.EntryEventsReaderDAO;
-import cmp.dao.events.io.TimeClockEventsReaderDAO;
+import cmp.control.dao.DataSource;
+import cmp.control.dao.events.io.EntryEventsReaderDAO;
+import cmp.control.dao.events.io.TimeClockEventsReaderDAO;
 import cmp.exceptions.IOException;
 import cmp.exceptions.ProductionStateMachineException;
 import cmp.model.events.Casualty;
-import cmp.production.reports.filters.EmployeeRelatedEventsList;
+import cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
 import cmp.util.Keyboard;
 import java.util.ArrayList;
 import java.util.List;

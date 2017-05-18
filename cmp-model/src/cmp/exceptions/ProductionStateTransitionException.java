@@ -5,7 +5,7 @@
  */
 package cmp.exceptions;
 
-import cmp.production.control.AbstractProductionState;
+import cmp.control.model.production.AbstractProductionState;
 
 /**
  *

@@ -5,7 +5,7 @@
  */
 package cmp.dao.production;
 
-import cmp.dao.DataSource;
+import cmp.control.dao.DataSource;
 import cmp.exceptions.ProductionException;
 import cmp.model.production.Model;
 import cmp.model.production.Phase;
@@ -37,8 +37,8 @@ public class ProductionDAOsTest {
             ProductionTest.registerModels(models.values());
             ProductionDAOsTest.createProductionOrders();
             ProductionTest.registerProductionOrders(productionOrders.values());
-            //ProductionDAOsTest.createPhaseProductionOrders();
-            //ProductionTest.registerPhaseProductionOrders(phaseProductionOrders);
+            ProductionDAOsTest.createPhaseProductionOrders();
+            ProductionTest.registerPhaseProductionOrders(phaseProductionOrders);
             ProductionTest.showAllRegisteredPhases();
             ProductionTest.showAllRegisteredModels();
             ProductionTest.showAllRegisteredProductionOrders();
@@ -46,9 +46,9 @@ public class ProductionDAOsTest {
             ProductionTest.showAllRegisteredPendentPhaseProductionOrders();
         } catch (RuntimeException e) {
             System.out.println("Exception catched: " + e.getMessage());
-        } /*catch (ProductionException pe) {
+        } catch (ProductionException pe) {
             System.out.println("Production exception catched: " + pe.getMessage());
-        } */finally {
+        } finally {
             em.close();
             DataSource.closeEntityManagerFactory();
         }
@@ -81,19 +81,24 @@ public class ProductionDAOsTest {
         productionOrders = new HashMap<>();
         productionOrders.put("Blusa PP", new ProductionOrder("Blusa PP", models.get("Blusa 2017")));
         productionOrders.put("Blusa P", new ProductionOrder("Blusa P", models.get("Blusa 2017")));
+        productionOrders.put("Blusa M", new ProductionOrder("Blusa M", models.get("Blusa 2017")));
+        productionOrders.put("Blusa G", new ProductionOrder("Blusa G", models.get("Blusa 2017")));
         productionOrders.put("Cacharrel P", new ProductionOrder("Cacharrel P", models.get("Cacharrel 2017")));
         productionOrders.put("Cacharrel M", new ProductionOrder("Cacharrel M", models.get("Cacharrel 2017")));
+        productionOrders.put("Cacharrel G", new ProductionOrder("Cacharrel G", models.get("Cacharrel 2017")));
+        productionOrders.put("Cacharrel GG", new ProductionOrder("Cacharrel GG", models.get("Cacharrel 2017")));
     }
 
     private static void createPhaseProductionOrders() throws ProductionException {
         phaseProductionOrders = new ArrayList<>();
-        phaseProductionOrders.add(new PhaseProductionOrder(phases.get("Overloque"), productionOrders.get("Blusa PP"), 80));
-        phaseProductionOrders.add(new PhaseProductionOrder(phases.get("Travete"), productionOrders.get("Cacharrel P"), 30));
-        phaseProductionOrders.add(new PhaseProductionOrder(phases.get("Overloque"), productionOrders.get("Blusa P"), 40));
-        phaseProductionOrders.add(new PhaseProductionOrder(phases.get("Overloque"), productionOrders.get("Cacharrel P"), 30));
-        phaseProductionOrders.add(new PhaseProductionOrder(phases.get("Reta"), productionOrders.get("Cacharrel P"), 30));
-        phaseProductionOrders.add(new PhaseProductionOrder(phases.get("Overloque"), productionOrders.get("Cacharrel M"), 40));
-        phaseProductionOrders.add(new PhaseProductionOrder(phases.get("Reta"), productionOrders.get("Cacharrel M"), 35));
+        phaseProductionOrders.add(new PhaseProductionOrder(phases.get("Overloque"), productionOrders.get("Blusa M"), 20));
+        phaseProductionOrders.add(new PhaseProductionOrder(phases.get("Overloque"), productionOrders.get("Blusa G"), 10));
+        phaseProductionOrders.add(new PhaseProductionOrder(phases.get("Overloque"), productionOrders.get("Cacharrel G"), 15));
+        phaseProductionOrders.add(new PhaseProductionOrder(phases.get("Overloque"), productionOrders.get("Cacharrel G"), 25));
+        phaseProductionOrders.add(new PhaseProductionOrder(phases.get("Travete"), productionOrders.get("Cacharrel G"), 45));
+        phaseProductionOrders.add(new PhaseProductionOrder(phases.get("Travete"), productionOrders.get("Cacharrel G"), 25));
+        phaseProductionOrders.add(new PhaseProductionOrder(phases.get("Reta"), productionOrders.get("Cacharrel G"), 70));
+        phaseProductionOrders.add(new PhaseProductionOrder(phases.get("Reta"), productionOrders.get("Cacharrel G"), 20));
     }
     
 }

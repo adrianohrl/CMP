@@ -5,7 +5,8 @@
  */
 package cmp.dao.events;
 
-import cmp.dao.DataSource;
+import cmp.control.dao.events.CasualtyDAO;
+import cmp.control.dao.DataSource;
 import cmp.model.events.Casualty;
 import cmp.util.KeyboardEntries;
 import java.util.List;

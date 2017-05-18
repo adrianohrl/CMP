@@ -13,6 +13,8 @@ import javax.persistence.Entity;
  */
 @Entity
 public class Subordinate extends Employee {
+    
+    //private boolean available = true;
 
     public Subordinate() {
     }
@@ -20,5 +22,18 @@ public class Subordinate extends Employee {
     public Subordinate(String code, String name) {
         super(code, name);
     }
+
+    /*public Subordinate(String code, String name, boolean available) {
+        super(code, name);
+        this.available = available;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }*/
     
 }

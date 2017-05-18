@@ -16,10 +16,10 @@ import cmp.model.production.Phase;
 import cmp.model.production.PhaseProductionOrder;
 import cmp.model.production.ProductionOrder;
 import cmp.model.production.ProductionStates;
-import cmp.production.control.EntryEventsBuilder;
-import cmp.production.reports.EmployeeEventsPeriodBuilder;
-import cmp.production.reports.EventsPeriodBuilder;
-import cmp.production.reports.filters.EmployeeRelatedEventsList;
+import cmp.control.model.production.EntryEventsBuilder;
+import cmp.control.model.production.reports.EmployeeEventsPeriodBuilder;
+import cmp.control.model.production.reports.EventsPeriodBuilder;
+import cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 

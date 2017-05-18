@@ -5,7 +5,11 @@
  */
 package cmp.dao.personal;
 
-import cmp.dao.DataSource;
+import cmp.control.dao.personal.ManagerDAO;
+import cmp.control.dao.personal.SupervisorDAO;
+import cmp.control.dao.personal.SubordinateDAO;
+import cmp.control.dao.personal.SectorDAO;
+import cmp.control.dao.DataSource;
 import cmp.model.personal.Employee;
 import cmp.model.personal.Manager;
 import cmp.model.personal.Sector;

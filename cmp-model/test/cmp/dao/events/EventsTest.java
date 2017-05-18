@@ -5,9 +5,14 @@
  */
 package cmp.dao.events;
 
-import cmp.dao.DataSource;
-import cmp.dao.events.io.EntryEventsReaderDAO;
-import cmp.dao.events.io.TimeClockEventsReaderDAO;
+import cmp.control.dao.events.CasualtyDAO;
+import cmp.control.dao.events.CasualtyEntryEventDAO;
+import cmp.control.dao.events.AbstractEmployeeRelatedEventDAO;
+import cmp.control.dao.events.EntryEventDAO;
+import cmp.control.dao.events.TimeClockEventDAO;
+import cmp.control.dao.DataSource;
+import cmp.control.dao.events.io.EntryEventsReaderDAO;
+import cmp.control.dao.events.io.TimeClockEventsReaderDAO;
 import cmp.dao.personal.PersonalKeyboardEntries;
 import cmp.dao.production.ProductionKeyboardEntries;
 import cmp.exceptions.DAOException;
@@ -27,10 +32,10 @@ import cmp.model.personal.Supervisor;
 import cmp.model.production.Phase;
 import cmp.model.production.PhaseProductionOrder;
 import cmp.model.production.ProductionStates;
-import cmp.production.reports.EmployeeEventsPeriodBuilder;
-import cmp.production.reports.filters.EmployeeRelatedEventsList;
-import cmp.production.reports.filters.EntryEventsList;
-import cmp.production.reports.filters.FindByEmployee;
+import cmp.control.model.production.reports.EmployeeEventsPeriodBuilder;
+import cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
+import cmp.control.model.production.reports.filters.EntryEventsList;
+import cmp.control.model.production.reports.filters.FindByEmployee;
 import cmp.util.CalendarFormat;
 import cmp.util.Calendars;
 import cmp.util.Keyboard;
@@ -41,6 +46,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 
 /**
@@ -366,6 +373,7 @@ public class EventsTest {
         }
         if (entryEvents.isEmpty()) {
             System.out.println("There is no phase production order that can be taken to this state in the present moment!!!");
+            return;
         }
         List<Subordinate> subordinates = KeyboardEntries.selectMany(entryEvents.getInvolvedSubordinates(), "subordinate");
         Calendar timestamp = KeyboardEntries.askForDateAndTime();
@@ -400,11 +408,15 @@ public class EventsTest {
             supervisor = previousEntryEvent.getSupervisor();
             phaseProductionOrder = previousEntryEvent.getPhaseProductionOrder();
             subordinate = previousEntryEvent.getSubordinate();
+            if (subordinate == null) {
+                continue;
+            }
             try {
                 entryEvent = new EntryEvent(sector, supervisor, phaseProductionOrder, subordinate, ProductionStates.RESTARTED, timestamp, observation);
+                phaseProductionOrder.process(entryEvent);
                 EventsTest.register(entryEvent);
                 System.out.println(subordinate + "'s phase production order transaction succeeded!!!");
-            } catch (ProductionException e) {
+            } catch (ProductionException | ProductionStateMachineException e) {
                 System.out.println(subordinate + "'s phase production order transaction failed: " + e.getMessage());
             } catch (RuntimeException e) {
                 System.out.println(subordinate + "'s phase production order transaction failed: " + e.getMessage());
@@ -424,16 +436,20 @@ public class EventsTest {
             supervisor = previousEntryEvent.getSupervisor();
             phaseProductionOrder = previousEntryEvent.getPhaseProductionOrder();
             subordinate = previousEntryEvent.getSubordinate();
+            if (subordinate == null) {
+                continue;
+            }
             try {
                 casualtyEntryEvent = new CasualtyEntryEvent(casualty, sector, supervisor, phaseProductionOrder, subordinate, ProductionStates.PAUSED, 0, timestamp, observation);
+                phaseProductionOrder.process(casualtyEntryEvent);
                 EventsTest.register(casualtyEntryEvent);
                 System.out.println(subordinate + "'s phase production order transaction succeeded!!!");
-            } catch (ProductionException e) {
+            } catch (ProductionException | ProductionStateMachineException e) {
                 System.out.println(subordinate + "'s phase production order transaction failed: " + e.getMessage());
             } catch (RuntimeException e) {
                 System.out.println(subordinate + "'s phase production order transaction failed: " + e.getMessage());
                 em.clear();
-            }
+            } 
         }
     }
 

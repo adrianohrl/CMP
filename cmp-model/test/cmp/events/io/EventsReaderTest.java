@@ -5,12 +5,14 @@
  */
 package cmp.events.io;
 
+import cmp.control.model.events.io.TimeClockEventsReader;
+import cmp.control.model.events.io.EntryEventsReader;
 import cmp.exceptions.IOException;
 import cmp.exceptions.ReportException;
 import cmp.model.production.Phase;
-import cmp.production.reports.EmployeeEventsPeriodBuilder;
-import cmp.production.reports.EventsPeriodBuilder;
-import cmp.production.reports.filters.EmployeeRelatedEventsList;
+import cmp.control.model.production.reports.EmployeeEventsPeriodBuilder;
+import cmp.control.model.production.reports.EventsPeriodBuilder;
+import cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
 import cmp.util.Keyboard;
 
 /**

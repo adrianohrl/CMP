@@ -9,7 +9,7 @@ import cmp.exceptions.ProductionException;
 import cmp.exceptions.ProductionStateMachineException;
 import cmp.model.events.EntryEvent;
 import cmp.model.personal.Subordinate;
-import cmp.production.control.ProductionStateMachineController;
+import cmp.control.model.production.ProductionStateMachineController;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

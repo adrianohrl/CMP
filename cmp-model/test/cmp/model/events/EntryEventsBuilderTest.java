@@ -15,7 +15,7 @@ import cmp.model.production.PhaseProductionOrder;
 import cmp.exceptions.ProductionException;
 import cmp.model.production.ProductionOrder;
 import cmp.model.production.ProductionStates;
-import cmp.production.control.EntryEventsBuilder;
+import cmp.control.model.production.EntryEventsBuilder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.GregorianCalendar;

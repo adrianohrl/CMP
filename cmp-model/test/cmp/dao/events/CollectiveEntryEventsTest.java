@@ -5,13 +5,14 @@
  */
 package cmp.dao.events;
 
-import cmp.dao.DataSource;
-import cmp.dao.personal.SectorDAO;
-import cmp.dao.personal.SupervisorDAO;
+import cmp.control.dao.events.EntryEventDAO;
+import cmp.control.dao.DataSource;
+import cmp.control.dao.personal.SectorDAO;
+import cmp.control.dao.personal.SupervisorDAO;
 import cmp.model.events.EntryEvent;
 import cmp.model.personal.Sector;
 import cmp.model.personal.Supervisor;
-import cmp.production.reports.filters.EntryEventsList;
+import cmp.control.model.production.reports.filters.EntryEventsList;
 import javax.persistence.EntityManager;
 
 /**
@@ -20,9 +21,12 @@ import javax.persistence.EntityManager;
  */
 public class CollectiveEntryEventsTest {
     
+    private static EntityManager em = DataSource.createEntityManager();
+    private static EntryEventsList entryEvents;
+    
     public static void main(String[] args) {
-        EntityManager em = DataSource.createEntityManager();
         try {
+            CollectiveEntryEventsTest.createEntryEvents();
             EntryEventDAO entryEventDAO = new EntryEventDAO(em);
             EntryEventsList entryEvents = entryEventDAO.findEntryEventsThatCanBeRestarted();
             System.out.println("\nEntryEventsThatCanBeRestarted");
@@ -63,6 +67,12 @@ public class CollectiveEntryEventsTest {
         }
         em.close();
         DataSource.closeEntityManagerFactory();
+    }
+    
+    private static void createEntryEvents() {
+        entryEvents = new EntryEventsList();
+        SupervisorDAO supervisorDAO = new SupervisorDAO(em);
+        Supervisor supervisor = supervisorDAO.find("Ana");
     }
     
 }
