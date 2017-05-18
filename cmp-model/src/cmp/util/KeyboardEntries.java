@@ -128,4 +128,34 @@ public class KeyboardEntries {
         return timestamp;
     }
     
+    public static Calendar askForDate() {
+        Keyboard keyboard = Keyboard.getKeyboard();
+        String date;
+        Calendar timestamp = null;
+        while (timestamp == null) {
+            try {
+                date = keyboard.readString("date (" + Calendars.DATE_FORMAT + ") (default: today): ");
+                timestamp = Calendars.getDate(date);
+            } catch (IOException ioe) {
+                System.out.println(ioe.getMessage());
+            }
+        }
+        return timestamp;
+    }
+    
+    public static Calendar askForTime() {
+        Keyboard keyboard = Keyboard.getKeyboard();
+        String time;
+        Calendar timestamp = null;
+        while (timestamp == null) {
+            try {
+                time = keyboard.readString("time (" + Calendars.TIME_FORMAT + ") (default: now): ");
+                timestamp = Calendars.getDate(time);
+            } catch (IOException ioe) {
+                System.out.println(ioe.getMessage());
+            }
+        }
+        return timestamp;
+    }
+    
 }

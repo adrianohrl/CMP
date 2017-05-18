@@ -23,7 +23,7 @@ public class Calendars {
     private final static DateFormat dateFormatter = new SimpleDateFormat(Calendars.DATE_FORMAT);
     private final static DateFormat timeFormatter = new SimpleDateFormat(Calendars.TIME_FORMAT);
     
-    private static Calendar getTime(String time) throws IOException {
+    public static Calendar getTime(String time) throws IOException {
         Calendar timeCalendar = new GregorianCalendar();
         if (time == null || time.isEmpty()) {
             return timeCalendar;
@@ -36,7 +36,7 @@ public class Calendars {
         return timeCalendar;
     }
     
-    private static Calendar getDate(String date) throws IOException {
+    public static Calendar getDate(String date) throws IOException {
         Calendar dateCalendar = new GregorianCalendar();
         if (date == null || date.isEmpty()) {
             return dateCalendar;

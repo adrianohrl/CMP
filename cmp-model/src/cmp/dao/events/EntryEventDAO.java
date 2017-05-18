@@ -85,12 +85,4 @@ public class EntryEventDAO<E extends EntryEvent> extends AbstractEmployeeRelated
                 + "AND ee.productionState = " + ProductionStates.PAUSED.ordinal()).getResultList());
     }
     
-    public EntryEventsList findSubordinateEntryEvents(Subordinate subordinate) {
-        return new EntryEventsList(super.findEmployeeEvents(subordinate));
-    }
-    
-    public EntryEventsList findSubordinateEntryEvents(Subordinate subordinate, Calendar start, Calendar end) throws DAOException {
-        return new EntryEventsList(super.findEmployeeEvents(subordinate, start, end));
-    }
-    
 }

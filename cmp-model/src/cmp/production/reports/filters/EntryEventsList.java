@@ -26,14 +26,6 @@ public class EntryEventsList extends EmployeeRelatedEventsList<EntryEvent> {
     public EntryEventsList(Collection<? extends EntryEvent> c) {
         super(c);
     }
-
-    public EntryEventsList(EmployeeRelatedEventsList<? extends AbstractEmployeeRelatedEvent> events) {
-        for (AbstractEmployeeRelatedEvent event : events) {
-            if (event instanceof EntryEvent) {
-                super.add((EntryEvent) event);
-            }
-        }
-    }
     
     public List<Phase> getPhases() {
         ArrayList<Phase> phases = new ArrayList<>();
@@ -56,6 +48,16 @@ public class EntryEventsList extends EmployeeRelatedEventsList<EntryEvent> {
         }
         Collections.sort(subordinates);
         return subordinates;
+    }
+    
+    public static EntryEventsList convert(EmployeeRelatedEventsList<? extends AbstractEmployeeRelatedEvent> events) {
+        EntryEventsList entryEvents = new EntryEventsList();
+        for (AbstractEmployeeRelatedEvent event : events) {
+            if (event instanceof EntryEvent) {
+                entryEvents.add((EntryEvent) event);
+            }
+        }
+        return entryEvents;
     }
     
 }

@@ -14,6 +14,7 @@ import cmp.exceptions.DAOException;
 import cmp.exceptions.IOException;
 import cmp.exceptions.ProductionException;
 import cmp.exceptions.ProductionStateMachineException;
+import cmp.exceptions.ReportException;
 import cmp.model.events.AbstractEmployeeRelatedEvent;
 import cmp.model.events.Casualty;
 import cmp.model.events.CasualtyEntryEvent;
@@ -23,18 +24,23 @@ import cmp.model.personal.Employee;
 import cmp.model.personal.Sector;
 import cmp.model.personal.Subordinate;
 import cmp.model.personal.Supervisor;
+import cmp.model.production.Phase;
 import cmp.model.production.PhaseProductionOrder;
 import cmp.model.production.ProductionStates;
+import cmp.production.reports.EmployeeEventsPeriodBuilder;
 import cmp.production.reports.filters.EmployeeRelatedEventsList;
 import cmp.production.reports.filters.EntryEventsList;
 import cmp.production.reports.filters.FindByEmployee;
 import cmp.util.CalendarFormat;
+import cmp.util.Calendars;
 import cmp.util.Keyboard;
 import cmp.util.KeyboardEntries;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import javax.persistence.EntityManager;
 
 /**
@@ -482,12 +488,12 @@ public class EventsTest {
     
     private static void showSubordinateEntryEvents(Subordinate subordinate) {
         EntryEventDAO entryEventDAO = new EntryEventDAO(em);
-        EventsTest.showEvents(entryEventDAO.findSubordinateEntryEvents(subordinate));
+        EventsTest.showEvents(entryEventDAO.findEmployeeEvents(subordinate));
     }
     
     private static void showSubordinateEntryEvents(Subordinate subordinate, Calendar start, Calendar end) throws DAOException {
         EntryEventDAO entryEventDAO = new EntryEventDAO(em);
-        EventsTest.showEvents(entryEventDAO.findSubordinateEntryEvents(subordinate, start, end));
+        EventsTest.showEvents(entryEventDAO.findEmployeeEvents(subordinate, start, end));
     }
     
     private static void showEvents(List<? extends AbstractEmployeeRelatedEvent> events) {
@@ -596,28 +602,137 @@ public class EventsTest {
         }
     }
 
-    private static void reportPerformancePerSubordinate() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public static void reportPerformancePerSubordinate() {
+        System.out.println("Reporting subordinate performance ...");
+        Subordinate subordinate = PersonalKeyboardEntries.selectOneSubordinate();
+        System.out.println("Enter the start date:");
+        Calendar start = KeyboardEntries.askForDate();
+        System.out.println("Enter the end date:");
+        Calendar end = KeyboardEntries.askForDate();
+        try {
+            end = Calendars.sum(end, "23:59:59");
+        } catch (IOException e) {
+            System.out.println("IOException catched: " + e.getMessage());
+            return;
+        }
+        EventsTest.reportPerformance(subordinate, start, end);
+    }
+    
+    private static void reportPerformance(Subordinate subordinate, Calendar start, Calendar end) {
+        if (subordinate == null || start.after(end)) {
+            return;
+        }
+        System.out.println("\n\tReporting " + subordinate + "'s performance:");
+        AbstractEmployeeRelatedEventDAO eventsDAO = new AbstractEmployeeRelatedEventDAO(em);
+        try {
+            EmployeeRelatedEventsList events = eventsDAO.findEmployeeEvents(subordinate, start, end);
+            if (events.isEmpty()) {
+                System.out.println("\t\tNo activity found in the given period!!!");
+                return;
+            }
+            EmployeeEventsPeriodBuilder builder = new EmployeeEventsPeriodBuilder(subordinate, events);
+            for (Phase phase : builder.getPhases()) {
+                System.out.println("\t\tPhase: " + phase);
+                System.out.println("\t\t\tEffective Duration: " + builder.getEffectiveDuration(phase) + " [min]");
+                System.out.println("\t\t\tExpected Duration: " + builder.getExpectedDuration(phase) + " [min]");
+                System.out.println("\t\t\tProduced Quantity: " + builder.getProducedQuantity(phase) + " [un]");
+                System.out.println("\t\t\tReturned Quantity: " + builder.getReturnedQuantity(phase) + " [un]");
+                System.out.println("\t\t\tEffective Efficiency: " + (builder.getEffectiveEfficiency(phase) * 100) + " %");
+            }
+            System.out.println("\n\t\t-------------------------------------------------------------\n");
+            System.out.println("\t\tTotals:");
+            System.out.println("\t\t\tEffective Duration: " + builder.getTotalEffectiveDuration() + " [min]");
+            System.out.println("\t\t\tExpected Duration: " + builder.getTotalExpectedDuration() + " [min]");
+            System.out.println("\t\t\tFree Duration: " + builder.getTotalFreeDuration() + " [min]");
+            System.out.println("\t\t\tTotal Duration: " + builder.getTotalDuration() + " [min]");
+            System.out.println("\t\t\tProduced Quantity: " + builder.getTotalProducedQuantity() + " [un]");
+            System.out.println("\t\t\tReturned Quantity: " + builder.getTotalReturnedQuantity() + " [un]");
+            System.out.println("\t\t\tEffective Efficiency: " + (builder.getTotalEffectiveEfficiency() * 100) + " %");
+            System.out.println("\t\t\tTotal Efficiency: " + (builder.getTotalEfficiency() * 100) + " %");
+            System.out.println("\n=====================================================================");
+        } catch (DAOException e) {
+            System.out.println("DAOException catched: " + e.getMessage());
+        } catch (ReportException e) {
+            System.out.println("ReportException catched: " + e.getMessage());
+        }        
     }
 
-    private static void reportPerformancePerSubordinates() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public static void reportPerformancePerSubordinates() {
+        System.out.println("Reporting subordinates performance ...");
+        EventsTest.reportPermance(PersonalKeyboardEntries.selectManySubordinates());
+    }
+    
+    private static void reportPermance(Collection<Subordinate> subordinates) {
+        if (subordinates == null) {
+            return;
+        }
+        System.out.println("Enter the start date:");
+        Calendar start = KeyboardEntries.askForDate();
+        System.out.println("Enter the end date:");
+        Calendar end = KeyboardEntries.askForDate();
+        try {
+            end = Calendars.sum(end, "23:59:59");
+        } catch (IOException e) {
+            System.out.println("IOException catched: " + e.getMessage());
+            return;
+        }
+        for (Subordinate subordinate : subordinates) {
+            EventsTest.reportPerformance(subordinate, start, end);
+        }
     }
 
     public static void reportPerformancePerSupervisor() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        System.out.println("Reporting supervisor subordinates performance ...");
+        Supervisor supervisor = PersonalKeyboardEntries.selectOneSupervisor();
+        if (supervisor == null) {
+            return;
+        }
+        EventsTest.reportPermance(supervisor.getSubordinates());
     }
 
     private static void reportPerformancePerSupervisors() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        System.out.println("Reporting supervisors subordinates performance ...");
+        List<Supervisor> supervisors = PersonalKeyboardEntries.selectManySupervisors();
+        if (supervisors == null) {
+            return;
+        }
+        SortedSet<Subordinate> subordinates = new TreeSet<>();
+        for (Supervisor supervisor : supervisors) {
+            if (supervisor != null) {
+                subordinates.addAll(supervisor.getSubordinates());
+            }
+        }
+        EventsTest.reportPermance(subordinates);
     }
 
     private static void reportPerformancePerSector() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        System.out.println("Reporting sector subordinates performance ...");
+        Sector sector = PersonalKeyboardEntries.selectOneSector();
+        if (sector == null) {
+            return;
+        }
+        Supervisor supervisor = sector.getSupervisor();
+        if (supervisor == null) {
+            return;
+        }
+        EventsTest.reportPermance(supervisor.getSubordinates());        
     }
 
     private static void reportPerformancePerSectors() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        System.out.println("Reporting sectors subordinates performance ...");
+        List<Sector> sectors = PersonalKeyboardEntries.selectManySectors();
+        if (sectors == null) {
+            return;
+        }
+        Supervisor supervisor;
+        SortedSet<Subordinate> subordinates = new TreeSet<>();
+        for (Sector sector : sectors) {
+            supervisor = sector.getSupervisor();
+            if (supervisor != null) {
+                subordinates.addAll(supervisor.getSubordinates());
+            }
+        }
+        EventsTest.reportPermance(subordinates);  
     }
     
     public static void registerCasualties(Collection<Casualty> casualties) {
