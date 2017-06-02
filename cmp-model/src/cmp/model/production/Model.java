@@ -8,11 +8,12 @@ package cmp.model.production;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -25,8 +26,8 @@ public class Model implements Comparable<Model>, Serializable {
     private String reference;
     @Column(nullable = false, unique = true)
     private String name;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Phase> phases = new ArrayList<>();
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ModelPhase> phases = new ArrayList<>();
 
     public Model() {
     }
@@ -36,7 +37,7 @@ public class Model implements Comparable<Model>, Serializable {
         this.name = name;
     }
     
-    public boolean belongs(Phase phase) {
+    public boolean belongs(ModelPhase phase) {
         return phases.contains(phase);
     }
 
@@ -58,6 +59,11 @@ public class Model implements Comparable<Model>, Serializable {
     public String toString() {
         return name + " (" + reference + ")";
     }
+    
+    public ModelPhase getPhase(Phase phase) {
+        int index = phases.indexOf(phase);
+        return index != -1 ? phases.get(index) : null;
+    }
 
     public String getReference() {
         return reference;
@@ -75,11 +81,11 @@ public class Model implements Comparable<Model>, Serializable {
         this.name = name;
     }
 
-    public List<Phase> getPhases() {
+    public List<ModelPhase> getPhases() {
         return phases;
     }
 
-    public void setPhases(List<Phase> phases) {
+    public void setPhases(List<ModelPhase> phases) {
         this.phases = phases;
     }
     

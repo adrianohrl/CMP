@@ -6,7 +6,7 @@
 package cmp.control.model.production.reports.filters;
 
 import cmp.model.events.EntryEvent;
-import cmp.model.personal.Sector;
+import cmp.model.personnel.Sector;
 import cmp.util.AbstractFilter;
 
 /**

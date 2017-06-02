@@ -6,7 +6,7 @@
 package cmp.control.model.production.reports.filters;
 
 import cmp.model.events.AbstractEmployeeRelatedEvent;
-import cmp.model.personal.Employee;
+import cmp.model.personnel.Employee;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;

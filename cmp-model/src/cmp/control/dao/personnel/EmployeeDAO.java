@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cmp.control.dao.personal;
+package cmp.control.dao.personnel;
 
 import cmp.control.dao.DAO;
-import cmp.model.personal.Employee;
+import cmp.model.personnel.Employee;
 import javax.persistence.EntityManager;
 
 /**

@@ -7,8 +7,8 @@ package cmp.control.dao.events;
 
 import cmp.control.dao.production.PhaseProductionOrderDAO;
 import cmp.model.events.EntryEvent;
-import cmp.model.personal.Sector;
-import cmp.model.personal.Supervisor;
+import cmp.model.personnel.Sector;
+import cmp.model.personnel.Supervisor;
 import cmp.model.production.ProductionStates;
 import cmp.control.model.production.reports.filters.EntryEventsList;
 import javax.persistence.EntityExistsException;

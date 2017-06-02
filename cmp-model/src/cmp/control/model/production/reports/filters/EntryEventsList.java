@@ -7,8 +7,8 @@ package cmp.control.model.production.reports.filters;
 
 import cmp.model.events.AbstractEmployeeRelatedEvent;
 import cmp.model.events.EntryEvent;
-import cmp.model.personal.Subordinate;
-import cmp.model.production.Phase;
+import cmp.model.personnel.Subordinate;
+import cmp.model.production.ModelPhase;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -27,10 +27,10 @@ public class EntryEventsList extends EmployeeRelatedEventsList<EntryEvent> {
         super(c);
     }
     
-    public List<Phase> getPhases() {
-        ArrayList<Phase> phases = new ArrayList<>();
+    public List<ModelPhase> getPhases() {
+        ArrayList<ModelPhase> phases = new ArrayList<>();
         for (EntryEvent event : this) {
-            Phase phase = event.getPhaseProductionOrder().getPhase();
+            ModelPhase phase = event.getPhaseProductionOrder().getPhase();
             if (!phases.contains(phase)) {
                 phases.add(phase);
             }

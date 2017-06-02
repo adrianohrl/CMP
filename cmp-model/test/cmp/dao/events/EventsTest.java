@@ -13,7 +13,7 @@ import cmp.control.dao.events.TimeClockEventDAO;
 import cmp.control.dao.DataSource;
 import cmp.control.dao.events.io.EntryEventsReaderDAO;
 import cmp.control.dao.events.io.TimeClockEventsReaderDAO;
-import cmp.dao.personal.PersonalKeyboardEntries;
+import cmp.dao.personnel.PersonnelKeyboardEntries;
 import cmp.dao.production.ProductionKeyboardEntries;
 import cmp.exceptions.DAOException;
 import cmp.exceptions.IOException;
@@ -25,17 +25,17 @@ import cmp.model.events.Casualty;
 import cmp.model.events.CasualtyEntryEvent;
 import cmp.model.events.EntryEvent;
 import cmp.model.events.TimeClockEvent;
-import cmp.model.personal.Employee;
-import cmp.model.personal.Sector;
-import cmp.model.personal.Subordinate;
-import cmp.model.personal.Supervisor;
-import cmp.model.production.Phase;
+import cmp.model.personnel.Employee;
+import cmp.model.personnel.Sector;
+import cmp.model.personnel.Subordinate;
+import cmp.model.personnel.Supervisor;
 import cmp.model.production.PhaseProductionOrder;
 import cmp.model.production.ProductionStates;
 import cmp.control.model.production.reports.EmployeeEventsPeriodBuilder;
 import cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
 import cmp.control.model.production.reports.filters.EntryEventsList;
 import cmp.control.model.production.reports.filters.FindByEmployee;
+import cmp.model.production.ModelPhase;
 import cmp.util.CalendarFormat;
 import cmp.util.Calendars;
 import cmp.util.Keyboard;
@@ -46,8 +46,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 
 /**
@@ -176,12 +174,12 @@ public class EventsTest {
     private static void createEntryEvent() {
         System.out.println("\nRegistering a new entry event ...");
         System.out.println("Enter the supervisor:");
-        Supervisor supervisor = PersonalKeyboardEntries.selectOneSupervisor();
+        Supervisor supervisor = PersonnelKeyboardEntries.selectOneSupervisor();
         EventsTest.createEntryEvent(supervisor);
     }
 
     private static void createEntryEvent(Supervisor supervisor) {
-        Subordinate subordinate = PersonalKeyboardEntries.selectOneSubordinateOfSupervisor(supervisor.getName());
+        Subordinate subordinate = PersonnelKeyboardEntries.selectOneSubordinateOfSupervisor(supervisor.getName());
         if (subordinate == null) {
             return;
         }
@@ -189,7 +187,7 @@ public class EventsTest {
     }
 
     private static void createEntryEvent(Supervisor supervisor, Subordinate subordinate) {
-        Sector sector = PersonalKeyboardEntries.selectOneSector(supervisor);
+        Sector sector = PersonnelKeyboardEntries.selectOneSector(supervisor);
         if (sector == null) {
             return;
         }
@@ -238,7 +236,7 @@ public class EventsTest {
 
     private static void createTimeClockEvent() {
         System.out.println("\nRegistering a new time clock event ...");
-        Employee employee = PersonalKeyboardEntries.selectOneEmployee();
+        Employee employee = PersonnelKeyboardEntries.selectOneEmployee();
         if (employee == null) {
             return;
         }
@@ -283,7 +281,7 @@ public class EventsTest {
             return;
         }
         System.out.println("Enter the supervisor:");
-        Supervisor supervisor = PersonalKeyboardEntries.selectOneSupervisor();
+        Supervisor supervisor = PersonnelKeyboardEntries.selectOneSupervisor();
         if (supervisor == null) {
             return;
         }
@@ -303,7 +301,7 @@ public class EventsTest {
             return;
         }
         System.out.println("Enter the supervisors:");
-        List<Supervisor> supervisors = PersonalKeyboardEntries.selectManySupervisors();
+        List<Supervisor> supervisors = PersonnelKeyboardEntries.selectManySupervisors();
         if (supervisors == null) {
             return;
         }
@@ -325,7 +323,7 @@ public class EventsTest {
             return;
         }
         System.out.println("Enter the sector:");
-        Sector sector = PersonalKeyboardEntries.selectOneSector();
+        Sector sector = PersonnelKeyboardEntries.selectOneSector();
         if (sector == null) {
             return;
         }
@@ -345,7 +343,7 @@ public class EventsTest {
             return;
         }
         System.out.println("Enter the sectors:");
-        List<Sector> sectors = PersonalKeyboardEntries.selectManySectors();
+        List<Sector> sectors = PersonnelKeyboardEntries.selectManySectors();
         if (sectors == null) {
             return;
         }
@@ -480,7 +478,7 @@ public class EventsTest {
 
     public static void showAllEntryEvents() {
         System.out.println("Showing all registered subordinate entry events ...");
-        Subordinate subordinate = PersonalKeyboardEntries.selectOneSubordinate();
+        Subordinate subordinate = PersonnelKeyboardEntries.selectOneSubordinate();
         if (subordinate == null) {
             return;
         }
@@ -491,7 +489,7 @@ public class EventsTest {
         Calendar start = KeyboardEntries.askForDateAndTime();
         Calendar end = KeyboardEntries.askForDateAndTime();
         System.out.println("Showing registered subordinate period entry events from " + CalendarFormat.format(start) + " to " + CalendarFormat.format(end) + " ...");
-        Subordinate subordinate = PersonalKeyboardEntries.selectOneSubordinate();
+        Subordinate subordinate = PersonnelKeyboardEntries.selectOneSubordinate();
         if (subordinate == null) {
             return;
         }
@@ -520,7 +518,7 @@ public class EventsTest {
 
     public static void showAllTimeClockEvents() {
         System.out.println("Showing all registered employee time clock events ...");
-        Employee employee = PersonalKeyboardEntries.selectOneEmployee();
+        Employee employee = PersonnelKeyboardEntries.selectOneEmployee();
         if (employee == null) {
             return;
         }
@@ -531,7 +529,7 @@ public class EventsTest {
         Calendar start = KeyboardEntries.askForDateAndTime();
         Calendar end = KeyboardEntries.askForDateAndTime();
         System.out.println("Showing registered employee period time clock events from " + CalendarFormat.format(start) + " to " + CalendarFormat.format(end) + " ...");
-        Employee employee = PersonalKeyboardEntries.selectOneEmployee();
+        Employee employee = PersonnelKeyboardEntries.selectOneEmployee();
         if (employee == null) {
             return;
         }
@@ -554,7 +552,7 @@ public class EventsTest {
 
     public static void showAllEvents() {
         System.out.println("Showing all registered employee events ...");
-        Employee employee = PersonalKeyboardEntries.selectOneEmployee();
+        Employee employee = PersonnelKeyboardEntries.selectOneEmployee();
         if (employee == null) {
             return;
         }
@@ -565,7 +563,7 @@ public class EventsTest {
         Calendar start = KeyboardEntries.askForDateAndTime();
         Calendar end = KeyboardEntries.askForDateAndTime();
         System.out.println("Showing registered employee period events " + CalendarFormat.format(start) + " to " + CalendarFormat.format(end) + " ...");
-        Employee employee = PersonalKeyboardEntries.selectOneEmployee();
+        Employee employee = PersonnelKeyboardEntries.selectOneEmployee();
         if (employee == null) {
             return;
         }
@@ -620,7 +618,7 @@ public class EventsTest {
 
     public static void reportPerformancePerSubordinate() {
         System.out.println("Reporting subordinate performance ...");
-        Subordinate subordinate = PersonalKeyboardEntries.selectOneSubordinate();
+        Subordinate subordinate = PersonnelKeyboardEntries.selectOneSubordinate();
         System.out.println("Enter the start date:");
         Calendar start = KeyboardEntries.askForDate();
         System.out.println("Enter the end date:");
@@ -647,7 +645,7 @@ public class EventsTest {
                 return;
             }
             EmployeeEventsPeriodBuilder builder = new EmployeeEventsPeriodBuilder(subordinate, events);
-            for (Phase phase : builder.getPhases()) {
+            for (ModelPhase phase : builder.getPhases()) {
                 System.out.println("\t\tPhase: " + phase);
                 System.out.println("\t\t\tEffective Duration: " + builder.getEffectiveDuration(phase) + " [min]");
                 System.out.println("\t\t\tExpected Duration: " + builder.getExpectedDuration(phase) + " [min]");
@@ -675,7 +673,7 @@ public class EventsTest {
 
     public static void reportPerformancePerSubordinates() {
         System.out.println("Reporting subordinates performance ...");
-        EventsTest.reportPermance(PersonalKeyboardEntries.selectManySubordinates());
+        EventsTest.reportPermance(PersonnelKeyboardEntries.selectManySubordinates());
     }
     
     private static void reportPermance(Collection<Subordinate> subordinates) {
@@ -699,7 +697,7 @@ public class EventsTest {
 
     public static void reportPerformancePerSupervisor() {
         System.out.println("Reporting supervisor subordinates performance ...");
-        Supervisor supervisor = PersonalKeyboardEntries.selectOneSupervisor();
+        Supervisor supervisor = PersonnelKeyboardEntries.selectOneSupervisor();
         if (supervisor == null) {
             return;
         }
@@ -708,7 +706,7 @@ public class EventsTest {
 
     private static void reportPerformancePerSupervisors() {
         System.out.println("Reporting supervisors subordinates performance ...");
-        List<Supervisor> supervisors = PersonalKeyboardEntries.selectManySupervisors();
+        List<Supervisor> supervisors = PersonnelKeyboardEntries.selectManySupervisors();
         if (supervisors == null) {
             return;
         }
@@ -723,7 +721,7 @@ public class EventsTest {
 
     private static void reportPerformancePerSector() {
         System.out.println("Reporting sector subordinates performance ...");
-        Sector sector = PersonalKeyboardEntries.selectOneSector();
+        Sector sector = PersonnelKeyboardEntries.selectOneSector();
         if (sector == null) {
             return;
         }
@@ -736,7 +734,7 @@ public class EventsTest {
 
     private static void reportPerformancePerSectors() {
         System.out.println("Reporting sectors subordinates performance ...");
-        List<Sector> sectors = PersonalKeyboardEntries.selectManySectors();
+        List<Sector> sectors = PersonnelKeyboardEntries.selectManySectors();
         if (sectors == null) {
             return;
         }

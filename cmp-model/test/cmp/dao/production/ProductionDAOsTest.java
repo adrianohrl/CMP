@@ -6,8 +6,11 @@
 package cmp.dao.production;
 
 import cmp.control.dao.DataSource;
+import cmp.control.dao.personnel.SectorDAO;
 import cmp.exceptions.ProductionException;
+import cmp.model.personnel.Sector;
 import cmp.model.production.Model;
+import cmp.model.production.ModelPhase;
 import cmp.model.production.Phase;
 import cmp.model.production.PhaseProductionOrder;
 import cmp.model.production.ProductionOrder;
@@ -55,25 +58,27 @@ public class ProductionDAOsTest {
     }
 
     private static void createPhases() {
+        SectorDAO sectorDAO = new SectorDAO(em);
+        Sector costura = sectorDAO.find("Costura");
         phases = new HashMap<>();
-        phases.put("Overloque", new Phase("Overloque", 3.8));
-        phases.put("Reta", new Phase("Reta", 0.9));
-        phases.put("Travete", new Phase("Travete", 2.4));
-        phases.put("Crochê", new Phase("Crochê", 30.7));
-        phases.put("Galoneira", new Phase("Galoneira", 4.3));
-        phases.put("Zíper", new Phase("Zíper", 1.9));
-        phases.put("Etiqueta", new Phase("Etiqueta", 1.6));
+        phases.put("Overloque", new Phase("Overloque", costura));
+        phases.put("Reta", new Phase("Reta", costura));
+        phases.put("Travete", new Phase("Travete", costura));
+        phases.put("Crochê", new Phase("Crochê", costura));
+        phases.put("Galoneira", new Phase("Galoneira", costura));
+        phases.put("Zíper", new Phase("Zíper", costura));
+        phases.put("Etiqueta", new Phase("Etiqueta", costura));
     }
 
     private static void createModels() {
         models = new HashMap<>();
         Model model = new Model("Blusa 2017", "Blusa 2017");
-        model.getPhases().add(phases.get("Overloque"));
+        model.getPhases().add(new ModelPhase(phases.get("Overloque"), 3.8));
         models.put(model.getReference(), model);
         model = new Model("Cacharrel 2017", "Cacharrel 2017");
-        model.getPhases().add(phases.get("Overloque"));
-        model.getPhases().add(phases.get("Reta"));
-        model.getPhases().add(phases.get("Travete"));
+        model.getPhases().add(new ModelPhase(phases.get("Overloque"), 3.5));
+        model.getPhases().add(new ModelPhase(phases.get("Reta"), 0.9));
+        model.getPhases().add(new ModelPhase(phases.get("Travete"), 2.4));
         models.put(model.getReference(), model);
     }
 
@@ -91,14 +96,16 @@ public class ProductionDAOsTest {
 
     private static void createPhaseProductionOrders() throws ProductionException {
         phaseProductionOrders = new ArrayList<>();
-        phaseProductionOrders.add(new PhaseProductionOrder(phases.get("Overloque"), productionOrders.get("Blusa M"), 20));
-        phaseProductionOrders.add(new PhaseProductionOrder(phases.get("Overloque"), productionOrders.get("Blusa G"), 10));
-        phaseProductionOrders.add(new PhaseProductionOrder(phases.get("Overloque"), productionOrders.get("Cacharrel G"), 15));
-        phaseProductionOrders.add(new PhaseProductionOrder(phases.get("Overloque"), productionOrders.get("Cacharrel G"), 25));
-        phaseProductionOrders.add(new PhaseProductionOrder(phases.get("Travete"), productionOrders.get("Cacharrel G"), 45));
-        phaseProductionOrders.add(new PhaseProductionOrder(phases.get("Travete"), productionOrders.get("Cacharrel G"), 25));
-        phaseProductionOrders.add(new PhaseProductionOrder(phases.get("Reta"), productionOrders.get("Cacharrel G"), 70));
-        phaseProductionOrders.add(new PhaseProductionOrder(phases.get("Reta"), productionOrders.get("Cacharrel G"), 20));
+        Model model = models.get("Blusa 2017");
+        phaseProductionOrders.add(new PhaseProductionOrder(model.getPhase(phases.get("Overloque")), productionOrders.get("Blusa M"), 20));
+        phaseProductionOrders.add(new PhaseProductionOrder(model.getPhase(phases.get("Overloque")), productionOrders.get("Blusa G"), 10));
+        model = models.get("Cacharrel 2017");
+        phaseProductionOrders.add(new PhaseProductionOrder(model.getPhase(phases.get("Overloque")), productionOrders.get("Cacharrel G"), 15));
+        phaseProductionOrders.add(new PhaseProductionOrder(model.getPhase(phases.get("Overloque")), productionOrders.get("Cacharrel G"), 25));
+        phaseProductionOrders.add(new PhaseProductionOrder(model.getPhase(phases.get("Travete")), productionOrders.get("Cacharrel G"), 45));
+        phaseProductionOrders.add(new PhaseProductionOrder(model.getPhase(phases.get("Travete")), productionOrders.get("Cacharrel G"), 25));
+        phaseProductionOrders.add(new PhaseProductionOrder(model.getPhase(phases.get("Reta")), productionOrders.get("Cacharrel G"), 70));
+        phaseProductionOrders.add(new PhaseProductionOrder(model.getPhase(phases.get("Reta")), productionOrders.get("Cacharrel G"), 20));
     }
     
 }

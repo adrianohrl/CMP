@@ -7,11 +7,11 @@ package cmp.dao.events;
 
 import cmp.control.dao.events.EntryEventDAO;
 import cmp.control.dao.DataSource;
-import cmp.control.dao.personal.SectorDAO;
-import cmp.control.dao.personal.SupervisorDAO;
+import cmp.control.dao.personnel.SectorDAO;
+import cmp.control.dao.personnel.SupervisorDAO;
 import cmp.model.events.EntryEvent;
-import cmp.model.personal.Sector;
-import cmp.model.personal.Supervisor;
+import cmp.model.personnel.Sector;
+import cmp.model.personnel.Supervisor;
 import cmp.control.model.production.reports.filters.EntryEventsList;
 import javax.persistence.EntityManager;
 

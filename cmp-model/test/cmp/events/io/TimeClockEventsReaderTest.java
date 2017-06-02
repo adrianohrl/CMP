@@ -7,9 +7,8 @@ package cmp.events.io;
 
 import cmp.control.model.events.io.TimeClockEventsReader;
 import cmp.exceptions.IOException;
-import cmp.model.events.AbstractEmployeeRelatedEvent;
 import cmp.model.events.EntryEvent;
-import cmp.model.personal.Employee;
+import cmp.model.personnel.Employee;
 import cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
 import cmp.control.model.production.reports.filters.FindByEmployee;
 import cmp.util.Keyboard;

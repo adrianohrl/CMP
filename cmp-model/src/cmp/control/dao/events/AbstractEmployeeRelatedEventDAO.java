@@ -7,7 +7,7 @@ package cmp.control.dao.events;
 
 import cmp.exceptions.DAOException;
 import cmp.model.events.AbstractEmployeeRelatedEvent;
-import cmp.model.personal.Employee;
+import cmp.model.personnel.Employee;
 import cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
 import java.util.Calendar;
 import javax.persistence.EntityManager;

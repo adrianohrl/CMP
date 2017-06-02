@@ -8,7 +8,7 @@ package cmp.model.production;
 import cmp.exceptions.ProductionException;
 import cmp.exceptions.ProductionStateMachineException;
 import cmp.model.events.EntryEvent;
-import cmp.model.personal.Subordinate;
+import cmp.model.personnel.Subordinate;
 import cmp.control.model.production.ProductionStateMachineController;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -29,9 +29,9 @@ public class PhaseProductionOrder implements Comparable<PhaseProductionOrder>, S
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long code;
-    @ManyToOne
-    private Phase phase;
-    @ManyToOne
+    @ManyToOne(optional = false)
+    private ModelPhase phase;
+    @ManyToOne(optional = false)
     private ProductionOrder productionOrder;
     @ManyToOne
     private Subordinate subordinate = null;
@@ -44,7 +44,7 @@ public class PhaseProductionOrder implements Comparable<PhaseProductionOrder>, S
     public PhaseProductionOrder() {
     }
 
-    public PhaseProductionOrder(Phase phase, ProductionOrder productionOrder, int totalQuantity) throws ProductionException {
+    public PhaseProductionOrder(ModelPhase phase, ProductionOrder productionOrder, int totalQuantity) throws ProductionException {
         this.phase = phase;
         this.productionOrder = productionOrder;
         if (!productionOrder.belongs(phase)) {
@@ -130,11 +130,11 @@ public class PhaseProductionOrder implements Comparable<PhaseProductionOrder>, S
         this.code = code;
     }
 
-    public Phase getPhase() {
+    public ModelPhase getPhase() {
         return phase;
     }
 
-    public void setPhase(Phase phase) {
+    public void setPhase(ModelPhase phase) {
         this.phase = phase;
     }
 

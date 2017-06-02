@@ -10,8 +10,11 @@ import cmp.control.dao.production.ProductionOrderDAO;
 import cmp.control.dao.production.ModelDAO;
 import cmp.control.dao.production.PhaseProductionOrderDAO;
 import cmp.control.dao.DataSource;
+import cmp.dao.personnel.PersonnelKeyboardEntries;
 import cmp.exceptions.ProductionException;
+import cmp.model.personnel.Sector;
 import cmp.model.production.Model;
+import cmp.model.production.ModelPhase;
 import cmp.model.production.Phase;
 import cmp.model.production.PhaseProductionOrder;
 import cmp.model.production.ProductionOrder;
@@ -141,7 +144,7 @@ public class ProductionTest {
         for (Model model : modelDAO.findAll()) {
             System.out.println("Model: " + model);
             System.out.println("\tPhases:");
-            for (Phase phase : model.getPhases()) {
+            for (ModelPhase phase : model.getPhases()) {
                 System.out.println("\t\t" + phase);
             }
         }
@@ -177,9 +180,14 @@ public class ProductionTest {
         Keyboard keyboard = Keyboard.getKeyboard();
         System.out.println("Enter the info of the new phase below:");
         String name = keyboard.readString("name: ");
-        double expectedDuration = keyboard.readDouble("expected duration (in [min]): ");
+        System.out.println("Enter its sector:");
+        Sector sector = PersonnelKeyboardEntries.selectOneSector();
+        if (sector == null) {
+            System.out.println("The phase registration failed: The sector phase must nt be null!!!");
+            return;
+        }
         try {
-            ProductionTest.register(new Phase(name, expectedDuration));
+            ProductionTest.register(new Phase(name, sector));
             System.out.println("The phase registration succeeded!!!");
         } catch (RuntimeException e) {
             System.out.println("The phase registration failed: " + e.getMessage() + "!!!");
@@ -224,10 +232,22 @@ public class ProductionTest {
         System.out.println("\nResgistering a new phase production order ...");
         Keyboard keyboard = Keyboard.getKeyboard();
         System.out.println("Enter the info of the new phase production order below:");
+        System.out.println("Enter the desired model: ");
+        Model model = ProductionKeyboardEntries.selectOneModel();
+        if (model == null) {
+            System.out.println("The phase production order registration failed: The model must not be null!!!");
+            return;
+        }
         System.out.println("Enter its phase:");
-        Phase phase = ProductionKeyboardEntries.selectOnePhase();
+        ModelPhase phase = ProductionKeyboardEntries.selectOnePhaseOfModel(model);
+        if (phase == null) {
+            System.out.println("The phase production order registration failed: The phase must not be null!!!");
+        }
         System.out.println("Enter its production order:");
         ProductionOrder productionOrder = ProductionKeyboardEntries.selectOneProductionOrder();
+        if (productionOrder == null) {
+            System.out.println("The phase production order registration failed: The production order must not be null!!!");
+        }
         int totalQuantity = keyboard.readInteger("total quantity: ");
         try {
             ProductionTest.register(new PhaseProductionOrder(phase, productionOrder, totalQuantity));
@@ -235,8 +255,8 @@ public class ProductionTest {
         } catch (RuntimeException e) {
             System.out.println("The phase production order registration failed: " + e.getMessage() + "!!!");
             em.clear();
-        } catch (ProductionException pe) {
-            System.out.println("The phase production order registration failed: " + pe.getMessage());
+        } catch (ProductionException e) {
+            System.out.println("The phase production order registration failed: " + e.getMessage());
         }
     }
 
@@ -252,7 +272,12 @@ public class ProductionTest {
         if (phases == null) {
             return;
         }
-        model.getPhases().addAll(phases);
+        Keyboard keyboard = Keyboard.getKeyboard();
+        double expectedDuration;
+        for (Phase phase : phases) {
+            expectedDuration = keyboard.readDouble("expected duration (in [min]): ");
+            model.getPhases().add(new ModelPhase(phase, expectedDuration));
+        }        
         ModelDAO modelDAO = new ModelDAO(em);
         try {
             modelDAO.update(model);

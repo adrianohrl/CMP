@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cmp.model.personal;
+package cmp.model.personnel;
 
 import javax.persistence.Entity;
 
@@ -14,7 +14,7 @@ import javax.persistence.Entity;
 @Entity
 public class Subordinate extends Employee {
     
-    //private boolean available = true;
+    private boolean available = true;
 
     public Subordinate() {
     }
@@ -23,7 +23,7 @@ public class Subordinate extends Employee {
         super(code, name);
     }
 
-    /*public Subordinate(String code, String name, boolean available) {
+    public Subordinate(String code, String name, boolean available) {
         super(code, name);
         this.available = available;
     }
@@ -34,6 +34,6 @@ public class Subordinate extends Employee {
 
     public void setAvailable(boolean available) {
         this.available = available;
-    }*/
+    }
     
 }

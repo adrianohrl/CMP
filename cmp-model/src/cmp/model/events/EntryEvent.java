@@ -5,9 +5,9 @@
  */
 package cmp.model.events;
 
-import cmp.model.personal.Sector;
-import cmp.model.personal.Subordinate;
-import cmp.model.personal.Supervisor;
+import cmp.model.personnel.Sector;
+import cmp.model.personnel.Subordinate;
+import cmp.model.personnel.Supervisor;
 import cmp.model.production.PhaseProductionOrder;
 import cmp.exceptions.ProductionException;
 import cmp.model.production.ProductionStates;
@@ -22,11 +22,11 @@ import javax.persistence.ManyToOne;
 @Entity
 public class EntryEvent extends AbstractEmployeeRelatedEvent<Subordinate> {
     
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Sector sector;
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Supervisor supervisor;
-    @ManyToOne
+    @ManyToOne(optional = false)
     private PhaseProductionOrder phaseProductionOrder;
     private ProductionStates productionState;
     private int producedQuantity = 0;

@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cmp.dao.personal;
+package cmp.dao.personnel;
 
-import cmp.control.dao.personal.ManagerDAO;
-import cmp.control.dao.personal.SupervisorDAO;
-import cmp.control.dao.personal.EmployeeDAO;
-import cmp.control.dao.personal.SubordinateDAO;
-import cmp.control.dao.personal.SectorDAO;
+import cmp.control.dao.personnel.ManagerDAO;
+import cmp.control.dao.personnel.SupervisorDAO;
+import cmp.control.dao.personnel.EmployeeDAO;
+import cmp.control.dao.personnel.SubordinateDAO;
+import cmp.control.dao.personnel.SectorDAO;
 import cmp.control.dao.DataSource;
-import cmp.model.personal.Employee;
-import cmp.model.personal.Manager;
-import cmp.model.personal.Sector;
-import cmp.model.personal.Subordinate;
-import cmp.model.personal.Supervisor;
+import cmp.model.personnel.Employee;
+import cmp.model.personnel.Manager;
+import cmp.model.personnel.Sector;
+import cmp.model.personnel.Subordinate;
+import cmp.model.personnel.Supervisor;
 import cmp.util.KeyboardEntries;
 import java.util.Iterator;
 import java.util.List;
@@ -25,7 +25,7 @@ import javax.persistence.EntityManager;
  *
  * @author adrianohrl
  */
-public class PersonalKeyboardEntries {
+public class PersonnelKeyboardEntries {
     
     private static EntityManager em = DataSource.createEntityManager();
     

@@ -6,7 +6,7 @@
 package cmp.control.model.production.reports;
 
 import cmp.exceptions.ReportException;
-import cmp.model.personal.Manager;
+import cmp.model.personnel.Manager;
 import cmp.util.CalendarFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;

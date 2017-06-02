@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cmp.model.personal;
+package cmp.model.personnel;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -19,7 +19,7 @@ public class Sector implements Comparable<Sector>, Serializable{
     
     @Id
     private String name;
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Supervisor supervisor;
 
     public Sector() {

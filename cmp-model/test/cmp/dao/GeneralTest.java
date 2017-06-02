@@ -8,8 +8,8 @@ package cmp.dao;
 import cmp.control.dao.DataSource;
 import cmp.dao.events.EventsMenuOptions;
 import cmp.dao.events.EventsTest;
-import cmp.dao.personal.PersonalMenuOptions;
-import cmp.dao.personal.PersonalTest;
+import cmp.dao.personnel.PersonnelMenuOptions;
+import cmp.dao.personnel.PersonnelTest;
 import cmp.dao.production.ProductionMenuOptions;
 import cmp.dao.production.ProductionTest;
 import javax.persistence.EntityManager;
@@ -56,13 +56,13 @@ public class GeneralTest {
                 }
                 break;
             case PERSONAL_MENU:
-                PersonalMenuOptions personalMenuOption = PersonalMenuOptions.getOption();
+                PersonnelMenuOptions personalMenuOption = PersonnelMenuOptions.getOption();
                 if (personalMenuOption.quit()) {
                     return null;
                 } else if (!personalMenuOption.isValid()) {
                     return GeneralMenuOptions.INVALID;
                 } else {
-                    PersonalTest.process(personalMenuOption);
+                    PersonnelTest.process(personalMenuOption);
                 }
                 break;
             case PRODUCTION:

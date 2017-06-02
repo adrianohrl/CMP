@@ -9,10 +9,10 @@ import cmp.control.model.events.io.TimeClockEventsReader;
 import cmp.control.model.events.io.EntryEventsReader;
 import cmp.exceptions.IOException;
 import cmp.exceptions.ReportException;
-import cmp.model.production.Phase;
 import cmp.control.model.production.reports.EmployeeEventsPeriodBuilder;
 import cmp.control.model.production.reports.EventsPeriodBuilder;
 import cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
+import cmp.model.production.ModelPhase;
 import cmp.util.Keyboard;
 
 /**
@@ -37,7 +37,7 @@ public class EventsReaderTest {
         EventsPeriodBuilder builder = new EventsPeriodBuilder(events);
         for (EmployeeEventsPeriodBuilder b : builder) {
             System.out.println("Employee: " + b.getEmployee());
-            for (Phase phase : b.getPhases()) {
+            for (ModelPhase phase : b.getPhases()) {
                 System.out.println("\tPhase: " + phase);
                 System.out.println("\t\tEffective Duration: " + b.getEffectiveDuration(phase) + " [min]");
                 System.out.println("\t\tExpected Duration: " + b.getExpectedDuration(phase) + " [min]");

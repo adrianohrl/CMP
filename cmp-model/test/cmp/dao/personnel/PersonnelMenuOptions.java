@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cmp.dao.personal;
+package cmp.dao.personnel;
 
 import cmp.util.Keyboard;
 
@@ -11,7 +11,7 @@ import cmp.util.Keyboard;
  *
  * @author adrianohrl
  */
-public enum PersonalMenuOptions {
+public enum PersonnelMenuOptions {
     INVALID(0, ""),
     REGISTER_SUBORDINATE(1, "register new subordinate"), 
     REGISTER_SUPERVISOR(2, "register new supervisor"), 
@@ -30,7 +30,7 @@ public enum PersonalMenuOptions {
     private final int index;
     private final String description;
     
-    private PersonalMenuOptions(int index, String description) {
+    private PersonnelMenuOptions(int index, String description) {
         this.index = index;
         this.description = description;
     }
@@ -44,7 +44,7 @@ public enum PersonalMenuOptions {
     }
     
     public boolean equals(int index) {
-        return this.index == index || this == INVALID && (index < -1 || index > PersonalMenuOptions.size());
+        return this.index == index || this == INVALID && (index < -1 || index > PersonnelMenuOptions.size());
     }    
 
     @Override
@@ -53,11 +53,11 @@ public enum PersonalMenuOptions {
     }
     
     public static int size() {
-        return PersonalMenuOptions.values().length - 2;
+        return PersonnelMenuOptions.values().length - 2;
     }
     
-    public static PersonalMenuOptions fromIndex(int index) {
-        for (PersonalMenuOptions option : PersonalMenuOptions.values()) {
+    public static PersonnelMenuOptions fromIndex(int index) {
+        for (PersonnelMenuOptions option : PersonnelMenuOptions.values()) {
             if (option.equals(index)) {
                 return option;
             }
@@ -67,17 +67,17 @@ public enum PersonalMenuOptions {
     
     public static void printMenu() {
         System.out.println("\nSelect one of the following options:");
-        for (PersonalMenuOptions option : PersonalMenuOptions.values()) {
+        for (PersonnelMenuOptions option : PersonnelMenuOptions.values()) {
             if (option.isValid()) {
                 System.out.println(option);
             }
         }
     }
     
-    public static PersonalMenuOptions getOption() {
+    public static PersonnelMenuOptions getOption() {
         Keyboard keyboard = Keyboard.getKeyboard();
-        PersonalMenuOptions.printMenu();
+        PersonnelMenuOptions.printMenu();
         int index = keyboard.readInteger("Enter the desired option: ");
-        return PersonalMenuOptions.fromIndex(index);
+        return PersonnelMenuOptions.fromIndex(index);
     }
 }

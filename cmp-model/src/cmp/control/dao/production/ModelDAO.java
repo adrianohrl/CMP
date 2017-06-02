@@ -7,6 +7,7 @@ package cmp.control.dao.production;
 
 import cmp.control.dao.DAO;
 import cmp.model.production.Model;
+import cmp.model.production.Phase;
 import javax.persistence.EntityManager;
 
 /**
@@ -26,10 +27,14 @@ public class ModelDAO extends DAO<Model, String> {
     
     public boolean isModelPhase(String modelName, String phaseName) {
         long counter = (long) em.createQuery("SELECT COUNT(*) "
-                + "FROM Model m JOIN m.phases p "
+                + "FROM Model m JOIN m.phases.phase p "
                 + "WHERE m.name = '" + modelName + "' "
-                + "AND p.name = '" + phaseName + "'").getSingleResult();
+                    + "AND p.name = '" + phaseName + "'").getSingleResult();
         return counter > 0;
+    }
+    
+    public boolean isModelPhase(Model model, Phase phase) {
+        return isModelPhase(model.getName(), phase.getName());
     }
     
 }

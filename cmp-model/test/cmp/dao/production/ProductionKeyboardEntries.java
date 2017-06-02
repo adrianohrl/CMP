@@ -10,8 +10,10 @@ import cmp.control.dao.production.ProductionOrderDAO;
 import cmp.control.dao.production.ModelDAO;
 import cmp.control.dao.production.PhaseProductionOrderDAO;
 import cmp.control.dao.DataSource;
+import cmp.control.dao.production.ModelPhaseDAO;
 import cmp.exceptions.ProductionException;
 import cmp.model.production.Model;
+import cmp.model.production.ModelPhase;
 import cmp.model.production.Phase;
 import cmp.model.production.PhaseProductionOrder;
 import cmp.model.production.ProductionOrder;
@@ -46,13 +48,17 @@ public class ProductionKeyboardEntries {
         return KeyboardEntries.selectOne(phases, "phase that does not belongs to this model");
     }
     
-    public static Phase selectOnePhaseOfModel(String modelName) {
+    public static ModelPhase selectOnePhaseOfModel(String modelName) {
         ModelDAO modelDAO = new ModelDAO(em);
         Model model = modelDAO.find(modelName);
         if (model == null) {
             System.out.println("There is no model named " + modelName + " registered yet!!!");
             return null;
         }
+        return ProductionKeyboardEntries.selectOnePhaseOfModel(model);
+    }
+    
+    public static ModelPhase selectOnePhaseOfModel(Model model) {
         return KeyboardEntries.selectOne(model.getPhases(), "phase of this model");
     }
     
@@ -76,7 +82,7 @@ public class ProductionKeyboardEntries {
             return KeyboardEntries.selectOne(phaseProductionOrders, "pendent phase production order");
         }
         ProductionOrder productionOrder = ProductionKeyboardEntries.selectOneProductionOrder();
-        Phase phase = ProductionKeyboardEntries.selectOnePhaseOfModel(productionOrder.getModel().getName());
+        ModelPhase phase = ProductionKeyboardEntries.selectOnePhaseOfModel(productionOrder.getModel().getName());
         PhaseProductionOrder phaseProductionOrder = phaseProductionOrderDAO.find(phase, productionOrder);
         if (phaseProductionOrder == null) {
             int totalQuantity = KeyboardEntries.askForPositiveInteger("total quantity: ");
@@ -116,7 +122,7 @@ public class ProductionKeyboardEntries {
         return KeyboardEntries.selectMany(phases, "phase that does not belongs to this model");
     }
     
-    public static List<Phase> selectManyPhasesOfModel(String modelName) {
+    public static List<ModelPhase> selectManyPhasesOfModel(String modelName) {
         ModelDAO modelDAO = new ModelDAO(em);
         Model model = modelDAO.find(modelName);
         if (model == null) {

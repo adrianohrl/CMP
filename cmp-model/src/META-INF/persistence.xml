@@ -8,16 +8,17 @@
     <class>cmp.model.events.EntryEvent</class>
     <class>cmp.model.events.LogEvent</class>
     <class>cmp.model.events.TimeClockEvent</class>
-    <class>cmp.model.personal.Employee</class>
-    <class>cmp.model.personal.Loggable</class>
-    <class>cmp.model.personal.Manager</class>
-    <class>cmp.model.personal.Sector</class>
-    <class>cmp.model.personal.Subordinate</class>
-    <class>cmp.model.personal.Supervisor</class>
     <class>cmp.model.production.Model</class>
     <class>cmp.model.production.Phase</class>
     <class>cmp.model.production.PhaseProductionOrder</class>
     <class>cmp.model.production.ProductionOrder</class>
+    <class>cmp.model.personnel.Loggable</class>
+    <class>cmp.model.personnel.Supervisor</class>
+    <class>cmp.model.personnel.Sector</class>
+    <class>cmp.model.personnel.Employee</class>
+    <class>cmp.model.personnel.Manager</class>
+    <class>cmp.model.personnel.Subordinate</class>
+    <class>cmp.model.production.ModelPhase</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/cmp?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="cmp"/>

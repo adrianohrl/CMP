@@ -11,9 +11,9 @@ import cmp.exceptions.ReportException;
 import cmp.model.events.AbstractEmployeeRelatedEvent;
 import cmp.model.events.Casualty;
 import cmp.model.events.EntryEvent;
-import cmp.model.personal.Sector;
-import cmp.model.personal.Subordinate;
-import cmp.model.personal.Supervisor;
+import cmp.model.personnel.Sector;
+import cmp.model.personnel.Subordinate;
+import cmp.model.personnel.Supervisor;
 import cmp.model.production.Model;
 import cmp.model.production.Phase;
 import cmp.model.production.PhaseProductionOrder;
@@ -22,6 +22,7 @@ import cmp.model.production.ProductionStates;
 import cmp.control.model.production.EntryEventsBuilder;
 import cmp.control.model.production.reports.EventsPeriodBuilder;
 import cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
+import cmp.model.production.ModelPhase;
 import cmp.util.CSVReader;
 import cmp.util.CalendarField;
 import cmp.util.Calendars;
@@ -62,7 +63,7 @@ public class EntryEventsReader implements Iterable<EntryEvent> {
     private final static HashMap<String, Subordinate> subordinates = new HashMap<>();
     private final static HashMap<String, Model> models = new HashMap<>();
     private final static HashMap<String, ProductionOrder> productionOrders = new HashMap<>();
-    private final static HashMap<String, Phase> phases = new HashMap<>();
+    private final static HashMap<String, ModelPhase> phases = new HashMap<>();
     private final static HashMap<String, Casualty> casualties = new HashMap<>();
     private final static ArrayList<PhaseProductionOrder> phaseProductionOrders = new ArrayList<>();
     
@@ -120,7 +121,7 @@ public class EntryEventsReader implements Iterable<EntryEvent> {
         Subordinate subordinate = getSubordinate(Field.getFieldValue(fields, SUBORDINATE_COLUMN_TITLE), supervisor);
         Model model = getModel(Field.getFieldValue(fields, MODEL_REFERENCE_COLUMN_TITLE));
         ProductionOrder productionOrder = getProductionOrder(Field.getFieldValue(fields, PRODUCTION_ORDER_COLUMN_TITLE), model);
-        Phase phase = getPhase(Field.getFieldValue(fields, PHASE_COLUMN_TITLE), Field.getFieldValue(fields, PHASE_EXPECTED_DURATION_COLUMN_TITLE), model);
+        ModelPhase phase = getPhase(Field.getFieldValue(fields, PHASE_COLUMN_TITLE), Field.getFieldValue(fields, PHASE_EXPECTED_DURATION_COLUMN_TITLE), model, sector);
         ProductionStates productionState = ProductionStates.valueOf(Field.getFieldValue(fields, PRODUCTION_STATE_COLUMN_TITLE));
         int producedQuantity = Field.getFieldValue(fields, PRODUCED_QUANTITY_COLUMN_TITLE);
         int totalQuantity = Field.getFieldValue(fields, TOTAL_QUANTITY_COLUMN_TITLE);
@@ -218,22 +219,22 @@ public class EntryEventsReader implements Iterable<EntryEvent> {
         return new ProductionOrder(productionOrderName, model);
     }
     
-    private Phase getPhase(String phaseName, double expectedDuration, Model model) throws IOException {
+    private ModelPhase getPhase(String phaseName, double expectedDuration, Model model, Sector sector) throws IOException {
         if (phases.containsKey(phaseName)) {
             return phases.get(phaseName);
         }
-        Phase phase = createPhase(phaseName, expectedDuration, model);
+        ModelPhase phase = createPhase(phaseName, expectedDuration, model, sector);
         phases.put(phaseName, phase);
         return phase;
     }
     
-    protected Phase createPhase(String phaseName, double expectedDuration, Model model) throws IOException {
-        Phase phase = new Phase(phaseName, expectedDuration);
+    protected ModelPhase createPhase(String phaseName, double expectedDuration, Model model, Sector sector) throws IOException {
+        ModelPhase phase = new ModelPhase(new Phase(phaseName, sector), expectedDuration);
         model.getPhases().add(phase);
         return phase;
     }
     
-    private PhaseProductionOrder getPhaseProductionOrder(Phase phase, ProductionOrder productionOrder, int totalQuantity) throws ProductionException, IOException {
+    private PhaseProductionOrder getPhaseProductionOrder(ModelPhase phase, ProductionOrder productionOrder, int totalQuantity) throws ProductionException, IOException {
         PhaseProductionOrder phaseProductionOrder = createPhaseProductionOrder(phase, productionOrder, totalQuantity);
         int index = phaseProductionOrders.indexOf(phaseProductionOrder);
         if (index != -1) {
@@ -243,7 +244,7 @@ public class EntryEventsReader implements Iterable<EntryEvent> {
         return phaseProductionOrder;        
     }
     
-    protected PhaseProductionOrder createPhaseProductionOrder(Phase phase, ProductionOrder productionOrder, int totalQuantity) throws ProductionException, IOException {
+    protected PhaseProductionOrder createPhaseProductionOrder(ModelPhase phase, ProductionOrder productionOrder, int totalQuantity) throws ProductionException, IOException {
         return new PhaseProductionOrder(phase, productionOrder, totalQuantity);
     }
     

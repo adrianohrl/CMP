@@ -3,20 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cmp.control.dao.personal;
+package cmp.control.dao.personnel;
 
-import cmp.model.personal.Loggable;
+import cmp.model.personnel.Manager;
 import javax.persistence.EntityManager;
 
 /**
  *
  * @author adrianohrl
- * @param <L>
  */
-public abstract class LoggableDAO<L extends Loggable> extends EmployeeDAO<L> {
+public class ManagerDAO extends LoggableDAO<Manager> {
 
-    protected LoggableDAO(EntityManager em, Class clazz) {
-        super(em, clazz);
+    public ManagerDAO(EntityManager em) {
+        super(em, Manager.class);
     }
     
 }

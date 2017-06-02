@@ -10,7 +10,7 @@ import cmp.exceptions.ProductionStateMachineException;
 import cmp.exceptions.ProductionStateTransitionException;
 import cmp.model.events.CasualtyEntryEvent;
 import cmp.model.events.EntryEvent;
-import cmp.model.personal.Subordinate;
+import cmp.model.personnel.Subordinate;
 import cmp.model.production.PhaseProductionOrder;
 import cmp.model.production.ProductionStates;
 import java.util.ArrayList;
@@ -64,12 +64,18 @@ public class ProductionStateMachineController {
         } else if (!nextState.equals(startedState)) {
             throw new ProductionStateMachineException("The production state machine has not been started yet!!!");
         }
-        if (!subordinate.equals(phaseProductionOrder.getSubordinate()) && !nextState.isAllowedToChangeSubordinate()) {
-            throw new ProductionStateTransitionException("It is not allowed to change the subordinated from ", currentState, nextState);
+        if (!subordinate.equals(phaseProductionOrder.getSubordinate()))
+        {
+            if (!nextState.isAllowedToChangeSubordinate())
+            {
+                throw new ProductionStateTransitionException("It is not allowed to change the subordinated from ", currentState, nextState);
+            }
+            subordinate.setAvailable(false);
+            phaseProductionOrder.getSubordinate().setAvailable(true);
+            phaseProductionOrder.setSubordinate(subordinate);
         }
         currentState = nextState;
         phaseProductionOrder.setPendent(currentState.isPendent());
-        phaseProductionOrder.setSubordinate(subordinate);
         try {
             phaseProductionOrder.produced(producedQuantity);
         } catch (ProductionException e) {

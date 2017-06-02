@@ -5,10 +5,10 @@
  */
 package cmp.model.events;
 
-import cmp.model.personal.Manager;
-import cmp.model.personal.Sector;
-import cmp.model.personal.Subordinate;
-import cmp.model.personal.Supervisor;
+import cmp.model.personnel.Manager;
+import cmp.model.personnel.Sector;
+import cmp.model.personnel.Subordinate;
+import cmp.model.personnel.Supervisor;
 import cmp.model.production.Model;
 import cmp.model.production.Phase;
 import cmp.model.production.PhaseProductionOrder;
@@ -16,6 +16,7 @@ import cmp.exceptions.ProductionException;
 import cmp.model.production.ProductionOrder;
 import cmp.model.production.ProductionStates;
 import cmp.control.model.production.EntryEventsBuilder;
+import cmp.model.production.ModelPhase;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.GregorianCalendar;
@@ -42,10 +43,10 @@ public class EntryEventsBuilderTest {
         supervisor.setSubordinates(subordinates);
         
         Model model = new Model("ref1", "Reference 1");
-        Phase phase1 = new Phase("phase 1", 10);
-        Phase phase2 = new Phase("phase 2", 7.5);
-        Phase phase3 = new Phase("phase 3", 5);
-        ArrayList<Phase> phases = new ArrayList<>();
+        ModelPhase phase1 = new ModelPhase(new Phase("phase 1", sector), 10);
+        ModelPhase phase2 = new ModelPhase(new Phase("phase 2", sector), 7.5);
+        ModelPhase phase3 = new ModelPhase(new Phase("phase 3", sector), 5);
+        ArrayList<ModelPhase> phases = new ArrayList<>();
         phases.add(phase1);
         phases.add(phase2);
         phases.add(phase3);

@@ -5,7 +5,7 @@
  */
 package cmp.model.events;
 
-import cmp.model.personal.Employee;
+import cmp.model.personnel.Employee;
 import java.util.Calendar;
 import javax.persistence.Entity;
 

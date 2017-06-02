@@ -5,9 +5,11 @@
  */
 package cmp.model.production;
 
+import cmp.model.personnel.Sector;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -18,14 +20,15 @@ public class Phase implements Comparable<Phase>, Serializable {
     
     @Id
     private String name;
-    private double expectedDuration;
+    @ManyToOne(optional = false)
+    private Sector sector;
 
     public Phase() {
     }
 
-    public Phase(String name, double expectedDuration) {
+    public Phase(String name, Sector sector) {
         this.name = name;
-        this.expectedDuration = expectedDuration;
+        this.sector = sector;
     }
 
     @Override
@@ -35,11 +38,15 @@ public class Phase implements Comparable<Phase>, Serializable {
     
     @Override
     public boolean equals(Object obj) {
-        return obj != null && obj instanceof Phase && equals((Phase) obj);
+        return obj != null && (obj instanceof Phase && equals((Phase) obj) || obj instanceof ModelPhase && equals((ModelPhase) obj));
     }
     
     public boolean equals(Phase phase) {
         return phase != null && name.equalsIgnoreCase(phase.name);
+    }
+    
+    public boolean equals(ModelPhase modelPhase) {
+        return modelPhase != null && equals(modelPhase.getPhase());
     }
     
     @Override
@@ -55,12 +62,12 @@ public class Phase implements Comparable<Phase>, Serializable {
         this.name = name;
     }
 
-    public double getExpectedDuration() {
-        return expectedDuration;
+    public Sector getSector() {
+        return sector;
     }
 
-    public void setExpectedDuration(double expectedDuration) {
-        this.expectedDuration = expectedDuration;
+    public void setSector(Sector sector) {
+        this.sector = sector;
     }
     
 }

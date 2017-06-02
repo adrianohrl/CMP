@@ -8,9 +8,9 @@ package cmp.reports;
 import cmp.exceptions.CMPException;
 import cmp.model.events.Casualty;
 import cmp.model.events.TimeClockEvent;
-import cmp.model.personal.Sector;
-import cmp.model.personal.Subordinate;
-import cmp.model.personal.Supervisor;
+import cmp.model.personnel.Sector;
+import cmp.model.personnel.Subordinate;
+import cmp.model.personnel.Supervisor;
 import cmp.model.production.Model;
 import cmp.model.production.Phase;
 import cmp.model.production.PhaseProductionOrder;
@@ -20,6 +20,7 @@ import cmp.control.model.production.EntryEventsBuilder;
 import cmp.control.model.production.reports.EmployeeEventsPeriodBuilder;
 import cmp.control.model.production.reports.EventsPeriodBuilder;
 import cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
+import cmp.model.production.ModelPhase;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
@@ -44,10 +45,10 @@ public class EventsPeriodBuilderTest {
         supervisor.setSubordinates(subordinates);
         
         Model model = new Model("ref1", "Reference 1");
-        Phase phase1 = new Phase("phase 1", 10);
-        Phase phase2 = new Phase("phase 2", 7.5);
-        Phase phase3 = new Phase("phase 3", 5);
-        ArrayList<Phase> phases = new ArrayList<>();
+        ModelPhase phase1 = new ModelPhase(new Phase("phase 1", sector), 10);
+        ModelPhase phase2 = new ModelPhase(new Phase("phase 2", sector), 7.5);
+        ModelPhase phase3 = new ModelPhase(new Phase("phase 3", sector), 5);
+        ArrayList<ModelPhase> phases = new ArrayList<>();
         phases.add(phase1);
         phases.add(phase2);
         phases.add(phase3);
@@ -95,7 +96,7 @@ public class EventsPeriodBuilderTest {
         EventsPeriodBuilder builder = new EventsPeriodBuilder(events);
         for (EmployeeEventsPeriodBuilder b : builder) {
             System.out.println("Employee: " + b.getEmployee());
-            for (Phase phase : b.getPhases()) {
+            for (ModelPhase phase : b.getPhases()) {
                 System.out.println("\tPhase: " + phase);
                 System.out.println("\t\tEffective Duration: " + b.getEffectiveDuration(phase) + " [min]");
                 System.out.println("\t\tExpected Duration: " + b.getExpectedDuration(phase) + " [min]");

@@ -9,10 +9,10 @@ import cmp.exceptions.ReportException;
 import cmp.model.events.AbstractEmployeeRelatedEvent;
 import cmp.model.events.EntryEvent;
 import cmp.model.events.TimeClockEvent;
-import cmp.model.personal.Employee;
-import cmp.model.production.Phase;
+import cmp.model.personnel.Employee;
 import cmp.model.production.PhaseProductionOrder;
 import cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
+import cmp.model.production.ModelPhase;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -77,10 +77,10 @@ public class EmployeeEventsPeriodBuilder implements Iterable<AbstractEventsPerio
         return employee;
     }
     
-    public ArrayList<Phase> getPhases() {
-        ArrayList<Phase> phases = new ArrayList<>();
+    public ArrayList<ModelPhase> getPhases() {
+        ArrayList<ModelPhase> phases = new ArrayList<>();
         PhaseProductionOrder phaseProductionOrder;
-        Phase phase;
+        ModelPhase phase;
         for (AbstractEventsPeriod eventsPeriod : this) {
             phaseProductionOrder = eventsPeriod.getPhaseProductionOrder();
             if (phaseProductionOrder != null) {
@@ -95,25 +95,25 @@ public class EmployeeEventsPeriodBuilder implements Iterable<AbstractEventsPerio
     
     public double getTotalExpectedDuration() {
         double total = 0.0;
-        for (Phase phase : getPhases()) {
+        for (ModelPhase phase : getPhases()) {
              total += getExpectedDuration(phase);
         }
         return total;
     }
     
-    public double getExpectedDuration(Phase phase) {
+    public double getExpectedDuration(ModelPhase phase) {
         return phase.getExpectedDuration() * getProducedQuantity(phase);
     }
     
     public double getTotalEffectiveDuration() {
         double total = 0.0;
-        for (Phase phase : getPhases()) {
+        for (ModelPhase phase : getPhases()) {
              total += getEffectiveDuration(phase);
         }
         return total;
     }
     
-    public double getEffectiveDuration(Phase phase) {
+    public double getEffectiveDuration(ModelPhase phase) {
         double duration = 0.0;
         PhaseProductionOrder phaseProductionOrder;
         for (AbstractEventsPeriod eventPeriod : this) {
@@ -145,13 +145,13 @@ public class EmployeeEventsPeriodBuilder implements Iterable<AbstractEventsPerio
     
     public int getTotalProducedQuantity() {
         int total = 0;
-        for (Phase phase : getPhases()) {
+        for (ModelPhase phase : getPhases()) {
              total += getProducedQuantity(phase);
         }
         return total;
     }
     
-    public int getProducedQuantity(Phase phase) {
+    public int getProducedQuantity(ModelPhase phase) {
         int producedQuantity = 0;
         PhaseProductionOrder phaseProductionOrder;
         for (AbstractEventsPeriod eventPeriod : this) {
@@ -165,13 +165,13 @@ public class EmployeeEventsPeriodBuilder implements Iterable<AbstractEventsPerio
     
     public int getTotalReturnedQuantity() {
         int total = 0;
-        for (Phase phase : getPhases()) {
+        for (ModelPhase phase : getPhases()) {
              total += getReturnedQuantity(phase);
         }
         return total;
     }
     
-    public int getReturnedQuantity(Phase phase) {
+    public int getReturnedQuantity(ModelPhase phase) {
         int returnedQuantity = 0;
         PhaseProductionOrder phaseProductionOrder;
         for (AbstractEventsPeriod eventPeriod : this) {
@@ -188,7 +188,7 @@ public class EmployeeEventsPeriodBuilder implements Iterable<AbstractEventsPerio
         return totalEffectiveDuration != 0.0 ? getTotalExpectedDuration() / totalEffectiveDuration : 0.0;
     }
     
-    public double getEffectiveEfficiency(Phase phase) {
+    public double getEffectiveEfficiency(ModelPhase phase) {
         double effectiveDuration = getEffectiveDuration(phase);
         return effectiveDuration != 0.0 ? getExpectedDuration(phase) / effectiveDuration : 0.0;
     }

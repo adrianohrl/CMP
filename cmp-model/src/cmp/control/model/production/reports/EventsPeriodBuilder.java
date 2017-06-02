@@ -9,7 +9,7 @@ import cmp.control.model.production.reports.filters.FindByEmployee;
 import cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
 import cmp.exceptions.ReportException;
 import cmp.model.events.AbstractEmployeeRelatedEvent;
-import cmp.model.personal.Employee;
+import cmp.model.personnel.Employee;
 import java.util.ArrayList;
 import java.util.Iterator;
 

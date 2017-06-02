@@ -6,22 +6,22 @@
 package cmp.control.dao.events.io;
 
 import cmp.control.dao.events.CasualtyDAO;
-import cmp.control.dao.personal.SectorDAO;
-import cmp.control.dao.personal.SubordinateDAO;
-import cmp.control.dao.personal.SupervisorDAO;
+import cmp.control.dao.personnel.SectorDAO;
+import cmp.control.dao.personnel.SubordinateDAO;
+import cmp.control.dao.personnel.SupervisorDAO;
 import cmp.control.dao.production.ModelDAO;
-import cmp.control.dao.production.PhaseDAO;
+import cmp.control.dao.production.ModelPhaseDAO;
 import cmp.control.dao.production.PhaseProductionOrderDAO;
 import cmp.control.dao.production.ProductionOrderDAO;
 import cmp.control.model.events.io.EntryEventsReader;
 import cmp.exceptions.IOException;
 import cmp.exceptions.ProductionException;
 import cmp.model.events.Casualty;
-import cmp.model.personal.Sector;
-import cmp.model.personal.Subordinate;
-import cmp.model.personal.Supervisor;
+import cmp.model.personnel.Sector;
+import cmp.model.personnel.Subordinate;
+import cmp.model.personnel.Supervisor;
 import cmp.model.production.Model;
-import cmp.model.production.Phase;
+import cmp.model.production.ModelPhase;
 import cmp.model.production.PhaseProductionOrder;
 import cmp.model.production.ProductionOrder;
 import javax.persistence.EntityManager;
@@ -97,9 +97,9 @@ public class EntryEventsReaderDAO extends EntryEventsReader {
     }
 
     @Override
-    protected Phase createPhase(String phaseName, double expectedDuration, Model model) throws IOException {
-        PhaseDAO phaseDAO = new PhaseDAO(em);
-        Phase phase = phaseDAO.find(phaseName);
+    protected ModelPhase createPhase(String phaseName, double expectedDuration, Model model, Sector sector) throws IOException {
+        ModelPhaseDAO phaseDAO = new ModelPhaseDAO(em);
+        ModelPhase phase = phaseDAO.find(model.getName(), phaseName);
         if (phase == null) {
             throw new IOException("The input phase (whose name is " + phaseName + ") is not registered yet!!!");
         }
@@ -111,9 +111,9 @@ public class EntryEventsReaderDAO extends EntryEventsReader {
     }
 
     @Override
-    protected PhaseProductionOrder createPhaseProductionOrder(Phase phase, ProductionOrder productionOrder, int totalQuantity) throws ProductionException, IOException {
+    protected PhaseProductionOrder createPhaseProductionOrder(ModelPhase phase, ProductionOrder productionOrder, int totalQuantity) throws ProductionException, IOException {
         PhaseProductionOrderDAO phaseProductionOrderDAO = new PhaseProductionOrderDAO(em);
-        PhaseProductionOrder phaseProductionOrder = phaseProductionOrderDAO.find(phase.getName(), productionOrder.getReference());
+        PhaseProductionOrder phaseProductionOrder = phaseProductionOrderDAO.find(phase.getPhase().getName(), productionOrder.getReference());
         if (phaseProductionOrder == null) {
             phaseProductionOrder = new PhaseProductionOrder(phase, productionOrder, totalQuantity);
             phaseProductionOrderDAO.create(phaseProductionOrder);

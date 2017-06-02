@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cmp.dao.personal;
+package cmp.dao.personnel;
 
-import cmp.control.dao.personal.ManagerDAO;
-import cmp.control.dao.personal.SupervisorDAO;
-import cmp.control.dao.personal.SubordinateDAO;
-import cmp.control.dao.personal.SectorDAO;
+import cmp.control.dao.personnel.ManagerDAO;
+import cmp.control.dao.personnel.SupervisorDAO;
+import cmp.control.dao.personnel.SubordinateDAO;
+import cmp.control.dao.personnel.SectorDAO;
 import cmp.control.dao.DataSource;
-import cmp.model.personal.Employee;
-import cmp.model.personal.Manager;
-import cmp.model.personal.Sector;
-import cmp.model.personal.Subordinate;
-import cmp.model.personal.Supervisor;
+import cmp.model.personnel.Employee;
+import cmp.model.personnel.Manager;
+import cmp.model.personnel.Sector;
+import cmp.model.personnel.Subordinate;
+import cmp.model.personnel.Supervisor;
 import cmp.util.Keyboard;
 import java.util.Collection;
 import java.util.List;
@@ -24,65 +24,65 @@ import javax.persistence.EntityManager;
  *
  * @author adrianohrl
  */
-public class PersonalTest {
+public class PersonnelTest {
     
     private static EntityManager em = DataSource.createEntityManager();
     
     public static void main(String[] args) {
-        PersonalMenuOptions option = PersonalMenuOptions.getOption();
+        PersonnelMenuOptions option = PersonnelMenuOptions.getOption();
         while (!option.quit()) {
             try {
-                PersonalTest.process(option);
+                PersonnelTest.process(option);
             } catch (RuntimeException e) {
                 System.out.println("Exception catched: " + e.getMessage());
             }
-            option = PersonalMenuOptions.getOption();
+            option = PersonnelMenuOptions.getOption();
         }
         System.out.println("Quitting!!!");
         em.close();
         DataSource.closeEntityManagerFactory();
     }
     
-    public static void process(PersonalMenuOptions option) {
+    public static void process(PersonnelMenuOptions option) {
         if (option.quit()) {
             return;
         }
         switch (option) {
             case REGISTER_SUBORDINATE:
-                PersonalTest.createSubordinate();
+                PersonnelTest.createSubordinate();
                 break;
             case REGISTER_SUPERVISOR:
-                PersonalTest.createSupervisor();
+                PersonnelTest.createSupervisor();
                 break;
             case REGISTER_MANAGER:
-                PersonalTest.createManager();
+                PersonnelTest.createManager();
                 break;
             case REGISTER_SECTOR:
-                PersonalTest.createSector();
+                PersonnelTest.createSector();
                 break;
             case SHOW_ALL_SUBORDINATES:
-                PersonalTest.showAllRegisteredSubordinates();
+                PersonnelTest.showAllRegisteredSubordinates();
                 break;
             case SHOW_ALL_SUPERVISORS:
-                PersonalTest.showAllRegisteredSupervisors();
+                PersonnelTest.showAllRegisteredSupervisors();
                 break;
             case SHOW_ALL_MANAGERS:
-                PersonalTest.showAllRegisteredManagers();
+                PersonnelTest.showAllRegisteredManagers();
                 break;
             case SHOW_ALL_SECTORS:
-                PersonalTest.showAllRegisteredSectors();
+                PersonnelTest.showAllRegisteredSectors();
                 break;
             case ASSIGN_NEW_SUBORDINATES:
-                PersonalTest.assignNewSubordinatesToSupervisor();
+                PersonnelTest.assignNewSubordinatesToSupervisor();
                 break;
             case ASSIGN_NEW_SUPERVISORS:
-                PersonalTest.assignNewSupervisorsToManager();
+                PersonnelTest.assignNewSupervisorsToManager();
                 break;
             case UPGRADE_EMPLOYEE:
-                PersonalTest.upgradeEmployee();
+                PersonnelTest.upgradeEmployee();
                 break;
             case DOWNGRADE_EMPLOYEE:
-                PersonalTest.downgradeEmployee();
+                PersonnelTest.downgradeEmployee();
                 break;
             default:
                 System.out.println("Invalid option!!!");
@@ -91,7 +91,7 @@ public class PersonalTest {
     
     public static void registerEmployees(Collection<? extends Employee> employees) {
         for (Employee employee : employees) {
-            PersonalTest.register(employee);
+            PersonnelTest.register(employee);
         }
     }
     
@@ -110,7 +110,7 @@ public class PersonalTest {
     
     public static void registerSectors(Collection<Sector> sectors) {
         for (Sector sector : sectors) {
-            PersonalTest.register(sector);
+            PersonnelTest.register(sector);
         }
     }
     
@@ -122,19 +122,19 @@ public class PersonalTest {
     public static void showAllRegisteredSubordinates() {
         System.out.println("Showing all registered subordinates ...");
         SubordinateDAO subordinateDAO = new SubordinateDAO(em);
-        PersonalTest.print(subordinateDAO.findAll());
+        PersonnelTest.print(subordinateDAO.findAll());
     }
 
     public static void showAllRegisteredSupervisors() {
         System.out.println("Showing all registered supervisors ...");
         SupervisorDAO supervisorDAO = new SupervisorDAO(em);
-        PersonalTest.print(supervisorDAO.findAll());
+        PersonnelTest.print(supervisorDAO.findAll());
     }
 
     public static void showAllRegisteredManagers() {
         System.out.println("Showing all registered managers ...");
         ManagerDAO managerDAO = new ManagerDAO(em);
-        PersonalTest.print(managerDAO.findAll());
+        PersonnelTest.print(managerDAO.findAll());
     }
 
     public static void showAllRegisteredSectors() {
@@ -183,7 +183,7 @@ public class PersonalTest {
         String code = keyboard.readString("code: ");
         String name = keyboard.readString("name: ");
         try {
-            PersonalTest.register(new Subordinate(code, name));
+            PersonnelTest.register(new Subordinate(code, name));
             System.out.println("The subordinate registration succeeded!!!");
         } catch (RuntimeException e) {
             System.out.println("The subordinate registration failed: " + e.getMessage() + "!!!");
@@ -201,8 +201,8 @@ public class PersonalTest {
         String password = keyboard.readString("password: ");
         try {
             Supervisor supervisor = new Supervisor(login, password, code, name);
-            PersonalTest.register(supervisor);
-            PersonalTest.assignNewSubordinatesToSupervisor(supervisor);
+            PersonnelTest.register(supervisor);
+            PersonnelTest.assignNewSubordinatesToSupervisor(supervisor);
             System.out.println("The supervisor registration succeeded!!!");
         } catch (RuntimeException e) {
             System.out.println("The supervisor registration failed: " + e.getMessage() + "!!!");
@@ -220,7 +220,7 @@ public class PersonalTest {
         String password = keyboard.readString("password: ");
         try {
             Manager manager = new Manager(login, password, code, name);
-            PersonalTest.register(manager);
+            PersonnelTest.register(manager);
             assignNewSupervisorsToManager(manager);
             System.out.println("The manager registration succeeded!!!");
         } catch (RuntimeException e) {
@@ -234,9 +234,9 @@ public class PersonalTest {
         Keyboard keyboard = Keyboard.getKeyboard();
         System.out.println("Enter the info of the new sector below:");
         String name = keyboard.readString("name: ");
-        Supervisor supervisor = PersonalKeyboardEntries.selectOneSupervisor();
+        Supervisor supervisor = PersonnelKeyboardEntries.selectOneSupervisor();
         try {
-            PersonalTest.register(new Sector(name, supervisor));
+            PersonnelTest.register(new Sector(name, supervisor));
             System.out.println("The sector registration succeeded!!!");
         } catch (RuntimeException e) {
             System.out.println("The sector registration failed: " + e.getMessage() + "!!!");
@@ -246,12 +246,12 @@ public class PersonalTest {
 
     private static void assignNewSubordinatesToSupervisor() {
         System.out.println("\nAssigning new subordinates to a supervisor ...");
-        Supervisor supervisor = PersonalKeyboardEntries.selectOneSupervisor();
+        Supervisor supervisor = PersonnelKeyboardEntries.selectOneSupervisor();
         assignNewSubordinatesToSupervisor(supervisor);
     }
     
     public static void assignNewSubordinatesToSupervisor(Supervisor supervisor) {
-        List<Subordinate> subordinates = PersonalKeyboardEntries.selectManySubordinates(supervisor);
+        List<Subordinate> subordinates = PersonnelKeyboardEntries.selectManySubordinates(supervisor);
         if (subordinates == null) {
             return;
         }
@@ -267,12 +267,12 @@ public class PersonalTest {
 
     private static void assignNewSupervisorsToManager() {
         System.out.println("\nAssigning new supervisors to a manager ...");
-        Manager manager = PersonalKeyboardEntries.selectOneManager();
+        Manager manager = PersonnelKeyboardEntries.selectOneManager();
         assignNewSupervisorsToManager(manager);
     }
 
     public static void assignNewSupervisorsToManager(Manager manager) {
-        List<Supervisor> supervisors = PersonalKeyboardEntries.selectManySupervisors(manager);
+        List<Supervisor> supervisors = PersonnelKeyboardEntries.selectManySupervisors(manager);
         if (supervisors == null) {
             return;
         }

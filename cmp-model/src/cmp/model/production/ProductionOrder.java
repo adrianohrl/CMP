@@ -19,7 +19,7 @@ public class ProductionOrder implements Comparable<ProductionOrder>, Serializabl
     
     @Id
     private String reference;
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Model model;
 
     public ProductionOrder() {
@@ -30,7 +30,7 @@ public class ProductionOrder implements Comparable<ProductionOrder>, Serializabl
         this.model = model;
     }
     
-    public boolean belongs(Phase phase) {
+    public boolean belongs(ModelPhase phase) {
         return model.belongs(phase);
     }
 

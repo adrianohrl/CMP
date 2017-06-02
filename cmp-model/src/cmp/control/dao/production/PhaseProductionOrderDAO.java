@@ -6,6 +6,7 @@
 package cmp.control.dao.production;
 
 import cmp.control.dao.DAO;
+import cmp.model.production.ModelPhase;
 import cmp.model.production.Phase;
 import cmp.model.production.PhaseProductionOrder;
 import cmp.model.production.ProductionOrder;
@@ -32,8 +33,8 @@ public class PhaseProductionOrderDAO extends DAO<PhaseProductionOrder, Long> {
         try {
             return (PhaseProductionOrder) em.createQuery("SELECT ppo "
                     + "FROM PhaseProductionOrder ppo "
-                    + "WHERE ppo.phase.name = '" + phaseName + "' "
-                    + "AND ppo.productionOrder.reference = '" + productionOrderName + "'").getSingleResult();
+                    + "WHERE ppo.phase.phase.name = '" + phaseName + "' "
+                        + "AND ppo.productionOrder.reference = '" + productionOrderName + "'").getSingleResult();
         } catch (NoResultException nre) {
             return null;
         }
@@ -41,6 +42,10 @@ public class PhaseProductionOrderDAO extends DAO<PhaseProductionOrder, Long> {
     
     public PhaseProductionOrder find(Phase phase, ProductionOrder productionOrder) {
         return find(phase.getName(), productionOrder.getReference());
+    }
+    
+    public PhaseProductionOrder find(ModelPhase phase, ProductionOrder productionOrder) {
+        return find(phase.getPhase().getName(), productionOrder.getReference());
     }
     
     public List<PhaseProductionOrder> findPendents() {

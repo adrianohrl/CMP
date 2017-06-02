@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cmp.dao.personal;
+package cmp.dao.personnel;
 
-import cmp.control.dao.personal.SupervisorDAO;
+import cmp.control.dao.personnel.SupervisorDAO;
 import cmp.control.dao.DataSource;
-import cmp.model.personal.Employee;
-import cmp.model.personal.Manager;
-import cmp.model.personal.Sector;
-import cmp.model.personal.Subordinate;
-import cmp.model.personal.Supervisor;
+import cmp.model.personnel.Employee;
+import cmp.model.personnel.Manager;
+import cmp.model.personnel.Sector;
+import cmp.model.personnel.Subordinate;
+import cmp.model.personnel.Supervisor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -23,7 +23,7 @@ import javax.persistence.EntityManager;
  *
  * @author adrianohrl
  */
-public class PersonalDAOsTest {
+public class PersonnelDAOsTest {
     
     private static EntityManager em = DataSource.createEntityManager();
     private static Map<String, Subordinate> subordinates;
@@ -33,16 +33,16 @@ public class PersonalDAOsTest {
     
     public static void main(String[] args) {
         try {
-            PersonalDAOsTest.createEmployees();
-            PersonalTest.registerEmployees(subordinates.values());
-            PersonalTest.registerEmployees(supervisors.values());
-            PersonalTest.registerEmployees(managers.values());
-            PersonalDAOsTest.createSectors();
-            PersonalTest.registerSectors(sectors.values());
-            PersonalTest.showAllRegisteredSubordinates();
-            PersonalTest.showAllRegisteredSupervisors();
-            PersonalTest.showAllRegisteredManagers();
-            PersonalTest.showAllRegisteredSectors();
+            PersonnelDAOsTest.createEmployees();
+            PersonnelTest.registerEmployees(subordinates.values());
+            PersonnelTest.registerEmployees(supervisors.values());
+            PersonnelTest.registerEmployees(managers.values());
+            PersonnelDAOsTest.createSectors();
+            PersonnelTest.registerSectors(sectors.values());
+            PersonnelTest.showAllRegisteredSubordinates();
+            PersonnelTest.showAllRegisteredSupervisors();
+            PersonnelTest.showAllRegisteredManagers();
+            PersonnelTest.showAllRegisteredSectors();
         } catch (RuntimeException e) {
             System.out.println("Exception catched: " + e.getMessage());
         } finally {
@@ -99,7 +99,7 @@ public class PersonalDAOsTest {
         managers.put(manager.getName(), manager);
         employees.addAll(managers.values());
         Collections.sort(employees);
-        PersonalTest.print(employees);
+        PersonnelTest.print(employees);
     }
 
     private static void createSectors() {

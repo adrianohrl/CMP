@@ -5,10 +5,10 @@
  */
 package cmp.control.dao.events.io;
 
-import cmp.control.dao.personal.EmployeeDAO;
+import cmp.control.dao.personnel.EmployeeDAO;
 import cmp.control.model.events.io.TimeClockEventsReader;
 import cmp.exceptions.IOException;
-import cmp.model.personal.Employee;
+import cmp.model.personnel.Employee;
 import javax.persistence.EntityManager;
 
 /**
