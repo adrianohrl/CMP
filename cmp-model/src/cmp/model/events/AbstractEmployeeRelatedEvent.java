@@ -19,7 +19,7 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class AbstractEmployeeRelatedEvent<T extends Employee> extends AbstractEvent {
+public abstract class AbstractEmployeeRelatedEvent<T extends Employee> extends AbstractEvent {
     
     @ManyToOne(targetEntity = Employee.class, optional = false)
     private T employee;

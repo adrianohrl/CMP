@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  *
@@ -18,9 +19,9 @@ import java.util.Iterator;
 public class CSVReader implements Iterable<String> {
     
     private final FileIO fileReader;
-    private final ArrayList<Field> defaultFields;
+    private final List<Field> defaultFields;
 
-    public CSVReader(String fileName, ArrayList<Field> defaultFields) throws IOException {
+    public CSVReader(String fileName, List<Field> defaultFields) throws IOException {
         this.defaultFields = defaultFields;
         fileReader = new FileIO(fileName, ",");
     }
@@ -31,7 +32,7 @@ public class CSVReader implements Iterable<String> {
         for (String fieldTitle : this) {
             index = indexOf(fieldTitle);
             if (index == -1) {
-                throw new IOException("Inexistent time clock event field!!!");
+                throw new IOException("Inexistent field!!!");
             }
             defaultFields.get(index).setColumnIndex(counter++);
         }
@@ -60,12 +61,12 @@ public class CSVReader implements Iterable<String> {
         return -1;
     }
     
-    public ArrayList<Field> fillFields() throws IOException {
+    public List<Field> fillFields() throws IOException {
         Iterator<String> fieldValueIterator = iterator();
         if (eof()) {
             return null;
         }
-        ArrayList<Field> fields = new ArrayList<>(defaultFields);
+        List<Field> fields = new ArrayList<>(defaultFields);
         for (Field field : fields) {
             if (fieldValueIterator.hasNext()) {
                 try {
@@ -80,7 +81,7 @@ public class CSVReader implements Iterable<String> {
         return fields;
     }
 
-    public ArrayList<Field> getDefaultFields() {
+    public List<Field> getDefaultFields() {
         return defaultFields;
     }
     

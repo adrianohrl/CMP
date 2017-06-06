@@ -44,12 +44,12 @@ public class EventDAOsTest {
             Keyboard keyboard = Keyboard.getKeyboard();
             //String fileName = keyboard.readString("Enter the file name to import time clock events: ");
             String fileName = "../others/tests/ImportTimeClockEvents1.csv";
-            TimeClockEventsReaderDAO timeClockEventsReader = new TimeClockEventsReaderDAO(em, fileName);
-            timeClockEventsReader.readFile();
+            TimeClockEventsReaderDAO timeClockEventsReader = new TimeClockEventsReaderDAO(em);
+            timeClockEventsReader.readFile(fileName);
             //fileName = keyboard.readString("Enter the file name to import entry events: ");
             fileName = "../others/tests/ImportEntryEvents1.csv";
-            EntryEventsReaderDAO entryEventsReader = new EntryEventsReaderDAO(em, fileName);
-            entryEventsReader.readFile();
+            EntryEventsReaderDAO entryEventsReader = new EntryEventsReaderDAO(em);
+            entryEventsReader.readFile(fileName);
             EmployeeRelatedEventsList events = new EmployeeRelatedEventsList();
             events.addAll(timeClockEventsReader.getEmployeeRelatedEventsList());
             events.addAll(entryEventsReader.getEmployeeRelatedEventsList());

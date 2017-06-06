@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
  * @author adrianohrl
  */
 @Entity
-public class Sector implements Comparable<Sector>, Serializable{
+public class Sector implements Comparable<Sector>, Serializable {
     
     @Id
     private String name;

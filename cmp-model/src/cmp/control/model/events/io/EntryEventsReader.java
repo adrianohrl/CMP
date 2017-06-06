@@ -23,7 +23,7 @@ import cmp.control.model.production.EntryEventsBuilder;
 import cmp.control.model.production.reports.EventsPeriodBuilder;
 import cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
 import cmp.model.production.ModelPhase;
-import cmp.util.CSVReader;
+import cmp.util.AbstractReader;
 import cmp.util.CalendarField;
 import cmp.util.Calendars;
 import cmp.util.DoubleField;
@@ -32,15 +32,14 @@ import cmp.util.IntegerField;
 import cmp.util.StringField;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 
 /**
  *
  * @author adrianohrl
  */
-public class EntryEventsReader implements Iterable<EntryEvent> {
+public class EntryEventsReader extends AbstractReader<EntryEvent> {
     
     /** Column Titles **/
     private final static String DATE_COLUMN_TITLE = "Date";
@@ -67,21 +66,10 @@ public class EntryEventsReader implements Iterable<EntryEvent> {
     private final static HashMap<String, Casualty> casualties = new HashMap<>();
     private final static ArrayList<PhaseProductionOrder> phaseProductionOrders = new ArrayList<>();
     
-    private final CSVReader csvReader;
     private final HashMap<Sector, EntryEventsBuilder> builders = new HashMap<>();
-    private final ArrayList<EntryEvent> entryEvents = new ArrayList<>();
-
-    public EntryEventsReader(String fileName) throws IOException {
-        csvReader = new CSVReader(fileName, getDefaultFields());   
-    }
     
-    public void readFile() throws IOException {
-        csvReader.readColumnTitles();
-        readEntryEvents();
-        csvReader.close();
-    }
-    
-    private ArrayList<Field> getDefaultFields() {
+    @Override
+    protected List<Field> getDefaultFields() {
         ArrayList<Field> defaultFields = new ArrayList<>();
         defaultFields.add(new CalendarField(DATE_COLUMN_TITLE, "dd/MM/yyyy", true));
         defaultFields.add(new CalendarField(TIME_COLUMN_TITLE, "HH:mm", true));
@@ -100,21 +88,19 @@ public class EntryEventsReader implements Iterable<EntryEvent> {
         return defaultFields;
     }
     
-    private void readEntryEvents() throws IOException {
-        ArrayList<Field> fields = csvReader.fillFields();
-        while (fields != null) {
-            buildEntryEvent(fields);
-            fields = csvReader.fillFields();
-        }
+    @Override
+    public void readFile(String fileName) throws IOException {
+        super.readFile(fileName);
         for (EntryEventsBuilder builder : builders.values()) {
             for (AbstractEmployeeRelatedEvent entryEvent : builder.getEntryEvents()) {
-                entryEvents.add((EntryEvent) entryEvent);
+                add((EntryEvent) entryEvent);
             }
         }
-        Collections.sort(entryEvents);
+        sort();
     }
     
-    private void buildEntryEvent(ArrayList<Field> fields) throws IOException {
+    @Override
+    protected EntryEvent build(List<Field> fields) throws IOException {
         Calendar calendar = Calendars.sum((Calendar) Field.getFieldValue(fields, DATE_COLUMN_TITLE), (Calendar) Field.getFieldValue(fields, TIME_COLUMN_TITLE));
         Supervisor supervisor = getSupervisor(Field.getFieldValue(fields, SUPERVISOR_COLUMN_TITLE));
         Sector sector = getSector(Field.getFieldValue(fields, SECTOR_COLUMN_TITLE), supervisor);
@@ -149,6 +135,7 @@ public class EntryEventsReader implements Iterable<EntryEvent> {
         } catch (ProductionException e) {
             throw new IOException(e.getMessage());
         }
+        return null;
     }
     
     private Supervisor getSupervisor(String supervisorName) throws IOException {
@@ -265,16 +252,11 @@ public class EntryEventsReader implements Iterable<EntryEvent> {
     }
     
     public EmployeeRelatedEventsList<EntryEvent> getEmployeeRelatedEventsList() {
-        return new EmployeeRelatedEventsList<>(entryEvents);
+        return new EmployeeRelatedEventsList<>(getReadEntities());
     }
     
     public EventsPeriodBuilder getEventsPeriodBuilder() throws ReportException {
-        return new EventsPeriodBuilder(new EmployeeRelatedEventsList(entryEvents));
-    }
-
-    @Override
-    public Iterator<EntryEvent> iterator() {
-        return entryEvents.iterator();
+        return new EventsPeriodBuilder(new EmployeeRelatedEventsList(getReadEntities()));
     }
     
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cmp.reports;
+package cmp.control.model.production.reports;
 
 import cmp.exceptions.CMPException;
 import cmp.model.events.AbstractEmployeeRelatedEvent;

@@ -17,18 +17,17 @@ import cmp.model.personnel.Subordinate;
 import cmp.control.model.production.reports.EventsPeriodBuilder;
 import cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
 import cmp.control.model.production.reports.filters.FindByEmployee;
-import cmp.util.CSVReader;
+import cmp.util.AbstractReader;
 import cmp.util.Calendars;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Iterator;
+import java.util.List;
 
 /**
  *
  * @author adrianohrl
  */
-public class TimeClockEventsReader implements Iterable<TimeClockEvent> {
+public class TimeClockEventsReader extends AbstractReader<TimeClockEvent> {
     
     /** Column Titles **/
     private final static String DATE_COLUMN_TITLE = "Date";
@@ -37,21 +36,9 @@ public class TimeClockEventsReader implements Iterable<TimeClockEvent> {
     private final static String ARRIVAL_COLUMN_TITLE = "Arrival";
     private final static String OBSERVATION_COLUMN_TITLE = "Observation";
     
-    private final CSVReader csvReader;
-    private final ArrayList<TimeClockEvent> timeClockEvents = new ArrayList<>();
-
-    public TimeClockEventsReader(String fileName) throws IOException {
-        csvReader = new CSVReader(fileName, getDefaultFields());
-    }
-    
-    public void readFile() throws IOException {
-        csvReader.readColumnTitles();
-        readTimeClockEvents();
-        csvReader.close();
-    }
-    
-    private ArrayList<Field> getDefaultFields() {
-        ArrayList<Field> defaultFields = new ArrayList<>();
+    @Override
+    protected List<Field> getDefaultFields() {
+        List<Field> defaultFields = new ArrayList<>();
         defaultFields.add(new CalendarField(DATE_COLUMN_TITLE, "dd/MM/yyyy", true));
         defaultFields.add(new CalendarField(TIME_COLUMN_TITLE, "HH:mm", true));
         defaultFields.add(new StringField(EMPLOYEE_COLUMN_TITLE, true));
@@ -59,18 +46,15 @@ public class TimeClockEventsReader implements Iterable<TimeClockEvent> {
         defaultFields.add(new StringField(OBSERVATION_COLUMN_TITLE, false));
         return defaultFields;
     }
-    
-    private void readTimeClockEvents() throws IOException {
-        ArrayList<Field> fields = csvReader.fillFields();
-        while (fields != null) {
-            timeClockEvents.add(getTimeClockEvent(fields));
-            fields = csvReader.fillFields();
-        }
-        Collections.sort(timeClockEvents);
+
+    @Override
+    public void readFile(String fileName) throws IOException {
+        super.readFile(fileName);
         validate();
     }
     
-    private TimeClockEvent getTimeClockEvent(ArrayList<Field> fields) throws IOException {
+    @Override
+    protected TimeClockEvent build(List<Field> fields) throws IOException {
         Calendar calendar = Calendars.sum((Calendar) Field.getFieldValue(fields, DATE_COLUMN_TITLE), (Calendar) Field.getFieldValue(fields, TIME_COLUMN_TITLE));
         Employee employee = createEmployee(Field.getFieldValue(fields, EMPLOYEE_COLUMN_TITLE));
         return new TimeClockEvent(employee, Field.getFieldValue(fields, ARRIVAL_COLUMN_TITLE), calendar, Field.getFieldValue(fields, OBSERVATION_COLUMN_TITLE));
@@ -83,7 +67,7 @@ public class TimeClockEventsReader implements Iterable<TimeClockEvent> {
     private void validate() throws IOException {
         TimeClockEvent previous;
         FindByEmployee<TimeClockEvent> filter;
-        EmployeeRelatedEventsList<TimeClockEvent> events = new EmployeeRelatedEventsList<>(timeClockEvents);
+        EmployeeRelatedEventsList<TimeClockEvent> events = new EmployeeRelatedEventsList<>(getReadEntities());
         for (Employee employee : events.getInvolvedEmployees()) {
             filter = new FindByEmployee<>(employee);
             events.execute(filter);
@@ -101,22 +85,13 @@ public class TimeClockEventsReader implements Iterable<TimeClockEvent> {
             }
         }
     }
-
-    public ArrayList<TimeClockEvent> getTimeClockEvents() {
-        return timeClockEvents;
-    }
     
     public EmployeeRelatedEventsList getEmployeeRelatedEventsList() {
-        return new EmployeeRelatedEventsList(timeClockEvents);
+        return new EmployeeRelatedEventsList(getReadEntities());
     }
     
     public EventsPeriodBuilder getEventsPeriodBuilder() throws ReportException {
-        return new EventsPeriodBuilder(new EmployeeRelatedEventsList(timeClockEvents));
-    }
-
-    @Override
-    public Iterator<TimeClockEvent> iterator() {
-        return timeClockEvents.iterator();
+        return new EventsPeriodBuilder(new EmployeeRelatedEventsList(getReadEntities()));
     }
     
 }

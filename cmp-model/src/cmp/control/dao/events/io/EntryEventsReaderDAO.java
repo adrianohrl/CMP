@@ -34,8 +34,7 @@ public class EntryEventsReaderDAO extends EntryEventsReader {
     
     private EntityManager em;
 
-    public EntryEventsReaderDAO(EntityManager em, String fileName) throws IOException {
-        super(fileName);
+    public EntryEventsReaderDAO(EntityManager em) {
         this.em = em;
     }
     

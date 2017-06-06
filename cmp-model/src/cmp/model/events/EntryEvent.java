@@ -20,7 +20,7 @@ import javax.persistence.ManyToOne;
  * @author adrianohrl
  */
 @Entity
-public class EntryEvent extends AbstractEmployeeRelatedEvent<Subordinate> {
+ public class EntryEvent extends AbstractEmployeeRelatedEvent<Subordinate> {
     
     @ManyToOne(optional = false)
     private Sector sector;

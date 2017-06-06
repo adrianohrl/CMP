@@ -587,10 +587,10 @@ public class EventsTest {
     public static void importEntryEvents() {
         System.out.println("\nImporting entry events ...");
         Keyboard keyboard = Keyboard.getKeyboard();
+        EntryEventsReaderDAO reader = new EntryEventsReaderDAO(em);
         String fileName = keyboard.readString("Enter the file name: ");
         try {
-            EntryEventsReaderDAO reader = new EntryEventsReaderDAO(em, fileName);
-            reader.readFile();
+            reader.readFile(fileName);
             EmployeeRelatedEventsList events = new EmployeeRelatedEventsList();
             events.addAll(reader.getEmployeeRelatedEventsList());
             EventsTest.register(events);
@@ -603,10 +603,10 @@ public class EventsTest {
     public static void importTimeClockEvents() {
         System.out.println("\nImporting time clock events ...");
         Keyboard keyboard = Keyboard.getKeyboard();
+        TimeClockEventsReaderDAO reader = new TimeClockEventsReaderDAO(em);
         String fileName = keyboard.readString("Enter the file name: ");
         try {
-            TimeClockEventsReaderDAO reader = new TimeClockEventsReaderDAO(em, fileName);
-            reader.readFile();
+            reader.readFile(fileName);
             EmployeeRelatedEventsList events = new EmployeeRelatedEventsList();
             events.addAll(reader.getEmployeeRelatedEventsList());
             EventsTest.register(events);

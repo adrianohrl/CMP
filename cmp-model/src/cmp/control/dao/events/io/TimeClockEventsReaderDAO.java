@@ -19,8 +19,7 @@ public class TimeClockEventsReaderDAO extends TimeClockEventsReader {
     
     private EntityManager em;
 
-    public TimeClockEventsReaderDAO(EntityManager em, String fileName) throws IOException {
-        super(fileName);
+    public TimeClockEventsReaderDAO(EntityManager em) {
         this.em = em;
     }
 

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cmp.events.io;
+package cmp.control.dao.events;
 
-import cmp.control.model.events.io.TimeClockEventsReader;
+import cmp.control.model.events.io.EntryEventsReader;
 import cmp.exceptions.IOException;
 import cmp.model.events.EntryEvent;
 import cmp.model.personnel.Employee;
@@ -17,13 +17,13 @@ import cmp.util.Keyboard;
  *
  * @author adrianohrl
  */
-public class TimeClockEventsReaderTest {
+public class EntryEventsReaderTest {
     
     public static void main(String[] args) throws IOException {
         Keyboard keyboard = Keyboard.getKeyboard();
         String fileName = keyboard.readString("Enter the file name: ");
-        TimeClockEventsReader reader = new TimeClockEventsReader(fileName);
-        reader.readFile();
+        EntryEventsReader reader = new EntryEventsReader();
+        reader.readFile(fileName);
         EmployeeRelatedEventsList<EntryEvent> events = reader.getEmployeeRelatedEventsList();
         FindByEmployee<EntryEvent> filter;
         for (Employee employee : events.getInvolvedEmployees()) {

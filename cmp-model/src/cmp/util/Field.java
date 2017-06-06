@@ -7,6 +7,7 @@ package cmp.util;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -19,14 +20,25 @@ public abstract class Field<T extends Comparable<T>> implements Comparable<Field
     private final boolean mandatory;
     private final String title;
     private T value = null;
+    private List<T> validValues = new ArrayList<>();
     
     protected Field(String title) {
         this(title, false);
     }
     
+    protected Field(String title, List<T> validValues) {
+        this(title, false);
+        this.validValues = validValues;
+    }
+    
     protected Field(String title, boolean mandatory) {
         this.title = title;
         this.mandatory = mandatory;
+    }
+    
+    protected Field(String title, boolean mandatory, List<T> validValues) {
+        this(title, mandatory);
+        this.validValues = validValues;
     }
 
     protected Field(String title, T value) {
@@ -34,9 +46,26 @@ public abstract class Field<T extends Comparable<T>> implements Comparable<Field
         this.value = value;
     }
 
+    protected Field(String title, T value, List<T> validValues) {
+        this(title, validValues);
+        if (isValid(value))
+        {
+            this.value = value;
+        }
+    }
+
     protected Field(String title, T value, boolean mandatory) {
         this(title, mandatory);
         this.value = value;
+    }
+
+    protected Field(String title, T value, boolean mandatory, List<T> validValues) {
+        this(title, mandatory);
+        this.validValues = validValues;
+        if (isValid(value))
+        {
+            this.value = value;
+        }
     }
     
     public boolean exists() {
@@ -47,7 +76,11 @@ public abstract class Field<T extends Comparable<T>> implements Comparable<Field
         return value != null;
     }
     
-    public static <T> T getFieldValue(ArrayList<Field> fields, String fieldTitle) {
+    private boolean isValid(T value) {
+        return validValues.isEmpty() || validValues.contains(value);
+    }
+    
+    public static <T> T getFieldValue(List<Field> fields, String fieldTitle) {
         for (Field field : fields) {
             if (field.equals(fieldTitle)) {
                 return (T) field.getValue();
@@ -98,7 +131,10 @@ public abstract class Field<T extends Comparable<T>> implements Comparable<Field
     }
     
     protected void setValue(T value) {
-        this.value = value;
+        if (isValid(value))
+        {
+            this.value = value;
+        }
     }
     
     public abstract void setValue(String value) throws ParseException;

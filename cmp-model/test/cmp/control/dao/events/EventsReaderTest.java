@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cmp.events.io;
+package cmp.control.dao.events;
 
-import cmp.control.model.events.io.TimeClockEventsReader;
 import cmp.control.model.events.io.EntryEventsReader;
+import cmp.control.model.events.io.TimeClockEventsReader;
 import cmp.exceptions.IOException;
 import cmp.exceptions.ReportException;
 import cmp.control.model.production.reports.EmployeeEventsPeriodBuilder;
@@ -24,11 +24,11 @@ public class EventsReaderTest {
     public static void main(String[] args) throws IOException, ReportException {
         Keyboard keyboard = Keyboard.getKeyboard();
         String fileName = keyboard.readString("Enter the time clock events file name: ");
-        EntryEventsReader entryEventsReader = new EntryEventsReader(fileName);
-        entryEventsReader.readFile();
+        EntryEventsReader entryEventsReader = new EntryEventsReader();
+        entryEventsReader.readFile(fileName);
         fileName = keyboard.readString("Enter the time clock events file name: ");
-        TimeClockEventsReader timeClockEventsReader = new TimeClockEventsReader(fileName);
-        timeClockEventsReader.readFile();
+        TimeClockEventsReader timeClockEventsReader = new TimeClockEventsReader();
+        timeClockEventsReader.readFile(fileName);
         
         EmployeeRelatedEventsList events = new EmployeeRelatedEventsList();
         events.addAll(entryEventsReader.getEmployeeRelatedEventsList());
