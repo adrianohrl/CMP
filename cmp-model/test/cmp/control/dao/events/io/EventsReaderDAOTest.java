@@ -8,6 +8,8 @@ package cmp.control.dao.events.io;
 import cmp.control.dao.DataSource;
 import cmp.exceptions.IOException;
 import cmp.model.events.Casualty;
+import cmp.model.events.EntryEvent;
+import cmp.model.events.TimeClockEvent;
 import cmp.util.Keyboard;
 import javax.persistence.EntityManager;
 
@@ -19,9 +21,11 @@ public class EventsReaderDAOTest {
     
     private static EntityManager em = DataSource.createEntityManager();
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Keyboard keyboard = Keyboard.getKeyboard();
         CasualtiesReaderDAO casualtyReader = new CasualtiesReaderDAO(em);
+        EntryEventsReaderDAO entryEventsReaderDAO = new EntryEventsReaderDAO(em);
+        TimeClockEventsReaderDAO timeClockEventsReaderDAO = new TimeClockEventsReaderDAO(em);
         String fileName;
         try {
             System.out.println("Testing the CasualtiesReaderDAO class ...");
@@ -30,6 +34,20 @@ public class EventsReaderDAOTest {
             System.out.println("  The following casualties were registered:");
             for (Casualty casualty : casualtyReader) {
                 System.out.println("\t" + casualty);
+            }
+            System.out.println("\n\nTesting the TimeClockEventsReaderDAO class ...");
+            fileName = "../others/tests/ImportTimeClockEvents1.csv";//keyboard.readString("Enter the file name: ");
+            timeClockEventsReaderDAO.readFile(fileName);
+            System.out.println("  The following time clock events were registered:");
+            for (TimeClockEvent event : timeClockEventsReaderDAO) {
+                System.out.println("\t" + event);
+            }
+            System.out.println("\n\nTesting the EntryEventsReaderDAO class ...");
+            fileName = "../others/tests/ImportEntryEvents1.csv";//keyboard.readString("Enter the file name: ");
+            entryEventsReaderDAO.readFile(fileName);
+            System.out.println("  The following entry events were registered:");
+            for (EntryEvent event : entryEventsReaderDAO) {
+                System.out.println("\t" + event);
             }
         } catch (RuntimeException | IOException e) {
             System.out.println("Exception catched: " + e.getMessage());

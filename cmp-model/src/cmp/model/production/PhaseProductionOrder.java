@@ -151,6 +151,12 @@ public class PhaseProductionOrder implements Comparable<PhaseProductionOrder>, S
     }
 
     public void setSubordinate(Subordinate subordinate) {
+        if (this.subordinate != null) {
+            this.subordinate.setAvailable(true);
+        }
+        if (subordinate != null) {
+            subordinate.setAvailable(false);
+        }
         this.subordinate = subordinate;
     }
 

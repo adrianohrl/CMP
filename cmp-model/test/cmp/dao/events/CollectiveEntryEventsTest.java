@@ -22,11 +22,9 @@ import javax.persistence.EntityManager;
 public class CollectiveEntryEventsTest {
     
     private static EntityManager em = DataSource.createEntityManager();
-    private static EntryEventsList entryEvents;
     
     public static void main(String[] args) {
         try {
-            CollectiveEntryEventsTest.createEntryEvents();
             EntryEventDAO entryEventDAO = new EntryEventDAO(em);
             EntryEventsList entryEvents = entryEventDAO.findEntryEventsThatCanBeRestarted();
             System.out.println("\nEntryEventsThatCanBeRestarted");
@@ -67,12 +65,6 @@ public class CollectiveEntryEventsTest {
         }
         em.close();
         DataSource.closeEntityManagerFactory();
-    }
-    
-    private static void createEntryEvents() {
-        entryEvents = new EntryEventsList();
-        SupervisorDAO supervisorDAO = new SupervisorDAO(em);
-        Supervisor supervisor = supervisorDAO.find("Ana");
     }
     
 }

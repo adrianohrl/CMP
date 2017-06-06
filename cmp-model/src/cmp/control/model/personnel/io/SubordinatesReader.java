@@ -45,7 +45,7 @@ public class SubordinatesReader extends AbstractReader<Supervisor> {
         if (supervisor == null) {
             throw new IOException(supervisorName + " supervisor is not registered yet!!!");
         }
-        if (!supervisor.getSubordinates().contains(subordinate)) {
+        if (supervisor.getSubordinates().contains(subordinate)) {
             return null;
         }
         supervisor.getSubordinates().add(subordinate);

@@ -11,6 +11,7 @@ import cmp.model.personnel.Employee;
 import cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
 import java.util.Calendar;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
 
@@ -27,6 +28,24 @@ public class AbstractEmployeeRelatedEventDAO<E extends AbstractEmployeeRelatedEv
 
     protected AbstractEmployeeRelatedEventDAO(EntityManager em, Class clazz) {
         super(em, clazz);
+    }
+
+    @Override
+    public boolean isRegistered(E event) {
+        return find(event.getEventDate(), event.getEmployee()) != null;
+    }
+
+    public E find(Calendar eventDate, Employee employee) {
+        Query query = em.createQuery("SELECT event "
+                + "FROM " + clazz.getSimpleName() + " event JOIN event.employee emp "
+                + "WHERE emp.name = '" + employee.getName() + "' "
+                + "AND event.eventDate = :eventDate");
+        query.setParameter("eventDate", eventDate, TemporalType.TIMESTAMP);
+        try {
+            return (E) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
     
     public EmployeeRelatedEventsList findEmployeeEvents(Employee employee) {

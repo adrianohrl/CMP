@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
@@ -24,7 +25,8 @@ public class Supervisor extends Loggable {
     @JoinTable(
         name = "Supervisor_Subordinates", 
         joinColumns = @JoinColumn(name = "supervisor_name"),
-        inverseJoinColumns = @JoinColumn(name = "subordinate_name", unique = true)
+        inverseJoinColumns = @JoinColumn(name = "subordinate_name"),
+        uniqueConstraints = @UniqueConstraint(columnNames = {"supervisor_name", "subordinate_name"})
     )
     private List<Subordinate> subordinates = new ArrayList<>();
 

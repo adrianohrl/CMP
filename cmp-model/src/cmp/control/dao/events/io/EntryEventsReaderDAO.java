@@ -6,6 +6,7 @@
 package cmp.control.dao.events.io;
 
 import cmp.control.dao.events.CasualtyDAO;
+import cmp.control.dao.events.EntryEventDAO;
 import cmp.control.dao.personnel.SectorDAO;
 import cmp.control.dao.personnel.SubordinateDAO;
 import cmp.control.dao.personnel.SupervisorDAO;
@@ -17,6 +18,7 @@ import cmp.control.model.events.io.EntryEventsReader;
 import cmp.exceptions.IOException;
 import cmp.exceptions.ProductionException;
 import cmp.model.events.Casualty;
+import cmp.model.events.EntryEvent;
 import cmp.model.personnel.Sector;
 import cmp.model.personnel.Subordinate;
 import cmp.model.personnel.Supervisor;
@@ -24,6 +26,9 @@ import cmp.model.production.Model;
 import cmp.model.production.ModelPhase;
 import cmp.model.production.PhaseProductionOrder;
 import cmp.model.production.ProductionOrder;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import javax.persistence.EntityManager;
 
 /**
@@ -33,9 +38,22 @@ import javax.persistence.EntityManager;
 public class EntryEventsReaderDAO extends EntryEventsReader {
     
     private final EntityManager em;
+    private final List<EntryEvent> registeredEvents = new ArrayList<>();
 
     public EntryEventsReaderDAO(EntityManager em) {
         this.em = em;
+    }
+    
+    @Override
+    public void readFile(String fileName) throws IOException {
+        super.readFile(fileName);
+        EntryEventDAO eventDAO = new EntryEventDAO(em);
+        for (EntryEvent event : getReadEntities()) {
+            if (!eventDAO.isRegistered(event)) {
+                eventDAO.create(event);
+                registeredEvents.add(event);
+            }
+        }
     }
     
     @Override
@@ -128,6 +146,11 @@ public class EntryEventsReaderDAO extends EntryEventsReader {
             throw new IOException("The input casualty (whose name is " + casualtyName + ") is not registered yet!!!");
         }
         return casualty;
+    }
+
+    @Override
+    public Iterator<EntryEvent> iterator() {
+        return registeredEvents.iterator();
     }
     
 }

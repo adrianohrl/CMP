@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
@@ -22,9 +23,10 @@ public class Manager extends Loggable {
     
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-        name = "Manager_Supervisors",
+        name = "Manager_Supervisors", 
         joinColumns = @JoinColumn(name = "manager_name"),
-        inverseJoinColumns = @JoinColumn(name = "supervisor_name", unique = true)
+        inverseJoinColumns = @JoinColumn(name = "supervisor_name"),
+        uniqueConstraints = @UniqueConstraint(columnNames = {"manager_name", "supervisor_name"})
     )
     private List<Supervisor> supervisors = new ArrayList<>();
 

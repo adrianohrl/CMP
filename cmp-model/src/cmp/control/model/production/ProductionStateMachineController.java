@@ -70,8 +70,6 @@ public class ProductionStateMachineController {
             {
                 throw new ProductionStateTransitionException("It is not allowed to change the subordinated from ", currentState, nextState);
             }
-            subordinate.setAvailable(false);
-            phaseProductionOrder.getSubordinate().setAvailable(true);
             phaseProductionOrder.setSubordinate(subordinate);
         }
         currentState = nextState;

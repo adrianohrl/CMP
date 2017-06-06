@@ -27,9 +27,9 @@ public class ModelDAO extends DAO<Model, String> {
     
     public boolean isModelPhase(String modelName, String phaseName) {
         long counter = (long) em.createQuery("SELECT COUNT(*) "
-                + "FROM Model m JOIN m.phases.phase p "
+                + "FROM Model m JOIN m.phases mp "
                 + "WHERE m.name = '" + modelName + "' "
-                    + "AND p.name = '" + phaseName + "'").getSingleResult();
+                    + "AND mp.phase.name = '" + phaseName + "'").getSingleResult();
         return counter > 0;
     }
     
