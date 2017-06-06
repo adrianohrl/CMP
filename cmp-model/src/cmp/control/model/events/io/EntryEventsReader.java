@@ -70,7 +70,7 @@ public class EntryEventsReader extends AbstractReader<EntryEvent> {
     
     @Override
     protected List<Field> getDefaultFields() {
-        ArrayList<Field> defaultFields = new ArrayList<>();
+        List<Field> defaultFields = new ArrayList<>();
         defaultFields.add(new CalendarField(DATE_COLUMN_TITLE, "dd/MM/yyyy", true));
         defaultFields.add(new CalendarField(TIME_COLUMN_TITLE, "HH:mm", true));
         defaultFields.add(new StringField(SUPERVISOR_COLUMN_TITLE, true));

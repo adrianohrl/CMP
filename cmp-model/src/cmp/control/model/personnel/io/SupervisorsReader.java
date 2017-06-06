@@ -45,11 +45,10 @@ public class SupervisorsReader extends AbstractReader<Manager> {
         if (manager == null) {
             throw new IOException(managerName + " manager is not registered yet!!!");
         }
-        if (!manager.getSupervisors().contains(supervisor)) {
-            manager.getSupervisors().add(supervisor);
-        } else {
+        if (manager.getSupervisors().contains(supervisor)) {
             return null;
         }
+        manager.getSupervisors().add(supervisor);
         return !containsManager ? manager : null;
     }
     
@@ -62,7 +61,7 @@ public class SupervisorsReader extends AbstractReader<Manager> {
     }
     
     protected boolean contains(String managerName) {
-        for (Manager manager : this) {
+        for (Manager manager : getReadEntities()) {
             if (managerName.equalsIgnoreCase(manager.getName())) {
                 return true;
             }
@@ -71,7 +70,7 @@ public class SupervisorsReader extends AbstractReader<Manager> {
     }
     
     protected Manager get(String managerName) {
-        for (Manager manager : this) {
+        for (Manager manager : getReadEntities()) {
             if (managerName.equalsIgnoreCase(manager.getName())) {
                 return manager;
             }

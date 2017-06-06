@@ -46,10 +46,9 @@ public class SubordinatesReader extends AbstractReader<Supervisor> {
             throw new IOException(supervisorName + " supervisor is not registered yet!!!");
         }
         if (!supervisor.getSubordinates().contains(subordinate)) {
-            supervisor.getSubordinates().add(subordinate);
-        } else {
             return null;
         }
+        supervisor.getSubordinates().add(subordinate);
         return !containsSupervisor ? supervisor : null;
     }
     
@@ -62,7 +61,7 @@ public class SubordinatesReader extends AbstractReader<Supervisor> {
     }
     
     protected boolean contains(String supervisorName) {
-        for (Supervisor supervisor : this) {
+        for (Supervisor supervisor : getReadEntities()) {
             if (supervisorName.equalsIgnoreCase(supervisor.getName())) {
                 return true;
             }
@@ -71,7 +70,7 @@ public class SubordinatesReader extends AbstractReader<Supervisor> {
     }
     
     protected Supervisor get(String supervisorName) {
-        for (Supervisor supervisor : this) {
+        for (Supervisor supervisor : getReadEntities()) {
             if (supervisorName.equalsIgnoreCase(supervisor.getName())) {
                 return supervisor;
             }

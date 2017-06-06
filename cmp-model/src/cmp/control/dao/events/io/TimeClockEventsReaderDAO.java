@@ -17,7 +17,7 @@ import javax.persistence.EntityManager;
  */
 public class TimeClockEventsReaderDAO extends TimeClockEventsReader {
     
-    private EntityManager em;
+    private final EntityManager em;
 
     public TimeClockEventsReaderDAO(EntityManager em) {
         this.em = em;

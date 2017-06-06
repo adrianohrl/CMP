@@ -22,35 +22,39 @@ public class PersonnelReaderDAOTest {
     
     private static EntityManager em = DataSource.createEntityManager();
     
-    public static void main(String[] args) throws IOException {
-        System.out.println("Testing the PersonnelReaderDAO ...");
+    public static void main(String[] args) {
         Keyboard keyboard = Keyboard.getKeyboard();
         PersonnelReaderDAO personnelReader = new PersonnelReaderDAO(em); 
         SubordinatesReaderDAO subordinatesReader = new SubordinatesReaderDAO(em);
         SupervisorsReaderDAO supervisorsReader = new SupervisorsReaderDAO(em);
         SectorsReaderDAO sectorsReader = new SectorsReaderDAO(em);
-        String fileName = "../others/tests/ImportPersonnel1.csv";//keyboard.readString("Enter the file name: ");
+        String fileName;
         try {
+            System.out.println("Testing the PersonnelReaderDAO class ...");
+            fileName = "../others/tests/ImportPersonnel1.csv";//keyboard.readString("Enter the file name: ");
             personnelReader.readFile(fileName);
-            System.out.println("\nThe following employees were registered:");
+            System.out.println("  The following employees were registered:");
             for (Employee employee : personnelReader) {
                 System.out.println("\t" + employee);
             }
+            System.out.println("\n\nTesting the SubordinatesReaderDAO class ...");
             fileName = "../others/tests/ImportSubordinates1.csv";//keyboard.readString("Enter the file name: ");
             subordinatesReader.readFile(fileName);
-            System.out.println("\nThe following supervisors were updated:");
+            System.out.println("  The following supervisors were updated:");
             for (Supervisor supervisor : subordinatesReader) {
                 System.out.println("\t" + supervisor);
             }
+            System.out.println("\n\nTesting the SupervisorsReaderDAO class ...");
             fileName = "../others/tests/ImportSupervisors1.csv";//keyboard.readString("Enter the file name: ");
             supervisorsReader.readFile(fileName);
-            System.out.println("\nThe following managers were updated:");
+            System.out.println("  The following managers were updated:");
             for (Manager manager : supervisorsReader) {
                 System.out.println("\t" + manager);
             }
+            System.out.println("\n\nTesting the SectorsReaderDAO class ...");
             fileName = "../others/tests/ImportSectors1.csv";//keyboard.readString("Enter the file name: ");
             sectorsReader.readFile(fileName);
-            System.out.println("\nThe following sectors were registered:");
+            System.out.println("  The following sectors were registered:");
             for (Sector sector : sectorsReader) {
                 System.out.println("\t" + sector);
             }

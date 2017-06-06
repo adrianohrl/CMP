@@ -32,7 +32,7 @@ import javax.persistence.EntityManager;
  */
 public class EntryEventsReaderDAO extends EntryEventsReader {
     
-    private EntityManager em;
+    private final EntityManager em;
 
     public EntryEventsReaderDAO(EntityManager em) {
         this.em = em;
