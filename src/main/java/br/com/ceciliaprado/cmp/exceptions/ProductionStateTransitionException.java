@@ -6,6 +6,7 @@
 package br.com.ceciliaprado.cmp.exceptions;
 
 import br.com.ceciliaprado.cmp.control.model.production.AbstractProductionState;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -13,11 +14,13 @@ import br.com.ceciliaprado.cmp.control.model.production.AbstractProductionState;
  */
 public class ProductionStateTransitionException extends ProductionStateMachineException {
     
+    private static final Logger logger = Logger.getLogger(ProductionStateTransitionException.class);
+    
     public ProductionStateTransitionException(String message) {
-        super(message);
+        super(message, logger);
     }
     public ProductionStateTransitionException(String message, AbstractProductionState currentState, AbstractProductionState nextState) {
-        super(message + currentState + " to " + nextState + "!!!");
+        super(message + currentState + " to " + nextState + "!!!", logger);
     }
     
     public ProductionStateTransitionException(AbstractProductionState currentState, AbstractProductionState nextState) {

@@ -24,5 +24,8 @@ target/
 # Vim temporary files #
 *~
 
+# Log4j #
+*.log
+
 # Auxiliar #
 others/

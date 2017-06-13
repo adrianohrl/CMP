@@ -5,14 +5,22 @@
  */
 package br.com.ceciliaprado.cmp.exceptions;
 
+import org.apache.log4j.Logger;
+
 /**
  *
  * @author adrianohrl
  */
-public class ProductionStateMachineException extends CMPException {
+public class ProductionStateMachineException extends ProductionException {
+    
+    private static final Logger logger = Logger.getLogger(ProductionStateMachineException.class);
 
     public ProductionStateMachineException(String message) {
-        super(message);
+        super(message, logger);
+    }
+    
+    protected ProductionStateMachineException(String message, Logger logger) {
+        super(message, logger);
     }
     
 }

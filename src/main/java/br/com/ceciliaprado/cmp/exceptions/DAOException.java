@@ -5,14 +5,19 @@
  */
 package br.com.ceciliaprado.cmp.exceptions;
 
+import org.apache.log4j.Logger;
+
 /**
  *
  * @author adrianohrl
  */
 public class DAOException extends CMPException  {
+    
+    private static final Logger logger = Logger.getLogger(DAOException.class);
 
     public DAOException(String message) {
         super(message);
+        logger.error(message);
     }
     
 }

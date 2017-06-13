@@ -5,14 +5,19 @@
  */
 package br.com.ceciliaprado.cmp.exceptions;
 
+import org.apache.log4j.Logger;
+
 /**
  *
  * @author adrianohrl
  */
 public class ReportException extends CMPException {
+    
+    private static final Logger logger = Logger.getLogger(ReportException.class);
 
     public ReportException(String message) {
         super(message);
+        logger.warn(message);
     }
     
 }

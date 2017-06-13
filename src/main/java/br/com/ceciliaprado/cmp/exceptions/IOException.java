@@ -5,14 +5,19 @@
  */
 package br.com.ceciliaprado.cmp.exceptions;
 
+import org.apache.log4j.Logger;
+
 /**
  *
  * @author adrianohrl
  */
 public class IOException extends CMPException {
+    
+    private static final Logger logger = Logger.getLogger(IOException.class);
 
     public IOException(String message) {
         super(message);
+        logger.warn(message);
     }
     
 }

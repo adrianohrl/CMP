@@ -224,7 +224,7 @@ public class EventsTest {
         } catch (RuntimeException e) {
             System.out.println("The entry event registration failed: " + e.getMessage());
             em.clear();
-        } catch (ProductionException | ProductionStateMachineException e) {
+        } catch (ProductionException e) {
             System.out.println("The entry event registration failed: " + e.getMessage());
         }
     }
@@ -409,7 +409,7 @@ public class EventsTest {
                 phaseProductionOrder.process(entryEvent);
                 EventsTest.register(entryEvent);
                 System.out.println(subordinate + "'s phase production order transaction succeeded!!!");
-            } catch (ProductionException | ProductionStateMachineException e) {
+            } catch (ProductionException e) {
                 System.out.println(subordinate + "'s phase production order transaction failed: " + e.getMessage());
             } catch (RuntimeException e) {
                 System.out.println(subordinate + "'s phase production order transaction failed: " + e.getMessage());
@@ -437,7 +437,7 @@ public class EventsTest {
                 phaseProductionOrder.process(casualtyEntryEvent);
                 EventsTest.register(casualtyEntryEvent);
                 System.out.println(subordinate + "'s phase production order transaction succeeded!!!");
-            } catch (ProductionException | ProductionStateMachineException e) {
+            } catch (ProductionException e) {
                 System.out.println(subordinate + "'s phase production order transaction failed: " + e.getMessage());
             } catch (RuntimeException e) {
                 System.out.println(subordinate + "'s phase production order transaction failed: " + e.getMessage());
