@@ -1,0 +1,43 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.com.ceciliaprado.cmp.control.model.production.reports;
+
+import br.com.ceciliaprado.cmp.exceptions.ReportException;
+import br.com.ceciliaprado.cmp.model.events.EntryEvent;
+import br.com.ceciliaprado.cmp.model.events.TimeClockEvent;
+import br.com.ceciliaprado.cmp.model.personnel.Manager;
+import br.com.ceciliaprado.cmp.model.personnel.Sector;
+import br.com.ceciliaprado.cmp.model.personnel.Subordinate;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
+
+/**
+ *
+ * @author adrianohrl
+ */
+public class SectorEfficiencyReport extends AbstractEfficiencyReport implements Iterable<SubordinateEfficiencyReport> {
+    
+    private final Sector sector;
+    private final MultipleSubordinateEfficiencyReport multipleSubordinateEfficiencyReport;
+
+    public SectorEfficiencyReport(Sector sector, List<Subordinate> subordinates, ArrayList<TimeClockEvent> timeClockEvents, ArrayList<EntryEvent> entryEvents, Manager manager, Calendar startDate, Calendar endDate) throws ReportException {
+        super(timeClockEvents, entryEvents, manager, startDate, endDate);
+        this.sector = sector;
+        multipleSubordinateEfficiencyReport = new MultipleSubordinateEfficiencyReport(subordinates, timeClockEvents, entryEvents, manager, startDate, endDate);
+    }
+
+    public SectorEfficiencyReport(Sector sector, ArrayList<TimeClockEvent> timeClockEvents, ArrayList<EntryEvent> entryEvents, Manager manager, Calendar startDate, Calendar endDate) throws ReportException {
+        this(sector, sector.getSupervisor().getSubordinates(), timeClockEvents, entryEvents, manager, startDate, endDate);
+    }
+
+    @Override
+    public Iterator<SubordinateEfficiencyReport> iterator() {
+        return multipleSubordinateEfficiencyReport.iterator();
+    }
+    
+}
