@@ -29,21 +29,21 @@ public class EventsReaderDAOTest {
         String fileName;
         try {
             System.out.println("Testing the CasualtiesReaderDAO class ...");
-            fileName = "../others/tests/ImportCasualties1.csv";//keyboard.readString("Enter the file name: ");
+            fileName = "./others/tests/ImportCasualties1.csv";//keyboard.readString("Enter the file name: ");
             casualtyReader.readFile(fileName);
             System.out.println("  The following casualties were registered:");
             for (Casualty casualty : casualtyReader) {
                 System.out.println("\t" + casualty);
             }
             System.out.println("\n\nTesting the TimeClockEventsReaderDAO class ...");
-            fileName = "../others/tests/ImportTimeClockEvents1.csv";//keyboard.readString("Enter the file name: ");
+            fileName = "./others/tests/ImportTimeClockEvents1.csv";//keyboard.readString("Enter the file name: ");
             timeClockEventsReaderDAO.readFile(fileName);
             System.out.println("  The following time clock events were registered:");
             for (TimeClockEvent event : timeClockEventsReaderDAO) {
                 System.out.println("\t" + event);
             }
             System.out.println("\n\nTesting the EntryEventsReaderDAO class ...");
-            fileName = "../others/tests/ImportEntryEvents1.csv";//keyboard.readString("Enter the file name: ");
+            fileName = "./others/tests/ImportEntryEvents1.csv";//keyboard.readString("Enter the file name: ");
             entryEventsReaderDAO.readFile(fileName);
             System.out.println("  The following entry events were registered:");
             for (EntryEvent event : entryEventsReaderDAO) {

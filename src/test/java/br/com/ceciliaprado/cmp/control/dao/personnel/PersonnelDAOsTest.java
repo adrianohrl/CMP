@@ -5,7 +5,6 @@
  */
 package br.com.ceciliaprado.cmp.control.dao.personnel;
 
-import br.com.ceciliaprado.cmp.control.dao.personnel.SupervisorDAO;
 import br.com.ceciliaprado.cmp.control.dao.DataSource;
 import br.com.ceciliaprado.cmp.model.personnel.Employee;
 import br.com.ceciliaprado.cmp.model.personnel.Manager;

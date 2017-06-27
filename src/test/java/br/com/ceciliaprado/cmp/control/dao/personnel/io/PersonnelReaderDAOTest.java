@@ -31,28 +31,28 @@ public class PersonnelReaderDAOTest {
         String fileName;
         try {
             System.out.println("Testing the PersonnelReaderDAO class ...");
-            fileName = "../others/tests/ImportPersonnel1.csv";//keyboard.readString("Enter the file name: ");
+            fileName = "./others/tests/ImportPersonnel1.csv";//keyboard.readString("Enter the file name: ");
             personnelReader.readFile(fileName);
             System.out.println("  The following employees were registered:");
             for (Employee employee : personnelReader) {
                 System.out.println("\t" + employee);
             }
             System.out.println("\n\nTesting the SubordinatesReaderDAO class ...");
-            fileName = "../others/tests/ImportSubordinates1.csv";//keyboard.readString("Enter the file name: ");
+            fileName = "./others/tests/ImportSubordinates1.csv";//keyboard.readString("Enter the file name: ");
             subordinatesReader.readFile(fileName);
             System.out.println("  The following supervisors were updated:");
             for (Supervisor supervisor : subordinatesReader) {
                 System.out.println("\t" + supervisor);
             }
             System.out.println("\n\nTesting the SupervisorsReaderDAO class ...");
-            fileName = "../others/tests/ImportSupervisors1.csv";//keyboard.readString("Enter the file name: ");
+            fileName = "./others/tests/ImportSupervisors1.csv";//keyboard.readString("Enter the file name: ");
             supervisorsReader.readFile(fileName);
             System.out.println("  The following managers were updated:");
             for (Manager manager : supervisorsReader) {
                 System.out.println("\t" + manager);
             }
             System.out.println("\n\nTesting the SectorsReaderDAO class ...");
-            fileName = "../others/tests/ImportSectors1.csv";//keyboard.readString("Enter the file name: ");
+            fileName = "./others/tests/ImportSectors1.csv";//keyboard.readString("Enter the file name: ");
             sectorsReader.readFile(fileName);
             System.out.println("  The following sectors were registered:");
             for (Sector sector : sectorsReader) {

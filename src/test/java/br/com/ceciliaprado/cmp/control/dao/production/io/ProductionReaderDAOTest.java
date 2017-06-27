@@ -31,28 +31,28 @@ public class ProductionReaderDAOTest {
         String fileName;
         try {
             System.out.println("Testing the PhasesReaderDAO class ...");
-            fileName = "../others/tests/ImportPhases1.csv";//keyboard.readString("Enter the file name: ");
+            fileName = "./others/tests/ImportPhases1.csv";//keyboard.readString("Enter the file name: ");
             phaseReader.readFile(fileName);
             System.out.println("  The following phases were registered:");
             for (Phase phase : phaseReader) {
                 System.out.println("\t" + phase);
             }
             System.out.println("\n\nTesting the ModelsReaderDAO class ...");
-            fileName = "../others/tests/ImportModels1.csv";//keyboard.readString("Enter the file name: ");
+            fileName = "./others/tests/ImportModels1.csv";//keyboard.readString("Enter the file name: ");
             modelsReader.readFile(fileName);
             System.out.println("  The following models were registered:");
             for (Model model : modelsReader) {
                 System.out.println("\t" + model);
             }
             System.out.println("\n\nTesting the ProductionOrdersReaderDAO class ...");
-            fileName = "../others/tests/ImportProductionOrders1.csv";//keyboard.readString("Enter the file name: ");
+            fileName = "./others/tests/ImportProductionOrders1.csv";//keyboard.readString("Enter the file name: ");
             productionOrdersReader.readFile(fileName);
             System.out.println("  The following production orders were registered:");
             for (ProductionOrder productionOrder : productionOrdersReader) {
                 System.out.println("\t" + productionOrder);
             }
             System.out.println("\n\nTesting the PhaseProductionOrdersReaderDAO class ...");
-            fileName = "../others/tests/ImportPhaseProductionOrders1.csv";//keyboard.readString("Enter the file name: ");
+            fileName = "./others/tests/ImportPhaseProductionOrders1.csv";//keyboard.readString("Enter the file name: ");
             phaseProductionOrdersReader.readFile(fileName);
             System.out.println("  The following phase production orders were registered:");
             for (PhaseProductionOrder phaseProductionOrder : phaseProductionOrdersReader) {

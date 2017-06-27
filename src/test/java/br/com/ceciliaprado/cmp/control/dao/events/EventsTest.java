@@ -13,7 +13,6 @@ import br.com.ceciliaprado.cmp.control.dao.production.ProductionKeyboardEntries;
 import br.com.ceciliaprado.cmp.exceptions.DAOException;
 import br.com.ceciliaprado.cmp.exceptions.IOException;
 import br.com.ceciliaprado.cmp.exceptions.ProductionException;
-import br.com.ceciliaprado.cmp.exceptions.ProductionStateMachineException;
 import br.com.ceciliaprado.cmp.exceptions.ReportException;
 import br.com.ceciliaprado.cmp.model.events.AbstractEmployeeRelatedEvent;
 import br.com.ceciliaprado.cmp.model.events.Casualty;

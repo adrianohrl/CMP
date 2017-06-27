@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -19,7 +20,7 @@ import java.util.GregorianCalendar;
 public class Calendars {
     
     public final static String DATE_FORMAT = "dd/MM/yyyy";
-    public final static String TIME_FORMAT = "HH:mm";
+    public final static String TIME_FORMAT = "HH:mm:ss";
     private final static DateFormat dateFormatter = new SimpleDateFormat(Calendars.DATE_FORMAT);
     private final static DateFormat timeFormatter = new SimpleDateFormat(Calendars.TIME_FORMAT);
     
@@ -59,6 +60,14 @@ public class Calendars {
     
     public static Calendar sum(String date, Calendar time) throws IOException {
         return Calendars.sum(Calendars.getDate(date), time);
+    }
+    
+    public static Calendar sum(Date date, Date time) {
+        Calendar calendarDate = new GregorianCalendar();
+        calendarDate.setTime(date);
+        Calendar calendarTime = new GregorianCalendar();
+        calendarTime.setTime(time);
+        return Calendars.sum(calendarDate, calendarTime);
     }
     
     public static Calendar sum(Calendar date, Calendar time) {
