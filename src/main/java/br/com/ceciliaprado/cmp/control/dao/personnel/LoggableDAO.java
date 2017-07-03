@@ -13,8 +13,12 @@ import javax.persistence.EntityManager;
  * @author adrianohrl
  * @param <L>
  */
-public abstract class LoggableDAO<L extends Loggable> extends EmployeeDAO<L> {
+public class LoggableDAO<L extends Loggable> extends EmployeeDAO<L> {
 
+    public LoggableDAO(EntityManager em) {
+        super(em);
+    }
+    
     protected LoggableDAO(EntityManager em, Class clazz) {
         super(em, clazz);
     }

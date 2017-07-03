@@ -18,6 +18,7 @@ import br.com.ceciliaprado.cmp.model.events.AbstractEmployeeRelatedEvent;
 import br.com.ceciliaprado.cmp.model.production.ProductionStates;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  *
@@ -27,7 +28,7 @@ public class EntryEventsBuilder {
     
     private final Sector sector;
     private final Supervisor supervisor;
-    private final ArrayList<AbstractEmployeeRelatedEvent> entryEvents = new ArrayList<>();
+    private final List<AbstractEmployeeRelatedEvent> entryEvents = new ArrayList<>();
 
     public EntryEventsBuilder(Sector sector, Supervisor supervisor) {
         this.sector = sector;
@@ -103,7 +104,7 @@ public class EntryEventsBuilder {
         phaseProductionOrder.process(entryEvent);
     }
 
-    public ArrayList<AbstractEmployeeRelatedEvent> getEntryEvents() {
+    public List<AbstractEmployeeRelatedEvent> getEntryEvents() {
         return entryEvents;
     }
     
