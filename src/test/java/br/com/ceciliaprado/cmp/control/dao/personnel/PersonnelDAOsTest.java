@@ -31,8 +31,17 @@ public class PersonnelDAOsTest {
     private static Map<String, Sector> sectors;
     
     public static void main(String[] args) {
+        PersonnelDAOsTest.createEmployees();
+        Supervisor supervisor = supervisors.get("Juliane");
+        SupervisorDAO supervisorDAO = new SupervisorDAO(em);
+        if (supervisor != null && supervisorDAO.isRegistered(supervisor)) {
+            System.out.println("\n" + supervisor + "'s sectors:");
+            for (Sector sector : supervisorDAO.findSupervisorSectors(supervisor)) {
+                System.out.println("\t" + sector);
+            }
+            return;
+        }
         try {
-            PersonnelDAOsTest.createEmployees();
             PersonnelTest.registerEmployees(subordinates.values());
             PersonnelTest.registerEmployees(supervisors.values());
             PersonnelTest.registerEmployees(managers.values());
@@ -44,10 +53,9 @@ public class PersonnelDAOsTest {
             PersonnelTest.showAllRegisteredSectors();
         } catch (RuntimeException e) {
             System.out.println("Exception catched: " + e.getMessage());
-        } finally {
-            em.close();
-            DataSource.closeEntityManagerFactory();
         }
+        em.close();
+        DataSource.closeEntityManagerFactory();
     }
     
     private static void createEmployees() {

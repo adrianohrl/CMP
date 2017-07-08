@@ -6,6 +6,7 @@
 package br.com.ceciliaprado.cmp.control.dao.production;
 
 import br.com.ceciliaprado.cmp.control.dao.DAO;
+import br.com.ceciliaprado.cmp.model.personnel.Sector;
 import br.com.ceciliaprado.cmp.model.production.ModelPhase;
 import br.com.ceciliaprado.cmp.model.production.Phase;
 import br.com.ceciliaprado.cmp.model.production.PhaseProductionOrder;
@@ -52,6 +53,14 @@ public class PhaseProductionOrderDAO extends DAO<PhaseProductionOrder, Long> {
         return em.createQuery("SELECT ppo "
                 + "FROM PhaseProductionOrder ppo "
                 + "WHERE ppo.pendent = TRUE").getResultList();
+    }
+    
+    public List<PhaseProductionOrder> findPendents(Sector sector) {
+        return em.createQuery("SELECT ppo "
+                + "FROM PhaseProductionOrder ppo "
+                    + "JOIN ppo.productionOrder.model.phases mp"
+                + "WHERE ppo.pendent = TRUE "
+                    + "AND mp.phase.sector.name = '" + sector.getName() + "'").getResultList();
     }
     
 }

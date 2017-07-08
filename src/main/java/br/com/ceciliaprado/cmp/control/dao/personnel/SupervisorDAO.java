@@ -5,7 +5,10 @@
  */
 package br.com.ceciliaprado.cmp.control.dao.personnel;
 
+import br.com.ceciliaprado.cmp.model.personnel.Sector;
+import br.com.ceciliaprado.cmp.model.personnel.Subordinate;
 import br.com.ceciliaprado.cmp.model.personnel.Supervisor;
+import java.util.List;
 import javax.persistence.EntityManager;
 
 /**
@@ -24,6 +27,20 @@ public class SupervisorDAO extends LoggableDAO<Supervisor> {
                 + "WHERE s.name = '" + supervisorName + "' "
                 + "AND sub.name = '" + subordinateName + "'").getSingleResult();
         return counter > 0;
+    }
+    
+    public boolean isSupervisorSubordinate(Supervisor supervisor, Subordinate subordinate) {
+        return isSupervisorSubordinate(supervisor.getName(), subordinate.getName());
+    }
+    
+    public List<Sector> findSupervisorSectors(String supervisorName) {
+        return em.createQuery("SELECT sec "
+                + "FROM Sector sec "
+                + "WHERE sec.supervisor.name = '" + supervisorName + "'").getResultList();
+    }
+    
+    public List<Sector> findSupervisorSectors(Supervisor supervisor) {
+        return findSupervisorSectors(supervisor.getName());
     }
     
 }
