@@ -33,6 +33,12 @@ public class ProductionDAOsTest {
     private static List<PhaseProductionOrder> phaseProductionOrders;
     
     public static void main(String[] args) {
+        PhaseProductionOrderDAO phaseProductionOrderDAO = new PhaseProductionOrderDAO(em);
+        String sectorName = "Costura";
+        System.out.println(sectorName + "'s pendent phase production orders:");
+        for (PhaseProductionOrder phaseProductionOrder : phaseProductionOrderDAO.findPendents(sectorName)) {
+            System.out.println("\t" + phaseProductionOrder);
+        }
         try {
             ProductionDAOsTest.createPhases();
             ProductionTest.registerPhases(phases.values());
@@ -51,10 +57,9 @@ public class ProductionDAOsTest {
             System.out.println("Exception catched: " + e.getMessage());
         } catch (ProductionException pe) {
             System.out.println("Production exception catched: " + pe.getMessage());
-        } finally {
-            em.close();
-            DataSource.closeEntityManagerFactory();
         }
+        em.close();
+        DataSource.closeEntityManagerFactory();
     }
 
     private static void createPhases() {

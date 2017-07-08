@@ -55,12 +55,16 @@ public class PhaseProductionOrderDAO extends DAO<PhaseProductionOrder, Long> {
                 + "WHERE ppo.pendent = TRUE").getResultList();
     }
     
-    public List<PhaseProductionOrder> findPendents(Sector sector) {
+    public List<PhaseProductionOrder> findPendents(String sectorName) {
         return em.createQuery("SELECT ppo "
                 + "FROM PhaseProductionOrder ppo "
-                    + "JOIN ppo.productionOrder.model.phases mp"
+                    + "JOIN ppo.productionOrder.model.phases mp "
                 + "WHERE ppo.pendent = TRUE "
-                    + "AND mp.phase.sector.name = '" + sector.getName() + "'").getResultList();
+                    + "AND mp.phase.sector.name = '" + sectorName + "'").getResultList();
+    }
+    
+    public List<PhaseProductionOrder> findPendents(Sector sector) {
+        return findPendents(sector.getName());
     }
     
 }
