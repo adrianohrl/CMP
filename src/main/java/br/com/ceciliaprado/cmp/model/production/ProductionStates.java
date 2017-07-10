@@ -10,22 +10,11 @@ package br.com.ceciliaprado.cmp.model.production;
  * @author adrianohrl
  */
 public enum ProductionStates {
-    STARTED("Início"), 
-    RESTARTED("Reinício"), 
-    PAUSED("Pausa"), 
-    FINISHED("Término"), 
-    RETURNED("Devolução");
-    
-    private final String str;
-    
-    private ProductionStates(String str) {
-        this.str = str;
-    }
-    
-    @Override
-    public String toString() {
-        return str;
-    }
+    STARTED, 
+    RESTARTED, 
+    PAUSED, 
+    FINISHED, 
+    RETURNED;
     
     public boolean isStartingState() {
         return this == STARTED || this == RESTARTED;

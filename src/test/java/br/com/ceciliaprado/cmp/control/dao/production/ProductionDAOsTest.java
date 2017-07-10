@@ -34,9 +34,16 @@ public class ProductionDAOsTest {
     
     public static void main(String[] args) {
         PhaseProductionOrderDAO phaseProductionOrderDAO = new PhaseProductionOrderDAO(em);
-        String sectorName = "Costura";
-        System.out.println(sectorName + "'s pendent phase production orders:");
-        for (PhaseProductionOrder phaseProductionOrder : phaseProductionOrderDAO.findPendents(sectorName)) {
+        SectorDAO sectorDAO = new SectorDAO(em);
+        Sector sector = sectorDAO.find("Costura");
+        System.out.println(sector.getName() + "'s pendent phase production orders:");
+        for (PhaseProductionOrder phaseProductionOrder : phaseProductionOrderDAO.findPendents(sector)) {
+            System.out.println("\t" + phaseProductionOrder);
+        }
+        ProductionOrderDAO productionOrderDAO = new ProductionOrderDAO(em);
+        ProductionOrder productionOrder =  productionOrderDAO.find("Blusa G");
+        System.out.println(productionOrder.getReference() + "'s pendent phase production orders:");
+        for (PhaseProductionOrder phaseProductionOrder : phaseProductionOrderDAO.findPendents(productionOrder)) {
             System.out.println("\t" + phaseProductionOrder);
         }
         try {
@@ -106,11 +113,11 @@ public class ProductionDAOsTest {
         phaseProductionOrders.add(new PhaseProductionOrder(model.getPhase(phases.get("Overloque")), productionOrders.get("Blusa G"), 10));
         model = models.get("Cacharrel 2017");
         phaseProductionOrders.add(new PhaseProductionOrder(model.getPhase(phases.get("Overloque")), productionOrders.get("Cacharrel G"), 15));
-        phaseProductionOrders.add(new PhaseProductionOrder(model.getPhase(phases.get("Overloque")), productionOrders.get("Cacharrel G"), 25));
+        phaseProductionOrders.add(new PhaseProductionOrder(model.getPhase(phases.get("Overloque")), productionOrders.get("Cacharrel GG"), 25));
         phaseProductionOrders.add(new PhaseProductionOrder(model.getPhase(phases.get("Travete")), productionOrders.get("Cacharrel G"), 45));
-        phaseProductionOrders.add(new PhaseProductionOrder(model.getPhase(phases.get("Travete")), productionOrders.get("Cacharrel G"), 25));
+        phaseProductionOrders.add(new PhaseProductionOrder(model.getPhase(phases.get("Travete")), productionOrders.get("Cacharrel GG"), 25));
         phaseProductionOrders.add(new PhaseProductionOrder(model.getPhase(phases.get("Reta")), productionOrders.get("Cacharrel G"), 70));
-        phaseProductionOrders.add(new PhaseProductionOrder(model.getPhase(phases.get("Reta")), productionOrders.get("Cacharrel G"), 20));
+        phaseProductionOrders.add(new PhaseProductionOrder(model.getPhase(phases.get("Reta")), productionOrders.get("Cacharrel GG"), 20));
     }
     
 }
