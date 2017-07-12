@@ -33,27 +33,39 @@ public class ProductionDAOsTest {
     private static List<PhaseProductionOrder> phaseProductionOrders;
     
     public static void main(String[] args) {
+        ProductionDAOsTest.createPhases();
+        ProductionDAOsTest.createModels();
+        ProductionDAOsTest.createProductionOrders();
+        try {
+            ProductionDAOsTest.createPhaseProductionOrders();
+        } catch (ProductionException e) {
+            System.out.println("Production exception catched: " + e.getMessage());
+        }
+        
         PhaseProductionOrderDAO phaseProductionOrderDAO = new PhaseProductionOrderDAO(em);
         SectorDAO sectorDAO = new SectorDAO(em);
         Sector sector = sectorDAO.find("Costura");
-        System.out.println(sector.getName() + "'s pendent phase production orders:");
+        System.out.println("\n" + sector.getName() + "'s pendent phase production orders:");
         for (PhaseProductionOrder phaseProductionOrder : phaseProductionOrderDAO.findPendents(sector)) {
             System.out.println("\t" + phaseProductionOrder);
         }
+        
+        String subordinateName = "Maria";
+        PhaseProductionOrder phaseProductionOrder = phaseProductionOrderDAO.findCurrent(subordinateName);
+        System.out.println("\n" + subordinateName + "'s current work is: " + phaseProductionOrder);
+        
         ProductionOrderDAO productionOrderDAO = new ProductionOrderDAO(em);
         ProductionOrder productionOrder =  productionOrderDAO.find("Blusa G");
-        System.out.println(productionOrder.getReference() + "'s pendent phase production orders:");
-        for (PhaseProductionOrder phaseProductionOrder : phaseProductionOrderDAO.findPendents(productionOrder)) {
-            System.out.println("\t" + phaseProductionOrder);
+        System.out.println("\n" + productionOrder.getReference() + "'s pendent phase production orders:");
+        for (PhaseProductionOrder ppo : phaseProductionOrderDAO.findPendents(productionOrder)) {
+            System.out.println("\t" + ppo);
         }
+        
+        
         try {
-            ProductionDAOsTest.createPhases();
             ProductionTest.registerPhases(phases.values());
-            ProductionDAOsTest.createModels();
             ProductionTest.registerModels(models.values());
-            ProductionDAOsTest.createProductionOrders();
             ProductionTest.registerProductionOrders(productionOrders.values());
-            ProductionDAOsTest.createPhaseProductionOrders();
             ProductionTest.registerPhaseProductionOrders(phaseProductionOrders);
             ProductionTest.showAllRegisteredPhases();
             ProductionTest.showAllRegisteredModels();
@@ -62,8 +74,6 @@ public class ProductionDAOsTest {
             ProductionTest.showAllRegisteredPendentPhaseProductionOrders();
         } catch (RuntimeException e) {
             System.out.println("Exception catched: " + e.getMessage());
-        } catch (ProductionException pe) {
-            System.out.println("Production exception catched: " + pe.getMessage());
         }
         em.close();
         DataSource.closeEntityManagerFactory();

@@ -32,20 +32,36 @@ public class PersonnelDAOsTest {
     
     public static void main(String[] args) {
         PersonnelDAOsTest.createEmployees();
-        Supervisor supervisor = supervisors.get("Juliane");
+        PersonnelDAOsTest.createSectors();
+            
+        Supervisor supervisor = supervisors.get("Rose");
         SupervisorDAO supervisorDAO = new SupervisorDAO(em);
         if (supervisor != null && supervisorDAO.isRegistered(supervisor)) {
             System.out.println("\n" + supervisor + "'s sectors:");
             for (Sector sector : supervisorDAO.findSupervisorSectors(supervisor)) {
                 System.out.println("\t" + sector);
             }
-            return;
         }
+        
+        SubordinateDAO subordinateDAO = new SubordinateDAO(em);
+        String subordinateName = "Rose";
+        boolean subordinateAvailable = subordinateDAO.isAvailable(subordinateName);
+        System.out.println("\n" + subordinateName + " is " + (!subordinateAvailable ? "not " : "") + "available!!!");
+        String sectorName = "Costura";
+        if (!subordinateAvailable) {
+            boolean workingAtSector = subordinateDAO.isWorkingAtSector(subordinateName, sectorName);
+            System.out.println(subordinateName + " is " + (!workingAtSector ? "not " : "") + "working at " + sectorName + "!!!");
+        }
+        
+        System.out.println("\n" + supervisor + "'s subordinates who is currently available or is working at " + sectorName + " sector:");
+        for (Subordinate subordinate : subordinateDAO.findSupervisorAndSectorSubordinates(supervisor.getName(), sectorName)) {
+            System.out.println("\t" + subordinate);
+        }
+        
         try {
             PersonnelTest.registerEmployees(subordinates.values());
             PersonnelTest.registerEmployees(supervisors.values());
             PersonnelTest.registerEmployees(managers.values());
-            PersonnelDAOsTest.createSectors();
             PersonnelTest.registerSectors(sectors.values());
             PersonnelTest.showAllRegisteredSubordinates();
             PersonnelTest.showAllRegisteredSupervisors();

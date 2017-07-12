@@ -9,7 +9,6 @@ import br.com.ceciliaprado.cmp.control.dao.DAO;
 import br.com.ceciliaprado.cmp.model.production.Model;
 import br.com.ceciliaprado.cmp.model.production.ModelPhase;
 import br.com.ceciliaprado.cmp.model.production.Phase;
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
@@ -34,7 +33,7 @@ public class ModelPhaseDAO extends DAO<ModelPhase, Long> {
                     + "FROM Model m JOIN m.phases mp "
                     + "WHERE m.name = '" + modelName + "' "
                         + "AND mp.phase.name = '" + phaseName + "'").getSingleResult();
-        } catch (NoResultException nre) {
+        } catch (NoResultException e) {
             return null;
         }
     }

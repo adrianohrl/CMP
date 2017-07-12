@@ -7,6 +7,7 @@ package br.com.ceciliaprado.cmp.control.dao.production;
 
 import br.com.ceciliaprado.cmp.control.dao.DAO;
 import br.com.ceciliaprado.cmp.model.personnel.Sector;
+import br.com.ceciliaprado.cmp.model.personnel.Subordinate;
 import br.com.ceciliaprado.cmp.model.production.ModelPhase;
 import br.com.ceciliaprado.cmp.model.production.Phase;
 import br.com.ceciliaprado.cmp.model.production.PhaseProductionOrder;
@@ -36,7 +37,7 @@ public class PhaseProductionOrderDAO extends DAO<PhaseProductionOrder, Long> {
                     + "FROM PhaseProductionOrder ppo "
                     + "WHERE ppo.phase.phase.name = '" + phaseName + "' "
                         + "AND ppo.productionOrder.reference = '" + productionOrderName + "'").getSingleResult();
-        } catch (NoResultException nre) {
+        } catch (NoResultException e) {
             return null;
         }
     }
@@ -68,6 +69,21 @@ public class PhaseProductionOrderDAO extends DAO<PhaseProductionOrder, Long> {
                 + "FROM PhaseProductionOrder ppo "
                 + "WHERE ppo.pendent = TRUE "
                     + "AND ppo.productionOrder.reference = '" + productionOrder.getReference() + "'").getResultList();
+    }
+    
+    public PhaseProductionOrder findCurrent(String subordinateName) {
+        try {
+            return (PhaseProductionOrder) em.createQuery("SELECT ppo "
+                + "FROM PhaseProductionOrder ppo "
+                + "WHERE ppo.pendent = TRUE "
+                    + "AND ppo.subordinate.name = '" + subordinateName + "'").getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+    
+    public PhaseProductionOrder findCurrent(Subordinate subordinate) {
+        return findCurrent(subordinate.getName());
     }
     
 }
