@@ -31,9 +31,27 @@ public class PersonnelDAOsTest {
     private static Map<String, Sector> sectors;
     
     public static void main(String[] args) {
-        PersonnelDAOsTest.createEmployees();
-        PersonnelDAOsTest.createSectors();
-            
+        PersonnelDAOsTest.test(em);
+        em.close();
+        DataSource.closeEntityManagerFactory();
+    }
+    
+    public static void test(EntityManager em) {
+        try {
+            PersonnelDAOsTest.createEmployees();
+            PersonnelTest.registerEmployees(subordinates.values());
+            PersonnelTest.registerEmployees(supervisors.values());
+            PersonnelTest.registerEmployees(managers.values());
+            PersonnelDAOsTest.createSectors();
+            PersonnelTest.registerSectors(sectors.values());
+            PersonnelTest.showAllRegisteredSubordinates();
+            PersonnelTest.showAllRegisteredSupervisors();
+            PersonnelTest.showAllRegisteredManagers();
+            PersonnelTest.showAllRegisteredSectors();
+        } catch (RuntimeException e) {
+            System.out.println("Exception catched: " + e.getMessage());
+        }
+        
         Supervisor supervisor = supervisors.get("Rose");
         SupervisorDAO supervisorDAO = new SupervisorDAO(em);
         if (supervisor != null && supervisorDAO.isRegistered(supervisor)) {
@@ -57,21 +75,6 @@ public class PersonnelDAOsTest {
         for (Subordinate subordinate : subordinateDAO.findSupervisorAndSectorSubordinates(supervisor.getName(), sectorName)) {
             System.out.println("\t" + subordinate);
         }
-        
-        try {
-            PersonnelTest.registerEmployees(subordinates.values());
-            PersonnelTest.registerEmployees(supervisors.values());
-            PersonnelTest.registerEmployees(managers.values());
-            PersonnelTest.registerSectors(sectors.values());
-            PersonnelTest.showAllRegisteredSubordinates();
-            PersonnelTest.showAllRegisteredSupervisors();
-            PersonnelTest.showAllRegisteredManagers();
-            PersonnelTest.showAllRegisteredSectors();
-        } catch (RuntimeException e) {
-            System.out.println("Exception catched: " + e.getMessage());
-        }
-        em.close();
-        DataSource.closeEntityManagerFactory();
     }
     
     private static void createEmployees() {

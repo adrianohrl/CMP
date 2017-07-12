@@ -21,7 +21,13 @@ public class EventsReaderDAOTest {
     
     private static EntityManager em = DataSource.createEntityManager();
     
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
+        EventsReaderDAOTest.test(em);
+        em.close();
+        DataSource.closeEntityManagerFactory();
+    }
+    
+    public static void test(EntityManager em) {
         Keyboard keyboard = Keyboard.getKeyboard();
         CasualtiesReaderDAO casualtyReader = new CasualtiesReaderDAO(em);
         EntryEventsReaderDAO entryEventsReaderDAO = new EntryEventsReaderDAO(em);
@@ -52,8 +58,6 @@ public class EventsReaderDAOTest {
         } catch (RuntimeException | IOException e) {
             System.out.println("Exception catched: " + e.getMessage());
         }
-        em.close();
-        DataSource.closeEntityManagerFactory();
     }
     
 }

@@ -9,7 +9,6 @@ import br.com.ceciliaprado.cmp.control.dao.DataSource;
 import br.com.ceciliaprado.cmp.control.dao.events.io.EntryEventsReaderDAO;
 import br.com.ceciliaprado.cmp.control.dao.events.io.TimeClockEventsReaderDAO;
 import br.com.ceciliaprado.cmp.exceptions.IOException;
-import br.com.ceciliaprado.cmp.exceptions.ProductionStateMachineException;
 import br.com.ceciliaprado.cmp.model.events.Casualty;
 import br.com.ceciliaprado.cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
 import br.com.ceciliaprado.cmp.util.Keyboard;
@@ -27,7 +26,13 @@ public class EventDAOsTest {
     private static EntityManager em = DataSource.createEntityManager();
     private static List<Casualty> casualties;
     
-    public static void main(String[] args) throws ProductionStateMachineException {
+    public static void main(String[] args) {
+        EventDAOsTest.test(em);
+        em.close();
+        DataSource.closeEntityManagerFactory();
+    }    
+    
+    public static void test(EntityManager em) {
         try {
             EventDAOsTest.createCasualties();
             EventsTest.registerCasualties(casualties);
@@ -60,11 +65,8 @@ public class EventDAOsTest {
             System.out.println("IOException catched: " + e.getMessage());
         } catch (RuntimeException e) {
             System.out.println("RuntimeException catched: " + e.getMessage());
-        } finally {
-            em.close();
-            DataSource.closeEntityManagerFactory();
         }
-    }    
+    }
 
     private static void createCasualties() {
         casualties = new ArrayList<>();

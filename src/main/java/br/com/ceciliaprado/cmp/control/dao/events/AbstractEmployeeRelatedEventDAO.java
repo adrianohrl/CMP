@@ -39,7 +39,7 @@ public class AbstractEmployeeRelatedEventDAO<E extends AbstractEmployeeRelatedEv
         Query query = em.createQuery("SELECT event "
                 + "FROM " + clazz.getSimpleName() + " event JOIN event.employee emp "
                 + "WHERE emp.name = '" + employee.getName() + "' "
-                + "AND event.eventDate = :eventDate");
+                    + "AND event.eventDate = :eventDate");
         query.setParameter("eventDate", eventDate, TemporalType.TIMESTAMP);
         try {
             return (E) query.getSingleResult();
@@ -62,7 +62,7 @@ public class AbstractEmployeeRelatedEventDAO<E extends AbstractEmployeeRelatedEv
         Query query = em.createQuery("SELECT event "
                 + "FROM " + clazz.getSimpleName() + " event JOIN event.employee emp "
                 + "WHERE emp.name = '" + employee.getName() + "' "
-                + "AND event.eventDate BETWEEN :start AND :end "
+                    + "AND event.eventDate BETWEEN :start AND :end "
                 + "ORDER BY event.eventDate ASC");
         query.setParameter("start", start, TemporalType.TIMESTAMP);
         query.setParameter("end", end, TemporalType.TIMESTAMP);

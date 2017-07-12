@@ -40,46 +40,46 @@ public class EntryEventDAO<E extends EntryEvent> extends AbstractEmployeeRelated
         return new EntryEventsList(em.createQuery("SELECT ee "
                 + "FROM EntryEvent ee "
                 + "WHERE ee.phaseProductionOrder.pendent = TRUE "
-                + "AND ee.productionState = " + ProductionStates.PAUSED.ordinal()).getResultList());
+                    + "AND ee.productionState = " + ProductionStates.PAUSED.ordinal()).getResultList());
     }
     
     public EntryEventsList findEntryEventsThatCanBePaused() {
         return new EntryEventsList(em.createQuery("SELECT ee "
                 + "FROM EntryEvent ee "
                 + "WHERE ee.phaseProductionOrder.pendent = TRUE "
-                + "AND ee.productionState != " + ProductionStates.PAUSED.ordinal()).getResultList());
+                    + "AND ee.productionState != " + ProductionStates.PAUSED.ordinal()).getResultList());
     }
     
     public EntryEventsList findEntryEventsThatCanBeRestarted(Supervisor supervisor) {
         return new EntryEventsList(em.createQuery("SELECT ee "
                 + "FROM EntryEvent ee JOIN ee.supervisor sup "
                 + "WHERE ee.phaseProductionOrder.pendent = TRUE "
-                + "AND sup.name = '" + supervisor.getName() + "' "
-                + "AND ee.productionState = " + ProductionStates.PAUSED.ordinal()).getResultList());
+                    + "AND sup.name = '" + supervisor.getName() + "' "
+                    + "AND ee.productionState = " + ProductionStates.PAUSED.ordinal()).getResultList());
     }
     
     public EntryEventsList findEntryEventsThatCanBePaused(Supervisor supervisor) {
         return new EntryEventsList(em.createQuery("SELECT ee "
                 + "FROM EntryEvent ee JOIN ee.supervisor sup "
                 + "WHERE ee.phaseProductionOrder.pendent = TRUE "
-                + "AND sup.name = '" + supervisor.getName() + "' "
-                + "AND ee.productionState != " + ProductionStates.PAUSED.ordinal()).getResultList());
+                    + "AND sup.name = '" + supervisor.getName() + "' "
+                    + "AND ee.productionState != " + ProductionStates.PAUSED.ordinal()).getResultList());
     }
     
     public EntryEventsList findEntryEventsThatCanBeRestarted(Sector sector) {
         return new EntryEventsList(em.createQuery("SELECT ee "
                 + "FROM EntryEvent ee JOIN ee.sector sec "
                 + "WHERE ee.phaseProductionOrder.pendent = TRUE "
-                + "AND sec.name = '" + sector.getName() + "' "
-                + "AND ee.productionState = " + ProductionStates.PAUSED.ordinal()).getResultList());
+                    + "AND sec.name = '" + sector.getName() + "' "
+                    + "AND ee.productionState = " + ProductionStates.PAUSED.ordinal()).getResultList());
     }
     
     public EntryEventsList findEntryEventsThatCanBePaused(Sector sector) {
         return new EntryEventsList(em.createQuery("SELECT ee "
                 + "FROM EntryEvent ee JOIN ee.sector sec "
                 + "WHERE ee.phaseProductionOrder.pendent = TRUE "
-                + "AND sec.name = '" + sector.getName() + "' "
-                + "AND ee.productionState != " + ProductionStates.PAUSED.ordinal()).getResultList());
+                    + "AND sec.name = '" + sector.getName() + "' "
+                    + "AND ee.productionState != " + ProductionStates.PAUSED.ordinal()).getResultList());
     }
     
 }

@@ -23,6 +23,12 @@ public class PersonnelReaderDAOTest {
     private final static EntityManager em = DataSource.createEntityManager();
     
     public static void main(String[] args) {
+        PersonnelReaderDAOTest.test(em);
+        em.close();
+        DataSource.closeEntityManagerFactory();
+    }
+    
+    public static void test(EntityManager em) {
         Keyboard keyboard = Keyboard.getKeyboard();
         PersonnelReaderDAO personnelReader = new PersonnelReaderDAO(em); 
         SubordinatesReaderDAO subordinatesReader = new SubordinatesReaderDAO(em);
@@ -61,8 +67,6 @@ public class PersonnelReaderDAOTest {
         } catch (RuntimeException | IOException e) {
             System.out.println("Exception catched: " + e.getMessage());
         }
-        em.close();
-        DataSource.closeEntityManagerFactory();
     }
     
 }

@@ -32,37 +32,18 @@ public class ProductionDAOsTest {
     private static Map<String, ProductionOrder> productionOrders;
     private static List<PhaseProductionOrder> phaseProductionOrders;
     
-    public static void main(String[] args) {
-        ProductionDAOsTest.createPhases();
-        ProductionDAOsTest.createModels();
-        ProductionDAOsTest.createProductionOrders();
+    public static void main(String[] args) { 
+        ProductionDAOsTest.test(em);
+        em.close();
+        DataSource.closeEntityManagerFactory();
+    }
+    
+    public static void test(EntityManager em) {
         try {
+            ProductionDAOsTest.createPhases();
+            ProductionDAOsTest.createModels();
+            ProductionDAOsTest.createProductionOrders();
             ProductionDAOsTest.createPhaseProductionOrders();
-        } catch (ProductionException e) {
-            System.out.println("Production exception catched: " + e.getMessage());
-        }
-        
-        PhaseProductionOrderDAO phaseProductionOrderDAO = new PhaseProductionOrderDAO(em);
-        SectorDAO sectorDAO = new SectorDAO(em);
-        Sector sector = sectorDAO.find("Costura");
-        System.out.println("\n" + sector.getName() + "'s pendent phase production orders:");
-        for (PhaseProductionOrder phaseProductionOrder : phaseProductionOrderDAO.findPendents(sector)) {
-            System.out.println("\t" + phaseProductionOrder);
-        }
-        
-        String subordinateName = "Maria";
-        PhaseProductionOrder phaseProductionOrder = phaseProductionOrderDAO.findCurrent(subordinateName);
-        System.out.println("\n" + subordinateName + "'s current work is: " + phaseProductionOrder);
-        
-        ProductionOrderDAO productionOrderDAO = new ProductionOrderDAO(em);
-        ProductionOrder productionOrder =  productionOrderDAO.find("Blusa G");
-        System.out.println("\n" + productionOrder.getReference() + "'s pendent phase production orders:");
-        for (PhaseProductionOrder ppo : phaseProductionOrderDAO.findPendents(productionOrder)) {
-            System.out.println("\t" + ppo);
-        }
-        
-        
-        try {
             ProductionTest.registerPhases(phases.values());
             ProductionTest.registerModels(models.values());
             ProductionTest.registerProductionOrders(productionOrders.values());
@@ -74,9 +55,32 @@ public class ProductionDAOsTest {
             ProductionTest.showAllRegisteredPendentPhaseProductionOrders();
         } catch (RuntimeException e) {
             System.out.println("Exception catched: " + e.getMessage());
+        } catch (ProductionException e) {
+            System.out.println("Production exception catched: " + e.getMessage());
+        }     
+        
+        PhaseProductionOrderDAO phaseProductionOrderDAO = new PhaseProductionOrderDAO(em);
+        SectorDAO sectorDAO = new SectorDAO(em);
+        Sector sector = sectorDAO.find("Costura");
+        if (sector != null) {
+            System.out.println("\n" + sector.getName() + "'s pendent phase production orders:");
+            for (PhaseProductionOrder phaseProductionOrder : phaseProductionOrderDAO.findPendents(sector)) {
+                System.out.println("\t" + phaseProductionOrder);
+            }
         }
-        em.close();
-        DataSource.closeEntityManagerFactory();
+        
+        String subordinateName = "Maria";
+        PhaseProductionOrder phaseProductionOrder = phaseProductionOrderDAO.findCurrent(subordinateName);
+        System.out.println("\n" + subordinateName + "'s current work is: " + phaseProductionOrder);
+        
+        ProductionOrderDAO productionOrderDAO = new ProductionOrderDAO(em);
+        ProductionOrder productionOrder =  productionOrderDAO.find("Blusa G");
+        if (productionOrder != null) {
+            System.out.println("\n" + productionOrder.getReference() + "'s pendent phase production orders:");
+            for (PhaseProductionOrder ppo : phaseProductionOrderDAO.findPendents(productionOrder)) {
+                System.out.println("\t" + ppo);
+            }
+        }
     }
 
     private static void createPhases() {
