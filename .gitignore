@@ -28,4 +28,4 @@ target/
 *.log
 
 # Auxiliar #
-others/
+others/tests
