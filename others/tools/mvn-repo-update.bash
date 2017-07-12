@@ -102,5 +102,5 @@ git -C ${REPO_LOCAL_DIR} add --all
 git -C ${REPO_LOCAL_DIR} commit -m "released version ${PROJECT_VERSION}"
 git -C ${REPO_LOCAL_DIR} push origin ${REPO_BRANCH}
 echo "Removing ${TEMP_DIR} directory..."
-sudo rm -rf ${TEMP_DIR}
+rm -rf ${TEMP_DIR}
 echo "Released version ${PROJECT_VERSION} of the ${PROJECT_GROUP_ID}.${PROJECT_ARTIFACT_ID} maven project at ${REPO_URL} repository on ${REPO_BRANCH} branch."

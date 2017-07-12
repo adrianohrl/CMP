@@ -19,7 +19,7 @@ This tool simplifies the usage of the mvn-repo-update tool usage for the CMP pro
 
 So, in order to use these tools, firstly enter the following command to a terminal:
 
-	chmod + mvn-repo-update cmp-repo-update
+	chmod +x mvn-repo-update cmp-repo-update
 
 And then, just enter:
 
