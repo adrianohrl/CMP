@@ -55,7 +55,7 @@ public class SubordinateDAO extends EmployeeDAO<Subordinate> {
     public List<Subordinate> findSupervisorAndSectorSubordinates(String supervisorName, String sectorName) {
         return em.createQuery("SELECT sub "
                 + "FROM Sector sec "
-                    + "JOIN sec.supervisor.subordinates sub "
+                    + "JOIN sec.supervisor.subordinates sub, "
                     + "PhaseProductionOrder ppo "
                 + "WHERE sec.name = '" + sectorName + "' "  
                     + "AND sec.supervisor.name = '" + supervisorName + "' "

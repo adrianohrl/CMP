@@ -155,7 +155,7 @@ public class PhaseProductionOrder implements Comparable<PhaseProductionOrder>, S
             this.subordinate.setAvailable(true);
         }
         if (subordinate != null) {
-            subordinate.setAvailable(false);
+            subordinate.setAvailable(productionState.isFreerState());
         }
         this.subordinate = subordinate;
     }

@@ -64,13 +64,13 @@ public class ProductionStateMachineController {
         } else if (!nextState.equals(startedState)) {
             throw new ProductionStateMachineException("The production state machine has not been started yet!!!");
         }
-        if (!subordinate.equals(phaseProductionOrder.getSubordinate()))
-        {
-            if (!nextState.isAllowedToChangeSubordinate())
-            {
-                throw new ProductionStateTransitionException("It is not allowed to change the subordinated from ", currentState, nextState);
+        if (!subordinate.equals(phaseProductionOrder.getSubordinate())) {
+            if (!nextState.isAllowedToChangeSubordinate()) {
+                throw new ProductionStateTransitionException("It is not allowed to change the subordinate from ", currentState, nextState);
             }
-            phaseProductionOrder.setSubordinate(subordinate);
+            if (!subordinate.isAvailable()) {
+                throw new ProductionStateTransitionException(subordinate + " is not available!!!");
+            }
         }
         currentState = nextState;
         phaseProductionOrder.setPendent(currentState.isPendent());
@@ -80,6 +80,7 @@ public class ProductionStateMachineController {
             throw new ProductionStateMachineException("ProductionException: " + e.getMessage());
         }
         phaseProductionOrder.setProductionState(getState(currentState));
+        phaseProductionOrder.setSubordinate(subordinate);
     }
     
     private void process(AbstractProductionState nextState, Subordinate subordinate, int producedQuantity, int returnedQuantity) throws ProductionStateMachineException {
