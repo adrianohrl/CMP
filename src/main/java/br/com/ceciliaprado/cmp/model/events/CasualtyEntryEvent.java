@@ -40,7 +40,6 @@ public class CasualtyEntryEvent extends EntryEvent {
      * @param producedQuantity
      * @param eventDate
      * @param observation 
-     * @throws cmp.exceptions.ProductionException 
      */
     public CasualtyEntryEvent(Casualty casualty, Sector sector, Supervisor supervisor, PhaseProductionOrder phaseProductionOrder, Subordinate subordinate, ProductionStates productionState, int producedQuantity, Calendar eventDate, String observation) throws ProductionException {
         super(sector, supervisor, phaseProductionOrder, subordinate, productionState, producedQuantity, observation, eventDate);

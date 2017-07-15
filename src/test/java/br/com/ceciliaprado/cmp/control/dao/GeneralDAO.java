@@ -19,14 +19,13 @@ import javax.persistence.EntityManager;
  */
 public class GeneralDAO {
     
-    private static EntityManager em = DataSource.createEntityManager();
-    
     public static void main(String[] args) {
+        EntityManager em = DataSource.createEntityManager();
         PersonnelDAOsTest.test(em);
-        ProductionDAOsTest.test(em);
-        EventDAOsTest.test(em);
         PersonnelReaderDAOTest.test(em);
+        ProductionDAOsTest.test(em);
         ProductionReaderDAOTest.test(em);
+        EventDAOsTest.test(em);
         EventsReaderDAOTest.test(em);
         em.close();
         DataSource.closeEntityManagerFactory();

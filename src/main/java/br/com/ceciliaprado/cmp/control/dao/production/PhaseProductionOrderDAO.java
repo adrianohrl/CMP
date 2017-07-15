@@ -6,6 +6,7 @@
 package br.com.ceciliaprado.cmp.control.dao.production;
 
 import br.com.ceciliaprado.cmp.control.dao.DAO;
+import br.com.ceciliaprado.cmp.control.dao.personnel.SubordinateDAO;
 import br.com.ceciliaprado.cmp.model.personnel.Sector;
 import br.com.ceciliaprado.cmp.model.personnel.Subordinate;
 import br.com.ceciliaprado.cmp.model.production.ModelPhase;
@@ -13,6 +14,7 @@ import br.com.ceciliaprado.cmp.model.production.Phase;
 import br.com.ceciliaprado.cmp.model.production.PhaseProductionOrder;
 import br.com.ceciliaprado.cmp.model.production.ProductionOrder;
 import java.util.List;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
@@ -27,8 +29,28 @@ public class PhaseProductionOrderDAO extends DAO<PhaseProductionOrder, Long> {
     }
 
     @Override
-    public boolean isRegistered(PhaseProductionOrder entity) {
-        return super.find(entity.getCode()) != null;
+    public void create(PhaseProductionOrder phaseProductionOrde) throws EntityExistsException {
+        Subordinate subordinate = phaseProductionOrde.getSubordinate();
+        if (subordinate != null) {
+            SubordinateDAO subordinateDAO = new SubordinateDAO(em);
+            subordinateDAO.update(subordinate);
+        }
+        super.create(phaseProductionOrde);
+    }
+
+    @Override
+    public void update(PhaseProductionOrder phaseProductionOrde) {
+        Subordinate subordinate = phaseProductionOrde.getSubordinate();
+        if (subordinate != null) {
+            SubordinateDAO subordinateDAO = new SubordinateDAO(em);
+            subordinateDAO.update(subordinate);
+        }
+        super.update(phaseProductionOrde);
+    }
+
+    @Override
+    public boolean isRegistered(PhaseProductionOrder phaseProductionOrde) {
+        return super.find(phaseProductionOrde.getCode()) != null;
     }
     
     public PhaseProductionOrder find(String phaseName, String productionOrderName) {
