@@ -6,6 +6,7 @@
 package br.com.ceciliaprado.cmp.util;
 
 import br.com.ceciliaprado.cmp.exceptions.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -21,7 +22,14 @@ public abstract class AbstractReader<E extends Comparable> implements Iterable<E
     private final List<E> readEntities = new ArrayList<>();
     
     public void readFile(String fileName) throws IOException {
-        CSVReader csvReader = new CSVReader(fileName, getDefaultFields());   ;
+        readFile(new CSVReader(fileName, getDefaultFields()));
+    }
+    
+    public void readFile(InputStream in) throws IOException {
+        readFile(new CSVReader(in, getDefaultFields()));  
+    }
+    
+    private void readFile(CSVReader csvReader) throws IOException {
         csvReader.readColumnTitles();
         List<Field> fields = csvReader.fillFields();
         while (fields != null) {

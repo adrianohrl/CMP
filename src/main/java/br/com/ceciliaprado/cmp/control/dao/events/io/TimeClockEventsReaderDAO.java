@@ -11,6 +11,7 @@ import br.com.ceciliaprado.cmp.control.model.events.io.TimeClockEventsReader;
 import br.com.ceciliaprado.cmp.exceptions.IOException;
 import br.com.ceciliaprado.cmp.model.events.TimeClockEvent;
 import br.com.ceciliaprado.cmp.model.personnel.Employee;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -32,6 +33,16 @@ public class TimeClockEventsReaderDAO extends TimeClockEventsReader {
     @Override
     public void readFile(String fileName) throws IOException {
         super.readFile(fileName);
+        register();
+    }
+
+    @Override
+    public void readFile(InputStream in) throws IOException {
+        super.readFile(in);
+        register();
+    }
+    
+    private void register() {
         TimeClockEventDAO eventDAO = new TimeClockEventDAO(em);
         for (TimeClockEvent event : getReadEntities()) {
             if (!eventDAO.isRegistered(event)) {
@@ -49,6 +60,10 @@ public class TimeClockEventsReaderDAO extends TimeClockEventsReader {
             throw new IOException("The input employee (whose name is " + employeeName + ") is not registered yet!!!");
         }
         return employee;
+    }
+
+    public List<TimeClockEvent> getRegisteredEvents() {
+        return registeredEvents;
     }
 
     @Override

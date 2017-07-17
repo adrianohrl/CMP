@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -85,6 +87,13 @@ public class FileIO {
         } catch (IOException ioe) {
             throw new RuntimeException("IO Error");
         }
+    }
+    
+    public FileIO(InputStream in, String delimiter) {
+        setting = FOR_READING;
+        tokens = true;
+        this.delimiter = delimiter;
+        this.br = new BufferedReader(new InputStreamReader(in));
     }
 
     /**

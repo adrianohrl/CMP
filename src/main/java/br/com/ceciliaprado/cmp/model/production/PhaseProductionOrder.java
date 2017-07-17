@@ -69,6 +69,10 @@ public class PhaseProductionOrder implements Comparable<PhaseProductionOrder>, S
         return new ArrayList<>();
     }
     
+    public boolean isBeingProcessed() {
+        return productionState != null && productionState.isStartingState();
+    }
+    
     public void produced(int quantity) throws ProductionException {
         if (quantity < 0)
         {

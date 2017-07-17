@@ -6,7 +6,7 @@
     
     <groupId>br.com.ceciliaprado</groupId>
     <artifactId>cmp</artifactId>
-    <version>1.0.13</version>
+    <version>1.0.15</version>
     <packaging>jar</packaging>
     
     <properties>

@@ -11,6 +11,7 @@ import br.com.ceciliaprado.cmp.control.model.production.io.ProductionOrdersReade
 import br.com.ceciliaprado.cmp.exceptions.IOException;
 import br.com.ceciliaprado.cmp.model.production.Model;
 import br.com.ceciliaprado.cmp.model.production.ProductionOrder;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -28,10 +29,20 @@ public class ProductionOrdersReaderDAO extends ProductionOrdersReader {
     public ProductionOrdersReaderDAO(EntityManager em) {
         this.em = em;
     }
-
+    
     @Override
     public void readFile(String fileName) throws IOException {
         super.readFile(fileName);
+        register();
+    }
+
+    @Override
+    public void readFile(InputStream in) throws IOException {
+        super.readFile(in);
+        register();
+    }
+    
+    private void register() {
         ProductionOrderDAO productionOrderDAO = new ProductionOrderDAO(em);
         for (ProductionOrder productionOrder : getReadEntities()) {
             if (!productionOrderDAO.isRegistered(productionOrder)) {
@@ -45,6 +56,10 @@ public class ProductionOrdersReaderDAO extends ProductionOrdersReader {
     protected Model getModel(String modelReference) {
         ModelDAO modelDAO = new ModelDAO(em);
         return modelDAO.find(modelReference);
+    }
+
+    public List<ProductionOrder> getRegisteredProductionOrders() {
+        return registeredProductionOrders;
     }
 
     @Override

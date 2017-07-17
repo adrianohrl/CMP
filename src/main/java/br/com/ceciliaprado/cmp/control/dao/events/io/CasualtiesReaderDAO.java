@@ -9,6 +9,7 @@ import br.com.ceciliaprado.cmp.control.dao.events.CasualtyDAO;
 import br.com.ceciliaprado.cmp.control.model.events.io.CasualtiesReader;
 import br.com.ceciliaprado.cmp.exceptions.IOException;
 import br.com.ceciliaprado.cmp.model.events.Casualty;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -30,6 +31,16 @@ public class CasualtiesReaderDAO extends CasualtiesReader {
     @Override
     public void readFile(String fileName) throws IOException {
         super.readFile(fileName);
+        register();
+    }
+
+    @Override
+    public void readFile(InputStream in) throws IOException {
+        super.readFile(in);
+        register();
+    }
+    
+    private void register() {
         CasualtyDAO casualtyDAO = new CasualtyDAO(em);
         for (Casualty casualty : getReadEntities()) {
             if (!casualtyDAO.isRegistered(casualty)) {
@@ -37,6 +48,10 @@ public class CasualtiesReaderDAO extends CasualtiesReader {
                 registeredCasualties.add(casualty);
             }
         }
+    }
+
+    public List<Casualty> getRegisteredCasualties() {
+        return registeredCasualties;
     }
 
     @Override

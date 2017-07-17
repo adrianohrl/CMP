@@ -15,6 +15,7 @@ import br.com.ceciliaprado.cmp.model.personnel.Employee;
 import br.com.ceciliaprado.cmp.model.personnel.Manager;
 import br.com.ceciliaprado.cmp.model.personnel.Subordinate;
 import br.com.ceciliaprado.cmp.model.personnel.Supervisor;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -36,6 +37,16 @@ public class PersonnelReaderDAO extends PersonnelReader {
     @Override
     public void readFile(String fileName) throws IOException {
         super.readFile(fileName);
+        register();
+    }
+    
+    @Override
+    public void readFile(InputStream in) throws IOException {
+        super.readFile(in);
+        register();
+    }
+    
+    private void register() {
         EmployeeDAO employeeDAO = new EmployeeDAO(em);
         for (Employee employee : getReadEntities()) {
             if (!employeeDAO.isRegistered(employee)) {
@@ -64,6 +75,10 @@ public class PersonnelReaderDAO extends PersonnelReader {
     private void register(Manager manager) {
         ManagerDAO managerDAO = new ManagerDAO(em);
         managerDAO.create(manager);
+    }
+
+    public List<Employee> getRegisteredEmployees() {
+        return registeredEmployees;
     }
 
     @Override

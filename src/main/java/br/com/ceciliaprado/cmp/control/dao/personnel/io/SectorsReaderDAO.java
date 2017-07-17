@@ -11,6 +11,7 @@ import br.com.ceciliaprado.cmp.control.model.personnel.io.SectorsReader;
 import br.com.ceciliaprado.cmp.exceptions.IOException;
 import br.com.ceciliaprado.cmp.model.personnel.Sector;
 import br.com.ceciliaprado.cmp.model.personnel.Supervisor;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -23,7 +24,7 @@ import javax.persistence.EntityManager;
 public class SectorsReaderDAO extends SectorsReader {
     
     private final EntityManager em;
-    private final List<Sector> registeredEmployees = new ArrayList<>();
+    private final List<Sector> registeredSectors = new ArrayList<>();
 
     public SectorsReaderDAO(EntityManager em) {
         this.em = em;
@@ -32,11 +33,21 @@ public class SectorsReaderDAO extends SectorsReader {
     @Override
     public void readFile(String fileName) throws IOException {
         super.readFile(fileName);
+        register();
+    }    
+    
+    @Override
+    public void readFile(InputStream in) throws IOException {
+        super.readFile(in);
+        register();
+    }
+    
+    private void register() {
         SectorDAO sectorDAO = new SectorDAO(em);
         for (Sector sector : getReadEntities()) {
             if (!sectorDAO.isRegistered(sector)) {
                 sectorDAO.create(sector);
-                registeredEmployees.add(sector);
+                registeredSectors.add(sector);
             }
         }
     }
@@ -47,9 +58,13 @@ public class SectorsReaderDAO extends SectorsReader {
         return supervisorDAO.find(supervisorName);
     }
 
+    public List<Sector> getRegisteredSectors() {
+        return registeredSectors;
+    }
+
     @Override
     public Iterator<Sector> iterator() {
-        return registeredEmployees.iterator();
+        return registeredSectors.iterator();
     }
     
 }

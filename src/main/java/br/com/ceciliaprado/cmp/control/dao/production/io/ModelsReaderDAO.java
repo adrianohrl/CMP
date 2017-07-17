@@ -13,6 +13,7 @@ import br.com.ceciliaprado.cmp.exceptions.IOException;
 import br.com.ceciliaprado.cmp.model.production.Model;
 import br.com.ceciliaprado.cmp.model.production.ModelPhase;
 import br.com.ceciliaprado.cmp.model.production.Phase;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -34,6 +35,16 @@ public class ModelsReaderDAO extends ModelsReader {
     @Override
     public void readFile(String fileName) throws IOException {
         super.readFile(fileName);
+        register();
+    }
+
+    @Override
+    public void readFile(InputStream in) throws IOException {
+        super.readFile(in);
+        register();
+    }
+    
+    private void register() {
         ModelDAO modelDAO = new ModelDAO(em);
         ModelPhaseDAO phaseDAO = new ModelPhaseDAO(em);
         for (Model model : getReadEntities()) {
@@ -51,6 +62,10 @@ public class ModelsReaderDAO extends ModelsReader {
     protected Phase getPhase(String phaseName) {
         PhaseDAO phaseDAO = new PhaseDAO(em);
         return phaseDAO.find(phaseName);
+    }
+
+    public List<Model> getRegisteredModels() {
+        return registeredModels;
     }
 
     @Override

@@ -11,6 +11,10 @@ import br.com.ceciliaprado.cmp.control.model.personnel.io.SupervisorsReader;
 import br.com.ceciliaprado.cmp.exceptions.IOException;
 import br.com.ceciliaprado.cmp.model.personnel.Manager;
 import br.com.ceciliaprado.cmp.model.personnel.Supervisor;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import javax.persistence.EntityManager;
 
 /**
@@ -20,6 +24,7 @@ import javax.persistence.EntityManager;
 public class SupervisorsReaderDAO extends SupervisorsReader {
     
     private final EntityManager em;
+    private final List<Manager> registeredManagers = new ArrayList<>();
 
     public SupervisorsReaderDAO(EntityManager em) {
         this.em = em;
@@ -28,9 +33,20 @@ public class SupervisorsReaderDAO extends SupervisorsReader {
     @Override
     public void readFile(String fileName) throws IOException {
         super.readFile(fileName);
+        register();
+    }
+    
+    @Override
+    public void readFile(InputStream in) throws IOException {
+        super.readFile(in);
+        register();
+    }
+    
+    private void register() {
         ManagerDAO managerDAO = new ManagerDAO(em);
-        for (Manager manager : this) {
+        for (Manager manager : getReadEntities()) {
             managerDAO.update(manager);
+            registeredManagers.add(manager);
         }
     }
 
@@ -44,6 +60,15 @@ public class SupervisorsReaderDAO extends SupervisorsReader {
     protected Manager getManager(String managerName) {
         ManagerDAO managerDAO = new ManagerDAO(em);
         return managerDAO.find(managerName);
+    }
+
+    public List<Manager> getRegisteredManagers() {
+        return registeredManagers;
+    }
+    
+    @Override
+    public Iterator<Manager> iterator() {
+        return registeredManagers.iterator();
     }
     
 }

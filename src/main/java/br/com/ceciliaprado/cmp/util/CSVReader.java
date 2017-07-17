@@ -6,6 +6,7 @@
 package br.com.ceciliaprado.cmp.util;
 
 import br.com.ceciliaprado.cmp.exceptions.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +25,11 @@ public class CSVReader implements Iterable<String> {
     public CSVReader(String fileName, List<Field> defaultFields) throws IOException {
         this.defaultFields = defaultFields;
         fileReader = new FileIO(fileName, ",");
+    }
+
+    public CSVReader(InputStream in, List<Field> defaultFields) throws IOException {
+        this.defaultFields = defaultFields;
+        fileReader = new FileIO(in, ",");
     }
     
     public void readColumnTitles() throws IOException {

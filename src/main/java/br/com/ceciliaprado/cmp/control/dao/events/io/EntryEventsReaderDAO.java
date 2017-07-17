@@ -6,6 +6,7 @@
 package br.com.ceciliaprado.cmp.control.dao.events.io;
 
 import br.com.ceciliaprado.cmp.control.dao.events.CasualtyDAO;
+import br.com.ceciliaprado.cmp.control.dao.events.CasualtyEntryEventDAO;
 import br.com.ceciliaprado.cmp.control.dao.events.EntryEventDAO;
 import br.com.ceciliaprado.cmp.control.dao.personnel.SectorDAO;
 import br.com.ceciliaprado.cmp.control.dao.personnel.SubordinateDAO;
@@ -15,9 +16,11 @@ import br.com.ceciliaprado.cmp.control.dao.production.ModelPhaseDAO;
 import br.com.ceciliaprado.cmp.control.dao.production.PhaseProductionOrderDAO;
 import br.com.ceciliaprado.cmp.control.dao.production.ProductionOrderDAO;
 import br.com.ceciliaprado.cmp.control.model.events.io.EntryEventsReader;
+import br.com.ceciliaprado.cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
 import br.com.ceciliaprado.cmp.exceptions.IOException;
 import br.com.ceciliaprado.cmp.exceptions.ProductionException;
 import br.com.ceciliaprado.cmp.model.events.Casualty;
+import br.com.ceciliaprado.cmp.model.events.CasualtyEntryEvent;
 import br.com.ceciliaprado.cmp.model.events.EntryEvent;
 import br.com.ceciliaprado.cmp.model.personnel.Sector;
 import br.com.ceciliaprado.cmp.model.personnel.Subordinate;
@@ -26,6 +29,7 @@ import br.com.ceciliaprado.cmp.model.production.Model;
 import br.com.ceciliaprado.cmp.model.production.ModelPhase;
 import br.com.ceciliaprado.cmp.model.production.PhaseProductionOrder;
 import br.com.ceciliaprado.cmp.model.production.ProductionOrder;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -47,10 +51,25 @@ public class EntryEventsReaderDAO extends EntryEventsReader {
     @Override
     public void readFile(String fileName) throws IOException {
         super.readFile(fileName);
-        EntryEventDAO eventDAO = new EntryEventDAO(em);
+        register();
+    }
+
+    @Override
+    public void readFile(InputStream in) throws IOException {
+        super.readFile(in);
+        register();
+    }
+    
+    private void register() {
+        EntryEventDAO entryEventDAO = new EntryEventDAO(em);
+        CasualtyEntryEventDAO casualtyEntryEventDAO = new CasualtyEntryEventDAO(em);
         for (EntryEvent event : getReadEntities()) {
-            if (!eventDAO.isRegistered(event)) {
-                eventDAO.create(event);
+            if (!entryEventDAO.isRegistered(event)) {
+                if (event instanceof CasualtyEntryEvent) {
+                    casualtyEntryEventDAO.create((CasualtyEntryEvent) event);
+                } else if (event instanceof EntryEvent) {
+                    entryEventDAO.create(event);
+                } 
                 registeredEvents.add(event);
             }
         }
@@ -146,6 +165,10 @@ public class EntryEventsReaderDAO extends EntryEventsReader {
             throw new IOException("The input casualty (whose name is " + casualtyName + ") is not registered yet!!!");
         }
         return casualty;
+    }
+
+    public List<EntryEvent> getRegisteredEvents() {
+        return registeredEvents;
     }
 
     @Override

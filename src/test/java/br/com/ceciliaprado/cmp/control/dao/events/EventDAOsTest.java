@@ -10,7 +10,6 @@ import br.com.ceciliaprado.cmp.control.dao.events.io.EntryEventsReaderDAO;
 import br.com.ceciliaprado.cmp.control.dao.events.io.TimeClockEventsReaderDAO;
 import br.com.ceciliaprado.cmp.exceptions.IOException;
 import br.com.ceciliaprado.cmp.model.events.Casualty;
-import br.com.ceciliaprado.cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
 import br.com.ceciliaprado.cmp.util.Keyboard;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,10 +54,10 @@ public class EventDAOsTest {
             fileName = "./others/tests/ImportEntryEvents1.csv";
             EntryEventsReaderDAO entryEventsReader = new EntryEventsReaderDAO(em);
             entryEventsReader.readFile(fileName);
-            EmployeeRelatedEventsList events = new EmployeeRelatedEventsList();
+            /*EmployeeRelatedEventsList events = new EmployeeRelatedEventsList();
             events.addAll(timeClockEventsReader.getEmployeeRelatedEventsList());
             events.addAll(entryEventsReader.getEmployeeRelatedEventsList());
-            EventsTest.register(events);
+            EventsTest.register(events);*/
         } catch (RollbackException e) {
             System.out.println("RollbackException catched: " + e.getMessage());
         } catch (IOException e) {

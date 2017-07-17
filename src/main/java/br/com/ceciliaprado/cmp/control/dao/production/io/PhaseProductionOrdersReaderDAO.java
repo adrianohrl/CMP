@@ -15,6 +15,7 @@ import br.com.ceciliaprado.cmp.model.production.Model;
 import br.com.ceciliaprado.cmp.model.production.ModelPhase;
 import br.com.ceciliaprado.cmp.model.production.PhaseProductionOrder;
 import br.com.ceciliaprado.cmp.model.production.ProductionOrder;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -36,6 +37,16 @@ public class PhaseProductionOrdersReaderDAO extends PhaseProductionOrdersReader 
     @Override
     public void readFile(String fileName) throws IOException {
         super.readFile(fileName);
+        register();
+    }
+
+    @Override
+    public void readFile(InputStream in) throws IOException {
+        super.readFile(in);
+        register();
+    }
+    
+    private void register() {
         PhaseProductionOrderDAO phaseProductionOrderDAO = new PhaseProductionOrderDAO(em);
         for (PhaseProductionOrder phaseProductionOrder : getReadEntities()) {
             if (!phaseProductionOrderDAO.isRegistered(phaseProductionOrder)) {
@@ -56,6 +67,10 @@ public class PhaseProductionOrdersReaderDAO extends PhaseProductionOrdersReader 
     protected ProductionOrder getProductionOrder(String orderReference) {
         ProductionOrderDAO productionOrderDAO = new ProductionOrderDAO(em);
         return productionOrderDAO.find(orderReference);
+    }
+
+    public List<PhaseProductionOrder> getRegisteredPhaseProductionOrders() {
+        return registeredPhaseProductionOrders;
     }
 
     @Override
