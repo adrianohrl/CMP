@@ -69,7 +69,7 @@ public class ProductionDAOsTest {
             }
         }
         
-        String subordinateName = "Maria";
+        String subordinateName = "Joana";
         PhaseProductionOrder phaseProductionOrder = phaseProductionOrderDAO.findCurrent(subordinateName);
         System.out.println("\n" + subordinateName + "'s current work is: " + phaseProductionOrder);
         

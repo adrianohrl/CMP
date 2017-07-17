@@ -16,6 +16,7 @@ import br.com.ceciliaprado.cmp.model.production.PhaseProductionOrder;
 import br.com.ceciliaprado.cmp.exceptions.ProductionException;
 import br.com.ceciliaprado.cmp.model.events.AbstractEmployeeRelatedEvent;
 import br.com.ceciliaprado.cmp.model.production.ProductionStates;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -24,7 +25,7 @@ import java.util.List;
  *
  * @author adrianohrl
  */
-public class EntryEventsBuilder {
+public class EntryEventsBuilder implements Serializable {
     
     private final Sector sector;
     private final Supervisor supervisor;

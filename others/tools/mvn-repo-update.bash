@@ -76,7 +76,8 @@ if [ -z "$PROJECT_ARTIFACT_ID" ]; then
 	exit 
 fi
 PROJECT_VERSION=$(grep -oPm1 "(?<=<version>)[^<]+" <<< "$PROJECT_POM_FILE")
-PROJECT_JAR_FILE=${PROJECT_DIR}/target/${PROJECT_ARTIFACT_ID}-${PROJECT_VERSION}.jar
+PROJECT_PACKAGING=$(grep -oPm1 "(?<=<packaging>)[^<]+" <<< "$PROJECT_POM_FILE")
+PROJECT_TARGET_FILE=${PROJECT_DIR}/target/${PROJECT_ARTIFACT_ID}-${PROJECT_VERSION}.${PROJECT_PACKAGING}
 if [ -z "${REPO_NAME+xxx}" ]; then
 	REPO_NAME="${PROJECT_ARTIFACT_ID}"
 fi
@@ -91,13 +92,14 @@ echo "PROJECT_DIR          =  ${PROJECT_DIR}"
 echo "PROJECT_GROUP_ID     =  ${PROJECT_GROUP_ID}"
 echo "PROJECT_ARTIFACT_ID  =  ${PROJECT_ARTIFACT_ID}"
 echo "PROJECT_VERSION      =  ${PROJECT_VERSION}"
-echo "PROJECT_JAR_FILE     =  ${PROJECT_JAR_FILE}"
+echo "PROJECT_PACKAGING    =  ${PROJECT_PACKAGING}"
+echo "PROJECT_TARGET_FILE  =  ${PROJECT_TARGET_FILE}"
 echo "REPO_URL             =  ${REPO_URL}"
 echo "REPO_BRANCH          =  ${REPO_BRANCH}"
 
 mvn clean install --file ${PROJECT_DIR}/pom.xml
 git clone ${REPO_URL} --branch ${REPO_BRANCH} --single-branch ${REPO_LOCAL_DIR}
-mvn install:install-file -DgroupId=${PROJECT_GROUP_ID} -DartifactId=${PROJECT_ARTIFACT_ID} -Dversion=${PROJECT_VERSION} -Dfile=${PROJECT_JAR_FILE} -Dpackaging=jar -DgeneratePom=true -DlocalRepositoryPath=${REPO_LOCAL_DIR} -DcreateChecksum=true
+mvn install:install-file -DgroupId=${PROJECT_GROUP_ID} -DartifactId=${PROJECT_ARTIFACT_ID} -Dversion=${PROJECT_VERSION} -Dfile=${PROJECT_TARGET_FILE} -Dpackaging=${PROJECT_PACKAGING} -DgeneratePom=true -DlocalRepositoryPath=${REPO_LOCAL_DIR} -DcreateChecksum=true
 git -C ${REPO_LOCAL_DIR} add --all 
 git -C ${REPO_LOCAL_DIR} commit -m "released version ${PROJECT_VERSION}"
 git -C ${REPO_LOCAL_DIR} push origin ${REPO_BRANCH}

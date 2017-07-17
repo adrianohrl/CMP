@@ -95,10 +95,14 @@ public class PhaseProductionOrderDAO extends DAO<PhaseProductionOrder, Long> {
     
     public PhaseProductionOrder findCurrent(String subordinateName) {
         try {
-            return (PhaseProductionOrder) em.createQuery("SELECT ppo "
-                + "FROM PhaseProductionOrder ppo "
-                + "WHERE ppo.pendent = TRUE "
-                    + "AND ppo.subordinate.name = '" + subordinateName + "'").getSingleResult();
+            return (PhaseProductionOrder) em.createQuery("SELECT ee.phaseProductionOrder "
+                + "FROM EntryEvent ee "
+                + "WHERE ee.eventDate in ("
+                    + "SELECT MAX(e.eventDate) "
+                    + "FROM EntryEvent e JOIN e.phaseProductionOrder ppo "
+                    + "WHERE ppo.pendent = TRUE "
+                        + "AND ppo.subordinate.name = '" + subordinateName + "'"
+                + ")").getSingleResult();
         } catch (NoResultException e) {
             return null;
         }
