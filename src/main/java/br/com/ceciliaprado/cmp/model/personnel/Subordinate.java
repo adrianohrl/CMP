@@ -5,7 +5,10 @@
  */
 package br.com.ceciliaprado.cmp.model.personnel;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 
 /**
  *
@@ -15,6 +18,8 @@ import javax.persistence.Entity;
 public class Subordinate extends Employee {
     
     private boolean available = true;
+    @ManyToMany
+    private List<Sector> sectors = new ArrayList<>();
 
     public Subordinate() {
     }
@@ -34,6 +39,14 @@ public class Subordinate extends Employee {
 
     public void setAvailable(boolean available) {
         this.available = available;
+    }
+
+    public List<Sector> getSectors() {
+        return sectors;
+    }
+
+    public void setSectors(List<Sector> sectors) {
+        this.sectors = sectors;
     }
     
 }
