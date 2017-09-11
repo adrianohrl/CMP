@@ -83,7 +83,7 @@ public abstract class Field<T extends Comparable<T>> implements Comparable<Field
     public static <T> T getFieldValue(List<Field> fields, String fieldTitle) {
         for (Field field : fields) {
             if (field.equals(fieldTitle)) {
-                return (T) field.getValue();
+                return (T) field.value;
             }
         }
         return null;
