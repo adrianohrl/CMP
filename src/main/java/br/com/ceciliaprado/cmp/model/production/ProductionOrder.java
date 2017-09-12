@@ -47,6 +47,10 @@ public class ProductionOrder implements Comparable<ProductionOrder>, Serializabl
     public boolean equals(ProductionOrder productionOrder) {
        return productionOrder != null && reference.equalsIgnoreCase(productionOrder.reference);
     }
+    
+    public boolean equals(String productionOrderReference) {
+        return reference.equalsIgnoreCase(productionOrderReference);
+    }
 
     @Override
     public String toString() {

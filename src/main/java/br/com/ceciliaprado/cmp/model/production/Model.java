@@ -54,6 +54,10 @@ public class Model implements Comparable<Model>, Serializable {
     public boolean equals(Model model) {
         return model != null && reference.equalsIgnoreCase(model.reference);
     }
+    
+    public boolean equals(String modelReference) {
+        return reference.equalsIgnoreCase(modelReference);
+    }
 
     @Override
     public String toString() {

@@ -43,6 +43,10 @@ public abstract class Employee implements Comparable<Employee>, Serializable {
     public boolean equals(Employee employee) {
         return employee != null && name.equalsIgnoreCase(employee.name);
     }
+    
+    public boolean equals(String employeeName) {
+        return name.equalsIgnoreCase(employeeName);
+    }
 
     @Override
     public String toString() {

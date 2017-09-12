@@ -48,6 +48,10 @@ public class Sector implements Comparable<Sector>, Serializable {
         return sector != null && name.equalsIgnoreCase(sector.name);
     }
     
+    public boolean equals(String sectorName) {
+        return name.equalsIgnoreCase(sectorName);
+    }
+    
     @Override
     public String toString() {
         return name;

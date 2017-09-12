@@ -51,6 +51,10 @@ public class ModelPhase implements Serializable, Comparable<ModelPhase> {
     public boolean equals(Phase phase) {
         return phase != null && this.phase.equals(phase);
     }
+    
+    public boolean equals(String phaseName) {
+        return phase.equals(phaseName);
+    }
 
     @Override
     public String toString() {

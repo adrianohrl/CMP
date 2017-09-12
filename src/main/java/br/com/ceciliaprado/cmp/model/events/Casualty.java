@@ -48,6 +48,10 @@ public class Casualty implements Comparable<Casualty>, Serializable {
         return casualty != null && name.equalsIgnoreCase(casualty.name);
     }
     
+    public boolean equals(String casualtyName) {
+        return name.equalsIgnoreCase(casualtyName);
+    }
+    
     @Override
     public String toString() {
         return name;
