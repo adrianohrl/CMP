@@ -8,6 +8,7 @@ package br.com.ceciliaprado.cmp.util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  *
@@ -17,7 +18,7 @@ import java.util.Iterator;
 public abstract class AbstractFilter<T extends Comparable> implements Command<T>, Iterable<T> {
     
     private boolean sorted = false;
-    private final ArrayList<T> items = new ArrayList<>();
+    private final List<T> items = new ArrayList<>();
     
     public void clear() {
         items.clear();
@@ -41,7 +42,7 @@ public abstract class AbstractFilter<T extends Comparable> implements Command<T>
         return items.iterator();
     }
 
-    public ArrayList<T> getItems() {
+    public List<T> getItems() {
         if (!sorted) {
             Collections.sort(items);
             sorted = true;

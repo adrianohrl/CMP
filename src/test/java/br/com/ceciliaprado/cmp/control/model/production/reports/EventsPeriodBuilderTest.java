@@ -21,6 +21,7 @@ import br.com.ceciliaprado.cmp.control.model.production.reports.filters.Employee
 import br.com.ceciliaprado.cmp.model.production.ModelPhase;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  *
@@ -35,7 +36,7 @@ public class EventsPeriodBuilderTest {
         Subordinate subordinate2 = new Subordinate("sub2", "Subordinate 2");
         Subordinate subordinate3 = new Subordinate("sub3", "Subordinate 3");
         Subordinate subordinate4 = new Subordinate("sub4", "Subordinate 4");
-        ArrayList<Subordinate> subordinates = new ArrayList<>();
+        List<Subordinate> subordinates = new ArrayList<>();
         subordinates.add(subordinate1);
         subordinates.add(subordinate2);
         subordinates.add(subordinate3);
@@ -46,7 +47,7 @@ public class EventsPeriodBuilderTest {
         ModelPhase phase1 = new ModelPhase(new Phase("phase 1", sector), 10);
         ModelPhase phase2 = new ModelPhase(new Phase("phase 2", sector), 7.5);
         ModelPhase phase3 = new ModelPhase(new Phase("phase 3", sector), 5);
-        ArrayList<ModelPhase> phases = new ArrayList<>();
+        List<ModelPhase> phases = new ArrayList<>();
         phases.add(phase1);
         phases.add(phase2);
         phases.add(phase3);
@@ -73,7 +74,7 @@ public class EventsPeriodBuilderTest {
         entryEventsBuilder.buildEntryEvent(phaseProductionOrder2, subordinate2, ProductionStates.FINISHED, new GregorianCalendar(2017, 4, 3, 10, 45), "");
         entryEventsBuilder.buildEntryEvent(phaseProductionOrder3, subordinate3, ProductionStates.FINISHED, new GregorianCalendar(2017, 4, 3, 13, 45), "");
         
-        ArrayList<TimeClockEvent> timeClockEvents = new ArrayList<>();
+        List<TimeClockEvent> timeClockEvents = new ArrayList<>();
         timeClockEvents.add(new TimeClockEvent(subordinate1, true, new GregorianCalendar(2017, 4, 3, 7, 1), ""));
         timeClockEvents.add(new TimeClockEvent(subordinate2, true, new GregorianCalendar(2017, 4, 3, 7, 0), ""));
         timeClockEvents.add(new TimeClockEvent(subordinate3, true, new GregorianCalendar(2017, 4, 3, 8, 30), ""));

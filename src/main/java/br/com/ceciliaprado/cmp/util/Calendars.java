@@ -83,4 +83,8 @@ public class Calendars {
         return calendar;
     }
     
+    public static Date increment(Date date) {
+        return new Date(date.getTime() + 24*60*60*1000);
+    }
+    
 }

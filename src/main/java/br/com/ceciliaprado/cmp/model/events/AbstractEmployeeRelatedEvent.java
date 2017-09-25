@@ -7,9 +7,7 @@ package br.com.ceciliaprado.cmp.model.events;
 
 import br.com.ceciliaprado.cmp.model.personnel.Employee;
 import java.util.Calendar;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;

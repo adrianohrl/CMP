@@ -12,6 +12,7 @@ import br.com.ceciliaprado.cmp.model.events.AbstractEmployeeRelatedEvent;
 import br.com.ceciliaprado.cmp.model.personnel.Employee;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  *
@@ -19,7 +20,7 @@ import java.util.Iterator;
  */
 public class EventsPeriodBuilder implements Iterable<EmployeeEventsPeriodBuilder> {
     
-    private final ArrayList<EmployeeEventsPeriodBuilder> builders = new ArrayList<>();
+    private final List<EmployeeEventsPeriodBuilder> builders = new ArrayList<>();
     
     public EventsPeriodBuilder(EmployeeRelatedEventsList events) throws ReportException {
         if (events.isEmpty()) {
@@ -35,6 +36,15 @@ public class EventsPeriodBuilder implements Iterable<EmployeeEventsPeriodBuilder
             events.execute(filter);
             builders.add(new EmployeeEventsPeriodBuilder(employee, filter.getItems()));
         }
+    }
+    
+    public EmployeeEventsPeriodBuilder get(Employee employee) {
+        for (EmployeeEventsPeriodBuilder builder : this) {
+            if (employee.equals(builder.getEmployee())) {
+                return builder;
+            }
+        }
+        return null;
     }
 
     @Override
