@@ -87,4 +87,37 @@ public class Calendars {
         return new Date(date.getTime() + 24*60*60*1000);
     }
     
+    public static boolean changedDay(Date date1, Date date2) {
+        Calendar calendar1 = new GregorianCalendar();
+        calendar1.setTime(date1);
+        Calendar calendar2 = new GregorianCalendar();
+        calendar2.setTime(date2);
+        return Calendars.changedDay(calendar1, calendar2);
+    }
+    
+    public static boolean changedDay(Calendar calendar1, Calendar calendar2) {
+        return calendar1 == null && calendar2 != null 
+                || calendar1 != null && calendar2 == null 
+                || calendar2 != null && calendar1 != null 
+                    && calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR)
+                    && calendar1.get(Calendar.MONTH) == calendar2.get(Calendar.MONTH)
+                    && calendar1.get(Calendar.DAY_OF_MONTH) != calendar2.get(Calendar.DAY_OF_MONTH);
+    }
+    
+    public static boolean changedMonth(Date date1, Date date2) {
+        Calendar calendar1 = new GregorianCalendar();
+        calendar1.setTime(date1);
+        Calendar calendar2 = new GregorianCalendar();
+        calendar2.setTime(date2);
+        return Calendars.changedMonth(calendar1, calendar2);
+    }
+    
+    public static boolean changedMonth(Calendar calendar1, Calendar calendar2) {
+        return calendar1 == null && calendar2 != null 
+                || calendar1 != null && calendar2 == null 
+                || calendar2 != null && calendar1 != null 
+                    && calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR)
+                    && calendar1.get(Calendar.MONTH) != calendar2.get(Calendar.MONTH);
+    }
+    
 }

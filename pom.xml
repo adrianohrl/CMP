@@ -6,7 +6,7 @@
     
     <groupId>br.com.ceciliaprado</groupId>
     <artifactId>cmp</artifactId>
-    <version>1.0.19</version>
+    <version>1.0.20</version>
     <packaging>jar</packaging>
     
     <properties>
@@ -82,9 +82,6 @@
                     <noJekyll>true</noJekyll>
                     <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
                     <branch>refs/heads/mvn-repo</branch>
-                    <!-- If you remove this then the old artifact will be removed and new 
-                     one will replace. But with the merge tag you can just release by changing 
-                                                      the version -->
                     <merge>true</merge>
                     <includes>
                         <include>**/*</include>

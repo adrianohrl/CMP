@@ -49,6 +49,11 @@ public abstract class AbstractEventsPeriod<F extends AbstractEvent, L extends Ab
         this.lastEvent = lastEvent;
         this.phaseProductionOrder = phaseProductionOrder;
     }
+
+    @Override
+    public String toString() {
+        return "AbstractEventsPeriod{" + "phaseProductionOrder=" + phaseProductionOrder + ", firstEvent=" + firstEvent + ", lastEvent=" + lastEvent + '}';
+    }
     
     public double getDuration() {
         return (lastEvent.getEventDate().getTimeInMillis() - firstEvent.getEventDate().getTimeInMillis()) / 60000;
