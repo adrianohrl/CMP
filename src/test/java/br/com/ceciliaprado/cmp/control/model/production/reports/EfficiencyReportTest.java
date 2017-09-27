@@ -9,18 +9,23 @@ import br.com.ceciliaprado.cmp.control.model.production.reports.filters.Employee
 import br.com.ceciliaprado.cmp.control.model.production.reports.filters.FindByEmployee;
 import br.com.ceciliaprado.cmp.control.model.production.reports.filters.FindByPeriod;
 import br.com.ceciliaprado.cmp.exceptions.CMPException;
+import br.com.ceciliaprado.cmp.model.events.AbstractEmployeeRelatedEvent;
 import br.com.ceciliaprado.cmp.model.events.TimeClockEvent;
 import br.com.ceciliaprado.cmp.model.personnel.Employee;
 import br.com.ceciliaprado.cmp.model.personnel.Subordinate;
+import br.com.ceciliaprado.cmp.util.CalendarFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  *
  * @author adrianohrl
  */
-public class FindByPeriodTest {
+public class EfficiencyReportTest {
     
     public static void main(String[] args) throws CMPException {
         Subordinate subordinate1 = new Subordinate("sub1", "Subordinate 1");
@@ -41,7 +46,6 @@ public class FindByPeriodTest {
         timeClockEvents.add(new TimeClockEvent(subordinate1, false, new GregorianCalendar(2017, 4, 3, 17, 42), ""));
         timeClockEvents.add(new TimeClockEvent(subordinate2, false, new GregorianCalendar(2017, 4, 3, 17, 50), ""));
         timeClockEvents.add(new TimeClockEvent(subordinate3, false, new GregorianCalendar(2017, 4, 3, 18, 15), ""));
-        
         timeClockEvents.add(new TimeClockEvent(subordinate1, true, new GregorianCalendar(2017, 4, 4, 7, 1), ""));
         timeClockEvents.add(new TimeClockEvent(subordinate1, false, new GregorianCalendar(2017, 4, 4, 12, 10), ""));
         timeClockEvents.add(new TimeClockEvent(subordinate1, true, new GregorianCalendar(2017, 4, 5, 8, 30), ""));
@@ -61,23 +65,17 @@ public class FindByPeriodTest {
         timeClockEvents.add(new TimeClockEvent(subordinate1, true, new GregorianCalendar(2017, 4, 13, 12, 01), ""));
 
         Employee employee = subordinate1;
-        EmployeeRelatedEventsList<TimeClockEvent> events = new EmployeeRelatedEventsList<>();
-        events.addAll(timeClockEvents);
-        FindByEmployee<TimeClockEvent> filterByEmployee = new FindByEmployee<>(employee);
-        events.execute(filterByEmployee);        
-        FindByPeriod<TimeClockEvent> filterByPeriod = new FindByPeriod<>(new GregorianCalendar(2017, 4, 1), new GregorianCalendar(2017, 4, 13, 23, 59, 59));
-        filterByEmployee.getItems().execute(filterByPeriod);
-        System.out.println("\nBefore filterByEmployee: ");
-        for (TimeClockEvent event : events) {
-            System.out.println(event);
-        }
-        System.out.println("\nAfter filterByEmployee: ");
-        for (TimeClockEvent event : filterByEmployee) {
-            System.out.println(event);
-        }
-        System.out.println("\nAfter filterByPeriod: ");
-        for (TimeClockEvent event : filterByPeriod) {
-            System.out.println(event);
+        EmployeeRelatedEventsList<AbstractEmployeeRelatedEvent> events = new EmployeeRelatedEventsList<>();
+        events.addAll(timeClockEvents);      
+        Calendar startDate = new GregorianCalendar(2017, 4, 1);
+        Calendar endDate = new GregorianCalendar(2017, 4, 19);
+        endDate.add(Calendar.MILLISECOND, -1);
+        SubordinateEfficiencyReport report = new SubordinateEfficiencyReport(subordinate1, events, null, startDate, endDate);
+        
+        System.out.println("\n" + employee + "'s daily total duration:");
+        TreeMap<Calendar, Double> map = report.getDailyTotalDuration();        
+        for (Map.Entry<Calendar, Double> totalDuration : map.entrySet()) {
+            System.out.println("\t" + CalendarFormat.formatDate(totalDuration.getKey()) + ": " + totalDuration.getValue());
         }
     }
     

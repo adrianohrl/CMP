@@ -21,9 +21,9 @@ import java.util.List;
  */
 public class MultipleSubordinateEfficiencyReport extends AbstractEfficiencyReport implements Iterable<SubordinateEfficiencyReport> {
 
-    private final ArrayList<SubordinateEfficiencyReport> subordinateEfficiencyReports = new ArrayList<>();
+    private final List<SubordinateEfficiencyReport> subordinateEfficiencyReports = new ArrayList<>();
 
-    public MultipleSubordinateEfficiencyReport(List<Subordinate> subordinates, ArrayList<TimeClockEvent> timeClockEvents, ArrayList<EntryEvent> entryEvents, Manager manager, Calendar startDate, Calendar endDate) throws ReportException {
+    public MultipleSubordinateEfficiencyReport(List<Subordinate> subordinates, List<TimeClockEvent> timeClockEvents, List<EntryEvent> entryEvents, Manager manager, Calendar startDate, Calendar endDate) throws ReportException {
         super(timeClockEvents, entryEvents, manager, startDate, endDate);
         for (Subordinate subordinate : subordinates) {
             subordinateEfficiencyReports.add(new SubordinateEfficiencyReport(subordinate, timeClockEvents, entryEvents, manager, startDate, endDate));

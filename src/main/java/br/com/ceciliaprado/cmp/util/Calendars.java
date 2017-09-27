@@ -83,10 +83,6 @@ public class Calendars {
         return calendar;
     }
     
-    public static Date increment(Date date) {
-        return new Date(date.getTime() + 24*60*60*1000);
-    }
-    
     public static boolean changedDay(Date date1, Date date2) {
         Calendar calendar1 = new GregorianCalendar();
         calendar1.setTime(date1);

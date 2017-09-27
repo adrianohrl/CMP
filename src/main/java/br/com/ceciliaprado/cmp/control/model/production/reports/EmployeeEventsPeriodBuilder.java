@@ -15,6 +15,7 @@ import br.com.ceciliaprado.cmp.control.model.production.reports.filters.Employee
 import br.com.ceciliaprado.cmp.model.production.ModelPhase;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  *
@@ -23,8 +24,8 @@ import java.util.Iterator;
 public class EmployeeEventsPeriodBuilder implements Iterable<AbstractEventsPeriod> {
     
     private final Employee employee;
-    private final ArrayList<AbstractEventsPeriod> eventsPeriods = new ArrayList<>();
-    private final ArrayList<TimeClockEventsPeriod> timeClockEventsPeriods = new ArrayList<>();
+    private final List<AbstractEventsPeriod> eventsPeriods = new ArrayList<>();
+    private final List<TimeClockEventsPeriod> timeClockEventsPeriods = new ArrayList<>();
 
     public EmployeeEventsPeriodBuilder(Employee employee, EmployeeRelatedEventsList events) throws ReportException {
         this.employee = employee;

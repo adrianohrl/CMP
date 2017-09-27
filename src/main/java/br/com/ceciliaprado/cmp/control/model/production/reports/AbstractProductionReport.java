@@ -19,8 +19,8 @@ public abstract class AbstractProductionReport {
     
     private final Manager manager;
     private final Calendar emissionDate = new GregorianCalendar();
-    private final Calendar startDate;
-    private final Calendar endDate;
+    protected final Calendar startDate;
+    protected final Calendar endDate;
 
     public AbstractProductionReport(Manager manager, Calendar startDate, Calendar endDate) throws ReportException {
         this.manager = manager;
