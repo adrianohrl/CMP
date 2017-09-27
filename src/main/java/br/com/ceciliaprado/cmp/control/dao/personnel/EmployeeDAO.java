@@ -8,6 +8,7 @@ package br.com.ceciliaprado.cmp.control.dao.personnel;
 import br.com.ceciliaprado.cmp.control.dao.DAO;
 import br.com.ceciliaprado.cmp.model.personnel.Employee;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 /**
  *
@@ -22,6 +23,21 @@ public class EmployeeDAO<E extends Employee> extends DAO<E, String> {
     
     protected EmployeeDAO(EntityManager em, Class clazz) {
         super(em, clazz);
+    }
+
+    @Override
+    public E find(String code) {
+        E employee = super.find(code);
+        if (employee == null) {
+            try {
+                employee = (E) em.createQuery("SELECT e "
+                    + "FROM Employee e "
+                    + "WHERE e.code = '" + code + "'").getSingleResult();
+            } catch (NoResultException e) {
+                return null;
+            }
+        }
+        return employee;
     }
 
     @Override

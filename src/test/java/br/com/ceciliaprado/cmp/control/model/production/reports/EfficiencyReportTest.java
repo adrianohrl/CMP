@@ -6,8 +6,6 @@
 package br.com.ceciliaprado.cmp.control.model.production.reports;
 
 import br.com.ceciliaprado.cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
-import br.com.ceciliaprado.cmp.control.model.production.reports.filters.FindByEmployee;
-import br.com.ceciliaprado.cmp.control.model.production.reports.filters.FindByPeriod;
 import br.com.ceciliaprado.cmp.exceptions.CMPException;
 import br.com.ceciliaprado.cmp.model.events.AbstractEmployeeRelatedEvent;
 import br.com.ceciliaprado.cmp.model.events.TimeClockEvent;

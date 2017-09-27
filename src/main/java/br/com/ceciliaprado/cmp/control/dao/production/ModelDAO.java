@@ -9,6 +9,7 @@ import br.com.ceciliaprado.cmp.control.dao.DAO;
 import br.com.ceciliaprado.cmp.model.production.Model;
 import br.com.ceciliaprado.cmp.model.production.Phase;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 /**
  *
@@ -18,6 +19,21 @@ public class ModelDAO extends DAO<Model, String> {
 
     public ModelDAO(EntityManager em) {
         super(em, Model.class);
+    }
+
+    @Override
+    public Model find(String name) {
+        Model model = super.find(name);
+        if (model == null) {
+            try {
+                model = (Model) em.createQuery("SELECT m "
+                    + "FROM Model m "
+                    + "WHERE m.name = '" + name + "'").getSingleResult();
+            } catch (NoResultException e) {
+                return null;
+            }
+        }
+        return model;
     }
 
     @Override

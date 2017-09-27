@@ -81,6 +81,17 @@ public class ProductionDAOsTest {
                 System.out.println("\t" + ppo);
             }
         }
+        
+        ModelDAO modelDAO = new ModelDAO(em);
+        System.out.println("Registered models:");
+        for (Model model : modelDAO.findAll()) {
+            System.out.println("\t" + model);
+        }
+        
+        System.out.println("\nTesting ModelDAO find method:");
+        Model model = models.get("Blusa 2017");
+        System.out.println("Searching " + model + " by reference (" + model.getReference() + "): " + (modelDAO.find(model.getReference()) != null ? "ok" : "not ok"));
+        System.out.println("Searching " + model + " by name (" + model.getName() + "): " + (modelDAO.find(model.getName()) != null ? "ok" : "not ok"));
     }
 
     private static void createPhases() {
@@ -98,7 +109,7 @@ public class ProductionDAOsTest {
 
     private static void createModels() {
         models = new HashMap<>();
-        Model model = new Model("Blusa 2017", "Blusa 2017");
+        Model model = new Model("Blusa 2017", "Blusinha 2017");
         model.getPhases().add(new ModelPhase(phases.get("Overloque"), 3.8));
         models.put(model.getReference(), model);
         model = new Model("Cacharrel 2017", "Cacharrel 2017");

@@ -24,7 +24,7 @@ import javax.persistence.EntityManager;
  */
 public class PersonnelDAOsTest {
     
-    private static EntityManager em = DataSource.createEntityManager();
+    private final static EntityManager em = DataSource.createEntityManager();
     private static Map<String, Subordinate> subordinates;
     private static Map<String, Supervisor> supervisors;
     private static Map<String, Manager> managers;
@@ -75,6 +75,11 @@ public class PersonnelDAOsTest {
         for (Subordinate subordinate : subordinateDAO.findSupervisorAndSectorSubordinates(supervisor.getName(), sectorName)) {
             System.out.println("\t" + subordinate);
         }
+        
+        System.out.println("\nTesting EmployeeDAO and LoggableDAO find method:");
+        System.out.println("Searching " + supervisor + " by name (" + supervisor.getName() + "): " + (supervisorDAO.find(supervisor.getName()) != null ? "ok" : "not ok"));
+        System.out.println("Searching " + supervisor + " by code (" + supervisor.getCode() + "): " + (supervisorDAO.find(supervisor.getCode()) != null ? "ok" : "not ok"));
+        System.out.println("Searching " + supervisor + " by login (" + supervisor.getLogin()+ "): " + (supervisorDAO.find(supervisor.getLogin()) != null ? "ok" : "not ok"));
     }
     
     private static void createEmployees() {
