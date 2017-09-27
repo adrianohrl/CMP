@@ -28,4 +28,5 @@ target/
 *.log
 
 # Auxiliar #
+others/cp
 others/tests
