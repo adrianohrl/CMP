@@ -21,6 +21,7 @@ import br.com.ceciliaprado.cmp.util.AbstractReader;
 import br.com.ceciliaprado.cmp.util.Calendars;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -36,13 +37,15 @@ public class TimeClockEventsReader extends AbstractReader<TimeClockEvent> {
     private final static String ARRIVAL_COLUMN_TITLE = "Arrival";
     private final static String OBSERVATION_COLUMN_TITLE = "Observation";
     
+    HashMap<Employee, Boolean> arrivalMap = new HashMap<>();
+    
     @Override
     protected List<Field> getDefaultFields() {
         List<Field> defaultFields = new ArrayList<>();
         defaultFields.add(new CalendarField(DATE_COLUMN_TITLE, "dd/MM/yyyy", true));
         defaultFields.add(new CalendarField(TIME_COLUMN_TITLE, "HH:mm", true));
         defaultFields.add(new StringField(EMPLOYEE_COLUMN_TITLE, true));
-        defaultFields.add(new BooleanField(ARRIVAL_COLUMN_TITLE, "y", true));
+        defaultFields.add(new BooleanField(ARRIVAL_COLUMN_TITLE, "y", false));
         defaultFields.add(new StringField(OBSERVATION_COLUMN_TITLE, false));
         return defaultFields;
     }
@@ -57,7 +60,13 @@ public class TimeClockEventsReader extends AbstractReader<TimeClockEvent> {
     protected TimeClockEvent build(List<Field> fields) throws IOException {
         Calendar calendar = Calendars.sum((Calendar) Field.getFieldValue(fields, DATE_COLUMN_TITLE), (Calendar) Field.getFieldValue(fields, TIME_COLUMN_TITLE));
         Employee employee = createEmployee(Field.getFieldValue(fields, EMPLOYEE_COLUMN_TITLE));
-        return new TimeClockEvent(employee, Field.getFieldValue(fields, ARRIVAL_COLUMN_TITLE), calendar, Field.getFieldValue(fields, OBSERVATION_COLUMN_TITLE));
+        Boolean arrival = Field.getFieldValue(fields, ARRIVAL_COLUMN_TITLE);
+        if (arrival == null) {                    
+            arrivalMap.putIfAbsent(employee, true);
+            arrival = arrivalMap.get(employee);
+            arrivalMap.put(employee, !arrival);
+        }
+        return new TimeClockEvent(employee, arrival, calendar, Field.getFieldValue(fields, OBSERVATION_COLUMN_TITLE));
     }
     
     protected Employee createEmployee(String employeeName) throws IOException {

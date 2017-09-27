@@ -33,8 +33,7 @@ public class CSVReader implements Iterable<String> {
     }
     
     public void readColumnTitles() throws IOException {
-        int counter = 0;
-        int index;
+        int counter = 0, index;
         for (String fieldTitle : this) {
             index = indexOf(fieldTitle);
             if (index == -1) {
@@ -49,6 +48,7 @@ public class CSVReader implements Iterable<String> {
                     throw new IOException(field.getTitle() + " column title is mandatory!!!");
                 } else {
                     defaultFields.remove(field);
+                    i--;
                 }
             }
         }
