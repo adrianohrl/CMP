@@ -48,14 +48,14 @@ public class AbstractEmployeeRelatedEventDAO<E extends AbstractEmployeeRelatedEv
         }
     }
     
-    public EmployeeRelatedEventsList<AbstractEmployeeRelatedEvent> findEmployeeEvents(Employee employee) {
-        return new EmployeeRelatedEventsList<>(em.createQuery("SELECT event "
+    public EmployeeRelatedEventsList findEmployeeEvents(Employee employee) {
+        return new EmployeeRelatedEventsList(em.createQuery("SELECT event "
                 + "FROM " + clazz.getSimpleName() + " event JOIN event.employee emp "
                 + "WHERE emp.name = '" + employee.getName() + "' "
                 + "ORDER BY event.eventDate ASC").getResultList());
     }
     
-    public EmployeeRelatedEventsList<AbstractEmployeeRelatedEvent> findEmployeeEvents(Employee employee, Calendar start, Calendar end) throws DAOException {
+    public EmployeeRelatedEventsList findEmployeeEvents(Employee employee, Calendar start, Calendar end) throws DAOException {
         if (start.after(end)) {
             throw new DAOException("The start period calendar must be before the end period calendar!!!");
         }
@@ -66,7 +66,7 @@ public class AbstractEmployeeRelatedEventDAO<E extends AbstractEmployeeRelatedEv
                 + "ORDER BY event.eventDate ASC");
         query.setParameter("start", start, TemporalType.TIMESTAMP);
         query.setParameter("end", end, TemporalType.TIMESTAMP);
-        return new EmployeeRelatedEventsList<>(query.getResultList());
+        return new EmployeeRelatedEventsList(query.getResultList());
     }
     
 }
