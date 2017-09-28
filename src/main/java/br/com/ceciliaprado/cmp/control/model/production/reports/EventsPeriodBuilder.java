@@ -7,7 +7,6 @@ package br.com.ceciliaprado.cmp.control.model.production.reports;
 
 import br.com.ceciliaprado.cmp.control.model.production.reports.filters.FindByEmployee;
 import br.com.ceciliaprado.cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
-import br.com.ceciliaprado.cmp.control.model.production.reports.filters.FindByPeriod;
 import br.com.ceciliaprado.cmp.exceptions.ReportException;
 import br.com.ceciliaprado.cmp.model.events.AbstractEmployeeRelatedEvent;
 import br.com.ceciliaprado.cmp.model.events.TimeClockEvent;
@@ -20,7 +19,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.TreeMap;
 
 /**
  *
