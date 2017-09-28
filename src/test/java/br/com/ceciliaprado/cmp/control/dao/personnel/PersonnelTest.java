@@ -30,7 +30,7 @@ public class PersonnelTest {
             try {
                 PersonnelTest.process(option);
             } catch (RuntimeException e) {
-                System.out.println("Exception catched: " + e.getMessage());
+                System.out.println("Exception caught: " + e.getMessage());
             }
             option = PersonnelMenuOptions.getOption();
         }
@@ -256,7 +256,7 @@ public class PersonnelTest {
         try {
             supervisorDAO.update(supervisor);
         } catch (RuntimeException e) {
-            System.out.println("Exception catched: " + e.getMessage());
+            System.out.println("Exception caught: " + e.getMessage());
             em.clear();
         }
     }
@@ -277,7 +277,7 @@ public class PersonnelTest {
         try {
             managerDAO.update(manager);
         } catch (RuntimeException e) {
-            System.out.println("Exception catched: " + e.getMessage());
+            System.out.println("Exception caught: " + e.getMessage());
             em.clear();
         }
     }

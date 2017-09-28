@@ -84,7 +84,7 @@ public class ProductionKeyboardEntries {
             try {
                 phaseProductionOrder = new PhaseProductionOrder(phase, productionOrder, totalQuantity);
             } catch (ProductionException pe) {
-                System.out.println("Exception catched: " + pe.getMessage());
+                System.out.println("Exception caught: " + pe.getMessage());
             }
         } else if (!phaseProductionOrder.isPendent()) {
             System.out.println("This phase production order already exists, but it is not pendent anymore!!!");

@@ -27,7 +27,7 @@ public class GeneralTest {
             try {
                 option = GeneralTest.process(option);
             } catch (RuntimeException e) {
-                System.out.println("Exception catched: " + e.getMessage());
+                System.out.println("Exception caught: " + e.getMessage());
             }
             if (option == null) {
                 System.out.println("Going back to general menu ...");

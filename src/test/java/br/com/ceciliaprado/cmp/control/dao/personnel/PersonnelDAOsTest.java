@@ -37,20 +37,32 @@ public class PersonnelDAOsTest {
     }
     
     public static void test(EntityManager em) {
+        PersonnelDAOsTest.createEmployees();
         try {
-            PersonnelDAOsTest.createEmployees();
             PersonnelTest.registerEmployees(subordinates.values());
-            PersonnelTest.registerEmployees(supervisors.values());
-            PersonnelTest.registerEmployees(managers.values());
-            PersonnelDAOsTest.createSectors();
-            PersonnelTest.registerSectors(sectors.values());
-            PersonnelTest.showAllRegisteredSubordinates();
-            PersonnelTest.showAllRegisteredSupervisors();
-            PersonnelTest.showAllRegisteredManagers();
-            PersonnelTest.showAllRegisteredSectors();
         } catch (RuntimeException e) {
-            System.out.println("Exception catched: " + e.getMessage());
+            System.out.println("Exception caught: " + e.getMessage());
         }
+        try {
+            PersonnelTest.registerEmployees(supervisors.values());
+        } catch (RuntimeException e) {
+            System.out.println("Exception caught: " + e.getMessage());
+        }
+        try {
+            PersonnelTest.registerEmployees(managers.values());
+        } catch (RuntimeException e) {
+            System.out.println("Exception caught: " + e.getMessage());
+        }
+        PersonnelDAOsTest.createSectors();
+        try {
+            PersonnelTest.registerSectors(sectors.values());
+        } catch (RuntimeException e) {
+            System.out.println("Exception caught: " + e.getMessage());
+        }
+        PersonnelTest.showAllRegisteredSubordinates();
+        PersonnelTest.showAllRegisteredSupervisors();
+        PersonnelTest.showAllRegisteredManagers();
+        PersonnelTest.showAllRegisteredSectors();
         
         Supervisor supervisor = supervisors.get("Rose");
         SupervisorDAO supervisorDAO = new SupervisorDAO(em);

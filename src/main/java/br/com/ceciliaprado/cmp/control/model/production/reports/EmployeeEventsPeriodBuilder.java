@@ -13,6 +13,8 @@ import br.com.ceciliaprado.cmp.model.personnel.Employee;
 import br.com.ceciliaprado.cmp.model.production.PhaseProductionOrder;
 import br.com.ceciliaprado.cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
 import br.com.ceciliaprado.cmp.model.production.ModelPhase;
+import br.com.ceciliaprado.cmp.util.Command;
+import br.com.ceciliaprado.cmp.util.Execute;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -21,34 +23,35 @@ import java.util.List;
  *
  * @author adrianohrl
  */
-public class EmployeeEventsPeriodBuilder implements Iterable<AbstractEventsPeriod> {
+public class EmployeeEventsPeriodBuilder implements Iterable<AbstractEventsPeriod>, Execute<AbstractEmployeeRelatedEvent> {
     
     private final Employee employee;
+    private final EmployeeRelatedEventsList<AbstractEmployeeRelatedEvent> events = new EmployeeRelatedEventsList<>();
     private final List<AbstractEventsPeriod> eventsPeriods = new ArrayList<>();
     private final List<TimeClockEventsPeriod> timeClockEventsPeriods = new ArrayList<>();
 
-    public EmployeeEventsPeriodBuilder(Employee employee, EmployeeRelatedEventsList events) throws ReportException {
+    public EmployeeEventsPeriodBuilder(Employee employee, EmployeeRelatedEventsList<AbstractEmployeeRelatedEvent> events) throws ReportException {
         this.employee = employee;
-        build(events);
+        build(events);        
     }
     
-    private void build(EmployeeRelatedEventsList<? extends AbstractEmployeeRelatedEvent> events) throws ReportException {
+    private void build(EmployeeRelatedEventsList<AbstractEmployeeRelatedEvent> events) throws ReportException {
         AbstractEmployeeRelatedEvent previous = null;
-        AbstractEmployeeRelatedEvent current;
-        for (AbstractEmployeeRelatedEvent event : events) {
-            if (event instanceof TimeClockEvent) {
-                current = (TimeClockEvent) event;
-                if (previous != null) {
-                    timeClockEventsPeriods.add((TimeClockEventsPeriod) build(previous, current));
-                }
-                previous = current;
+        TimeClockEvent previousTimeClockEvent = null;
+        for (AbstractEmployeeRelatedEvent current : events) {
+            if (!employee.equals(current.getEmployee())) {
+                throw new ReportException("This is not a " + current.getEmployee() + " builder!!!");
             }
-        }
-        Iterator<? extends AbstractEmployeeRelatedEvent> it = events.iterator();
-        previous = it.next();
-        while (it.hasNext()) {
-            current = it.next();
-            eventsPeriods.add(build(previous, current));
+            this.events.add(current);
+            if (previous != null) {
+                eventsPeriods.add(build(previous, current));
+            }
+            if (current instanceof TimeClockEvent) {
+                if (previousTimeClockEvent != null) {
+                    timeClockEventsPeriods.add((TimeClockEventsPeriod) build(previousTimeClockEvent, (TimeClockEvent) current));
+                }
+                previousTimeClockEvent = (TimeClockEvent) current;
+            }
             previous = current;
         }
     }
@@ -72,6 +75,11 @@ public class EmployeeEventsPeriodBuilder implements Iterable<AbstractEventsPerio
     @Override
     public Iterator<AbstractEventsPeriod> iterator() {
         return eventsPeriods.iterator();
+    }
+
+    @Override
+    public void execute(Command<AbstractEmployeeRelatedEvent> command) {
+        events.execute(command);
     }
 
     public Employee getEmployee() {

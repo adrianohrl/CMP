@@ -42,7 +42,7 @@ public class EventDAOsTest {
             System.out.println("");
             EventsTest.showAllNonCollectiveCasualties();
         } catch (RuntimeException e) {
-            System.out.println("RuntimeException catched:" + e.getMessage());
+            System.out.println("RuntimeException caught:" + e.getMessage());
         }
         try {
             Keyboard keyboard = Keyboard.getKeyboard();
@@ -58,13 +58,9 @@ public class EventDAOsTest {
             events.addAll(timeClockEventsReader.getEmployeeRelatedEventsList());
             events.addAll(entryEventsReader.getEmployeeRelatedEventsList());
             EventsTest.register(events);*/
-        } catch (RollbackException e) {
-            System.out.println("RollbackException catched: " + e.getMessage());
-        } catch (IOException e) {
-            System.out.println("IOException catched: " + e.getMessage());
-        } catch (RuntimeException e) {
-            System.out.println("RuntimeException catched: " + e.getMessage());
-        }
+        } catch (IOException | RuntimeException e) {
+            System.out.println(e.getClass().getSimpleName() + " caught: " + e.getMessage());
+        } 
     }
 
     private static void createCasualties() {

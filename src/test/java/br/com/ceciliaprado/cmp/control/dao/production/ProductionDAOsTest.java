@@ -53,11 +53,9 @@ public class ProductionDAOsTest {
             ProductionTest.showAllRegisteredProductionOrders();
             ProductionTest.showAllRegisteredPhaseProductionOrders();
             ProductionTest.showAllRegisteredPendentPhaseProductionOrders();
-        } catch (RuntimeException e) {
-            System.out.println("Exception catched: " + e.getMessage());
-        } catch (ProductionException e) {
-            System.out.println("Production exception catched: " + e.getMessage());
-        }     
+        } catch (RuntimeException | ProductionException e) {
+            System.out.println(e.getClass().getSimpleName() + " caught: " + e.getMessage());
+        }    
         
         PhaseProductionOrderDAO phaseProductionOrderDAO = new PhaseProductionOrderDAO(em);
         SectorDAO sectorDAO = new SectorDAO(em);

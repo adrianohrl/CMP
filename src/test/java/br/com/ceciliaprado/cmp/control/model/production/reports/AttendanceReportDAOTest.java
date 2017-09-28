@@ -15,11 +15,9 @@ import br.com.ceciliaprado.cmp.exceptions.ReportException;
 import br.com.ceciliaprado.cmp.model.events.AbstractEmployeeRelatedEvent;
 import br.com.ceciliaprado.cmp.model.personnel.Employee;
 import br.com.ceciliaprado.cmp.model.personnel.Manager;
-import br.com.ceciliaprado.cmp.util.CalendarFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Map;
-import java.util.TreeMap;
 import javax.persistence.EntityManager;
 
 /**
@@ -28,8 +26,19 @@ import javax.persistence.EntityManager;
  */
 public class AttendanceReportDAOTest {
     
-    public static void main(String[] args) throws DAOException, ReportException {
-        EntityManager em = DataSource.createEntityManager();
+    private static EntityManager em = DataSource.createEntityManager();
+    
+    public static void main(String[] args) {
+        try {
+            AttendanceReportDAOTest.test(em);
+        } catch (Exception e) {
+            System.out.println(e.getClass().getSimpleName() + " caught: " + e.getMessage());
+        }
+        em.close();
+        DataSource.closeEntityManagerFactory();
+    }
+    
+    public static void test(EntityManager em) throws DAOException, ReportException {
         String employeeCode = "800006";
         EmployeeDAO employeeDAO = new EmployeeDAO(em);
         Employee employee = employeeDAO.find(employeeCode);
@@ -41,14 +50,14 @@ public class AttendanceReportDAOTest {
         ManagerDAO managerDAO = new ManagerDAO(em);
         Manager manager = managerDAO.find(managerLogin);
         EmployeeAttendanceReport report = new EmployeeAttendanceReport(employee, events, manager, startDate, endDate);
-        System.out.println("\n" + employee + "'s daily total duration:");
-        TreeMap<Calendar, Double> map = report.getDailyTotalDuration();        
-        for (Map.Entry<Calendar, Double> totalDuration : map.entrySet()) {
-            System.out.println("\t" + CalendarFormat.formatDate(totalDuration.getKey()) + ": " + (totalDuration.getValue() / 60.0) + " [h]");
+        for (ReportNumericSeries series : report) {
+            System.out.println("\n\tDaily " + series + ":");
+            for (Map.Entry<Calendar, Number> entry : series) {
+                System.out.println("\t\t" + series.format(entry));
+            }
+            System.out.println("\t\t-----------------------");
+            System.out.println("\t\tPeriod total: " + series.format(series.getTotal()));
         }
-        System.out.println("Total duration: " + (report.getTotalDuration() / 60.0) + " [h]");
-        em.close();
-        DataSource.closeEntityManagerFactory();
     }
     
 }

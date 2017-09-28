@@ -58,7 +58,7 @@ public class PhaseProductionOrdersReader extends AbstractReader<PhaseProductionO
         try {
             return new PhaseProductionOrder(phase, productionOrder, totalQuantity);
         } catch (ProductionException e) {
-            throw new IOException("ProductionException catched: " + e.getMessage());
+            throw new IOException("ProductionException caught: " + e.getMessage());
         }
     }
     

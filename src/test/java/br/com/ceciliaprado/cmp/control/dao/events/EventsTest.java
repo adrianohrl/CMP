@@ -56,7 +56,7 @@ public class EventsTest {
             try {
                 EventsTest.process(option);
             } catch (RuntimeException e) {
-                System.out.println("Exception catched: " + e.getMessage());
+                System.out.println("Exception caught: " + e.getMessage());
             }
             option = EventsMenuOptions.getOption();
         }
@@ -490,7 +490,7 @@ public class EventsTest {
         try {
             EventsTest.showSubordinateEntryEvents(subordinate, start, end);
         } catch (DAOException e) {
-            System.out.println("DAOException catched: " + e.getMessage());
+            System.out.println("DAOException caught: " + e.getMessage());
         }
     }
     
@@ -530,7 +530,7 @@ public class EventsTest {
         try {
             EventsTest.showEmployeeTimeClockEvents(employee, start, end);
         } catch (DAOException e) {
-            System.out.println("DAOException catched: " + e.getMessage());
+            System.out.println("DAOException caught: " + e.getMessage());
         }
     }
     
@@ -564,7 +564,7 @@ public class EventsTest {
         try {
             EventsTest.showEmployeeEvents(employee, start, end);
         } catch (DAOException e) {
-            System.out.println("DAOException catched: " + e.getMessage());
+            System.out.println("DAOException caught: " + e.getMessage());
         }
     }
     
@@ -620,7 +620,7 @@ public class EventsTest {
         try {
             end = Calendars.sum(end, "23:59:59");
         } catch (IOException e) {
-            System.out.println("IOException catched: " + e.getMessage());
+            System.out.println("IOException caught: " + e.getMessage());
             return;
         }
         EventsTest.reportPerformance(subordinate, start, end);
@@ -658,11 +658,9 @@ public class EventsTest {
             System.out.println("\t\t\tEffective Efficiency: " + (builder.getTotalEffectiveEfficiency() * 100) + " %");
             System.out.println("\t\t\tTotal Efficiency: " + (builder.getTotalEfficiency() * 100) + " %");
             System.out.println("\n=====================================================================");
-        } catch (DAOException e) {
-            System.out.println("DAOException catched: " + e.getMessage());
-        } catch (ReportException e) {
-            System.out.println("ReportException catched: " + e.getMessage());
-        }        
+        } catch (DAOException | ReportException e) {
+            System.out.println(e.getClass().getSimpleName() + " caught: " + e.getMessage());
+        } 
     }
 
     public static void reportPerformancePerSubordinates() {
@@ -681,7 +679,7 @@ public class EventsTest {
         try {
             end = Calendars.sum(end, "23:59:59");
         } catch (IOException e) {
-            System.out.println("IOException catched: " + e.getMessage());
+            System.out.println("IOException caught: " + e.getMessage());
             return;
         }
         for (Subordinate subordinate : subordinates) {

@@ -18,10 +18,15 @@ import br.com.ceciliaprado.cmp.model.production.ProductionOrder;
 import br.com.ceciliaprado.cmp.model.production.ProductionStates;
 import br.com.ceciliaprado.cmp.control.model.production.EntryEventsBuilder;
 import br.com.ceciliaprado.cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
+import br.com.ceciliaprado.cmp.model.events.AbstractEmployeeRelatedEvent;
+import br.com.ceciliaprado.cmp.model.personnel.Manager;
 import br.com.ceciliaprado.cmp.model.production.ModelPhase;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -30,6 +35,7 @@ import java.util.List;
 public class EventsPeriodBuilderTest {
     
     public static void main(String[] args) throws CMPException {
+        Manager manager = new Manager("mag1", "Manager 1", "mag1", "mag1");
         Supervisor supervisor = new Supervisor("ahrl", "12345", "sup1", "Adriano Henrique Rossette Leite");
         Sector sector = new Sector("costura", supervisor);
         Subordinate subordinate1 = new Subordinate("sub1", "Subordinate 1");
@@ -88,32 +94,48 @@ public class EventsPeriodBuilderTest {
         timeClockEvents.add(new TimeClockEvent(subordinate2, false, new GregorianCalendar(2017, 4, 3, 17, 50), ""));
         timeClockEvents.add(new TimeClockEvent(subordinate3, false, new GregorianCalendar(2017, 4, 3, 18, 15), ""));
         
-        EmployeeRelatedEventsList events = new EmployeeRelatedEventsList();
+        EmployeeRelatedEventsList<AbstractEmployeeRelatedEvent> events = new EmployeeRelatedEventsList<>();
         events.addAll(entryEventsBuilder.getEntryEvents());
         events.addAll(timeClockEvents);
+        Calendar startDate = new GregorianCalendar(2017, 4, 2);
+        Calendar endDate = new GregorianCalendar(2017, 4, 6);
+        for(Subordinate subordinate : subordinates) {
+            System.out.println("\n\nSubordinate: " + subordinate);
+            System.out.println("\n\t-------------------------------------------------------------");
+            SubordinateEfficiencyReport report = new SubordinateEfficiencyReport(subordinate, events, manager, startDate, endDate);
+            for (ReportNumericSeries series : report) {
+                System.out.println("\n\n\tDaily " + series + ":");
+                for (Map.Entry<Calendar, Number> entry : series) {
+                    System.out.println("\t\t" + series.format(entry));
+                }
+                System.out.println("\t\t-----------------------");
+                System.out.println("\t\tPeriod total: " + series.format(series.getTotal()));
+            }
+        }
         
+        DecimalFormat formatter = new DecimalFormat("#0.00");
         EventsPeriodBuilder builder = new EventsPeriodBuilder(events);
         for (EmployeeEventsPeriodBuilder b : builder) {
+            System.out.println("\n=====================================================================\n");
             System.out.println("Employee: " + b.getEmployee());
             for (ModelPhase phase : b.getPhases()) {
                 System.out.println("\tPhase: " + phase);
-                System.out.println("\t\tEffective Duration: " + b.getEffectiveDuration(phase) + " [min]");
-                System.out.println("\t\tExpected Duration: " + b.getExpectedDuration(phase) + " [min]");
+                System.out.println("\t\tEffective Duration: " + formatter.format(b.getEffectiveDuration(phase) / 60.0) + " [h]");
+                System.out.println("\t\tExpected Duration: " + formatter.format(b.getExpectedDuration(phase) / 60.0) + " [h]");
                 System.out.println("\t\tProduced Quantity: " + b.getProducedQuantity(phase) + " [un]");
                 System.out.println("\t\tReturned Quantity: " + b.getReturnedQuantity(phase) + " [un]");
-                System.out.println("\t\tEffective Efficiency: " + (b.getEffectiveEfficiency(phase) * 100) + " %");
+                System.out.println("\t\tEffective Efficiency: " + formatter.format(b.getEffectiveEfficiency(phase) * 100) + " %");
             }
             System.out.println("\n\t-------------------------------------------------------------\n");
             System.out.println("\tTotals:");
-            System.out.println("\t\tEffective Duration: " + b.getTotalEffectiveDuration() + " [min]");
-            System.out.println("\t\tExpected Duration: " + b.getTotalExpectedDuration() + " [min]");
-            System.out.println("\t\tFree Duration: " + b.getTotalFreeDuration() + " [min]");
-            System.out.println("\t\tTotal Duration: " + b.getTotalDuration() + " [min]");
+            System.out.println("\t\tEffective Duration: " + formatter.format(b.getTotalEffectiveDuration() / 60.0) + " [h]");
+            System.out.println("\t\tExpected Duration: " + formatter.format(b.getTotalExpectedDuration() / 60.0) + " [h]");
+            System.out.println("\t\tFree Duration: " + formatter.format(b.getTotalFreeDuration() / 60.0) + " [h]");
+            System.out.println("\t\tTotal Duration: " + formatter.format(b.getTotalDuration() / 60.0) + " [h]");
             System.out.println("\t\tProduced Quantity: " + b.getTotalProducedQuantity() + " [un]");
             System.out.println("\t\tReturned Quantity: " + b.getTotalReturnedQuantity() + " [un]");
-            System.out.println("\t\tEffective Efficiency: " + (b.getTotalEffectiveEfficiency() * 100) + " %");
-            System.out.println("\t\tTotal Efficiency: " + (b.getTotalEfficiency() * 100) + " %");
-            System.out.println("\n=====================================================================\n");
+            System.out.println("\t\tEffective Efficiency: " + formatter.format(b.getTotalEffectiveEfficiency() * 100) + " %");
+            System.out.println("\t\tTotal Efficiency: " + formatter.format(b.getTotalEfficiency() * 100) + " %");
         }
     }
     

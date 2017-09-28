@@ -60,7 +60,7 @@ public class CollectiveEntryEventsTest {
                 System.out.println("\t" + entryEvent);
             }
         } catch (RuntimeException e) {
-            System.out.println("Exception catched: " + e.getMessage());
+            System.out.println("Exception caught: " + e.getMessage());
         }
         em.close();
         DataSource.closeEntityManagerFactory();

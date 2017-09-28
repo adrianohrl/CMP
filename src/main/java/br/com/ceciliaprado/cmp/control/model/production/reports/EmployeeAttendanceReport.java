@@ -24,7 +24,7 @@ public class EmployeeAttendanceReport extends AbstractAttendanceReport {
     private final Employee employee;
 
     public EmployeeAttendanceReport(Employee employee, List<TimeClockEvent> timeClockEvents, Manager manager, Calendar startDate, Calendar endDate) throws ReportException {
-        super(timeClockEvents, manager, startDate, endDate);
+        super(new EmployeeRelatedEventsList<>(timeClockEvents), manager, startDate, endDate);
         this.employee = employee;
     }
 
@@ -36,13 +36,10 @@ public class EmployeeAttendanceReport extends AbstractAttendanceReport {
     public Employee getEmployee() {
         return employee;
     }
-    
-    public double getTotalDuration() {
-        return super.getTotal(employee, EmployeeEventsPeriodBuilder::getTotalDuration);
-    }
-    
-    public TreeMap<Calendar, Double> getDailyTotalDuration() throws ReportException {
-        return super.getSeries(employee, EmployeeEventsPeriodBuilder::getTotalDuration);
+
+    @Override
+    protected TreeMap<String, ReportNumericSeries> getSeriesMap() {
+        return super.getSeriesMap(employee);
     }
     
 }

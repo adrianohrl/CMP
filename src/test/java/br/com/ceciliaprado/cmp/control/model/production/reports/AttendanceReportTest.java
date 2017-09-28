@@ -10,25 +10,29 @@ import br.com.ceciliaprado.cmp.exceptions.CMPException;
 import br.com.ceciliaprado.cmp.model.events.AbstractEmployeeRelatedEvent;
 import br.com.ceciliaprado.cmp.model.events.TimeClockEvent;
 import br.com.ceciliaprado.cmp.model.personnel.Employee;
+import br.com.ceciliaprado.cmp.model.personnel.Manager;
 import br.com.ceciliaprado.cmp.model.personnel.Subordinate;
-import br.com.ceciliaprado.cmp.util.CalendarFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  *
  * @author adrianohrl
  */
-public class EfficiencyReportTest {
+public class AttendanceReportTest {
     
     public static void main(String[] args) throws CMPException {
+        Manager manager = new Manager("mag1", "Manager 1", "mag1", "mag1");
         Subordinate subordinate1 = new Subordinate("sub1", "Subordinate 1");
         Subordinate subordinate2 = new Subordinate("sub2", "Subordinate 2");
         Subordinate subordinate3 = new Subordinate("sub3", "Subordinate 3");
+        List<Employee> employees = new ArrayList<>();
+        employees.add(subordinate1);
+        employees.add(subordinate2);
+        employees.add(subordinate3);
         
         List<TimeClockEvent> timeClockEvents = new ArrayList<>();
         timeClockEvents.add(new TimeClockEvent(subordinate1, false, new GregorianCalendar(2017, 4, 2, 17, 1), ""));
@@ -62,19 +66,23 @@ public class EfficiencyReportTest {
         timeClockEvents.add(new TimeClockEvent(subordinate1, false, new GregorianCalendar(2017, 4, 12, 5, 15), ""));
         timeClockEvents.add(new TimeClockEvent(subordinate1, true, new GregorianCalendar(2017, 4, 13, 12, 01), ""));
 
-        Employee employee = subordinate1;
         EmployeeRelatedEventsList<AbstractEmployeeRelatedEvent> events = new EmployeeRelatedEventsList<>();
-        events.addAll(timeClockEvents);      
+        events.addAll(timeClockEvents);  
         Calendar startDate = new GregorianCalendar(2017, 4, 1);
         Calendar endDate = new GregorianCalendar(2017, 4, 19);
         endDate.add(Calendar.MILLISECOND, -1);
-        SubordinateEfficiencyReport report = new SubordinateEfficiencyReport(subordinate1, events, null, startDate, endDate);
-        
-        System.out.println("\n" + employee + "'s daily total duration:");
-        TreeMap<Calendar, Double> map = report.getDailyTotalDuration();        
-        for (Map.Entry<Calendar, Double> totalDuration : map.entrySet()) {
-            System.out.println("\t" + CalendarFormat.formatDate(totalDuration.getKey()) + ": " + totalDuration.getValue());
+        for (Employee employee : employees) {    
+            EmployeeAttendanceReport report = new EmployeeAttendanceReport(employee, events, manager, startDate, endDate);
+            for (ReportNumericSeries series : report) {
+                System.out.println("\n\n\tDaily " + series + ":");
+                for (Map.Entry<Calendar, Number> entry : series) {
+                    System.out.println("\t\t" + series.format(entry));
+                }
+                System.out.println("\t\t-----------------------");
+                System.out.println("\t\tPeriod total: " + series.format(series.getTotal()));
+            }
         }
+        
     }
     
 }

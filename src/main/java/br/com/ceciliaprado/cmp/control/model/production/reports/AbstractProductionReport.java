@@ -5,36 +5,68 @@
  */
 package br.com.ceciliaprado.cmp.control.model.production.reports;
 
+import br.com.ceciliaprado.cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
+import br.com.ceciliaprado.cmp.control.model.production.reports.filters.FindByPeriod;
 import br.com.ceciliaprado.cmp.exceptions.ReportException;
+import br.com.ceciliaprado.cmp.model.events.AbstractEmployeeRelatedEvent;
 import br.com.ceciliaprado.cmp.model.personnel.Manager;
 import br.com.ceciliaprado.cmp.util.CalendarFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
+import java.util.TreeMap;
 
 /**
  *
  * @author adrianohrl
  */
-public abstract class AbstractProductionReport {
+public abstract class AbstractProductionReport implements Iterable<ReportNumericSeries> {
     
     private final Manager manager;
     private final Calendar emissionDate = new GregorianCalendar();
     protected final Calendar startDate;
     protected final Calendar endDate;
+    protected final EventsPeriodBuilder builder;
+    private final TreeMap<String, ReportNumericSeries> seriesMap = new TreeMap<>();
 
-    public AbstractProductionReport(Manager manager, Calendar startDate, Calendar endDate) throws ReportException {
-        this.manager = manager;
+    protected AbstractProductionReport(EmployeeRelatedEventsList<AbstractEmployeeRelatedEvent> events, Manager manager, Calendar startDate, Calendar endDate) throws ReportException {
+        if (manager == null) {
+            throw new ReportException("The report manager must not be null!!!");
+        }
         if (startDate.after(endDate)) {
             throw new ReportException("The report start date must be before its end date!!!");
         }
         if (startDate.after(emissionDate)) {
             throw new ReportException("The report start date must be before its emission date!!!");
         }
-        this.startDate = startDate;
         if (endDate.after(emissionDate)) {
             throw new ReportException("The report end date must be before its emission date!!!");
         }
+        this.manager = manager;
         this.endDate = endDate;
+        this.startDate = startDate;
+        FindByPeriod filter = new FindByPeriod(startDate, endDate);
+        events.execute(filter);
+        this.builder = new EventsPeriodBuilder(filter.getItems());
+    }
+    
+    protected abstract TreeMap<String, ReportNumericSeries> getSeriesMap(); 
+    
+    public ReportNumericSeries getSeries(String name) {
+        return seriesMap.get(name);
+    }
+
+    @Override
+    public Iterator<ReportNumericSeries> iterator() {
+        if (seriesMap.isEmpty()) {
+            TreeMap<String, ReportNumericSeries> map = getSeriesMap();
+            if (!map.isEmpty()) {
+                seriesMap.putAll(getSeriesMap());
+            } else {
+                System.out.println("The report map is unknown!!!");
+            }
+        }
+        return seriesMap.values().iterator();
     }
 
     @Override
@@ -57,6 +89,10 @@ public abstract class AbstractProductionReport {
 
     public Calendar getEndDate() {
         return endDate;
+    }
+
+    public EventsPeriodBuilder getBuilder() {
+        return builder;
     }
     
 }

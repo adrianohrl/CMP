@@ -33,7 +33,7 @@ public class ProductionTest {
             try {
                 ProductionTest.process(option);
             } catch (RuntimeException e) {
-                System.out.println("Exception catched: " + e.getMessage());
+                System.out.println("Exception caught: " + e.getMessage());
             }
             option = ProductionMenuOptions.getOption();
         }
@@ -278,7 +278,7 @@ public class ProductionTest {
         try {
             modelDAO.update(model);
         } catch (RuntimeException e) {
-            System.out.println("Exception catched: " + e.getMessage());
+            System.out.println("Exception caught: " + e.getMessage());
             em.clear();
         } 
     }

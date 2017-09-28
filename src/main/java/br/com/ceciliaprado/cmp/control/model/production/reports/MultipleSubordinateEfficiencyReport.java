@@ -5,34 +5,37 @@
  */
 package br.com.ceciliaprado.cmp.control.model.production.reports;
 
+import br.com.ceciliaprado.cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
+import br.com.ceciliaprado.cmp.control.model.production.reports.filters.FindByEmployee;
 import br.com.ceciliaprado.cmp.exceptions.ReportException;
-import br.com.ceciliaprado.cmp.model.events.EntryEvent;
-import br.com.ceciliaprado.cmp.model.events.TimeClockEvent;
+import br.com.ceciliaprado.cmp.model.events.AbstractEmployeeRelatedEvent;
 import br.com.ceciliaprado.cmp.model.personnel.Manager;
 import br.com.ceciliaprado.cmp.model.personnel.Subordinate;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
+import java.util.TreeMap;
 
 /**
  *
  * @author adrianohrl
  */
-public class MultipleSubordinateEfficiencyReport extends AbstractEfficiencyReport implements Iterable<SubordinateEfficiencyReport> {
+public class MultipleSubordinateEfficiencyReport extends AbstractEfficiencyReport {
 
     private final List<SubordinateEfficiencyReport> subordinateEfficiencyReports = new ArrayList<>();
 
-    public MultipleSubordinateEfficiencyReport(List<Subordinate> subordinates, List<TimeClockEvent> timeClockEvents, List<EntryEvent> entryEvents, Manager manager, Calendar startDate, Calendar endDate) throws ReportException {
-        super(timeClockEvents, entryEvents, manager, startDate, endDate);
+    public MultipleSubordinateEfficiencyReport(List<Subordinate> subordinates, EmployeeRelatedEventsList<AbstractEmployeeRelatedEvent> events, Manager manager, Calendar startDate, Calendar endDate) throws ReportException {
+        super(events, manager, startDate, endDate);
         for (Subordinate subordinate : subordinates) {
-            subordinateEfficiencyReports.add(new SubordinateEfficiencyReport(subordinate, timeClockEvents, entryEvents, manager, startDate, endDate));
+            FindByEmployee filter = new FindByEmployee<>(subordinate);
+            events.execute(filter);
+            subordinateEfficiencyReports.add(new SubordinateEfficiencyReport(subordinate, filter.getItems(), manager, startDate, endDate));
         }
     }
-    
+
     @Override
-    public Iterator<SubordinateEfficiencyReport> iterator() {
-        return  subordinateEfficiencyReports.iterator();
+    protected TreeMap<String, ReportNumericSeries> getSeriesMap() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

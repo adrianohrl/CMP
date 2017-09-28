@@ -78,7 +78,7 @@ public class CSVReader implements Iterable<String> {
                 try {
                     field.setValue(fieldValueIterator.next());
                 } catch (ParseException e) {
-                    throw new IOException("Parse Exception catched: " + e.getMessage());
+                    throw new IOException("Parse Exception caught: " + e.getMessage());
                 }
             } else if (field.isMandatory()) {
                 throw new IOException("Expected a new value in " + field.getTitle() + " column!!!");                

@@ -65,7 +65,7 @@ public class PersonnelReaderDAOTest {
                 System.out.println("\t" + sector);
             }
         } catch (RuntimeException | IOException e) {
-            System.out.println("Exception catched: " + e.getMessage());
+            System.out.println("Exception caught: " + e.getMessage());
         }
     }
     

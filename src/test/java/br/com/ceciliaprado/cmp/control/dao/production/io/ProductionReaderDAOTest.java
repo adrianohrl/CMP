@@ -65,7 +65,7 @@ public class ProductionReaderDAOTest {
                 System.out.println("\t" + phaseProductionOrder);
             }
         } catch (RuntimeException | IOException e) {
-            System.out.println("Exception catched: " + e.getMessage());
+            System.out.println("Exception caught: " + e.getMessage());
         }
     }
     

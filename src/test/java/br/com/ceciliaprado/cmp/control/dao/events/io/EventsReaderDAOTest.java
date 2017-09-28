@@ -42,7 +42,7 @@ public class EventsReaderDAOTest {
                 System.out.println("\t" + casualty);
             }
             System.out.println("\n\nTesting the TimeClockEventsReaderDAO class ...");
-            fileName = "./others/tests/ImportTimeClockEvents3.csv";//keyboard.readString("Enter the file name: ");
+            fileName = "./others/tests/ImportTimeClockEvents1.csv";//keyboard.readString("Enter the file name: ");
             timeClockEventsReaderDAO.readFile(fileName);
             System.out.println("  The following time clock events were registered:");
             for (TimeClockEvent event : timeClockEventsReaderDAO) {
@@ -56,7 +56,7 @@ public class EventsReaderDAOTest {
                 System.out.println("\t" + event);
             }
         } catch (RuntimeException | IOException e) {
-            System.out.println("Exception catched: " + e.getMessage());
+            System.out.println("Exception caught: " + e.getMessage());
         }
     }
     

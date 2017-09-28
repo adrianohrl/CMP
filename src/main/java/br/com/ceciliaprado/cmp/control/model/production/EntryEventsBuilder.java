@@ -5,6 +5,7 @@
  */
 package br.com.ceciliaprado.cmp.control.model.production;
 
+import br.com.ceciliaprado.cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
 import br.com.ceciliaprado.cmp.exceptions.ProductionStateMachineException;
 import br.com.ceciliaprado.cmp.model.events.Casualty;
 import br.com.ceciliaprado.cmp.model.events.CasualtyEntryEvent;
@@ -14,12 +15,9 @@ import br.com.ceciliaprado.cmp.model.personnel.Subordinate;
 import br.com.ceciliaprado.cmp.model.personnel.Supervisor;
 import br.com.ceciliaprado.cmp.model.production.PhaseProductionOrder;
 import br.com.ceciliaprado.cmp.exceptions.ProductionException;
-import br.com.ceciliaprado.cmp.model.events.AbstractEmployeeRelatedEvent;
 import br.com.ceciliaprado.cmp.model.production.ProductionStates;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 /**
  *
@@ -29,7 +27,7 @@ public class EntryEventsBuilder implements Serializable {
     
     private final Sector sector;
     private final Supervisor supervisor;
-    private final List<AbstractEmployeeRelatedEvent> entryEvents = new ArrayList<>();
+    private final EmployeeRelatedEventsList<EntryEvent> entryEvents = new EmployeeRelatedEventsList<>();
 
     public EntryEventsBuilder(Sector sector, Supervisor supervisor) {
         this.sector = sector;
@@ -109,7 +107,7 @@ public class EntryEventsBuilder implements Serializable {
         phaseProductionOrder.process(entryEvent);
     }
 
-    public List<AbstractEmployeeRelatedEvent> getEntryEvents() {
+    public EmployeeRelatedEventsList<EntryEvent> getEntryEvents() {
         return entryEvents;
     }
     

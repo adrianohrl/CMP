@@ -50,7 +50,7 @@ public class EntryEventsList extends EmployeeRelatedEventsList<EntryEvent> {
         return subordinates;
     }
     
-    public static EntryEventsList convert(EmployeeRelatedEventsList<? extends AbstractEmployeeRelatedEvent> events) {
+    public static EntryEventsList convert(EmployeeRelatedEventsList<AbstractEmployeeRelatedEvent> events) {
         EntryEventsList entryEvents = new EntryEventsList();
         for (AbstractEmployeeRelatedEvent event : events) {
             if (event instanceof EntryEvent) {
