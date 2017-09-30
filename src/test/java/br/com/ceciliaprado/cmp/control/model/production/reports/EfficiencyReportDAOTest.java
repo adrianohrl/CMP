@@ -64,7 +64,7 @@ public class EfficiencyReportDAOTest {
             }
             System.out.println("\n\t-------------------------------------------------------------");
             SubordinateEfficiencyReport report = new SubordinateEfficiencyReport(subordinate, events, rafaela, startDate, endDate);
-            for (ReportNumericSeries series : report) {
+            for (ReportNumericSeries<EfficiencySeriesTypes> series : report) {
                 System.out.println("\n\n\tDaily " + series + ":");
                 for (Map.Entry<Calendar, Number> entry : series) {
                     System.out.println("\t\t" + series.format(entry));

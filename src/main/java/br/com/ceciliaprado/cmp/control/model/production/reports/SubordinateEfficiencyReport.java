@@ -11,13 +11,13 @@ import br.com.ceciliaprado.cmp.model.events.AbstractEmployeeRelatedEvent;
 import br.com.ceciliaprado.cmp.model.personnel.Manager;
 import br.com.ceciliaprado.cmp.model.personnel.Subordinate;
 import java.util.Calendar;
-import java.util.TreeMap;
+import java.util.Map;
 
 /**
  *
  * @author adrianohrl
  */
-public class SubordinateEfficiencyReport extends AbstractEfficiencyReport {
+public class SubordinateEfficiencyReport extends AbstractEfficiencyReport<EfficiencySeriesTypes> {
     
     private final Subordinate subordinate;
     
@@ -34,7 +34,7 @@ public class SubordinateEfficiencyReport extends AbstractEfficiencyReport {
     }
 
     @Override
-    protected TreeMap<ReportSeriesEnum, ReportNumericSeries> getSeriesMap() {
+    protected Map<EfficiencySeriesTypes, ReportNumericSeries<EfficiencySeriesTypes>> getSeriesMap() {
         return super.getSeriesMap(subordinate);
     }
     

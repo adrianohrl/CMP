@@ -14,7 +14,7 @@ import javax.persistence.Entity;
  * @author adrianohrl
  */
 @Entity
-public class TimeClockEvent extends AbstractEmployeeRelatedEvent {
+public class TimeClockEvent extends AbstractEmployeeRelatedEvent<Employee> {
     
     private boolean arrival;
 

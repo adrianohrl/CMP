@@ -10,7 +10,7 @@ package br.com.ceciliaprado.cmp.control.model.production.reports;
  * @author adrianohrl
  * @param <T>
  */
-public interface ReportSeriesEnum<T extends Enum<T>> extends Comparable<T> {
+public interface SeriesType<T extends Enum<T>> extends Comparable<T> {
     
     public abstract String getName();
     

@@ -11,10 +11,11 @@ import java.util.function.Function;
 /**
  *
  * @author adrianohrl
+ * @param <S>
  */
-public class ReportIntegerSeries extends ReportNumericSeries {
+public class ReportIntegerSeries<S extends SeriesType> extends ReportNumericSeries<S> {
 
-    public ReportIntegerSeries(ReportSeriesEnum seriesEnum, Employee employee, AbstractProductionReport report, String unit, Function<EmployeeEventsPeriodBuilder, Number> function) {
+    public ReportIntegerSeries(S seriesEnum, Employee employee, AbstractProductionReport report, String unit, Function<EmployeeEventsPeriodBuilder, Number> function) {
         super(seriesEnum, report.getStartDate(), report.getEndDate(), unit, report.getBuilder().get(employee), function);
     }
 

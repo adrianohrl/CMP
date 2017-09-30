@@ -13,13 +13,15 @@ import br.com.ceciliaprado.cmp.model.events.TimeClockEvent;
 import br.com.ceciliaprado.cmp.model.personnel.Employee;
 import br.com.ceciliaprado.cmp.model.personnel.Manager;
 import java.util.Calendar;
+import java.util.Map;
 import java.util.TreeMap;
 
 /**
  *
  * @author adrianohrl
+ * @param <S>
  */
-public abstract class AbstractAttendanceReport extends AbstractProductionReport {
+public abstract class AbstractAttendanceReport<S extends SeriesType> extends AbstractProductionReport<S> {
     
     protected final EmployeeRelatedEventsList<TimeClockEvent> timeClockEvents = new EmployeeRelatedEventsList<>();
     
@@ -36,11 +38,10 @@ public abstract class AbstractAttendanceReport extends AbstractProductionReport 
         return timeClockEvents;
     }
 
-    protected TreeMap<ReportSeriesEnum, ReportNumericSeries> getSeriesMap(Employee employee) {
-        TreeMap<ReportSeriesEnum, ReportNumericSeries> map = new TreeMap<>();
-        ReportNumericSeries series;
-        series = new ReportDoubleSeries(AttendanceReportSeries.TOTAL_QUANTITY, employee, this, "[h]", EmployeeEventsPeriodBuilder::getTotalDuration, 1 / 60.0);
-        map.put(AttendanceReportSeries.TOTAL_QUANTITY, series);
+    protected Map<AttendanceSeriesTypes, ReportNumericSeries<AttendanceSeriesTypes>> getSeriesMap(Employee employee) {
+        Map<AttendanceSeriesTypes, ReportNumericSeries<AttendanceSeriesTypes>> map = new TreeMap<>();
+        ReportNumericSeries<AttendanceSeriesTypes> series = new ReportDoubleSeries<>(AttendanceSeriesTypes.TOTAL_QUANTITY, employee, this, "[h]", EmployeeEventsPeriodBuilder::getTotalDuration, 1 / 60.0);
+        map.put(AttendanceSeriesTypes.TOTAL_QUANTITY, series);
         return map;
     }
     

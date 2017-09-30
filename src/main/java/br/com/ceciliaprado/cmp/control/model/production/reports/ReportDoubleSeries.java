@@ -12,17 +12,18 @@ import java.util.function.Function;
 /**
  *
  * @author adrianohrl
+ * @param <S>
  */
-public class ReportDoubleSeries extends ReportNumericSeries {
+public class ReportDoubleSeries<S extends SeriesType> extends ReportNumericSeries<S> {
     
     private double conversionFactor = 1.0;
     private final DecimalFormat formatter = new DecimalFormat("#0.00");
    
-    public ReportDoubleSeries(ReportSeriesEnum seriesEnum, Employee employee, AbstractProductionReport report, String unit, Function<EmployeeEventsPeriodBuilder, Number> function) {
+    public ReportDoubleSeries(S seriesEnum, Employee employee, AbstractProductionReport report, String unit, Function<EmployeeEventsPeriodBuilder, Number> function) {
         super(seriesEnum, report.getStartDate(), report.getEndDate(), unit, report.getBuilder().get(employee), function);
     }
     
-    public ReportDoubleSeries(ReportSeriesEnum seriesEnum, Employee employee, AbstractProductionReport report, String unit, Function<EmployeeEventsPeriodBuilder, Number> function, double conversionFactor) {
+    public ReportDoubleSeries(S seriesEnum, Employee employee, AbstractProductionReport report, String unit, Function<EmployeeEventsPeriodBuilder, Number> function, double conversionFactor) {
         super(seriesEnum, report.getStartDate(), report.getEndDate(), unit, report.getBuilder().get(employee), function);
         this.conversionFactor = conversionFactor;
     }

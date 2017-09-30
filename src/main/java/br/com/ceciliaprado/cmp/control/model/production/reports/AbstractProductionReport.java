@@ -14,20 +14,22 @@ import br.com.ceciliaprado.cmp.util.CalendarFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.TreeMap;
 
 /**
  *
  * @author adrianohrl
+ * @param <S>
  */
-public abstract class AbstractProductionReport implements Iterable<ReportNumericSeries> {
+public abstract class AbstractProductionReport<S extends SeriesType> implements Iterable<ReportNumericSeries> {
     
     private final Manager manager;
     private final Calendar emissionDate = new GregorianCalendar();
     protected final Calendar startDate;
     protected final Calendar endDate;
     protected final EventsPeriodBuilder builder;
-    private final TreeMap<ReportSeriesEnum, ReportNumericSeries> seriesMap = new TreeMap<>();
+    private final Map<S, ReportNumericSeries> seriesMap = new TreeMap<>();
 
     protected AbstractProductionReport(EmployeeRelatedEventsList<AbstractEmployeeRelatedEvent> events, Manager manager, Calendar startDate, Calendar endDate) throws ReportException {
         if (manager == null) {
@@ -50,24 +52,24 @@ public abstract class AbstractProductionReport implements Iterable<ReportNumeric
         this.builder = new EventsPeriodBuilder(filter.getItems());
     }
     
-    protected abstract TreeMap<ReportSeriesEnum, ReportNumericSeries> getSeriesMap(); 
+    protected abstract Map<S, ReportNumericSeries<S>> getSeriesMap(); 
     
-    public ReportNumericSeries getSeries(ReportSeriesEnum seriesEnum) {
+    public ReportNumericSeries getSeries(S seriesType) {
         if (seriesMap.isEmpty()) {
-            TreeMap<ReportSeriesEnum, ReportNumericSeries> map = getSeriesMap();
+            Map<S, ReportNumericSeries<S>> map = getSeriesMap();
             if (!map.isEmpty()) {
                 seriesMap.putAll(getSeriesMap());
             } else {
                 throw new RuntimeException("The report map is unknown!!!");
             }
         }
-        return seriesMap.get(seriesEnum);
+        return seriesMap.get(seriesType);
     }
 
     @Override
     public Iterator<ReportNumericSeries> iterator() {
         if (seriesMap.isEmpty()) {
-            TreeMap<ReportSeriesEnum, ReportNumericSeries> map = getSeriesMap();
+            Map<S, ReportNumericSeries<S>> map = getSeriesMap();
             if (!map.isEmpty()) {
                 seriesMap.putAll(getSeriesMap());
             } else {

@@ -13,13 +13,13 @@ import br.com.ceciliaprado.cmp.model.personnel.Employee;
 import br.com.ceciliaprado.cmp.model.personnel.Manager;
 import java.util.Calendar;
 import java.util.List;
-import java.util.TreeMap;
+import java.util.Map;
 
 /**
  *
  * @author adrianohrl
  */
-public class EmployeeAttendanceReport extends AbstractAttendanceReport {
+public class EmployeeAttendanceReport extends AbstractAttendanceReport<AttendanceSeriesTypes> {
     
     private final Employee employee;
 
@@ -38,7 +38,7 @@ public class EmployeeAttendanceReport extends AbstractAttendanceReport {
     }
 
     @Override
-    protected TreeMap<ReportSeriesEnum, ReportNumericSeries> getSeriesMap() {
+    protected Map<AttendanceSeriesTypes, ReportNumericSeries<AttendanceSeriesTypes>> getSeriesMap() {
         return super.getSeriesMap(employee);
     }
     

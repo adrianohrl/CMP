@@ -9,19 +9,13 @@ package br.com.ceciliaprado.cmp.control.model.production.reports;
  *
  * @author adrianohrl
  */
-public enum EfficiencyReportSeries implements ReportSeriesEnum<EfficiencyReportSeries> {
-        EFFECTIVE_DURATION("Effective Duration"),
-        EXPECTED_DURATION("Expected Duration"),
-        FREE_DURATION("Free Duration"),
-        TOTAL_DURATION("Total Duration"),
-        PRODUCED_QUANTITY("Produced Quantity"),
-        RETURNED_QUANTITY("Returned Quantity"),
-        EFFECTIVE_EFFICIENCY("Effective Efficiency"),
-        TOTAL_EFFICIENCY("Total Efficiency");
+public enum AttendanceSeriesTypes implements SeriesType<AttendanceSeriesTypes> {
+    
+        TOTAL_QUANTITY("Total Quantity");
                
         private final String name;
 
-        private EfficiencyReportSeries(String name) {
+        private AttendanceSeriesTypes(String name) {
             this.name = name;
         }
 

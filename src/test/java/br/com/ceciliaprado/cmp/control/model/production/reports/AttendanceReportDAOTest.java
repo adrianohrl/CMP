@@ -50,7 +50,7 @@ public class AttendanceReportDAOTest {
         ManagerDAO managerDAO = new ManagerDAO(em);
         Manager manager = managerDAO.find(managerLogin);
         EmployeeAttendanceReport report = new EmployeeAttendanceReport(employee, events, manager, startDate, endDate);
-        ReportNumericSeries series = report.getSeries(AttendanceReportSeries.TOTAL_QUANTITY);
+        ReportNumericSeries<AttendanceSeriesTypes> series = report.getSeries(AttendanceSeriesTypes.TOTAL_QUANTITY);
         System.out.println("\n\tDaily " + series + ":");
         for (Map.Entry<Calendar, Number> entry : series) {
             System.out.println("\t\t" + series.format(entry));

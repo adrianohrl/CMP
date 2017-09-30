@@ -21,20 +21,21 @@ import java.util.function.Function;
 /**
  *
  * @author adrianohrl
+ * @param <S>
  */
-public abstract class ReportNumericSeries implements Iterable<Map.Entry<Calendar, Number>>, Comparable<Enum> {
+public abstract class ReportNumericSeries<S extends SeriesType> implements Iterable<Map.Entry<Calendar, Number>>, Comparable<Enum> {
     
-    private final ReportSeriesEnum seriesEnum;
+    private final S type;
     private final Calendar startDate;
     private final Calendar endDate;
     protected String unit;
     protected final EmployeeEventsPeriodBuilder builder;
     protected final Function<EmployeeEventsPeriodBuilder, Number> function;
 
-    public ReportNumericSeries(ReportSeriesEnum seriesEnum, Calendar startDate, 
+    public ReportNumericSeries(S type, Calendar startDate, 
             Calendar endDate, String unit, EmployeeEventsPeriodBuilder builder, 
             Function<EmployeeEventsPeriodBuilder, Number> function) {
-        this.seriesEnum = seriesEnum;
+        this.type = type;
         this.startDate = startDate;
         this.endDate = endDate;
         this.unit = unit;
@@ -100,25 +101,25 @@ public abstract class ReportNumericSeries implements Iterable<Map.Entry<Calendar
     
     @Override
     public String toString() {
-        return seriesEnum.toString();
+        return type.toString();
     }
 
     @Override
     public boolean equals(Object obj) {
-        return obj != null && obj instanceof ReportNumericSeries && equals(((ReportNumericSeries) obj).seriesEnum);
+        return obj != null && obj instanceof ReportNumericSeries && equals(((ReportNumericSeries) obj).type);
     }
     
-    public boolean equals(ReportSeriesEnum seriesEnum) {
-        return equals(seriesEnum.getName());
+    public boolean equals(S type) {
+        return equals(type.getName());
     }
     
     public boolean equals(String name) {
-        return this.seriesEnum.equals(name);
+        return this.type.equals(name);
     }
 
     @Override
-    public int compareTo(Enum seriesEnum) {
-        return seriesEnum.compareTo(seriesEnum);
+    public int compareTo(Enum type) {
+        return this.type.compareTo(type);
     }
 
     @Override
@@ -126,8 +127,12 @@ public abstract class ReportNumericSeries implements Iterable<Map.Entry<Calendar
         return getSeries().entrySet().iterator();
     }
 
+    public S getType() {
+        return type;
+    }
+
     public String getName() {
-        return seriesEnum.getName();
+        return type.getName();
     }
 
     public String getUnit() {

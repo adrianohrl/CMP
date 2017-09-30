@@ -38,7 +38,7 @@ public class SectorEfficiencyReport extends AbstractEfficiencyReport {
     }
 
     @Override
-    protected TreeMap<ReportSeriesEnum, ReportNumericSeries> getSeriesMap() {
+    protected TreeMap<SeriesType, ReportNumericSeries> getSeriesMap() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
