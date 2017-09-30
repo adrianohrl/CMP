@@ -38,7 +38,7 @@ public class EmployeeAttendanceReport extends AbstractAttendanceReport {
     }
 
     @Override
-    protected TreeMap<String, ReportNumericSeries> getSeriesMap() {
+    protected TreeMap<ReportSeriesEnum, ReportNumericSeries> getSeriesMap() {
         return super.getSeriesMap(employee);
     }
     

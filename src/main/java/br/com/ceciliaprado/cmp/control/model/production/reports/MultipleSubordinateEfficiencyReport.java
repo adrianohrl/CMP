@@ -34,7 +34,7 @@ public class MultipleSubordinateEfficiencyReport extends AbstractEfficiencyRepor
     }
 
     @Override
-    protected TreeMap<String, ReportNumericSeries> getSeriesMap() {
+    protected TreeMap<ReportSeriesEnum, ReportNumericSeries> getSeriesMap() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     

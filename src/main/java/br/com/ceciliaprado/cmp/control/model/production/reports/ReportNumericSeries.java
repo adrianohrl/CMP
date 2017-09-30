@@ -13,6 +13,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Function;
@@ -21,21 +22,19 @@ import java.util.function.Function;
  *
  * @author adrianohrl
  */
-public abstract class ReportNumericSeries implements Iterable<Map.Entry<Calendar, Number>>, Comparable<ReportNumericSeries> {
+public abstract class ReportNumericSeries implements Iterable<Map.Entry<Calendar, Number>>, Comparable<Enum> {
     
-    private final int orderNumber;
-    private final String name;
+    private final ReportSeriesEnum seriesEnum;
     private final Calendar startDate;
     private final Calendar endDate;
     protected String unit;
     protected final EmployeeEventsPeriodBuilder builder;
     protected final Function<EmployeeEventsPeriodBuilder, Number> function;
 
-    public ReportNumericSeries(int orderNumber, String name, Calendar startDate, 
+    public ReportNumericSeries(ReportSeriesEnum seriesEnum, Calendar startDate, 
             Calendar endDate, String unit, EmployeeEventsPeriodBuilder builder, 
             Function<EmployeeEventsPeriodBuilder, Number> function) {
-        this.orderNumber = orderNumber;
-        this.name = name;
+        this.seriesEnum = seriesEnum;
         this.startDate = startDate;
         this.endDate = endDate;
         this.unit = unit;
@@ -76,9 +75,9 @@ public abstract class ReportNumericSeries implements Iterable<Map.Entry<Calendar
     
     public Map<Object, Number> getChartSeries() {
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Map<Object, Number> series = new TreeMap<>();
+        Map<Object, Number> series = new LinkedHashMap<>();
         for (Map.Entry<Calendar, Number> data : this) {
-            series.put(formatter.format(data.getKey()), data.getValue());
+            series.put(formatter.format(data.getKey().getTime()), data.getValue());
         }
         return series;
     }
@@ -96,26 +95,30 @@ public abstract class ReportNumericSeries implements Iterable<Map.Entry<Calendar
     }
     
     public String format(Map.Entry<Calendar, Number> data) {
-        return CalendarFormat.format(data.getKey()) + ": " + format(data.getValue());
+        return CalendarFormat.formatDate(data.getKey()) + ": " + format(data.getValue());
     }
     
     @Override
     public String toString() {
-        return name;
+        return seriesEnum.toString();
     }
 
     @Override
     public boolean equals(Object obj) {
-        return obj != null && obj instanceof ReportNumericSeries && equals(((ReportNumericSeries) obj).name);
+        return obj != null && obj instanceof ReportNumericSeries && equals(((ReportNumericSeries) obj).seriesEnum);
+    }
+    
+    public boolean equals(ReportSeriesEnum seriesEnum) {
+        return equals(seriesEnum.getName());
     }
     
     public boolean equals(String name) {
-        return this.name.equalsIgnoreCase(name);
+        return this.seriesEnum.equals(name);
     }
 
     @Override
-    public int compareTo(ReportNumericSeries element) {
-        return orderNumber - element.orderNumber;
+    public int compareTo(Enum seriesEnum) {
+        return seriesEnum.compareTo(seriesEnum);
     }
 
     @Override
@@ -124,7 +127,7 @@ public abstract class ReportNumericSeries implements Iterable<Map.Entry<Calendar
     }
 
     public String getName() {
-        return name;
+        return seriesEnum.getName();
     }
 
     public String getUnit() {

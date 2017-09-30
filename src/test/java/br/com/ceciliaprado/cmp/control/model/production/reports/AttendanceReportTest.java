@@ -73,14 +73,13 @@ public class AttendanceReportTest {
         endDate.add(Calendar.MILLISECOND, -1);
         for (Employee employee : employees) {    
             EmployeeAttendanceReport report = new EmployeeAttendanceReport(employee, events, manager, startDate, endDate);
-            for (ReportNumericSeries series : report) {
-                System.out.println("\n\n\tDaily " + series + ":");
-                for (Map.Entry<Calendar, Number> entry : series) {
-                    System.out.println("\t\t" + series.format(entry));
-                }
-                System.out.println("\t\t-----------------------");
-                System.out.println("\t\tPeriod total: " + series.format(series.getTotal()));
+            ReportNumericSeries series = report.getSeries(AttendanceReportSeries.TOTAL_QUANTITY);
+            System.out.println("\n\tDaily " + series + ":");
+            for (Map.Entry<Calendar, Number> entry : series) {
+                System.out.println("\t\t" + series.format(entry));
             }
+            System.out.println("\t\t-----------------------");
+            System.out.println("\t\tPeriod total: " + series.format(series.getTotal()));
         }
         
     }

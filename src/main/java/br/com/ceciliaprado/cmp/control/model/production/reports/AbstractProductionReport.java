@@ -27,7 +27,7 @@ public abstract class AbstractProductionReport implements Iterable<ReportNumeric
     protected final Calendar startDate;
     protected final Calendar endDate;
     protected final EventsPeriodBuilder builder;
-    private final TreeMap<String, ReportNumericSeries> seriesMap = new TreeMap<>();
+    private final TreeMap<ReportSeriesEnum, ReportNumericSeries> seriesMap = new TreeMap<>();
 
     protected AbstractProductionReport(EmployeeRelatedEventsList<AbstractEmployeeRelatedEvent> events, Manager manager, Calendar startDate, Calendar endDate) throws ReportException {
         if (manager == null) {
@@ -40,7 +40,7 @@ public abstract class AbstractProductionReport implements Iterable<ReportNumeric
             throw new ReportException("The report start date must be before its emission date!!!");
         }
         if (endDate.after(emissionDate)) {
-            throw new ReportException("The report end date must be before its emission date!!!");
+            endDate = emissionDate;
         }
         this.manager = manager;
         this.endDate = endDate;
@@ -50,20 +50,28 @@ public abstract class AbstractProductionReport implements Iterable<ReportNumeric
         this.builder = new EventsPeriodBuilder(filter.getItems());
     }
     
-    protected abstract TreeMap<String, ReportNumericSeries> getSeriesMap(); 
+    protected abstract TreeMap<ReportSeriesEnum, ReportNumericSeries> getSeriesMap(); 
     
-    public ReportNumericSeries getSeries(String name) {
-        return seriesMap.get(name);
+    public ReportNumericSeries getSeries(ReportSeriesEnum seriesEnum) {
+        if (seriesMap.isEmpty()) {
+            TreeMap<ReportSeriesEnum, ReportNumericSeries> map = getSeriesMap();
+            if (!map.isEmpty()) {
+                seriesMap.putAll(getSeriesMap());
+            } else {
+                throw new RuntimeException("The report map is unknown!!!");
+            }
+        }
+        return seriesMap.get(seriesEnum);
     }
 
     @Override
     public Iterator<ReportNumericSeries> iterator() {
         if (seriesMap.isEmpty()) {
-            TreeMap<String, ReportNumericSeries> map = getSeriesMap();
+            TreeMap<ReportSeriesEnum, ReportNumericSeries> map = getSeriesMap();
             if (!map.isEmpty()) {
                 seriesMap.putAll(getSeriesMap());
             } else {
-                System.out.println("The report map is unknown!!!");
+                throw new RuntimeException("The report map is unknown!!!");
             }
         }
         return seriesMap.values().iterator();

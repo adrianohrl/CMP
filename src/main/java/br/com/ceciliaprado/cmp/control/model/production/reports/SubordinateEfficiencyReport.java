@@ -34,27 +34,8 @@ public class SubordinateEfficiencyReport extends AbstractEfficiencyReport {
     }
 
     @Override
-    protected TreeMap<String, ReportNumericSeries> getSeriesMap() {
-        TreeMap<String, ReportNumericSeries> map = new TreeMap<>();
-        double conversionFactor = 1.0 / 60.0;
-        ReportNumericSeries series;
-        series = new ReportDoubleSeries(0, "Effective Duration", subordinate, this, "[h]", EmployeeEventsPeriodBuilder::getTotalEffectiveDuration, conversionFactor);
-        map.put(series.getName(), series);
-        series = new ReportDoubleSeries(1, "Expected Duration", subordinate, this, "[h]", EmployeeEventsPeriodBuilder::getTotalExpectedDuration, conversionFactor);
-        map.put(series.getName(), series);
-        series = new ReportDoubleSeries(2, "Free Duration", subordinate, this, "[h]", EmployeeEventsPeriodBuilder::getTotalFreeDuration, conversionFactor);
-        map.put(series.getName(), series);
-        series = new ReportDoubleSeries(3, "Total Duration", subordinate, this, "[h]", EmployeeEventsPeriodBuilder::getTotalDuration, conversionFactor);
-        map.put(series.getName(), series);
-        series = new ReportIntegerSeries(4, "Produced Quantity", subordinate, this, "[un]", EmployeeEventsPeriodBuilder::getTotalProducedQuantity);
-        map.put(series.getName(), series);
-        series = new ReportIntegerSeries(5, "Returned Quantity", subordinate, this, "[un]", EmployeeEventsPeriodBuilder::getTotalReturnedQuantity);
-        map.put(series.getName(), series);
-        series = new ReportDoubleSeries(6, "Effective Efficiency", subordinate, this, "%", EmployeeEventsPeriodBuilder::getTotalEffectiveEfficiency, 100.0);
-        map.put(series.getName(), series);
-        series = new ReportDoubleSeries(7, "Total Efficiency", subordinate, this, "%", EmployeeEventsPeriodBuilder::getTotalEfficiency, 100.0);
-        map.put(series.getName(), series);
-        return map;
+    protected TreeMap<ReportSeriesEnum, ReportNumericSeries> getSeriesMap() {
+        return super.getSeriesMap(subordinate);
     }
     
 }

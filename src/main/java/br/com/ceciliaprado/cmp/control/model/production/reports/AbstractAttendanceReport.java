@@ -36,11 +36,11 @@ public abstract class AbstractAttendanceReport extends AbstractProductionReport 
         return timeClockEvents;
     }
 
-    protected TreeMap<String, ReportNumericSeries> getSeriesMap(Employee employee) {
-        TreeMap<String, ReportNumericSeries> map = new TreeMap<>();
+    protected TreeMap<ReportSeriesEnum, ReportNumericSeries> getSeriesMap(Employee employee) {
+        TreeMap<ReportSeriesEnum, ReportNumericSeries> map = new TreeMap<>();
         ReportNumericSeries series;
-        series = new ReportDoubleSeries(0, "Total Duration", employee, this, "[h]", EmployeeEventsPeriodBuilder::getTotalDuration, 1 / 60.0);
-        map.put(series.getName(), series);
+        series = new ReportDoubleSeries(AttendanceReportSeries.TOTAL_QUANTITY, employee, this, "[h]", EmployeeEventsPeriodBuilder::getTotalDuration, 1 / 60.0);
+        map.put(AttendanceReportSeries.TOTAL_QUANTITY, series);
         return map;
     }
     

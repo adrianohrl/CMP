@@ -14,8 +14,8 @@ import java.util.function.Function;
  */
 public class ReportIntegerSeries extends ReportNumericSeries {
 
-    public ReportIntegerSeries(int orderNumber, String name, Employee employee, AbstractProductionReport report, String unit, Function<EmployeeEventsPeriodBuilder, Number> function) {
-        super(orderNumber, name, report.getStartDate(), report.getEndDate(), unit, report.getBuilder().get(employee), function);
+    public ReportIntegerSeries(ReportSeriesEnum seriesEnum, Employee employee, AbstractProductionReport report, String unit, Function<EmployeeEventsPeriodBuilder, Number> function) {
+        super(seriesEnum, report.getStartDate(), report.getEndDate(), unit, report.getBuilder().get(employee), function);
     }
 
     @Override

@@ -18,12 +18,12 @@ public class ReportDoubleSeries extends ReportNumericSeries {
     private double conversionFactor = 1.0;
     private final DecimalFormat formatter = new DecimalFormat("#0.00");
    
-    public ReportDoubleSeries(int orderNumber, String name, Employee employee, AbstractProductionReport report, String unit, Function<EmployeeEventsPeriodBuilder, Number> function) {
-        super(orderNumber, name, report.getStartDate(), report.getEndDate(), unit, report.getBuilder().get(employee), function);
+    public ReportDoubleSeries(ReportSeriesEnum seriesEnum, Employee employee, AbstractProductionReport report, String unit, Function<EmployeeEventsPeriodBuilder, Number> function) {
+        super(seriesEnum, report.getStartDate(), report.getEndDate(), unit, report.getBuilder().get(employee), function);
     }
     
-    public ReportDoubleSeries(int orderNumber, String name, Employee employee, AbstractProductionReport report, String unit, Function<EmployeeEventsPeriodBuilder, Number> function, double conversionFactor) {
-        super(orderNumber, name, report.getStartDate(), report.getEndDate(), unit, report.getBuilder().get(employee), function);
+    public ReportDoubleSeries(ReportSeriesEnum seriesEnum, Employee employee, AbstractProductionReport report, String unit, Function<EmployeeEventsPeriodBuilder, Number> function, double conversionFactor) {
+        super(seriesEnum, report.getStartDate(), report.getEndDate(), unit, report.getBuilder().get(employee), function);
         this.conversionFactor = conversionFactor;
     }
 
@@ -42,7 +42,7 @@ public class ReportDoubleSeries extends ReportNumericSeries {
         return formatter.format(value) + (unit.isEmpty() ? "" : " " + unit);
     }
     
-    public void setUnit(String unit, double conversionFactor) {
+    public void setUnit(String label, String unit, double conversionFactor) {
         this.unit = unit;
         this.conversionFactor = conversionFactor;
     }
