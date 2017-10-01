@@ -11,27 +11,34 @@ package br.com.ceciliaprado.cmp.control.model.production.reports;
  */
 public enum AttendanceSeriesTypes implements SeriesType<AttendanceSeriesTypes> {
     
-        TOTAL_QUANTITY("Total Quantity");
-               
-        private final String name;
+    TOTAL_QUANTITY("Total Quantity", true);
 
-        private AttendanceSeriesTypes(String name) {
-            this.name = name;
-        }
+    private final String name;
+    private final boolean realNumber;
 
-        @Override
-        public String getName() {
-            return name;
-        }
+    private AttendanceSeriesTypes(String name, boolean realNumber) {
+        this.name = name;
+        this.realNumber = realNumber;
+    }
 
-        @Override
-        public String toString() {
-            return name;
-        }
+    @Override
+    public String getName() {
+        return name;
+    }
 
-        @Override
-        public boolean equals(String name) {
-            return this.name.equalsIgnoreCase(name);
-        }
+    @Override
+    public boolean isRealNumber() {
+        return realNumber;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    @Override
+    public boolean equals(String name) {
+        return this.name.equalsIgnoreCase(name);
+    }
     
 }

@@ -14,6 +14,8 @@ public interface SeriesType<T extends Enum<T>> extends Comparable<T> {
     
     public abstract String getName();
     
+    public abstract boolean isRealNumber();
+    
     @Override
     public abstract String toString();
     

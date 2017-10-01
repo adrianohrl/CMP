@@ -39,6 +39,7 @@ public abstract class AbstractEfficiencyReport<S extends SeriesType> extends Abs
         return entryEvents;
     }
 
+    @Override
     protected Map<AttendanceSeriesTypes, ReportNumericSeries<AttendanceSeriesTypes>> getSeriesMap(Employee employee) {
         throw new RuntimeException("Invalid usage");
     }
@@ -59,9 +60,9 @@ public abstract class AbstractEfficiencyReport<S extends SeriesType> extends Abs
         map.put(EfficiencySeriesTypes.PRODUCED_QUANTITY, series);
         series = new ReportIntegerSeries<>(EfficiencySeriesTypes.RETURNED_QUANTITY, subordinate, this, "[un]", EmployeeEventsPeriodBuilder::getTotalReturnedQuantity);
         map.put(EfficiencySeriesTypes.RETURNED_QUANTITY, series);
-        series = new ReportDoubleSeries<>(EfficiencySeriesTypes.EFFECTIVE_EFFICIENCY, subordinate, this, "%", EmployeeEventsPeriodBuilder::getTotalEffectiveEfficiency, 100.0);
+        series = new ReportDoubleSeries<>(EfficiencySeriesTypes.EFFECTIVE_EFFICIENCY, subordinate, this, "[%]", EmployeeEventsPeriodBuilder::getTotalEffectiveEfficiency, 100.0);
         map.put(EfficiencySeriesTypes.EFFECTIVE_EFFICIENCY, series);
-        series = new ReportDoubleSeries<>(EfficiencySeriesTypes.TOTAL_EFFICIENCY, subordinate, this, "%", EmployeeEventsPeriodBuilder::getTotalEfficiency, 100.0);
+        series = new ReportDoubleSeries<>(EfficiencySeriesTypes.TOTAL_EFFICIENCY, subordinate, this, "[%]", EmployeeEventsPeriodBuilder::getTotalEfficiency, 100.0);
         map.put(EfficiencySeriesTypes.TOTAL_EFFICIENCY, series);
         return map;
     }
