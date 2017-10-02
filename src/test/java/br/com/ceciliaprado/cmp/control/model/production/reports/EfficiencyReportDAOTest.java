@@ -8,12 +8,14 @@ import br.com.ceciliaprado.cmp.control.dao.personnel.PersonnelDAOsTest;
 import br.com.ceciliaprado.cmp.control.dao.personnel.SupervisorDAO;
 import br.com.ceciliaprado.cmp.control.dao.production.ProductionDAOsTest;
 import br.com.ceciliaprado.cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
+import br.com.ceciliaprado.cmp.exceptions.CMPException;
 import br.com.ceciliaprado.cmp.exceptions.DAOException;
 import br.com.ceciliaprado.cmp.exceptions.ReportException;
 import br.com.ceciliaprado.cmp.model.events.AbstractEmployeeRelatedEvent;
 import br.com.ceciliaprado.cmp.model.personnel.Manager;
 import br.com.ceciliaprado.cmp.model.personnel.Subordinate;
 import br.com.ceciliaprado.cmp.model.personnel.Supervisor;
+import java.awt.color.CMMException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Map;
@@ -44,11 +46,15 @@ public class EfficiencyReportDAOTest {
     }
     
     public static void test(EntityManager em) throws DAOException, ReportException {
-        PersonnelDAOsTest.test(em);
-        ProductionDAOsTest.test(em);
-        EventsReaderDAOTest.test(em);
-        Calendar startDate = new GregorianCalendar(2017, Calendar.APRIL, 10);
-        Calendar endDate = new GregorianCalendar(2017, Calendar.APRIL, 20);
+        try {
+            PersonnelDAOsTest.test(em);
+            ProductionDAOsTest.test(em);
+            EventsReaderDAOTest.test(em);
+        } catch (RuntimeException e) {
+            System.out.println(e.getClass().getSimpleName() + " caught: " + e.getMessage());
+        }
+        Calendar startDate = new GregorianCalendar(2017, Calendar.OCTOBER, 1);
+        Calendar endDate = new GregorianCalendar(2017, Calendar.OCTOBER, 3);
         SupervisorDAO supervisorDAO = new SupervisorDAO(em);
         Supervisor rose = supervisorDAO.find("Rose");
         ManagerDAO managerDAO = new ManagerDAO(em);
