@@ -7,6 +7,7 @@ package br.com.ceciliaprado.cmp.control.dao.personnel;
 
 import br.com.ceciliaprado.cmp.control.dao.DataSource;
 import br.com.ceciliaprado.cmp.model.personnel.Employee;
+import br.com.ceciliaprado.cmp.model.personnel.Machine;
 import br.com.ceciliaprado.cmp.model.personnel.Manager;
 import br.com.ceciliaprado.cmp.model.personnel.Sector;
 import br.com.ceciliaprado.cmp.model.personnel.Subordinate;
@@ -150,15 +151,39 @@ public class PersonnelDAOsTest {
         SupervisorDAO supervisorDAO = new SupervisorDAO(em);
         Supervisor supervisor = supervisorDAO.find("Ana");
         Sector sector = new Sector("Passadoria", supervisor);
+        sector.getMachines().add(new Machine("Mesa 1"));
+        sector.getMachines().add(new Machine("Mesa 2"));
+        sector.getMachines().add(new Machine("Mesa 3"));
         sectors.put(sector.getName(), sector);
         supervisor = supervisorDAO.find("Rose");
         sector = new Sector("Costura", supervisor);
+        sector.getMachines().add(new Machine("Overloque 1"));
+        sector.getMachines().add(new Machine("Overloque 2"));
+        sector.getMachines().add(new Machine("Overloque 3"));
+        sector.getMachines().add(new Machine("Reta 1"));
+        sector.getMachines().add(new Machine("Reta 2"));
         sectors.put(sector.getName(), sector);
         supervisor = supervisorDAO.find("Julio");
         sector = new Sector("Tecimento", supervisor);
+        sector.getMachines().add(new Machine("Stoll 1"));
+        sector.getMachines().add(new Machine("Stoll 2"));
+        sector.getMachines().add(new Machine("Stoll 3"));
+        sector.getMachines().add(new Machine("Stoll 4"));
+        sector.getMachines().add(new Machine("Stoll 5"));
+        sector.getMachines().add(new Machine("Stoll 6"));
+        sector.getMachines().add(new Machine("Stoll 7"));
+        sector.getMachines().add(new Machine("Stoll 8"));
+        sector.getMachines().add(new Machine("Stoll 9"));
+        sector.getMachines().add(new Machine("Coppo 1"));
+        sector.getMachines().add(new Machine("Coppo 2"));
+        sector.getMachines().add(new Machine("PS 1"));
+        sector.getMachines().add(new Machine("PST 1"));
+        sector.getMachines().add(new Machine("PST 2"));
         sectors.put(sector.getName(), sector);
         supervisor = supervisorDAO.find("Juliane");
         sector = new Sector("Corte", supervisor);
+        sector.getMachines().add(new Machine("Máquina 1"));
+        sector.getMachines().add(new Machine("Máquina 2"));
         sectors.put(sector.getName(), sector);
     }
     

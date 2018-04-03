@@ -13,6 +13,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -26,6 +28,14 @@ public class Model implements Comparable<Model>, Serializable {
     private String reference;
     @Column(nullable = false, unique = true)
     private String name;
+    @ManyToOne(optional = false)
+    private Family family;
+    @ManyToOne(optional = false)
+    private Collection collection;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Part> parts = new ArrayList<>();
+    @ManyToMany
+    private List<Variant> variants = new ArrayList<>();
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ModelPhase> phases = new ArrayList<>();
 
@@ -35,6 +45,13 @@ public class Model implements Comparable<Model>, Serializable {
     public Model(String reference, String name) {
         this.reference = reference;
         this.name = name;
+    }
+
+    public Model(String reference, String name, Family family, Collection collection) {
+        this.reference = reference;
+        this.name = name;
+        this.family = family;
+        this.collection = collection;
     }
     
     public boolean belongs(ModelPhase phase) {
@@ -83,6 +100,38 @@ public class Model implements Comparable<Model>, Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Family getFamily() {
+        return family;
+    }
+
+    public void setFamily(Family family) {
+        this.family = family;
+    }
+
+    public Collection getCollection() {
+        return collection;
+    }
+
+    public void setCollection(Collection collection) {
+        this.collection = collection;
+    }
+
+    public List<Part> getParts() {
+        return parts;
+    }
+
+    public void setParts(List<Part> parts) {
+        this.parts = parts;
+    }
+
+    public List<Variant> getVariants() {
+        return variants;
+    }
+
+    public void setVariants(List<Variant> variants) {
+        this.variants = variants;
     }
 
     public List<ModelPhase> getPhases() {

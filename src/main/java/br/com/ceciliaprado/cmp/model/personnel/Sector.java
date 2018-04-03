@@ -6,9 +6,13 @@
 package br.com.ceciliaprado.cmp.model.personnel;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -21,6 +25,8 @@ public class Sector implements Comparable<Sector>, Serializable {
     private String name;
     @ManyToOne(optional = false)
     private Supervisor supervisor;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Machine> machines;
 
     public Sector() {
     }
@@ -28,6 +34,12 @@ public class Sector implements Comparable<Sector>, Serializable {
     public Sector(String name, Supervisor supervisor) {
         this.name = name;
         this.supervisor = supervisor;
+    }
+
+    public Sector(String name, Supervisor supervisor, List<Machine> machines) {
+        this.name = name;
+        this.supervisor = supervisor;
+        this.machines = machines;
     }
     
     public boolean isSupervisedBy(Supervisor supervisor) {
@@ -71,6 +83,14 @@ public class Sector implements Comparable<Sector>, Serializable {
 
     public void setSupervisor(Supervisor supervisor) {
         this.supervisor = supervisor;
+    }
+
+    public List<Machine> getMachines() {
+        return machines;
+    }
+
+    public void setMachines(List<Machine> machines) {
+        this.machines = machines;
     }
     
 }
