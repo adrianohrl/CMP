@@ -8,7 +8,7 @@ package br.com.ceciliaprado.cmp.control.model.production.reports;
 import br.com.ceciliaprado.cmp.exceptions.ReportException;
 import br.com.ceciliaprado.cmp.model.events.CasualtyEntryEvent;
 import br.com.ceciliaprado.cmp.model.events.EntryEvent;
-import br.com.ceciliaprado.cmp.model.production.ProductionStates;
+import br.com.ceciliaprado.cmp.model.order.ProductionStates;
 
 /**
  *

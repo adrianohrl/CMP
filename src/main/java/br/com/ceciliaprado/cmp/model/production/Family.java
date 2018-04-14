@@ -8,6 +8,7 @@ package br.com.ceciliaprado.cmp.model.production;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -18,12 +19,15 @@ public class Family implements Serializable {
     
     @Id
     private String name;
+    @ManyToOne(optional = false)
+    private Collection collection;
 
     public Family() {
     }
 
-    public Family(String name) {
+    public Family(String name, Collection collection) {
         this.name = name;
+        this.collection = collection;
     }
 
     @Override
@@ -46,6 +50,14 @@ public class Family implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Collection getCollection() {
+        return collection;
+    }
+
+    public void setCollection(Collection collection) {
+        this.collection = collection;
     }
     
 }

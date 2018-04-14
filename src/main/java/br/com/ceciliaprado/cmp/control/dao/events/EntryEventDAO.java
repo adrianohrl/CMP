@@ -5,11 +5,11 @@
  */
 package br.com.ceciliaprado.cmp.control.dao.events;
 
-import br.com.ceciliaprado.cmp.control.dao.production.PhaseProductionOrderDAO;
+import br.com.ceciliaprado.cmp.control.dao.order.PhaseProductionOrderDAO;
 import br.com.ceciliaprado.cmp.model.events.EntryEvent;
 import br.com.ceciliaprado.cmp.model.personnel.Sector;
 import br.com.ceciliaprado.cmp.model.personnel.Supervisor;
-import br.com.ceciliaprado.cmp.model.production.ProductionStates;
+import br.com.ceciliaprado.cmp.model.order.ProductionStates;
 import br.com.ceciliaprado.cmp.control.model.production.reports.filters.EntryEventsList;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;

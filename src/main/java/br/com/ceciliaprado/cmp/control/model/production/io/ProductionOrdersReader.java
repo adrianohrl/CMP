@@ -7,7 +7,7 @@ package br.com.ceciliaprado.cmp.control.model.production.io;
 
 import br.com.ceciliaprado.cmp.exceptions.IOException;
 import br.com.ceciliaprado.cmp.model.production.Model;
-import br.com.ceciliaprado.cmp.model.production.ProductionOrder;
+import br.com.ceciliaprado.cmp.model.order.ProductionOrder;
 import br.com.ceciliaprado.cmp.util.AbstractReader;
 import br.com.ceciliaprado.cmp.util.Field;
 import br.com.ceciliaprado.cmp.util.StringField;

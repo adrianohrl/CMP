@@ -10,7 +10,7 @@ import br.com.ceciliaprado.cmp.model.events.AbstractEmployeeRelatedEvent;
 import br.com.ceciliaprado.cmp.model.events.EntryEvent;
 import br.com.ceciliaprado.cmp.model.events.TimeClockEvent;
 import br.com.ceciliaprado.cmp.model.personnel.Employee;
-import br.com.ceciliaprado.cmp.model.production.PhaseProductionOrder;
+import br.com.ceciliaprado.cmp.model.order.PhaseProductionOrder;
 import br.com.ceciliaprado.cmp.control.model.production.reports.filters.EmployeeRelatedEventsList;
 import br.com.ceciliaprado.cmp.model.production.ModelPhase;
 import br.com.ceciliaprado.cmp.util.Command;

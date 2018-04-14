@@ -6,22 +6,22 @@
 package br.com.ceciliaprado.cmp.control.dao.production;
 
 import br.com.ceciliaprado.cmp.control.dao.DAO;
-import br.com.ceciliaprado.cmp.model.production.VariantOrder;
+import br.com.ceciliaprado.cmp.model.production.Chart;
 import javax.persistence.EntityManager;
 
 /**
  *
  * @author adrianohrl
  */
-public class VariantOrderDAO extends DAO<VariantOrder, Long> {
+public class ChartDAO extends DAO<Chart, String> {
 
-    public VariantOrderDAO(EntityManager em) {
-        super(em, VariantOrder.class);
+    public ChartDAO(EntityManager em) {
+        super(em, Chart.class);
     }
 
     @Override
-    public boolean isRegistered(VariantOrder entity) {
-        return super.find(entity.getCode()) != null;
+    public boolean isRegistered(Chart entity) {
+        return super.find(entity.getName()) != null;
     }
     
 }

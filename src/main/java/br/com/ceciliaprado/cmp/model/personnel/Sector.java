@@ -6,6 +6,7 @@
 package br.com.ceciliaprado.cmp.model.personnel;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -26,7 +27,7 @@ public class Sector implements Comparable<Sector>, Serializable {
     @ManyToOne(optional = false)
     private Supervisor supervisor;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Machine> machines;
+    private List<Machine> machines = new ArrayList<>();
 
     public Sector() {
     }

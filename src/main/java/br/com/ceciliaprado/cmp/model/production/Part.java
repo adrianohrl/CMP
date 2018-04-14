@@ -20,7 +20,6 @@ public class Part implements Serializable {
     @Id
     private String name;
     private String program;
-    private boolean u = false;
     private String observation = "";
     @ManyToOne(optional = false)
     private Fabric fabric;
@@ -28,10 +27,9 @@ public class Part implements Serializable {
     public Part() {
     }
 
-    public Part(String name, String program, boolean u, String observation, Fabric fabric) {
+    public Part(String name, String program, String observation, Fabric fabric) {
         this.name = name;
         this.program = program;
-        this.u = u;
         this.observation = observation;
         this.fabric = fabric;
     }
@@ -64,14 +62,6 @@ public class Part implements Serializable {
 
     public void setProgram(String program) {
         this.program = program;
-    }
-
-    public boolean isU() {
-        return u;
-    }
-
-    public void setU(boolean u) {
-        this.u = u;
     }
 
     public String getObservation() {

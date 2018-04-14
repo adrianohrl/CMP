@@ -13,9 +13,9 @@ import br.com.ceciliaprado.cmp.model.events.EntryEvent;
 import br.com.ceciliaprado.cmp.model.personnel.Sector;
 import br.com.ceciliaprado.cmp.model.personnel.Subordinate;
 import br.com.ceciliaprado.cmp.model.personnel.Supervisor;
-import br.com.ceciliaprado.cmp.model.production.PhaseProductionOrder;
+import br.com.ceciliaprado.cmp.model.order.PhaseProductionOrder;
 import br.com.ceciliaprado.cmp.exceptions.ProductionException;
-import br.com.ceciliaprado.cmp.model.production.ProductionStates;
+import br.com.ceciliaprado.cmp.model.order.ProductionStates;
 import java.io.Serializable;
 import java.util.Calendar;
 

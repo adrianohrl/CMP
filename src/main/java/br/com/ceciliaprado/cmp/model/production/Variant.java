@@ -5,6 +5,7 @@
  */
 package br.com.ceciliaprado.cmp.model.production;
 
+import br.com.ceciliaprado.cmp.model.order.VariantOrder;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -33,7 +34,7 @@ public class Variant implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        return obj != null && obj instanceof Variant && equals((Variant) obj);
+        return obj != null && (obj instanceof Variant && equals((Variant) obj) || obj instanceof VariantOrder && equals(((VariantOrder) obj).getVariant()));
     }
     
     public boolean equals(Variant variant) {

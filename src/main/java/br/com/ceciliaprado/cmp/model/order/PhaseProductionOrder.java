@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.ceciliaprado.cmp.model.production;
+package br.com.ceciliaprado.cmp.model.order;
 
 import br.com.ceciliaprado.cmp.exceptions.ProductionException;
 import br.com.ceciliaprado.cmp.exceptions.ProductionStateMachineException;
 import br.com.ceciliaprado.cmp.model.events.EntryEvent;
 import br.com.ceciliaprado.cmp.model.personnel.Subordinate;
 import br.com.ceciliaprado.cmp.control.model.production.ProductionStateMachineController;
+import br.com.ceciliaprado.cmp.model.production.ModelPhase;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

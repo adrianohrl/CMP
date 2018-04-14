@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.ceciliaprado.cmp.control.dao.production;
+package br.com.ceciliaprado.cmp.control.dao.order;
 
 import br.com.ceciliaprado.cmp.control.dao.DAO;
-import br.com.ceciliaprado.cmp.model.production.ProductionOrder;
+import br.com.ceciliaprado.cmp.model.order.ProductionOrder;
 import javax.persistence.EntityManager;
 
 /**

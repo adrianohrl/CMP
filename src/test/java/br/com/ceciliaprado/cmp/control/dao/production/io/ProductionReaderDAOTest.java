@@ -5,12 +5,14 @@
  */
 package br.com.ceciliaprado.cmp.control.dao.production.io;
 
+import br.com.ceciliaprado.cmp.control.dao.order.io.ProductionOrdersReaderDAO;
+import br.com.ceciliaprado.cmp.control.dao.order.io.PhaseProductionOrdersReaderDAO;
 import br.com.ceciliaprado.cmp.control.dao.DataSource;
 import br.com.ceciliaprado.cmp.exceptions.IOException;
 import br.com.ceciliaprado.cmp.model.production.Model;
 import br.com.ceciliaprado.cmp.model.production.Phase;
-import br.com.ceciliaprado.cmp.model.production.PhaseProductionOrder;
-import br.com.ceciliaprado.cmp.model.production.ProductionOrder;
+import br.com.ceciliaprado.cmp.model.order.PhaseProductionOrder;
+import br.com.ceciliaprado.cmp.model.order.ProductionOrder;
 import br.com.ceciliaprado.cmp.util.Keyboard;
 import javax.persistence.EntityManager;
 

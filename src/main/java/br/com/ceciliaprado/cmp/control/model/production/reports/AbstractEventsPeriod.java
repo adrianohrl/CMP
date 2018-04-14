@@ -9,7 +9,7 @@ import br.com.ceciliaprado.cmp.exceptions.ReportException;
 import br.com.ceciliaprado.cmp.model.events.AbstractEvent;
 import br.com.ceciliaprado.cmp.model.events.EntryEvent;
 import br.com.ceciliaprado.cmp.model.events.TimeClockEvent;
-import br.com.ceciliaprado.cmp.model.production.PhaseProductionOrder;
+import br.com.ceciliaprado.cmp.model.order.PhaseProductionOrder;
 
 /**
  *

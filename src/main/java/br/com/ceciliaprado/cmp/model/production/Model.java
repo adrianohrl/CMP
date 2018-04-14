@@ -38,6 +38,8 @@ public class Model implements Comparable<Model>, Serializable {
     private List<Variant> variants = new ArrayList<>();
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ModelPhase> phases = new ArrayList<>();
+    @ManyToOne(optional = false)
+    private Chart chart;
 
     public Model() {
     }
@@ -47,11 +49,12 @@ public class Model implements Comparable<Model>, Serializable {
         this.name = name;
     }
 
-    public Model(String reference, String name, Family family, Collection collection) {
+    public Model(String reference, String name, Family family, Collection collection, Chart chart) {
         this.reference = reference;
         this.name = name;
         this.family = family;
         this.collection = collection;
+        this.chart = chart;
     }
     
     public boolean belongs(ModelPhase phase) {
@@ -140,6 +143,14 @@ public class Model implements Comparable<Model>, Serializable {
 
     public void setPhases(List<ModelPhase> phases) {
         this.phases = phases;
+    }
+
+    public Chart getChart() {
+        return chart;
+    }
+
+    public void setChart(Chart chart) {
+        this.chart = chart;
     }
     
 }

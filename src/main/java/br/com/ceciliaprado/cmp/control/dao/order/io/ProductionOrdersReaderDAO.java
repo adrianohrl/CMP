@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.ceciliaprado.cmp.control.dao.production.io;
+package br.com.ceciliaprado.cmp.control.dao.order.io;
 
 import br.com.ceciliaprado.cmp.control.dao.production.ModelDAO;
-import br.com.ceciliaprado.cmp.control.dao.production.ProductionOrderDAO;
+import br.com.ceciliaprado.cmp.control.dao.order.ProductionOrderDAO;
 import br.com.ceciliaprado.cmp.control.model.production.io.ProductionOrdersReader;
 import br.com.ceciliaprado.cmp.exceptions.IOException;
 import br.com.ceciliaprado.cmp.model.production.Model;
-import br.com.ceciliaprado.cmp.model.production.ProductionOrder;
+import br.com.ceciliaprado.cmp.model.order.ProductionOrder;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;

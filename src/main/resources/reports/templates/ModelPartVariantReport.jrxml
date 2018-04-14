@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ModelPartVariantReport" language="groovy" pageWidth="539" pageHeight="84" orientation="Landscape" columnWidth="539" leftMargin="0" rightMargin="0" topMargin="2" bottomMargin="2" uuid="d54230ea-0e4e-4c1c-a547-ec74a376b007">
+	<property name="ireport.zoom" value="1.9487171000000025"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="modelVariant" class="java.lang.String">
+		<fieldDescription><![CDATA[The model variant]]></fieldDescription>
+	</field>
+	<field name="modelVariantOrderQuantity" class="java.lang.String">
+		<fieldDescription><![CDATA[The model variant order quantity]]></fieldDescription>
+	</field>
+	<detail>
+		<band height="80" splitType="Stretch">
+			<rectangle>
+				<reportElement x="272" y="40" width="179" height="40" uuid="5ea0a630-65cd-442e-ab6c-02bcd56c24ec"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineStyle="Solid"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="451" y="40" width="88" height="40" uuid="f97a0297-e5ac-4640-ad52-5c25ea3328cd"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineStyle="Solid"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="0" width="179" height="40" uuid="47c64091-4cb8-4542-bffb-214def44b923"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineStyle="Solid"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="360" y="0" width="179" height="40" uuid="a87001aa-c041-4124-a428-cc2e7e2a75d4"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineStyle="Solid"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="179" y="40" width="88" height="40" uuid="22a3acd1-818c-425f-bcf4-46fa1e2d66a9"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineStyle="Solid"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="40" width="179" height="40" uuid="091ef688-0a9e-48f8-b9f8-9aa9aa165bf1"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineStyle="Solid"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="179" y="0" width="181" height="40" uuid="2da3f85a-9fbc-4efd-ad86-328cea7c1551"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineStyle="Solid"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="179" height="12" uuid="6ad46734-cc4c-44fe-9505-19761ca306e5"/>
+				<textElement textAlignment="Center">
+					<font isBold="false" isItalic="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Cor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="179" y="0" width="181" height="12" uuid="5641a4ac-4c04-48ce-a87d-585006861500"/>
+				<textElement textAlignment="Center">
+					<font isBold="false" isItalic="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Quantidade de Peças]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="360" y="0" width="179" height="12" uuid="a50658a8-5dc9-4db8-993d-7f44633f2da7"/>
+				<textElement textAlignment="Center">
+					<font isBold="false" isItalic="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Quantidade de Panos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="179" height="12" uuid="92095e57-8d40-4a5b-850d-13b878724070"/>
+				<textElement textAlignment="Center">
+					<font isBold="false" isItalic="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Início de Tecimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="272" y="40" width="179" height="12" uuid="886bef69-eb8b-4318-b864-0726ae337c8e"/>
+				<textElement textAlignment="Center">
+					<font isBold="false" isItalic="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Término de Tecimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="179" y="40" width="88" height="12" uuid="5cb2202e-3768-4a3f-8e30-353e2deeabaf"/>
+				<textElement textAlignment="Center">
+					<font isBold="false" isItalic="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Tecelão]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="451" y="40" width="88" height="12" uuid="66bb86e3-ef59-406b-851e-7b0bdea13ba4"/>
+				<textElement textAlignment="Center">
+					<font isBold="false" isItalic="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Tecelão]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="52" width="179" height="28" uuid="12800bd2-2502-471b-ad83-a9c98497c4e6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[__/__/__ (__:__)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="272" y="52" width="179" height="28" uuid="1ddf6163-81e7-4e53-8969-1542a1a90947"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[__/__/__ (__:__)]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="12" width="179" height="28" uuid="549d42d1-3e97-4a66-ba7b-54c8b65b0ba1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{modelVariant}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="179" y="12" width="181" height="28" uuid="2e978e67-4cfc-4808-9c75-48ac56c4dd51"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{modelVariantOrderQuantity}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.ceciliaprado.cmp.control.dao.production;
+package br.com.ceciliaprado.cmp.control.dao.order;
 
 import br.com.ceciliaprado.cmp.control.dao.DAO;
 import br.com.ceciliaprado.cmp.control.dao.personnel.SubordinateDAO;
@@ -11,8 +11,8 @@ import br.com.ceciliaprado.cmp.model.personnel.Sector;
 import br.com.ceciliaprado.cmp.model.personnel.Subordinate;
 import br.com.ceciliaprado.cmp.model.production.ModelPhase;
 import br.com.ceciliaprado.cmp.model.production.Phase;
-import br.com.ceciliaprado.cmp.model.production.PhaseProductionOrder;
-import br.com.ceciliaprado.cmp.model.production.ProductionOrder;
+import br.com.ceciliaprado.cmp.model.order.PhaseProductionOrder;
+import br.com.ceciliaprado.cmp.model.order.ProductionOrder;
 import java.util.List;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;

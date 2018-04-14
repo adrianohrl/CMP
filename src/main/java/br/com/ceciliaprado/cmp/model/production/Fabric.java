@@ -49,11 +49,15 @@ public class Fabric implements Serializable {
 
     public Fabric() {
     }
-
-    public Fabric(String name, String observation, Collection collection, List<Machine> machines, List<Variant> variants) {
+    
+    public Fabric(String name, String observation, Collection collection) {
         this.name = name;
         this.observation = observation;
         this.collection = collection;
+    }
+
+    public Fabric(String name, String observation, Collection collection, List<Machine> machines, List<Variant> variants) {
+        this(name, observation, collection);
         this.machines = machines;
         this.variants = variants;
     }

@@ -11,8 +11,8 @@ import br.com.ceciliaprado.cmp.exceptions.ProductionStateTransitionException;
 import br.com.ceciliaprado.cmp.model.events.CasualtyEntryEvent;
 import br.com.ceciliaprado.cmp.model.events.EntryEvent;
 import br.com.ceciliaprado.cmp.model.personnel.Subordinate;
-import br.com.ceciliaprado.cmp.model.production.PhaseProductionOrder;
-import br.com.ceciliaprado.cmp.model.production.ProductionStates;
+import br.com.ceciliaprado.cmp.model.order.PhaseProductionOrder;
+import br.com.ceciliaprado.cmp.model.order.ProductionStates;
 import java.util.ArrayList;
 
 /**

@@ -6,21 +6,21 @@
 package br.com.ceciliaprado.cmp.control.dao.production;
 
 import br.com.ceciliaprado.cmp.control.dao.DAO;
-import br.com.ceciliaprado.cmp.model.production.ModelOrder;
+import br.com.ceciliaprado.cmp.model.production.ChartSize;
 import javax.persistence.EntityManager;
 
 /**
  *
  * @author adrianohrl
  */
-public class ModelOrderDAO extends DAO<ModelOrder, String> {
+public class ChartSizeDAO extends DAO<ChartSize, String> {
 
-    public ModelOrderDAO(EntityManager em) {
-        super(em, ModelOrder.class);
+    public ChartSizeDAO(EntityManager em) {
+        super(em, ChartSize.class);
     }
 
     @Override
-    public boolean isRegistered(ModelOrder entity) {
+    public boolean isRegistered(ChartSize entity) {
         return super.find(entity.getName()) != null;
     }
     

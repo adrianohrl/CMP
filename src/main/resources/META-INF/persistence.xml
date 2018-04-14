@@ -17,16 +17,16 @@
     <class>br.com.ceciliaprado.cmp.model.production.Model</class>
     <class>br.com.ceciliaprado.cmp.model.production.ModelPhase</class>
     <class>br.com.ceciliaprado.cmp.model.production.Phase</class>
-    <class>br.com.ceciliaprado.cmp.model.production.PhaseProductionOrder</class>
-    <class>br.com.ceciliaprado.cmp.model.production.ProductionOrder</class>
     <class>br.com.ceciliaprado.cmp.model.personnel.Machine</class>
     <class>br.com.ceciliaprado.cmp.model.production.Collection</class>
     <class>br.com.ceciliaprado.cmp.model.production.Fabric</class>
     <class>br.com.ceciliaprado.cmp.model.production.Family</class>
-    <class>br.com.ceciliaprado.cmp.model.production.ModelOrder</class>
     <class>br.com.ceciliaprado.cmp.model.production.Part</class>
     <class>br.com.ceciliaprado.cmp.model.production.Variant</class>
-    <class>br.com.ceciliaprado.cmp.model.production.VariantOrder</class>
+    <class>br.com.ceciliaprado.cmp.model.production.ModelOrderTest</class>
+    <class>br.com.ceciliaprado.cmp.model.order.VariantOrder</class>
+    <class>br.com.ceciliaprado.cmp.model.order.ProductionOrder</class>
+    <class>br.com.ceciliaprado.cmp.model.order.PhaseProductionOrder</class>
     <properties>
       <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/cmp?zeroDateTimeBehavior=convertToNull"/>
