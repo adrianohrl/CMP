@@ -17,13 +17,18 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
  * @author adrianohrl
  */
 public class ModelOrderTest {
-    
+
     private static Map<String, Subordinate> subordinates;
     private static Map<String, Supervisor> supervisors;
     private static Map<String, Manager> managers;
@@ -36,7 +41,7 @@ public class ModelOrderTest {
     private static Map<String, Phase> phases;
     private static Map<String, Chart> charts;
     private static Map<String, Model> models;
-    
+
     public static void main(String[] args) {
         createEmployees();
         createMachines();
@@ -61,30 +66,15 @@ public class ModelOrderTest {
         order.setQuantity(vermelho, g, 2);
         order.setQuantity(ocre, p, 7);
         order.setQuantity(ocre, g, 6);
-        System.out.println("P.O.: " + order);
-        String msg = "\n\t";
-        for (ChartSize size : order.getModel().getChart()) {
-            msg += "\t" + size;
-        }
-        msg += "\tTotal";
-        for (Variant variant : order.getModel().getVariants()) {
-            msg += "\n" + variant;
-            for (ChartSize size : order.getModel().getChart()) {
-                msg += "\t" + order.getQuantity(variant, size);
-            }
-            msg += "\t" + order.getTotal(variant);
-        }
-        msg += "\nTotal";
-        for (ChartSize size : order.getModel().getChart()) {
-            msg += "\t" + order.getTotal(size);
-        }
-        msg += "\t" + order.getTotal();
-        System.out.println(msg);
+        printProductionOrder(order);
+        generateReport(order);
     }
-    
+
     private static void createEmployees() {
         List<Employee> employees = new ArrayList<>();
-        /************************* Subordinates *************************/
+        /**
+         * *********************** Subordinates ************************
+         */
         subordinates = new HashMap<>();
         subordinates.put("Joaquina", new Subordinate("00001", "Joaquina"));
         subordinates.put("Joaquim", new Subordinate("00002", "Joaquim"));
@@ -97,7 +87,9 @@ public class ModelOrderTest {
         subordinates.put("Marcelo", new Subordinate("00009", "Marcelo"));
         subordinates.put("Murilo", new Subordinate("00010", "Murilo"));
         employees.addAll(subordinates.values());
-        /************************* Supervisors *************************/
+        /**
+         * *********************** Supervisors ************************
+         */
         supervisors = new HashMap<>();
         Supervisor supervisor = new Supervisor("juh", "123456", "00011", "Juliane");
         supervisor.getSubordinates().add((Subordinate) subordinates.get("Joaquina"));
@@ -118,7 +110,9 @@ public class ModelOrderTest {
         supervisor.getSubordinates().add((Subordinate) subordinates.get("Roseli"));
         supervisors.put(supervisor.getName(), supervisor);
         employees.addAll(supervisors.values());
-        /************************* Managers *************************/
+        /**
+         * *********************** Managers ************************
+         */
         managers = new HashMap<>();
         Manager manager = new Manager("carlos", "147258369", "00015", "Carlos");
         manager.getSupervisors().add(supervisors.get("Juliane"));
@@ -131,7 +125,7 @@ public class ModelOrderTest {
         employees.addAll(managers.values());
         Collections.sort(employees);
     }
-    
+
     private static void createMachines() {
         machines = new HashMap<>();
         machines.put("Stoll 1", new Machine("Stoll 1"));
@@ -195,7 +189,7 @@ public class ModelOrderTest {
         sector.getMachines().add(machines.get("Máquina 2"));
         sectors.put(sector.getName(), sector);
     }
-    
+
     private static void createCollections() {
         collections = new HashMap<>();
         collections.put("VER2017", new Collection("VER2017"));
@@ -210,7 +204,7 @@ public class ModelOrderTest {
         variants.put("AZUL", new Variant("AZUL"));
         variants.put("OCRE", new Variant("OCRE"));
     }
-    
+
     private static void createFabrics() {
         fabrics = new HashMap<>();
         Fabric fabric = new Fabric("LIBERT", "Uma observacao sobre o tecido Libert", collections.get("INV2018"));
@@ -246,7 +240,7 @@ public class ModelOrderTest {
         fabric.getMachines().add(machines.get("Stoll 8"));
         fabric.getVariants().add(variants.get("OCRE"));
         fabric.getVariants().add(variants.get("VERMELHO"));
-        fabrics.put(fabric.getName(), fabric);        
+        fabrics.put(fabric.getName(), fabric);
     }
 
     private static void createFamilies() {
@@ -255,9 +249,9 @@ public class ModelOrderTest {
         families.put("GRANADA", new Family("GRANADA", collections.get("VER2018")));
         families.put("ANTON BLACK", new Family("ANTON BLACK", collections.get("INV2018")));
     }
-    
+
     private static void createPhases() {
-        phases = new HashMap<>(); 
+        phases = new HashMap<>();
         Phase phase = new Phase("Tecimento 1", sectors.get("Tecimento"));
         phases.put(phase.getName(), phase);
         phase = new Phase("Passadoria 1", sectors.get("Passadoria"));
@@ -317,5 +311,44 @@ public class ModelOrderTest {
         model.getVariants().add(variants.get("OCRE"));
         models.put(model.getReference(), model);
     }
-    
+
+    private static void printProductionOrder(ProductionOrder order) {
+        System.out.println("P.O.: " + order);
+        String msg = "\n\t";
+        for (ChartSize size : order.getModel().getChart()) {
+            msg += "\t" + size;
+        }
+        msg += "\tTotal";
+        for (Variant variant : order.getModel().getVariants()) {
+            msg += "\n" + variant;
+            for (ChartSize size : order.getModel().getChart()) {
+                msg += "\t" + order.getQuantity(variant, size);
+            }
+            msg += "\t" + order.getTotal(variant);
+        }
+        msg += "\nTotal";
+        for (ChartSize size : order.getModel().getChart()) {
+            msg += "\t" + order.getTotal(size);
+        }
+        msg += "\t" + order.getTotal();
+        System.out.println(msg);
+    }
+
+    private static void generateReport(ProductionOrder order) {
+        String sourceFileName = "./target/jasper/ModelPartReport.jasper";
+        DataBeanList DataBeanList = new DataBeanList();
+        List<DataBean> dataList = DataBeanList.getDataBeanList(order);
+        JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(dataList);
+        Map parameters = new HashMap();
+        parameters.put("order", order);
+        try {
+            JasperPrint jasperPrint = JasperFillManager.fillReport(sourceFileName, parameters, beanColDataSource);
+            JasperViewer.viewReport(jasperPrint);
+            System.out.println("Done compiling!!! ...");
+        } catch (JRException e) {
+            e.printStackTrace();
+            System.out.println("Error while compiling!!! ...");
+        }
+    }
+
 }
