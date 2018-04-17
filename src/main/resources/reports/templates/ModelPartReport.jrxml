@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ModelPartReport" language="groovy" pageWidth="595" pageHeight="421" orientation="Landscape" columnWidth="539" leftMargin="28" rightMargin="28" topMargin="28" bottomMargin="28" uuid="e8cc55ea-a47d-4abe-b7ad-bd8351808778">
 	<property name="ireport.zoom" value="1.7715610000000022"/>
-	<property name="ireport.x" value="116"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<import value="br.com.ceciliaprado.cmp.model.*"/>
 	<subDataset name="dataset1" uuid="096eefe3-4e16-4590-96e8-94a0c5815e1b"/>
@@ -9,26 +9,18 @@
 		<defaultValueExpression><![CDATA["/home/adrianohrl/Projects/Java/jasper/src/main/resources/report/templates/"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="order" class="br.com.ceciliaprado.cmp.model.order.ProductionOrder"/>
-	<field name="modelReference" class="java.lang.String">
-		<fieldDescription><![CDATA[The model reference]]></fieldDescription>
-	</field>
-	<field name="modelName" class="java.lang.String"/>
-	<field name="modelFamily" class="java.lang.String">
-		<fieldDescription><![CDATA[The model family]]></fieldDescription>
-	</field>
 	<field name="part" class="java.lang.String">
-		<fieldDescription><![CDATA[The model part]]></fieldDescription>
-	</field>
-	<field name="orderName" class="java.lang.String">
-		<fieldDescription><![CDATA[The order name]]></fieldDescription>
+		<fieldDescription><![CDATA[part]]></fieldDescription>
 	</field>
 	<field name="size" class="java.lang.String">
-		<fieldDescription><![CDATA[The size of the model part in the order]]></fieldDescription>
+		<fieldDescription><![CDATA[size]]></fieldDescription>
 	</field>
 	<field name="program" class="java.lang.String">
-		<fieldDescription><![CDATA[The model part program]]></fieldDescription>
+		<fieldDescription><![CDATA[program]]></fieldDescription>
 	</field>
-	<field name="observation" class="java.lang.String"/>
+	<field name="observation" class="java.lang.String">
+		<fieldDescription><![CDATA[observation]]></fieldDescription>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -43,9 +35,9 @@
 			<textField>
 				<reportElement x="411" y="12" width="128" height="28" uuid="db56d894-1fea-4f5a-b7f9-2f047d9d4f06"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="20" isBold="true" isItalic="false"/>
+					<font size="14" isBold="true" isItalic="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{order}.getName()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{order}.getReference()]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="411" y="0" width="128" height="12" uuid="f9595da8-b714-43e0-b05b-3e9898f92a1f"/>
@@ -63,9 +55,9 @@
 			<textField>
 				<reportElement x="0" y="12" width="411" height="28" uuid="cf02b0e9-aebc-47b8-824d-fc60f457000b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="20" isBold="true" isItalic="false"/>
+					<font size="14" isBold="true" isItalic="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{order}.getModel().getReference() - $P{order}.getModel().getName() ($P{order}.getModel().getFamily().getName())]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{order}.getModel().getReference() + " - " + $P{order}.getModel().getName() + " (" + $P{order}.getModel().getFamily().getName() + ")"]]></textFieldExpression>
 			</textField>
 			<rectangle>
 				<reportElement x="0" y="40" width="180" height="40" uuid="c1560ae3-14b2-41e4-8e82-e4c7ad7ca969"/>
@@ -76,7 +68,7 @@
 			<textField>
 				<reportElement x="0" y="52" width="179" height="28" uuid="ba348b54-0af1-4f46-876f-d427a88d31f5"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="20" isBold="true" isItalic="false"/>
+					<font size="14" isBold="true" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{part}]]></textFieldExpression>
 			</textField>
@@ -109,14 +101,14 @@
 			<textField>
 				<reportElement x="359" y="52" width="180" height="28" uuid="b64a7bd3-aa97-47e5-a222-4a8e90c26cc2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="20" isBold="true" isItalic="false"/>
+					<font size="14" isBold="true" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{program}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="180" y="52" width="179" height="28" uuid="d22e723e-e04f-44dd-8a65-e7e075a951e5"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="20" isBold="true" isItalic="false"/>
+					<font size="14" isBold="true" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{size}]]></textFieldExpression>
 			</textField>
@@ -135,7 +127,7 @@
 				<text><![CDATA[Parte]]></text>
 			</staticText>
 		</band>
-		<band height="200"/>
+		<band height="149"/>
 		<band height="120">
 			<rectangle>
 				<reportElement x="451" y="0" width="88" height="40" uuid="97bf290a-f4b5-486b-b4fb-1aee53ba4fb8"/>
@@ -165,9 +157,9 @@
 			<staticText>
 				<reportElement x="0" y="12" width="179" height="28" uuid="05475e8d-7dba-4149-bc20-d13f503ffb15"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="20" isBold="true"/>
+					<font size="16" isBold="true"/>
 				</textElement>
-				<text><![CDATA[__/__/__ (__:__)]]></text>
+				<text><![CDATA[___/___/___ (___:___)]]></text>
 			</staticText>
 			<rectangle>
 				<reportElement x="179" y="0" width="88" height="40" uuid="5bfa5332-644a-49a9-aca3-e88383bfa435"/>
@@ -206,9 +198,9 @@
 			<staticText>
 				<reportElement x="272" y="12" width="179" height="28" uuid="1c788587-c7e3-4c81-a269-c86b8ec253a7"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="20" isBold="true"/>
+					<font size="16" isBold="true"/>
 				</textElement>
-				<text><![CDATA[__/__/__ (__:__)]]></text>
+				<text><![CDATA[___/___/___ (___:___)]]></text>
 			</staticText>
 			<rectangle>
 				<reportElement x="0" y="40" width="539" height="80" uuid="34798b16-0506-43f7-b03e-97f0b35b4340"/>
@@ -226,7 +218,7 @@
 			<textField>
 				<reportElement x="0" y="52" width="539" height="68" uuid="ab1ffd42-a459-44ac-886a-260253a6ad74"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="20" isBold="true" isItalic="false"/>
+					<font size="14" isBold="true" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{observation}]]></textFieldExpression>
 			</textField>
@@ -234,7 +226,7 @@
 	</detail>
 	<pageFooter>
 		<band height="16" splitType="Stretch">
-			<textField pattern="HH.mm">
+			<textField pattern="HH:mm">
 				<reportElement x="439" y="1" width="100" height="15" uuid="dc58baae-a85f-440b-845f-8d9f24f43326"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
