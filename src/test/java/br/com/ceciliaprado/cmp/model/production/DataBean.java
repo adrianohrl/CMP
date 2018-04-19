@@ -5,6 +5,8 @@
  */
 package br.com.ceciliaprado.cmp.model.production;
 
+import java.util.List;
+
 /**
  *
  * @author adrianohrl
@@ -15,15 +17,17 @@ public class DataBean {
     private String size;
     private String program;
     private String observation;  
+    private List<SubDataBean> variants;
 
     public DataBean() {
     }
 
-    public DataBean(String part, String size, String program, String observation) {
+    public DataBean(String part, String size, String program, String observation, List<SubDataBean> variants) {
         this.part = part;
         this.size = size;
         this.program = program;
         this.observation = observation;
+        this.variants = variants;
     }
 
     public String getPart() {
@@ -56,6 +60,14 @@ public class DataBean {
 
     public void setObservation(String observation) {
         this.observation = observation;
+    }
+
+    public List<SubDataBean> getVariants() {
+        return variants;
+    }
+
+    public void setVariants(List<SubDataBean> variants) {
+        this.variants = variants;
     }
     
 }

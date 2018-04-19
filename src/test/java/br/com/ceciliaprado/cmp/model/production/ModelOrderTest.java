@@ -335,12 +335,14 @@ public class ModelOrderTest {
     }
 
     private static void generateReport(ProductionOrder order) {
-        String sourceFileName = "./target/jasper/ModelPartReport.jasper";
+        String sourceDirectory = "./target/jasper/";
+        String sourceFileName = sourceDirectory + "ModelPartReport.jasper";
         DataBeanList DataBeanList = new DataBeanList();
         List<DataBean> dataList = DataBeanList.getDataBeanList(order);
         JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(dataList);
         Map parameters = new HashMap();
-        parameters.put("order", order);
+        parameters.put("ORDER", order);
+        parameters.put("SUBREPORT_DIR", sourceDirectory);
         try {
             JasperPrint jasperPrint = JasperFillManager.fillReport(sourceFileName, parameters, beanColDataSource);
             JasperViewer.viewReport(jasperPrint);
