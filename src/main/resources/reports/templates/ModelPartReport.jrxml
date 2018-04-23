@@ -242,8 +242,8 @@
 					</textElement>
 					<text><![CDATA[Observação]]></text>
 				</staticText>
-				<textField>
-					<reportElement positionType="FixRelativeToBottom" x="0" y="222" width="539" height="68" uuid="ab1ffd42-a459-44ac-886a-260253a6ad74"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="FixRelativeToBottom" x="0" y="222" width="539" height="68" isPrintWhenDetailOverflows="true" uuid="ab1ffd42-a459-44ac-886a-260253a6ad74"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="14" isBold="true" isItalic="false"/>
 					</textElement>

@@ -305,7 +305,7 @@ public class ModelOrderTest {
     private static void createModels() {
         models = new HashMap<>();
         Model model = new Model("18137", "VESTIDO LONGO SHARA", families.get("ANTON BLACK"), collections.get("INV2018"), charts.get("PP-P-M-G-GG"));
-        model.getParts().add(new Part("Frente", "Frente 123 qdsdawr31", "", fabrics.get("LIBERT")));
+        model.getParts().add(new Part("Frente", "Frente 123 qdsdawr31", "This is a horizontally too big observation!!! The intention here is to see if the text fits in the text area properly. Let's see if it works. I have no idea of the final result. Aaaahhh, I should also see what happens if the input obsevation text it also vertically too big. What shoud i do?? I have no idea.", fabrics.get("LIBERT")));
         model.getParts().add(new Part("Mangas", "Manga 123 qdsdawr31", "", fabrics.get("RENDA")));
         model.getVariants().add(variants.get("VERMELHO"));
         model.getVariants().add(variants.get("OCRE"));
@@ -331,7 +331,7 @@ public class ModelOrderTest {
             msg += "\t" + order.getTotal(size);
         }
         msg += "\t" + order.getTotal();
-        System.out.println(msg);
+        System.out.println(msg + "\n\n");
     }
 
     private static void generateReport(ProductionOrder order) {
