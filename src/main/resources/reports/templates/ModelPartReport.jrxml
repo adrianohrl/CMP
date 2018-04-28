@@ -3,12 +3,12 @@
 	<property name="ireport.zoom" value="1.9487171000000045"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<import value="br.com.ceciliaprado.cmp.model.*"/>
+	<import value="tech.adrianohrl.stile.model.*"/>
 	<subDataset name="dataset1" uuid="096eefe3-4e16-4590-96e8-94a0c5815e1b"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["/home/adrianohrl/Projects/Java/jasper/src/main/resources/report/templates/"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="ORDER" class="br.com.ceciliaprado.cmp.model.order.ProductionOrder"/>
+	<parameter name="ORDER" class="tech.adrianohrl.stile.model.order.ProductionOrder"/>
 	<field name="part" class="java.lang.String">
 		<fieldDescription><![CDATA[part]]></fieldDescription>
 	</field>
