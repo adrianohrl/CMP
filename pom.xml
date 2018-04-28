@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     
-    <groupId>br.com.ceciliaprado</groupId>
-    <artifactId>cmp</artifactId>
-    <version>1.2.2</version>
+    <groupId>tech.adrianohrl</groupId>
+    <artifactId>stile</artifactId>
+    <version>1.3.0</version>
     <packaging>jar</packaging>
     
     <properties>
@@ -99,7 +99,7 @@
                     <includes>
                         <include>**/*</include>
                     </includes>
-                    <repositoryName>cmp</repositoryName>
+                    <repositoryName>stile</repositoryName>
                     <repositoryOwner>adrianohrl</repositoryOwner>
                 </configuration>
                 <executions>
@@ -146,4 +146,5 @@
             </plugin>
         </plugins>
     </build>
+    <name>stile</name>
 </project>

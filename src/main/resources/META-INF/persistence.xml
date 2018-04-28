@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="cmpPU" transaction-type="RESOURCE_LOCAL">
+  <persistence-unit name="stilePU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <class>br.com.ceciliaprado.cmp.model.events.AbstractEmployeeRelatedEvent</class>
-    <class>br.com.ceciliaprado.cmp.model.events.Casualty</class>
-    <class>br.com.ceciliaprado.cmp.model.events.CasualtyEntryEvent</class>
-    <class>br.com.ceciliaprado.cmp.model.events.EntryEvent</class>
-    <class>br.com.ceciliaprado.cmp.model.events.LogEvent</class>
-    <class>br.com.ceciliaprado.cmp.model.events.TimeClockEvent</class>
-    <class>br.com.ceciliaprado.cmp.model.personnel.Employee</class>
-    <class>br.com.ceciliaprado.cmp.model.personnel.Loggable</class>
-    <class>br.com.ceciliaprado.cmp.model.personnel.Manager</class>
-    <class>br.com.ceciliaprado.cmp.model.personnel.Sector</class>
-    <class>br.com.ceciliaprado.cmp.model.personnel.Subordinate</class>
-    <class>br.com.ceciliaprado.cmp.model.personnel.Supervisor</class>
-    <class>br.com.ceciliaprado.cmp.model.production.Model</class>
-    <class>br.com.ceciliaprado.cmp.model.production.ModelPhase</class>
-    <class>br.com.ceciliaprado.cmp.model.production.Phase</class>
-    <class>br.com.ceciliaprado.cmp.model.personnel.Machine</class>
-    <class>br.com.ceciliaprado.cmp.model.production.Collection</class>
-    <class>br.com.ceciliaprado.cmp.model.production.Fabric</class>
-    <class>br.com.ceciliaprado.cmp.model.production.Family</class>
-    <class>br.com.ceciliaprado.cmp.model.production.Part</class>
-    <class>br.com.ceciliaprado.cmp.model.production.Variant</class>
-    <class>br.com.ceciliaprado.cmp.model.production.ModelOrderTest</class>
-    <class>br.com.ceciliaprado.cmp.model.order.VariantOrder</class>
-    <class>br.com.ceciliaprado.cmp.model.order.ProductionOrder</class>
-    <class>br.com.ceciliaprado.cmp.model.order.PhaseProductionOrder</class>
-    <class>br.com.ceciliaprado.cmp.model.order.SizeOrder</class>
-    <class>br.com.ceciliaprado.cmp.model.production.Chart</class>
-    <class>br.com.ceciliaprado.cmp.model.production.ChartSize</class>
+    <class>tech.adrianohrl.stile.model.production.ModelOrderTest</class>
+    <class>tech.adrianohrl.stile.model.events.CasualtyEntryEvent</class>
+    <class>tech.adrianohrl.stile.model.events.AbstractEmployeeRelatedEvent</class>
+    <class>tech.adrianohrl.stile.model.events.LogEvent</class>
+    <class>tech.adrianohrl.stile.model.events.TimeClockEvent</class>
+    <class>tech.adrianohrl.stile.model.events.Casualty</class>
+    <class>tech.adrianohrl.stile.model.events.EntryEvent</class>
+    <class>tech.adrianohrl.stile.model.order.PhaseProductionOrder</class>
+    <class>tech.adrianohrl.stile.model.order.VariantOrder</class>
+    <class>tech.adrianohrl.stile.model.order.SizeOrder</class>
+    <class>tech.adrianohrl.stile.model.order.ProductionOrder</class>
+    <class>tech.adrianohrl.stile.model.personnel.Manager</class>
+    <class>tech.adrianohrl.stile.model.personnel.Sector</class>
+    <class>tech.adrianohrl.stile.model.personnel.Subordinate</class>
+    <class>tech.adrianohrl.stile.model.personnel.Supervisor</class>
+    <class>tech.adrianohrl.stile.model.personnel.Employee</class>
+    <class>tech.adrianohrl.stile.model.personnel.Loggable</class>
+    <class>tech.adrianohrl.stile.model.personnel.Machine</class>
+    <class>tech.adrianohrl.stile.model.production.ModelPhase</class>
+    <class>tech.adrianohrl.stile.model.production.Collection</class>
+    <class>tech.adrianohrl.stile.model.production.Phase</class>
+    <class>tech.adrianohrl.stile.model.production.Variant</class>
+    <class>tech.adrianohrl.stile.model.production.Family</class>
+    <class>tech.adrianohrl.stile.model.production.Fabric</class>
+    <class>tech.adrianohrl.stile.model.production.Model</class>
+    <class>tech.adrianohrl.stile.model.production.ChartSize</class>
+    <class>tech.adrianohrl.stile.model.production.Part</class>
+    <class>tech.adrianohrl.stile.model.production.Chart</class>
     <properties>
       <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/cmp?zeroDateTimeBehavior=convertToNull"/>
-      <property name="javax.persistence.jdbc.user" value="cmp"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/stile?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="stile"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.password" value="cmp"/>
+      <property name="javax.persistence.jdbc.password" value="stile"/>
     </properties>
   </persistence-unit>
 </persistence>
