@@ -23,7 +23,7 @@ import javax.persistence.UniqueConstraint;
  * @author adrianohrl
  */
 @Entity
-public class Fabric implements Serializable {
+public class Fabric implements Comparable<Fabric>, Serializable {
     
     @Id
     private String name;
@@ -65,6 +65,11 @@ public class Fabric implements Serializable {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public int compareTo(Fabric fabric) {
+        return name.compareTo(fabric.name);
     }
 
     @Override

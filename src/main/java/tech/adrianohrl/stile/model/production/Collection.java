@@ -14,7 +14,7 @@ import javax.persistence.Id;
  * @author adrianohrl
  */
 @Entity
-public class Collection implements Serializable {
+public class Collection implements Comparable<Collection>, Serializable {
     
     @Id
     private String name;
@@ -29,6 +29,11 @@ public class Collection implements Serializable {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public int compareTo(Collection collection) {
+        return name.compareTo(collection.name);
     }
 
     @Override

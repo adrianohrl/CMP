@@ -17,7 +17,7 @@ import javax.persistence.ManyToOne;
  * @author adrianohrl
  */
 @Entity
-public class ModelPhase implements Serializable, Comparable<ModelPhase> {
+public class ModelPhase implements Comparable<ModelPhase>, Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

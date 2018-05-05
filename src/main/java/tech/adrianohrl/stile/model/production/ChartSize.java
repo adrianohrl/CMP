@@ -17,7 +17,7 @@ import javax.persistence.Id;
  * @author adrianohrl
  */
 @Entity
-public class ChartSize implements Serializable, Comparable<ChartSize> {
+public class ChartSize implements Comparable<ChartSize>, Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

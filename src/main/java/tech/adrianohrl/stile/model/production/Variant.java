@@ -15,7 +15,7 @@ import javax.persistence.Id;
  * @author adrianohrl
  */
 @Entity
-public class Variant implements Serializable {
+public class Variant implements Comparable<Variant>, Serializable {
     
     @Id
     private String name;
@@ -30,6 +30,11 @@ public class Variant implements Serializable {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public int compareTo(Variant variant) {
+        return name.compareTo(variant.name);
     }
 
     @Override

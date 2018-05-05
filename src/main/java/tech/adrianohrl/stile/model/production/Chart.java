@@ -21,7 +21,7 @@ import javax.persistence.OneToMany;
  * @author adrianohrl
  */
 @Entity
-public class Chart implements Serializable, Iterable<ChartSize> {
+public class Chart implements Comparable<Chart>, Iterable<ChartSize>, Serializable {
     
     @Id
     private String name;
@@ -51,6 +51,11 @@ public class Chart implements Serializable, Iterable<ChartSize> {
             }
         }
         return null;
+    }
+
+    @Override
+    public int compareTo(Chart chart) {
+        return abbreviation.compareTo(chart.abbreviation);
     }
     
     @Override

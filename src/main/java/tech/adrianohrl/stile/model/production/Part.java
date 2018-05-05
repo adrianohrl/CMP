@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
  * @author adrianohrl
  */
 @Entity
-public class Part implements Serializable {
+public class Part implements Comparable<Part>, Serializable {
     
     @Id
     private String name;
@@ -37,6 +37,11 @@ public class Part implements Serializable {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public int compareTo(Part part) {
+        return name.compareTo(part.name);
     }
 
     @Override
