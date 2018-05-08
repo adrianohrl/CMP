@@ -37,7 +37,7 @@ public class CSVReader implements Iterable<String> {
         for (String fieldTitle : this) {
             index = indexOf(fieldTitle);
             if (index == -1) {
-                throw new IOException("Inexistent field!!!");
+                System.out.println("Inexistent field: " + fieldTitle + "!!!");
             }
             defaultFields.get(index).setColumnIndex(counter++);
         }
