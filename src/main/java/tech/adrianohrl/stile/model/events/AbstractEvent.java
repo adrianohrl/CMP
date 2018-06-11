@@ -8,7 +8,6 @@ package tech.adrianohrl.stile.model.events;
 import tech.adrianohrl.stile.util.CalendarFormat;
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import tech.adrianohrl.util.CalendarUtil;
 
 /**
  *
@@ -30,7 +30,7 @@ public abstract class AbstractEvent implements Comparable<AbstractEvent>, Serial
     private String observation = "";
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, updatable = false)
-    private Calendar eventDate = new GregorianCalendar();
+    private Calendar eventDate = CalendarUtil.now();
 
     public AbstractEvent() {
     }

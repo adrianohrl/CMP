@@ -9,7 +9,7 @@ import tech.adrianohrl.stile.model.events.AbstractEmployeeRelatedEvent;
 import tech.adrianohrl.stile.util.AbstractFilter;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
+import tech.adrianohrl.util.CalendarUtil;
 
 /**
  *
@@ -25,9 +25,9 @@ public class FindByPeriod<T extends AbstractEmployeeRelatedEvent> extends Abstra
         if (start.after(end)) {
             throw new RuntimeException("The start date must be before the end one!!!");
         }
-        this.start = new GregorianCalendar();
+        this.start = CalendarUtil.now();
         this.start.setTime(start);
-        this.end = new GregorianCalendar();
+        this.end = CalendarUtil.now();
         this.end.setTime(end);
     }
 

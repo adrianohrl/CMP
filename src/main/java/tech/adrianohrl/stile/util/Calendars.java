@@ -11,7 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
+import tech.adrianohrl.util.CalendarUtil;
 
 /**
  *
@@ -25,7 +25,7 @@ public class Calendars {
     private final static DateFormat timeFormatter = new SimpleDateFormat(Calendars.TIME_FORMAT);
     
     public static Calendar getTime(String time) throws IOException {
-        Calendar timeCalendar = new GregorianCalendar();
+        Calendar timeCalendar = CalendarUtil.now();
         if (time == null || time.isEmpty()) {
             return timeCalendar;
         }
@@ -38,7 +38,7 @@ public class Calendars {
     }
     
     public static Calendar getDate(String date) throws IOException {
-        Calendar dateCalendar = new GregorianCalendar();
+        Calendar dateCalendar = CalendarUtil.now();
         if (date == null || date.isEmpty()) {
             return dateCalendar;
         }
@@ -63,15 +63,15 @@ public class Calendars {
     }
     
     public static Calendar sum(Date date, Date time) {
-        Calendar calendarDate = new GregorianCalendar();
+        Calendar calendarDate = CalendarUtil.now();
         calendarDate.setTime(date);
-        Calendar calendarTime = new GregorianCalendar();
+        Calendar calendarTime = CalendarUtil.now();
         calendarTime.setTime(time);
         return Calendars.sum(calendarDate, calendarTime);
     }
     
     public static Calendar sum(Calendar date, Calendar time) {
-        Calendar calendar = new GregorianCalendar();
+        Calendar calendar = CalendarUtil.now();
         calendar.set(Calendar.YEAR, date.get(Calendar.YEAR));
         calendar.set(Calendar.MONTH, date.get(Calendar.MONTH));
         calendar.set(Calendar.DAY_OF_MONTH, date.get(Calendar.DAY_OF_MONTH));
@@ -84,9 +84,9 @@ public class Calendars {
     }
     
     public static boolean changedDay(Date date1, Date date2) {
-        Calendar calendar1 = new GregorianCalendar();
+        Calendar calendar1 = CalendarUtil.now();
         calendar1.setTime(date1);
-        Calendar calendar2 = new GregorianCalendar();
+        Calendar calendar2 = CalendarUtil.now();
         calendar2.setTime(date2);
         return Calendars.changedDay(calendar1, calendar2);
     }
@@ -101,9 +101,9 @@ public class Calendars {
     }
     
     public static boolean changedMonth(Date date1, Date date2) {
-        Calendar calendar1 = new GregorianCalendar();
+        Calendar calendar1 = CalendarUtil.now();
         calendar1.setTime(date1);
-        Calendar calendar2 = new GregorianCalendar();
+        Calendar calendar2 = CalendarUtil.now();
         calendar2.setTime(date2);
         return Calendars.changedMonth(calendar1, calendar2);
     }

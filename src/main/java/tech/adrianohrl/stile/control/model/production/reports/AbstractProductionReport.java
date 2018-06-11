@@ -12,10 +12,10 @@ import tech.adrianohrl.stile.model.events.AbstractEmployeeRelatedEvent;
 import tech.adrianohrl.stile.model.personnel.Manager;
 import tech.adrianohrl.stile.util.CalendarFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
+import tech.adrianohrl.util.CalendarUtil;
 
 /**
  *
@@ -25,7 +25,7 @@ import java.util.TreeMap;
 public abstract class AbstractProductionReport<S extends SeriesType> implements Iterable<ReportNumericSeries> {
     
     private final Manager manager;
-    private final Calendar emissionDate = new GregorianCalendar();
+    private final Calendar emissionDate = CalendarUtil.now();
     protected final Calendar startDate;
     protected final Calendar endDate;
     protected final EventsPeriodBuilder builder;

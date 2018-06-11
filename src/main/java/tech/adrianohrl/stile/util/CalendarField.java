@@ -9,7 +9,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+import tech.adrianohrl.util.CalendarUtil;
 
 /**
  *
@@ -39,7 +39,7 @@ public class CalendarField extends Field<Calendar> {
 
     @Override
     public void setValue(String value) throws ParseException {
-        Calendar calendar = new GregorianCalendar();
+        Calendar calendar = CalendarUtil.now();
         DateFormat formatter = new SimpleDateFormat(dateFormat);
         calendar.setTime(formatter.parse(value));
         super.setValue(calendar);

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ModelPartReport" language="groovy" pageWidth="595" pageHeight="842" columnWidth="539" leftMargin="28" rightMargin="28" topMargin="23" bottomMargin="23" uuid="e8cc55ea-a47d-4abe-b7ad-bd8351808778">
 	<property name="ireport.zoom" value="1.9487171000000045"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="16"/>
 	<import value="tech.adrianohrl.stile.model.*"/>
 	<subDataset name="dataset1" uuid="096eefe3-4e16-4590-96e8-94a0c5815e1b"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
