@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tech.adrianohrl.stile.control.model.production.reports;
 
 import tech.adrianohrl.stile.model.personnel.Employee;
@@ -10,7 +5,7 @@ import java.util.function.Function;
 
 /**
  *
- * @author adrianohrl
+ * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  * @param <S>
  */
 public class ReportIntegerSeries<S extends SeriesType> extends ReportNumericSeries<S> {

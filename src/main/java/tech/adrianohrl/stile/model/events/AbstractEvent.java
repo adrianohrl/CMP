@@ -1,11 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tech.adrianohrl.stile.model.events;
 
-import tech.adrianohrl.stile.util.CalendarFormat;
+import tech.adrianohrl.util.CalendarFormat;
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Column;
@@ -19,7 +14,7 @@ import tech.adrianohrl.util.CalendarUtil;
 
 /**
  *
- * @author adrianohrl
+ * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 @MappedSuperclass
 public abstract class AbstractEvent implements Comparable<AbstractEvent>, Serializable {
@@ -27,6 +22,7 @@ public abstract class AbstractEvent implements Comparable<AbstractEvent>, Serial
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long code;
+    private boolean archived = false;
     private String observation = "";
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, updatable = false)
@@ -65,6 +61,14 @@ public abstract class AbstractEvent implements Comparable<AbstractEvent>, Serial
 
     public void setCode(long code) {
         this.code = code;
+    }
+
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
     }
 
     public String getObservation() {

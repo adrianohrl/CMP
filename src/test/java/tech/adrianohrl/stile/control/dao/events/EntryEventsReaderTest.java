@@ -11,7 +11,7 @@ import tech.adrianohrl.stile.model.events.EntryEvent;
 import tech.adrianohrl.stile.model.personnel.Employee;
 import tech.adrianohrl.stile.control.model.production.reports.filters.EmployeeRelatedEventsList;
 import tech.adrianohrl.stile.control.model.production.reports.filters.FindByEmployee;
-import tech.adrianohrl.stile.util.Keyboard;
+import tech.adrianohrl.util.Keyboard;
 
 /**
  *

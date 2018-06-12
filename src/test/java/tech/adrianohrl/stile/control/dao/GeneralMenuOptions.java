@@ -5,7 +5,7 @@
  */
 package tech.adrianohrl.stile.control.dao;
 
-import tech.adrianohrl.stile.util.Keyboard;
+import tech.adrianohrl.util.Keyboard;
 
 /**
  *

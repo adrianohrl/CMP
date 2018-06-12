@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tech.adrianohrl.stile.control.model.production.io;
 
 import tech.adrianohrl.stile.exceptions.IOException;
@@ -12,16 +7,16 @@ import tech.adrianohrl.stile.model.production.ModelPhase;
 import tech.adrianohrl.stile.model.production.Phase;
 import tech.adrianohrl.stile.model.order.PhaseProductionOrder;
 import tech.adrianohrl.stile.model.order.ProductionOrder;
-import tech.adrianohrl.stile.util.AbstractReader;
-import tech.adrianohrl.stile.util.Field;
-import tech.adrianohrl.stile.util.IntegerField;
-import tech.adrianohrl.stile.util.StringField;
+import tech.adrianohrl.util.AbstractReader;
+import tech.adrianohrl.util.Field;
+import tech.adrianohrl.util.IntegerField;
+import tech.adrianohrl.util.StringField;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
- * @author adrianohrl
+ * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 public class PhaseProductionOrdersReader extends AbstractReader<PhaseProductionOrder> {
     

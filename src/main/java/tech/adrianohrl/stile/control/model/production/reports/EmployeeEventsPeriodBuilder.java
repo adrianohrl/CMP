@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tech.adrianohrl.stile.control.model.production.reports;
 
 import tech.adrianohrl.stile.exceptions.ReportException;
@@ -13,15 +8,15 @@ import tech.adrianohrl.stile.model.personnel.Employee;
 import tech.adrianohrl.stile.model.order.PhaseProductionOrder;
 import tech.adrianohrl.stile.control.model.production.reports.filters.EmployeeRelatedEventsList;
 import tech.adrianohrl.stile.model.production.ModelPhase;
-import tech.adrianohrl.stile.util.Command;
-import tech.adrianohrl.stile.util.Execute;
+import tech.adrianohrl.util.Command;
+import tech.adrianohrl.util.Execute;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 /**
  *
- * @author adrianohrl
+ * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 public class EmployeeEventsPeriodBuilder implements Iterable<AbstractEventsPeriod>, Execute<AbstractEmployeeRelatedEvent> {
     

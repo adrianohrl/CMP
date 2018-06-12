@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tech.adrianohrl.stile.control.dao;
 
 import java.util.List;
@@ -12,7 +7,7 @@ import javax.persistence.PersistenceException;
 
 /**
  *
- * @author adrianohrl
+ * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  * @param <E>
  * @param <K>
  */

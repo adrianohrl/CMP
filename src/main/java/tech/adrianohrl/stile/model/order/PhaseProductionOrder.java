@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tech.adrianohrl.stile.model.order;
 
 import tech.adrianohrl.stile.exceptions.ProductionException;
@@ -22,7 +17,7 @@ import javax.persistence.ManyToOne;
 
 /**
  *
- * @author adrianohrl
+ * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 @Entity
 public class PhaseProductionOrder implements Comparable<PhaseProductionOrder>, Serializable {
@@ -30,6 +25,7 @@ public class PhaseProductionOrder implements Comparable<PhaseProductionOrder>, S
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long code;
+    private boolean archived = false;
     @ManyToOne(optional = false)
     private ModelPhase phase;
     @ManyToOne(optional = false)
@@ -133,6 +129,14 @@ public class PhaseProductionOrder implements Comparable<PhaseProductionOrder>, S
 
     public void setCode(long code) {
         this.code = code;
+    }
+
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
     }
 
     public ModelPhase getPhase() {

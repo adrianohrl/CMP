@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tech.adrianohrl.stile.control.model.personnel.io;
 
 import tech.adrianohrl.stile.exceptions.IOException;
@@ -10,15 +5,15 @@ import tech.adrianohrl.stile.model.personnel.Employee;
 import tech.adrianohrl.stile.model.personnel.Manager;
 import tech.adrianohrl.stile.model.personnel.Subordinate;
 import tech.adrianohrl.stile.model.personnel.Supervisor;
-import tech.adrianohrl.stile.util.AbstractReader;
-import tech.adrianohrl.stile.util.Field;
-import tech.adrianohrl.stile.util.StringField;
+import tech.adrianohrl.util.AbstractReader;
+import tech.adrianohrl.util.Field;
+import tech.adrianohrl.util.StringField;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
- * @author adrianohrl
+ * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 public class PersonnelReader extends AbstractReader<Employee> {
     

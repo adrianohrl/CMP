@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tech.adrianohrl.stile.model.order;
 
 import tech.adrianohrl.stile.model.production.ChartSize;
@@ -22,13 +17,14 @@ import javax.persistence.OneToMany;
 
 /**
  *
- * @author adrianohrl
+ * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 @Entity
 public class ProductionOrder implements Comparable<ProductionOrder>, Serializable, Iterable<VariantOrder> {
     
     @Id
     private String reference;
+    private boolean archived = false;
     @ManyToOne(optional = false)
     private Model model;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -126,6 +122,14 @@ public class ProductionOrder implements Comparable<ProductionOrder>, Serializabl
 
     public void setReference(String reference) {
         this.reference = reference;
+    }
+
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
     }
 
     public Model getModel() {

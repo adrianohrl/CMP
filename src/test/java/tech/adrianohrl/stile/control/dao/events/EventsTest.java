@@ -30,10 +30,10 @@ import tech.adrianohrl.stile.control.model.production.reports.filters.EmployeeRe
 import tech.adrianohrl.stile.control.model.production.reports.filters.EntryEventsList;
 import tech.adrianohrl.stile.control.model.production.reports.filters.FindByEmployee;
 import tech.adrianohrl.stile.model.production.ModelPhase;
-import tech.adrianohrl.stile.util.CalendarFormat;
-import tech.adrianohrl.stile.util.Calendars;
-import tech.adrianohrl.stile.util.Keyboard;
-import tech.adrianohrl.stile.util.KeyboardEntries;
+import tech.adrianohrl.util.CalendarFormat;
+import tech.adrianohrl.util.Calendars;
+import tech.adrianohrl.util.Keyboard;
+import tech.adrianohrl.util.KeyboardEntries;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;

@@ -10,7 +10,7 @@ import tech.adrianohrl.stile.exceptions.IOException;
 import tech.adrianohrl.stile.model.events.Casualty;
 import tech.adrianohrl.stile.model.events.EntryEvent;
 import tech.adrianohrl.stile.model.events.TimeClockEvent;
-import tech.adrianohrl.stile.util.Keyboard;
+import tech.adrianohrl.util.Keyboard;
 import javax.persistence.EntityManager;
 
 /**

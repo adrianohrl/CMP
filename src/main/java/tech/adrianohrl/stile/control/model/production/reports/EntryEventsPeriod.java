@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tech.adrianohrl.stile.control.model.production.reports;
 
 import tech.adrianohrl.stile.exceptions.ReportException;
@@ -12,7 +7,7 @@ import tech.adrianohrl.stile.model.order.ProductionStates;
 
 /**
  *
- * @author adrianohrl
+ * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 public class EntryEventsPeriod extends AbstractEventsPeriod<EntryEvent, EntryEvent> {
 

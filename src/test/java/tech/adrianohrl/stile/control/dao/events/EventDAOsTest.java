@@ -10,7 +10,7 @@ import tech.adrianohrl.stile.control.dao.events.io.EntryEventsReaderDAO;
 import tech.adrianohrl.stile.control.dao.events.io.TimeClockEventsReaderDAO;
 import tech.adrianohrl.stile.exceptions.IOException;
 import tech.adrianohrl.stile.model.events.Casualty;
-import tech.adrianohrl.stile.util.Keyboard;
+import tech.adrianohrl.util.Keyboard;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;

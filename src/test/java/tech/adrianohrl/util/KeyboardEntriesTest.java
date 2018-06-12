@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tech.adrianohrl.stile.util;
+package tech.adrianohrl.util;
 
+import tech.adrianohrl.util.KeyboardEntries;
 import java.util.ArrayList;
 import java.util.List;
 

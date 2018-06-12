@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package tech.adrianohrl.stile.util;
+package tech.adrianohrl.util;
 
 import tech.adrianohrl.stile.exceptions.IOException;
 import java.text.DateFormat;
@@ -11,11 +6,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import tech.adrianohrl.util.CalendarUtil;
 
 /**
  *
- * @author adrianohrl
+ * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 public class Calendars {
     

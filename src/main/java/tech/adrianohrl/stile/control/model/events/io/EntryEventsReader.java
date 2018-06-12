@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tech.adrianohrl.stile.control.model.events.io;
 
 import tech.adrianohrl.stile.exceptions.IOException;
@@ -23,13 +18,13 @@ import tech.adrianohrl.stile.control.model.production.EntryEventsBuilder;
 import tech.adrianohrl.stile.control.model.production.reports.EventsPeriodBuilder;
 import tech.adrianohrl.stile.control.model.production.reports.filters.EmployeeRelatedEventsList;
 import tech.adrianohrl.stile.model.production.ModelPhase;
-import tech.adrianohrl.stile.util.AbstractReader;
-import tech.adrianohrl.stile.util.CalendarField;
-import tech.adrianohrl.stile.util.Calendars;
-import tech.adrianohrl.stile.util.DoubleField;
-import tech.adrianohrl.stile.util.Field;
-import tech.adrianohrl.stile.util.IntegerField;
-import tech.adrianohrl.stile.util.StringField;
+import tech.adrianohrl.util.AbstractReader;
+import tech.adrianohrl.util.CalendarField;
+import tech.adrianohrl.util.Calendars;
+import tech.adrianohrl.util.DoubleField;
+import tech.adrianohrl.util.Field;
+import tech.adrianohrl.util.IntegerField;
+import tech.adrianohrl.util.StringField;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -37,7 +32,7 @@ import java.util.List;
 
 /**
  *
- * @author adrianohrl
+ * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 public class EntryEventsReader extends AbstractReader<EntryEvent> {
     

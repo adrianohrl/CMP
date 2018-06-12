@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tech.adrianohrl.stile.control.model.production.reports;
 
 import tech.adrianohrl.stile.control.model.production.reports.filters.FindByPeriod;
 import tech.adrianohrl.stile.exceptions.ReportException;
 import tech.adrianohrl.stile.model.events.AbstractEmployeeRelatedEvent;
-import tech.adrianohrl.stile.util.CalendarFormat;
+import tech.adrianohrl.util.CalendarFormat;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -20,7 +15,7 @@ import java.util.function.Function;
 
 /**
  *
- * @author adrianohrl
+ * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  * @param <S>
  */
 public abstract class ReportNumericSeries<S extends SeriesType> implements Iterable<Map.Entry<Calendar, Number>>, Comparable<Enum> {

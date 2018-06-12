@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package tech.adrianohrl.stile.util;
+package tech.adrianohrl.util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -12,7 +7,7 @@ import java.util.Date;
 
 /**
  *
- * @author adrianohrl
+ * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 public class CalendarFormat {
     

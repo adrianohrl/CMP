@@ -16,7 +16,7 @@ import tech.adrianohrl.stile.model.production.ModelPhase;
 import tech.adrianohrl.stile.model.production.Phase;
 import tech.adrianohrl.stile.model.order.PhaseProductionOrder;
 import tech.adrianohrl.stile.model.order.ProductionOrder;
-import tech.adrianohrl.stile.util.Keyboard;
+import tech.adrianohrl.util.Keyboard;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;

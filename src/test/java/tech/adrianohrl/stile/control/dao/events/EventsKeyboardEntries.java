@@ -7,7 +7,7 @@ package tech.adrianohrl.stile.control.dao.events;
 
 import tech.adrianohrl.stile.control.dao.DataSource;
 import tech.adrianohrl.stile.model.events.Casualty;
-import tech.adrianohrl.stile.util.KeyboardEntries;
+import tech.adrianohrl.util.KeyboardEntries;
 import java.util.List;
 import javax.persistence.EntityManager;
 

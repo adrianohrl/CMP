@@ -11,7 +11,7 @@ import tech.adrianohrl.stile.model.personnel.Manager;
 import tech.adrianohrl.stile.model.personnel.Sector;
 import tech.adrianohrl.stile.model.personnel.Subordinate;
 import tech.adrianohrl.stile.model.personnel.Supervisor;
-import tech.adrianohrl.stile.util.Keyboard;
+import tech.adrianohrl.util.Keyboard;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;

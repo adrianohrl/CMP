@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tech.adrianohrl.stile.model.personnel;
 
 import java.io.Serializable;
@@ -17,13 +12,14 @@ import javax.persistence.OneToMany;
 
 /**
  *
- * @author adrianohrl
+ * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 @Entity
 public class Sector implements Comparable<Sector>, Serializable {
     
     @Id
     private String name;
+    private boolean archived = false;
     @ManyToOne(optional = false)
     private Supervisor supervisor;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -76,6 +72,14 @@ public class Sector implements Comparable<Sector>, Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
     }
 
     public Supervisor getSupervisor() {

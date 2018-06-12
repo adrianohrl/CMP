@@ -13,7 +13,7 @@ import tech.adrianohrl.stile.model.production.Model;
 import tech.adrianohrl.stile.model.production.Phase;
 import tech.adrianohrl.stile.model.order.PhaseProductionOrder;
 import tech.adrianohrl.stile.model.order.ProductionOrder;
-import tech.adrianohrl.stile.util.Keyboard;
+import tech.adrianohrl.util.Keyboard;
 import javax.persistence.EntityManager;
 
 /**
