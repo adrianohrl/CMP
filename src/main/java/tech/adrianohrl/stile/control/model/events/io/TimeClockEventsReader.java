@@ -53,7 +53,7 @@ public class TimeClockEventsReader extends AbstractReader<TimeClockEvent> {
     
     @Override
     protected TimeClockEvent build(List<Field> fields) throws IOException {
-        Calendar calendar = Calendars.sum((Calendar) Field.getFieldValue(fields, DATE_COLUMN_TITLE), (Calendar) Field.getFieldValue(fields, TIME_COLUMN_TITLE));
+        Calendar calendar = Calendars.combine((Calendar) Field.getFieldValue(fields, DATE_COLUMN_TITLE), (Calendar) Field.getFieldValue(fields, TIME_COLUMN_TITLE));
         Employee employee = createEmployee(Field.getFieldValue(fields, EMPLOYEE_COLUMN_TITLE));
         Boolean arrival = Field.getFieldValue(fields, ARRIVAL_COLUMN_TITLE);
         if (arrival == null) {                    

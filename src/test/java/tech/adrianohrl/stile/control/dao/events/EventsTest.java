@@ -618,7 +618,7 @@ public class EventsTest {
         System.out.println("Enter the end date:");
         Calendar end = KeyboardEntries.askForDate();
         try {
-            end = Calendars.sum(end, "23:59:59");
+            end = Calendars.combine(end, "23:59:59");
         } catch (IOException e) {
             System.out.println("IOException caught: " + e.getMessage());
             return;
@@ -677,7 +677,7 @@ public class EventsTest {
         System.out.println("Enter the end date:");
         Calendar end = KeyboardEntries.askForDate();
         try {
-            end = Calendars.sum(end, "23:59:59");
+            end = Calendars.combine(end, "23:59:59");
         } catch (IOException e) {
             System.out.println("IOException caught: " + e.getMessage());
             return;

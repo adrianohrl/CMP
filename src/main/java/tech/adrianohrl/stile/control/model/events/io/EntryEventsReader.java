@@ -96,7 +96,7 @@ public class EntryEventsReader extends AbstractReader<EntryEvent> {
     
     @Override
     protected EntryEvent build(List<Field> fields) throws IOException {
-        Calendar calendar = Calendars.sum(Field.<Calendar>getFieldValue(fields, DATE_COLUMN_TITLE), Field.<Calendar>getFieldValue(fields, TIME_COLUMN_TITLE));
+        Calendar calendar = Calendars.combine(Field.<Calendar>getFieldValue(fields, DATE_COLUMN_TITLE), Field.<Calendar>getFieldValue(fields, TIME_COLUMN_TITLE));
         Supervisor supervisor = getSupervisor(Field.getFieldValue(fields, SUPERVISOR_COLUMN_TITLE));
         Sector sector = getSector(Field.getFieldValue(fields, SECTOR_COLUMN_TITLE), supervisor);
         Subordinate subordinate = getSubordinate(Field.getFieldValue(fields, SUBORDINATE_COLUMN_TITLE), supervisor);

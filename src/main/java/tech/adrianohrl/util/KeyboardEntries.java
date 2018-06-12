@@ -115,7 +115,7 @@ public class KeyboardEntries {
             try {
                 date = keyboard.readString("date (" + Calendars.DATE_FORMAT + ") (default: today): ");
                 time = keyboard.readString("time (" + Calendars.TIME_FORMAT + ") (default: now): ");
-                timestamp = Calendars.sum(date, time);
+                timestamp = Calendars.combine(date, time);
             } catch (IOException ioe) {
                 System.out.println(ioe.getMessage());
             }

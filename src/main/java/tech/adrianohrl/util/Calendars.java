@@ -44,27 +44,27 @@ public class Calendars {
         return dateCalendar;
     }
     
-    public static Calendar sum(String date, String time) throws IOException {
-        return Calendars.sum(Calendars.getDate(date), Calendars.getTime(time));
+    public static Calendar combine(String date, String time) throws IOException {
+        return Calendars.combine(Calendars.getDate(date), Calendars.getTime(time));
     }
     
-    public static Calendar sum(Calendar date, String time) throws IOException {
-        return Calendars.sum(date, Calendars.getTime(time));
+    public static Calendar combine(Calendar date, String time) throws IOException {
+        return Calendars.combine(date, Calendars.getTime(time));
     }
     
-    public static Calendar sum(String date, Calendar time) throws IOException {
-        return Calendars.sum(Calendars.getDate(date), time);
+    public static Calendar combine(String date, Calendar time) throws IOException {
+        return Calendars.combine(Calendars.getDate(date), time);
     }
     
-    public static Calendar sum(Date date, Date time) {
+    public static Calendar combine(Date date, Date time) {
         Calendar calendarDate = CalendarUtil.now();
         calendarDate.setTime(date);
         Calendar calendarTime = CalendarUtil.now();
         calendarTime.setTime(time);
-        return Calendars.sum(calendarDate, calendarTime);
+        return Calendars.combine(calendarDate, calendarTime);
     }
     
-    public static Calendar sum(Calendar date, Calendar time) {
+    public static Calendar combine(Calendar date, Calendar time) {
         Calendar calendar = CalendarUtil.now();
         calendar.set(Calendar.YEAR, date.get(Calendar.YEAR));
         calendar.set(Calendar.MONTH, date.get(Calendar.MONTH));
