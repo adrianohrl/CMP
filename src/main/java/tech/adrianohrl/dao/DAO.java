@@ -1,4 +1,4 @@
-package tech.adrianohrl.stile.control.dao;
+package tech.adrianohrl.dao;
 
 import java.util.List;
 import javax.persistence.EntityExistsException;

@@ -11,13 +11,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import tech.adrianohrl.model.Archivable;
 
 /**
  *
  * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 @Entity
-public class Model implements Comparable<Model>, Serializable {
+public class Model implements Archivable, Comparable<Model>, Serializable {
     
     @Id
     private String reference;
@@ -93,10 +94,12 @@ public class Model implements Comparable<Model>, Serializable {
         this.reference = reference;
     }
 
+    @Override
     public boolean isArchived() {
         return archived;
     }
 
+    @Override
     public void setArchived(boolean archived) {
         this.archived = archived;
     }

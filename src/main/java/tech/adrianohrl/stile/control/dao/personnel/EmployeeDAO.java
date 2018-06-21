@@ -1,16 +1,16 @@
 package tech.adrianohrl.stile.control.dao.personnel;
 
-import tech.adrianohrl.stile.control.dao.DAO;
 import tech.adrianohrl.stile.model.personnel.Employee;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import tech.adrianohrl.dao.ArchivableDAO;
 
 /**
  *
  * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  * @param <E>
  */
-public class EmployeeDAO<E extends Employee> extends DAO<E, String> {
+public class EmployeeDAO<E extends Employee> extends ArchivableDAO<E, String> {
 
     public EmployeeDAO(EntityManager em) {
         super(em, Employee.class);

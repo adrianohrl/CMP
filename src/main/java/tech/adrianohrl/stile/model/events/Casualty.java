@@ -4,13 +4,14 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import tech.adrianohrl.model.Archivable;
 
 /**
  *
  * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 @Entity
-public class Casualty implements Comparable<Casualty>, Serializable {
+public class Casualty implements Archivable, Comparable<Casualty>, Serializable {
     
     @Id
     private String name;
@@ -61,10 +62,12 @@ public class Casualty implements Comparable<Casualty>, Serializable {
         this.name = name;
     }
 
+    @Override
     public boolean isArchived() {
         return archived;
     }
 
+    @Override
     public void setArchived(boolean archived) {
         this.archived = archived;
     }

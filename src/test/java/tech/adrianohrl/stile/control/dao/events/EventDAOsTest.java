@@ -5,7 +5,7 @@
  */
 package tech.adrianohrl.stile.control.dao.events;
 
-import tech.adrianohrl.stile.control.dao.DataSource;
+import tech.adrianohrl.dao.DataSource;
 import tech.adrianohrl.stile.control.dao.events.io.EntryEventsReaderDAO;
 import tech.adrianohrl.stile.control.dao.events.io.TimeClockEventsReaderDAO;
 import tech.adrianohrl.stile.exceptions.IOException;

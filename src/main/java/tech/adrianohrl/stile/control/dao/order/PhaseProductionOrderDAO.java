@@ -1,6 +1,5 @@
 package tech.adrianohrl.stile.control.dao.order;
 
-import tech.adrianohrl.stile.control.dao.DAO;
 import tech.adrianohrl.stile.control.dao.personnel.SubordinateDAO;
 import tech.adrianohrl.stile.model.personnel.Sector;
 import tech.adrianohrl.stile.model.personnel.Subordinate;
@@ -12,12 +11,13 @@ import java.util.List;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import tech.adrianohrl.dao.ArchivableDAO;
 
 /**
  *
  * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
-public class PhaseProductionOrderDAO extends DAO<PhaseProductionOrder, Long> {
+public class PhaseProductionOrderDAO extends ArchivableDAO<PhaseProductionOrder, Long> {
 
     public PhaseProductionOrderDAO(EntityManager em) {
         super(em, PhaseProductionOrder.class);

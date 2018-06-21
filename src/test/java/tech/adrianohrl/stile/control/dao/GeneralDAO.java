@@ -5,6 +5,7 @@
  */
 package tech.adrianohrl.stile.control.dao;
 
+import tech.adrianohrl.dao.DataSource;
 import tech.adrianohrl.stile.control.dao.events.EventDAOsTest;
 import tech.adrianohrl.stile.control.dao.events.io.EventsReaderDAOTest;
 import tech.adrianohrl.stile.control.dao.personnel.PersonnelDAOsTest;

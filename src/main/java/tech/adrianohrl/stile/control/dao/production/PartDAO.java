@@ -1,6 +1,6 @@
 package tech.adrianohrl.stile.control.dao.production;
 
-import tech.adrianohrl.stile.control.dao.DAO;
+import tech.adrianohrl.dao.DAO;
 import tech.adrianohrl.stile.model.production.Part;
 import javax.persistence.EntityManager;
 

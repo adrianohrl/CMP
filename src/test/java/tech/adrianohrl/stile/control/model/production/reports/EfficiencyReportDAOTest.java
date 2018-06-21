@@ -1,6 +1,6 @@
 package tech.adrianohrl.stile.control.model.production.reports;
 
-import tech.adrianohrl.stile.control.dao.DataSource;
+import tech.adrianohrl.dao.DataSource;
 import tech.adrianohrl.stile.control.dao.events.AbstractEmployeeRelatedEventDAO;
 import tech.adrianohrl.stile.control.dao.events.io.EventsReaderDAOTest;
 import tech.adrianohrl.stile.control.dao.personnel.ManagerDAO;

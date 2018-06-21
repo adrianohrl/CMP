@@ -1,16 +1,16 @@
 package tech.adrianohrl.stile.control.dao.production;
 
-import tech.adrianohrl.stile.control.dao.DAO;
 import tech.adrianohrl.stile.model.personnel.Sector;
 import tech.adrianohrl.stile.model.production.Phase;
 import java.util.List;
 import javax.persistence.EntityManager;
+import tech.adrianohrl.dao.ArchivableDAO;
 
 /**
  *
  * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
-public class PhaseDAO extends DAO<Phase, String> {
+public class PhaseDAO extends ArchivableDAO<Phase, String> {
 
     public PhaseDAO(EntityManager em) {
         super(em, Phase.class);

@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import tech.adrianohrl.model.Archivable;
 import tech.adrianohrl.util.CalendarUtil;
 
 /**
@@ -17,7 +18,7 @@ import tech.adrianohrl.util.CalendarUtil;
  * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 @MappedSuperclass
-public abstract class AbstractEvent implements Comparable<AbstractEvent>, Serializable {
+public abstract class AbstractEvent implements Archivable, Comparable<AbstractEvent>, Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -63,10 +64,12 @@ public abstract class AbstractEvent implements Comparable<AbstractEvent>, Serial
         this.code = code;
     }
 
+    @Override
     public boolean isArchived() {
         return archived;
     }
 
+    @Override
     public void setArchived(boolean archived) {
         this.archived = archived;
     }

@@ -1,6 +1,6 @@
 package tech.adrianohrl.stile.control.dao.production;
 
-import tech.adrianohrl.stile.control.dao.DAO;
+import tech.adrianohrl.dao.DAO;
 import tech.adrianohrl.stile.model.production.Model;
 import tech.adrianohrl.stile.model.production.ModelPhase;
 import tech.adrianohrl.stile.model.production.Phase;

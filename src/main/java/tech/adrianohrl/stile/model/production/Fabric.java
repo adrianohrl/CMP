@@ -12,13 +12,14 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.UniqueConstraint;
+import tech.adrianohrl.model.Archivable;
 
 /**
  *
  * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 @Entity
-public class Fabric implements Comparable<Fabric>, Serializable {
+public class Fabric implements Archivable, Comparable<Fabric>, Serializable {
     
     @Id
     private String name;
@@ -85,10 +86,12 @@ public class Fabric implements Comparable<Fabric>, Serializable {
         this.name = name;
     }
 
+    @Override
     public boolean isArchived() {
         return archived;
     }
 
+    @Override
     public void setArchived(boolean archived) {
         this.archived = archived;
     }

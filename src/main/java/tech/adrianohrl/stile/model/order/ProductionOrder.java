@@ -14,13 +14,14 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import tech.adrianohrl.model.Archivable;
 
 /**
  *
  * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 @Entity
-public class ProductionOrder implements Comparable<ProductionOrder>, Serializable, Iterable<VariantOrder> {
+public class ProductionOrder implements Archivable, Comparable<ProductionOrder>, Serializable, Iterable<VariantOrder> {
     
     @Id
     private String reference;
@@ -124,10 +125,12 @@ public class ProductionOrder implements Comparable<ProductionOrder>, Serializabl
         this.reference = reference;
     }
 
+    @Override
     public boolean isArchived() {
         return archived;
     }
 
+    @Override
     public void setArchived(boolean archived) {
         this.archived = archived;
     }

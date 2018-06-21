@@ -5,7 +5,7 @@
  */
 package tech.adrianohrl.stile.control.dao.events;
 
-import tech.adrianohrl.stile.control.dao.DataSource;
+import tech.adrianohrl.dao.DataSource;
 import tech.adrianohrl.stile.model.events.Casualty;
 import tech.adrianohrl.util.KeyboardEntries;
 import java.util.List;

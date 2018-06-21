@@ -1,14 +1,14 @@
 package tech.adrianohrl.stile.control.dao.production;
 
-import tech.adrianohrl.stile.control.dao.DAO;
 import tech.adrianohrl.stile.model.production.Family;
 import javax.persistence.EntityManager;
+import tech.adrianohrl.dao.ArchivableDAO;
 
 /**
  *
  * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
-public class FamilyDAO extends DAO<Family, String> {
+public class FamilyDAO extends ArchivableDAO<Family, String> {
 
     public FamilyDAO(EntityManager em) {
         super(em, Family.class);

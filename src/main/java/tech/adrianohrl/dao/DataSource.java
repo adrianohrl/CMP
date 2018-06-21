@@ -1,8 +1,9 @@
-package tech.adrianohrl.stile.control.dao;
+package tech.adrianohrl.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import tech.adrianohrl.util.PropertyUtil;
 
 /**
  *
@@ -10,7 +11,8 @@ import javax.persistence.Persistence;
  */
 public class DataSource {
     
-    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("stilePU");
+    private static final String pu = PropertyUtil.getPersistenceUnitName();
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory(pu);
 
     private DataSource() {
     }

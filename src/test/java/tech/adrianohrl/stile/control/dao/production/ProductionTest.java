@@ -7,7 +7,7 @@ package tech.adrianohrl.stile.control.dao.production;
 
 import tech.adrianohrl.stile.control.dao.order.PhaseProductionOrderDAO;
 import tech.adrianohrl.stile.control.dao.order.ProductionOrderDAO;
-import tech.adrianohrl.stile.control.dao.DataSource;
+import tech.adrianohrl.dao.DataSource;
 import tech.adrianohrl.stile.control.dao.personnel.PersonnelKeyboardEntries;
 import tech.adrianohrl.stile.exceptions.ProductionException;
 import tech.adrianohrl.stile.model.personnel.Sector;

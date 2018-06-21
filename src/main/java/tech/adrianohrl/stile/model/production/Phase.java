@@ -5,13 +5,14 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import tech.adrianohrl.model.Archivable;
 
 /**
  *
  * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 @Entity
-public class Phase implements Comparable<Phase>, Serializable {
+public class Phase implements Archivable, Comparable<Phase>, Serializable {
     
     @Id
     private String name;
@@ -62,10 +63,12 @@ public class Phase implements Comparable<Phase>, Serializable {
         this.name = name;
     }
 
+    @Override
     public boolean isArchived() {
         return archived;
     }
 
+    @Override
     public void setArchived(boolean archived) {
         this.archived = archived;
     }

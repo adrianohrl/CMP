@@ -5,7 +5,7 @@
  */
 package tech.adrianohrl.stile.control.dao.events;
 
-import tech.adrianohrl.stile.control.dao.DataSource;
+import tech.adrianohrl.dao.DataSource;
 import tech.adrianohrl.stile.control.dao.personnel.SectorDAO;
 import tech.adrianohrl.stile.control.dao.personnel.SupervisorDAO;
 import tech.adrianohrl.stile.model.events.EntryEvent;

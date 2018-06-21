@@ -14,13 +14,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import tech.adrianohrl.model.Archivable;
 
 /**
  *
  * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 @Entity
-public class PhaseProductionOrder implements Comparable<PhaseProductionOrder>, Serializable {
+public class PhaseProductionOrder implements Archivable, Comparable<PhaseProductionOrder>, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -131,10 +132,12 @@ public class PhaseProductionOrder implements Comparable<PhaseProductionOrder>, S
         this.code = code;
     }
 
+    @Override
     public boolean isArchived() {
         return archived;
     }
 
+    @Override
     public void setArchived(boolean archived) {
         this.archived = archived;
     }

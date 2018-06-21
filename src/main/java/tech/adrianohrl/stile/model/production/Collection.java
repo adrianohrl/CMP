@@ -3,13 +3,14 @@ package tech.adrianohrl.stile.model.production;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import tech.adrianohrl.model.Archivable;
 
 /**
  *
  * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 @Entity
-public class Collection implements Comparable<Collection>, Serializable {
+public class Collection implements Archivable, Comparable<Collection>, Serializable {
     
     @Id
     private String name;
@@ -49,10 +50,12 @@ public class Collection implements Comparable<Collection>, Serializable {
         this.name = name;
     }
 
+    @Override
     public boolean isArchived() {
         return archived;
     }
 
+    @Override
     public void setArchived(boolean archived) {
         this.archived = archived;
     }

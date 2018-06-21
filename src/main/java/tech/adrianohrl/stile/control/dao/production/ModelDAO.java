@@ -1,16 +1,16 @@
 package tech.adrianohrl.stile.control.dao.production;
 
-import tech.adrianohrl.stile.control.dao.DAO;
 import tech.adrianohrl.stile.model.production.Model;
 import tech.adrianohrl.stile.model.production.Phase;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import tech.adrianohrl.dao.ArchivableDAO;
 
 /**
  *
  * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
-public class ModelDAO extends DAO<Model, String> {
+public class ModelDAO extends ArchivableDAO<Model, String> {
 
     public ModelDAO(EntityManager em) {
         super(em, Model.class);

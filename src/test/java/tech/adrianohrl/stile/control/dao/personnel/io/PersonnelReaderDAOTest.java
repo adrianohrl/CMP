@@ -5,7 +5,7 @@
  */
 package tech.adrianohrl.stile.control.dao.personnel.io;
 
-import tech.adrianohrl.stile.control.dao.DataSource;
+import tech.adrianohrl.dao.DataSource;
 import tech.adrianohrl.stile.exceptions.IOException;
 import tech.adrianohrl.stile.model.personnel.Employee;
 import tech.adrianohrl.stile.model.personnel.Manager;

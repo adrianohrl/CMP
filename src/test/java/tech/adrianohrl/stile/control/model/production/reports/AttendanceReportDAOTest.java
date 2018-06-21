@@ -5,7 +5,7 @@
  */
 package tech.adrianohrl.stile.control.model.production.reports;
 
-import tech.adrianohrl.stile.control.dao.DataSource;
+import tech.adrianohrl.dao.DataSource;
 import tech.adrianohrl.stile.control.dao.events.TimeClockEventDAO;
 import tech.adrianohrl.stile.control.dao.personnel.EmployeeDAO;
 import tech.adrianohrl.stile.control.dao.personnel.ManagerDAO;

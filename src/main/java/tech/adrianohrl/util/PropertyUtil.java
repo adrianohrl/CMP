@@ -12,7 +12,7 @@ import java.util.Properties;
  */
 public class PropertyUtil {
     
-    private static final String PROPERTY_FILENAME = "stile.properties";
+    private static final String PROPERTY_FILENAME = "config.properties";
     
     private PropertyUtil() {
     }
@@ -36,6 +36,10 @@ public class PropertyUtil {
     public static String getPathToSave() {
         String filepath = PropertyUtil.getProperty("general.default.filepath");
         return !filepath.startsWith("/") ? System.getProperty("user.home")  + "/" + filepath : filepath;
+    }
+    
+    public static String getPersistenceUnitName() {
+        return PropertyUtil.getProperty("persistence.unit.name");
     }
     
     public static String getProperty(String property) {

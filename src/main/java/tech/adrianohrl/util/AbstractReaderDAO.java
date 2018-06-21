@@ -1,6 +1,6 @@
 package tech.adrianohrl.util;
 
-import tech.adrianohrl.stile.control.dao.DAO;
+import tech.adrianohrl.dao.DAO;
 import tech.adrianohrl.stile.exceptions.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;

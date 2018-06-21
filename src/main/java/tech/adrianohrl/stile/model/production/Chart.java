@@ -10,13 +10,14 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import tech.adrianohrl.model.Archivable;
 
 /**
  *
  * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 @Entity
-public class Chart implements Comparable<Chart>, Iterable<ChartSize>, Serializable {
+public class Chart implements Archivable, Comparable<Chart>, Iterable<ChartSize>, Serializable {
     
     @Id
     private String name;
@@ -71,10 +72,12 @@ public class Chart implements Comparable<Chart>, Iterable<ChartSize>, Serializab
         this.name = name;
     }
 
+    @Override
     public boolean isArchived() {
         return archived;
     }
 
+    @Override
     public void setArchived(boolean archived) {
         this.archived = archived;
     }

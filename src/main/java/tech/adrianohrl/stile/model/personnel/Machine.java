@@ -3,13 +3,14 @@ package tech.adrianohrl.stile.model.personnel;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import tech.adrianohrl.model.Archivable;
 
 /**
  *
  * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 @Entity
-public class Machine implements Serializable {
+public class Machine implements Archivable, Serializable {
     
     @Id
     private String name;
@@ -44,10 +45,12 @@ public class Machine implements Serializable {
         this.name = name;
     }
 
+    @Override
     public boolean isArchived() {
         return archived;
     }
 
+    @Override
     public void setArchived(boolean archived) {
         this.archived = archived;
     }

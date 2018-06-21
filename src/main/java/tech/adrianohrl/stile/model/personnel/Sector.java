@@ -9,13 +9,14 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import tech.adrianohrl.model.Archivable;
 
 /**
  *
  * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 @Entity
-public class Sector implements Comparable<Sector>, Serializable {
+public class Sector implements Archivable, Comparable<Sector>, Serializable {
     
     @Id
     private String name;
@@ -74,10 +75,12 @@ public class Sector implements Comparable<Sector>, Serializable {
         this.name = name;
     }
 
+    @Override
     public boolean isArchived() {
         return archived;
     }
 
+    @Override
     public void setArchived(boolean archived) {
         this.archived = archived;
     }

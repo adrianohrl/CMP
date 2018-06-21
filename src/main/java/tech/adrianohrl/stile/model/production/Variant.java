@@ -4,13 +4,14 @@ import tech.adrianohrl.stile.model.order.VariantOrder;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import tech.adrianohrl.model.Archivable;
 
 /**
  *
  * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 @Entity
-public class Variant implements Comparable<Variant>, Serializable {
+public class Variant implements Archivable, Comparable<Variant>, Serializable {
     
     @Id
     private String name;
@@ -50,10 +51,12 @@ public class Variant implements Comparable<Variant>, Serializable {
         this.name = name;
     }
 
+    @Override
     public boolean isArchived() {
         return archived;
     }
 
+    @Override
     public void setArchived(boolean archived) {
         this.archived = archived;
     }

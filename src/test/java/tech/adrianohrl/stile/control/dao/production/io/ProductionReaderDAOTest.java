@@ -7,7 +7,7 @@ package tech.adrianohrl.stile.control.dao.production.io;
 
 import tech.adrianohrl.stile.control.dao.order.io.ProductionOrdersReaderDAO;
 import tech.adrianohrl.stile.control.dao.order.io.PhaseProductionOrdersReaderDAO;
-import tech.adrianohrl.stile.control.dao.DataSource;
+import tech.adrianohrl.dao.DataSource;
 import tech.adrianohrl.stile.exceptions.IOException;
 import tech.adrianohrl.stile.model.production.Model;
 import tech.adrianohrl.stile.model.production.Phase;
