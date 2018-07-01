@@ -10,7 +10,7 @@ import tech.adrianohrl.model.Archivable;
  * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 @Entity
-public class Machine implements Archivable, Serializable {
+public class Machine implements Archivable, Comparable<Machine>, Serializable {
     
     @Id
     private String name;
@@ -21,6 +21,11 @@ public class Machine implements Archivable, Serializable {
 
     public Machine(String name) {
         this.name = name;
+    }
+
+    @Override
+    public int compareTo(Machine machine) {
+        return name.compareToIgnoreCase(machine.name);
     }
 
     @Override

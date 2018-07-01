@@ -8,6 +8,7 @@ import tech.adrianohrl.util.Field;
 import tech.adrianohrl.util.StringField;
 import java.util.ArrayList;
 import java.util.List;
+import tech.adrianohrl.stile.util.PropertyUtil;
 
 /**
  *
@@ -16,8 +17,8 @@ import java.util.List;
 public class SectorsReader extends AbstractReader<Sector> {
     
     /** Column Titles **/
-    private final static String NAME_COLUMN_TITLE = "Name";
-    private final static String SUPERVISOR_COLUMN_TITLE = "Supervisor";
+    private final static String NAME_COLUMN_TITLE = PropertyUtil.getSectorColumnTitle("Name");
+    private final static String SUPERVISOR_COLUMN_TITLE = PropertyUtil.getSectorColumnTitle("Supervisor");
 
     @Override
     protected List<Field> getDefaultFields() {

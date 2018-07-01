@@ -2,6 +2,7 @@ package tech.adrianohrl.stile.model.personnel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -16,7 +17,7 @@ import tech.adrianohrl.model.Archivable;
  * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 @Entity
-public class Sector implements Archivable, Comparable<Sector>, Serializable {
+public class Sector implements Archivable, Comparable<Sector>, Iterable<Machine>, Serializable {
     
     @Id
     private String name;
@@ -42,6 +43,11 @@ public class Sector implements Archivable, Comparable<Sector>, Serializable {
     
     public boolean isSupervisedBy(Supervisor supervisor) {
         return supervisor != null && supervisor.equals(this.supervisor);
+    }
+
+    @Override
+    public Iterator<Machine> iterator() {
+        return machines.iterator();
     }
 
     @Override

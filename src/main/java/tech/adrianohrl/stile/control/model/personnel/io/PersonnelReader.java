@@ -10,6 +10,7 @@ import tech.adrianohrl.util.Field;
 import tech.adrianohrl.util.StringField;
 import java.util.ArrayList;
 import java.util.List;
+import tech.adrianohrl.stile.util.PropertyUtil;
 
 /**
  *
@@ -18,11 +19,11 @@ import java.util.List;
 public class PersonnelReader extends AbstractReader<Employee> {
     
     /** Column Titles **/
-    private final static String TYPE_COLUMN_TITLE = "Type";
-    private final static String CODE_COLUMN_TITLE = "Code";
-    private final static String NAME_COLUMN_TITLE = "Name";
-    private final static String LOGIN_COLUMN_TITLE = "Login";
-    private final static String PASSWORD_COLUMN_TITLE = "Password";
+    private final static String TYPE_COLUMN_TITLE = PropertyUtil.getPersonnelColumnTitle("Type");
+    private final static String CODE_COLUMN_TITLE = PropertyUtil.getPersonnelColumnTitle("Code");
+    private final static String NAME_COLUMN_TITLE = PropertyUtil.getPersonnelColumnTitle("Name");
+    private final static String LOGIN_COLUMN_TITLE = PropertyUtil.getPersonnelColumnTitle("Login");
+    private final static String PASSWORD_COLUMN_TITLE = PropertyUtil.getPersonnelColumnTitle("Password");
     
     @Override
     protected List<Field> getDefaultFields() {

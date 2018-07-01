@@ -13,6 +13,7 @@ import tech.adrianohrl.stile.model.personnel.Sector;
 import tech.adrianohrl.stile.model.personnel.Supervisor;
 import tech.adrianohrl.util.Keyboard;
 import javax.persistence.EntityManager;
+import tech.adrianohrl.stile.model.personnel.Machine;
 
 /**
  *
@@ -34,6 +35,7 @@ public class PersonnelReaderDAOTest {
         SubordinatesReaderDAO subordinatesReader = new SubordinatesReaderDAO(em);
         SupervisorsReaderDAO supervisorsReader = new SupervisorsReaderDAO(em);
         SectorsReaderDAO sectorsReader = new SectorsReaderDAO(em);
+        MachinesReaderDAO machinesReader = new MachinesReaderDAO(em);
         String fileName;
         try {
             System.out.println("Testing the PersonnelReaderDAO class ...");
@@ -63,6 +65,16 @@ public class PersonnelReaderDAOTest {
             System.out.println("  The following sectors were registered:");
             for (Sector sector : sectorsReader) {
                 System.out.println("\t" + sector);
+            }
+            System.out.println("\n\nTesting the MachinesReaderDAO class ...");
+            fileName = "./others/tests/ImportMachines1.csv";//keyboard.readString("Enter the file name: ");
+            machinesReader.readFile(fileName);
+            System.out.println("  The following machines were registered:");
+            for (Sector sector : machinesReader) {
+                System.out.println("\t" + sector + ":");
+                for (Machine machine : sector) {
+                    System.out.println("\t\t" + machine);
+                }
             }
         } catch (RuntimeException | IOException e) {
             System.out.println("Exception caught: " + e.getMessage());
