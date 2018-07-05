@@ -2,7 +2,7 @@ package tech.adrianohrl.stile.control.dao.production.io;
 
 import tech.adrianohrl.stile.control.dao.production.ModelDAO;
 import tech.adrianohrl.stile.control.dao.production.ModelPhaseDAO;
-import tech.adrianohrl.stile.control.model.production.io.ModelsReader;
+import tech.adrianohrl.stile.model.production.io.ModelsReader;
 import tech.adrianohrl.stile.exceptions.IOException;
 import tech.adrianohrl.stile.model.production.Model;
 import tech.adrianohrl.stile.model.production.ModelPhase;

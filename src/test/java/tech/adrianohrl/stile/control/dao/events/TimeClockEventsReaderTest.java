@@ -5,12 +5,12 @@
  */
 package tech.adrianohrl.stile.control.dao.events;
 
-import tech.adrianohrl.stile.control.model.events.io.TimeClockEventsReader;
+import tech.adrianohrl.stile.model.events.io.TimeClockEventsReader;
 import tech.adrianohrl.stile.exceptions.IOException;
 import tech.adrianohrl.stile.model.events.EntryEvent;
 import tech.adrianohrl.stile.model.personnel.Employee;
-import tech.adrianohrl.stile.control.model.production.reports.filters.EmployeeRelatedEventsList;
-import tech.adrianohrl.stile.control.model.production.reports.filters.FindByEmployee;
+import tech.adrianohrl.stile.control.production.reports.filters.EmployeeRelatedEventsList;
+import tech.adrianohrl.stile.control.production.reports.filters.FindByEmployee;
 import tech.adrianohrl.util.Keyboard;
 
 /**

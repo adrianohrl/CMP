@@ -2,7 +2,7 @@ package tech.adrianohrl.stile.control.dao.personnel.io;
 
 import tech.adrianohrl.stile.control.dao.personnel.SubordinateDAO;
 import tech.adrianohrl.stile.control.dao.personnel.SupervisorDAO;
-import tech.adrianohrl.stile.control.model.personnel.io.SubordinatesReader;
+import tech.adrianohrl.stile.model.personnel.io.SubordinatesReader;
 import tech.adrianohrl.stile.exceptions.IOException;
 import tech.adrianohrl.stile.model.personnel.Subordinate;
 import tech.adrianohrl.stile.model.personnel.Supervisor;

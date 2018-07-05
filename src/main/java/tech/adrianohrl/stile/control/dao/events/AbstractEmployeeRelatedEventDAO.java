@@ -3,7 +3,7 @@ package tech.adrianohrl.stile.control.dao.events;
 import tech.adrianohrl.stile.exceptions.DAOException;
 import tech.adrianohrl.stile.model.events.AbstractEmployeeRelatedEvent;
 import tech.adrianohrl.stile.model.personnel.Employee;
-import tech.adrianohrl.stile.control.model.production.reports.filters.EmployeeRelatedEventsList;
+import tech.adrianohrl.stile.control.production.reports.filters.EmployeeRelatedEventsList;
 import java.util.Calendar;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;

@@ -10,7 +10,7 @@ import tech.adrianohrl.stile.control.dao.production.ModelDAO;
 import tech.adrianohrl.stile.control.dao.production.ModelPhaseDAO;
 import tech.adrianohrl.stile.control.dao.order.PhaseProductionOrderDAO;
 import tech.adrianohrl.stile.control.dao.order.ProductionOrderDAO;
-import tech.adrianohrl.stile.control.model.events.io.EntryEventsReader;
+import tech.adrianohrl.stile.model.events.io.EntryEventsReader;
 import tech.adrianohrl.stile.exceptions.IOException;
 import tech.adrianohrl.stile.exceptions.ProductionException;
 import tech.adrianohrl.stile.model.events.Casualty;

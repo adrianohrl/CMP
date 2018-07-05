@@ -5,13 +5,13 @@
  */
 package tech.adrianohrl.stile.control.dao.events;
 
-import tech.adrianohrl.stile.control.model.events.io.EntryEventsReader;
-import tech.adrianohrl.stile.control.model.events.io.TimeClockEventsReader;
+import tech.adrianohrl.stile.model.events.io.EntryEventsReader;
+import tech.adrianohrl.stile.model.events.io.TimeClockEventsReader;
 import tech.adrianohrl.stile.exceptions.IOException;
 import tech.adrianohrl.stile.exceptions.ReportException;
-import tech.adrianohrl.stile.control.model.production.reports.EmployeeEventsPeriodBuilder;
-import tech.adrianohrl.stile.control.model.production.reports.EventsPeriodBuilder;
-import tech.adrianohrl.stile.control.model.production.reports.filters.EmployeeRelatedEventsList;
+import tech.adrianohrl.stile.control.production.reports.EmployeeEventsPeriodBuilder;
+import tech.adrianohrl.stile.control.production.reports.EventsPeriodBuilder;
+import tech.adrianohrl.stile.control.production.reports.filters.EmployeeRelatedEventsList;
 import tech.adrianohrl.stile.model.production.ModelPhase;
 import tech.adrianohrl.util.Keyboard;
 

@@ -1,6 +1,6 @@
 package tech.adrianohrl.stile.exceptions;
 
-import tech.adrianohrl.stile.control.model.production.AbstractProductionState;
+import tech.adrianohrl.stile.control.production.AbstractProductionState;
 import org.apache.log4j.Logger;
 
 /**

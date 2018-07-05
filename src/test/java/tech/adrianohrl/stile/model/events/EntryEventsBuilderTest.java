@@ -15,7 +15,7 @@ import tech.adrianohrl.stile.model.order.PhaseProductionOrder;
 import tech.adrianohrl.stile.exceptions.ProductionException;
 import tech.adrianohrl.stile.model.order.ProductionOrder;
 import tech.adrianohrl.stile.model.order.ProductionStates;
-import tech.adrianohrl.stile.control.model.production.EntryEventsBuilder;
+import tech.adrianohrl.stile.control.production.EntryEventsBuilder;
 import tech.adrianohrl.stile.model.production.ModelPhase;
 import java.util.ArrayList;
 import java.util.Collections;

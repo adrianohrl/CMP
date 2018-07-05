@@ -8,7 +8,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import tech.adrianohrl.stile.control.dao.production.ChartDAO;
 import tech.adrianohrl.stile.control.dao.production.ChartSizeDAO;
-import tech.adrianohrl.stile.control.model.production.io.ChartsReader;
+import tech.adrianohrl.stile.model.production.io.ChartsReader;
 import tech.adrianohrl.stile.model.production.Chart;
 import tech.adrianohrl.stile.model.production.ChartSize;
 

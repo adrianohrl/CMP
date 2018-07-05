@@ -13,7 +13,7 @@ import javax.persistence.EntityManager;
 import tech.adrianohrl.stile.control.dao.production.ModelDAO;
 import tech.adrianohrl.stile.control.dao.production.ModelPhaseDAO;
 import tech.adrianohrl.stile.control.dao.production.PhaseDAO;
-import tech.adrianohrl.stile.control.model.production.io.ModelPhasesReader;
+import tech.adrianohrl.stile.model.production.io.ModelPhasesReader;
 import tech.adrianohrl.stile.exceptions.IOException;
 import tech.adrianohrl.stile.model.production.Model;
 import tech.adrianohrl.stile.model.production.ModelPhase;

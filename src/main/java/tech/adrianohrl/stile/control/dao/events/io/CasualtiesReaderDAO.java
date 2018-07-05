@@ -1,7 +1,7 @@
 package tech.adrianohrl.stile.control.dao.events.io;
 
 import tech.adrianohrl.stile.control.dao.events.CasualtyDAO;
-import tech.adrianohrl.stile.control.model.events.io.CasualtiesReader;
+import tech.adrianohrl.stile.model.events.io.CasualtiesReader;
 import tech.adrianohrl.stile.exceptions.IOException;
 import tech.adrianohrl.stile.model.events.Casualty;
 import java.io.InputStream;

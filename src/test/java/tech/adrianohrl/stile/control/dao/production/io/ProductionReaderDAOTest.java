@@ -103,20 +103,6 @@ public class ProductionReaderDAOTest {
                     System.out.println("\t\t" + phase);
                 }
             }
-            System.out.println("\n\nTesting the ProductionOrdersReaderDAO class ...");
-            fileName = "./others/tests/ImportProductionOrders1.csv";//keyboard.readString("Enter the file name: ");
-            productionOrdersReader.readFile(fileName);
-            System.out.println("  The following production orders were registered:");
-            for (ProductionOrder productionOrder : productionOrdersReader) {
-                System.out.println("\t" + productionOrder);
-            }
-            System.out.println("\n\nTesting the PhaseProductionOrdersReaderDAO class ...");
-            fileName = "./others/tests/ImportPhaseProductionOrders1.csv";//keyboard.readString("Enter the file name: ");
-            phaseProductionOrdersReader.readFile(fileName);
-            System.out.println("  The following phase production orders were registered:");
-            for (PhaseProductionOrder phaseProductionOrder : phaseProductionOrdersReader) {
-                System.out.println("\t" + phaseProductionOrder);
-            }
         } catch (RuntimeException | IOException e) {
             System.out.println("Exception caught: " + e.getMessage());
         }

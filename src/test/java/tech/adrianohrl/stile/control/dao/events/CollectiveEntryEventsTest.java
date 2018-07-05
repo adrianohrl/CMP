@@ -11,7 +11,7 @@ import tech.adrianohrl.stile.control.dao.personnel.SupervisorDAO;
 import tech.adrianohrl.stile.model.events.EntryEvent;
 import tech.adrianohrl.stile.model.personnel.Sector;
 import tech.adrianohrl.stile.model.personnel.Supervisor;
-import tech.adrianohrl.stile.control.model.production.reports.filters.EntryEventsList;
+import tech.adrianohrl.stile.control.production.reports.filters.EntryEventsList;
 import javax.persistence.EntityManager;
 
 /**

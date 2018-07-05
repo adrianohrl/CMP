@@ -2,7 +2,7 @@ package tech.adrianohrl.stile.control.dao.events.io;
 
 import tech.adrianohrl.stile.control.dao.events.TimeClockEventDAO;
 import tech.adrianohrl.stile.control.dao.personnel.EmployeeDAO;
-import tech.adrianohrl.stile.control.model.events.io.TimeClockEventsReader;
+import tech.adrianohrl.stile.model.events.io.TimeClockEventsReader;
 import tech.adrianohrl.stile.exceptions.IOException;
 import tech.adrianohrl.stile.model.events.TimeClockEvent;
 import tech.adrianohrl.stile.model.personnel.Employee;

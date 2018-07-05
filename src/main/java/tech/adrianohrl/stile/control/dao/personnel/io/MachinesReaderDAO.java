@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.persistence.EntityManager;
 import tech.adrianohrl.stile.control.dao.personnel.MachineDAO;
-import tech.adrianohrl.stile.control.model.personnel.io.MachinesReader;
+import tech.adrianohrl.stile.model.personnel.io.MachinesReader;
 import tech.adrianohrl.stile.model.personnel.Machine;
 
 /**

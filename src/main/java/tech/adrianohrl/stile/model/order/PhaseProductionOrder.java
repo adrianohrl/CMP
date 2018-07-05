@@ -4,7 +4,7 @@ import tech.adrianohrl.stile.exceptions.ProductionException;
 import tech.adrianohrl.stile.exceptions.ProductionStateMachineException;
 import tech.adrianohrl.stile.model.events.EntryEvent;
 import tech.adrianohrl.stile.model.personnel.Subordinate;
-import tech.adrianohrl.stile.control.model.production.ProductionStateMachineController;
+import tech.adrianohrl.stile.control.production.ProductionStateMachineController;
 import tech.adrianohrl.stile.model.production.ModelPhase;
 import java.io.Serializable;
 import java.util.ArrayList;

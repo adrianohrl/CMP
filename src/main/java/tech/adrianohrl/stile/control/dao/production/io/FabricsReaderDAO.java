@@ -7,7 +7,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import tech.adrianohrl.stile.control.dao.production.CollectionDAO;
 import tech.adrianohrl.stile.control.dao.production.FabricDAO;
-import tech.adrianohrl.stile.control.model.production.io.FabricsReader;
+import tech.adrianohrl.stile.model.production.io.FabricsReader;
 import tech.adrianohrl.stile.exceptions.IOException;
 import tech.adrianohrl.stile.model.production.Collection;
 import tech.adrianohrl.stile.model.production.Fabric;

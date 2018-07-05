@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.persistence.EntityManager;
 import tech.adrianohrl.stile.control.dao.production.CollectionDAO;
-import tech.adrianohrl.stile.control.model.production.io.CollectionsReader;
+import tech.adrianohrl.stile.model.production.io.CollectionsReader;
 import tech.adrianohrl.stile.model.production.Collection;
 
 /**
