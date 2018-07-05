@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Map;
 import javax.persistence.EntityManager;
+import tech.adrianohrl.util.CalendarUtil;
 
 /**
  *
@@ -43,7 +44,7 @@ public class AttendanceReportDAOTest {
         EmployeeDAO employeeDAO = new EmployeeDAO(em);
         Employee employee = employeeDAO.find(employeeCode);
         Calendar startDate = new GregorianCalendar(2017, Calendar.SEPTEMBER, 1);
-        Calendar endDate = new GregorianCalendar();
+        Calendar endDate = CalendarUtil.now();
         TimeClockEventDAO timeClockEventDAO = new TimeClockEventDAO(em);
         EmployeeRelatedEventsList<AbstractEmployeeRelatedEvent> events = timeClockEventDAO.findEmployeeEvents(employee, startDate, endDate);
         String managerLogin = "marcos";

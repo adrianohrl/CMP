@@ -36,11 +36,11 @@ public class MachinesReader extends AbstractReader<Sector> {
         String machineName = Field.getFieldValue(fields, MACHINE_COLUMN_TITLE);
         Machine machine = getMachine(machineName);
         if (machine == null) {
-            throw new IOException(machineName + " supervisor is not registered yet!!!");
+            throw new IOException(machineName + " machine is not registered yet!!!");
         }
         Sector sector = !containsSector ? getSector(sectorName) : get(sectorName);
         if (sector == null) {
-            throw new IOException(sectorName + " manager is not registered yet!!!");
+            throw new IOException(sectorName + " sector is not registered yet!!!");
         }
         if (sector.getMachines().contains(machine)) {
             return null;

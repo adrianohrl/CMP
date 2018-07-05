@@ -52,6 +52,10 @@ public class PropertyUtil {
         return getColumnTitle("phase", defaultColumnTitleName);
     }
     
+    public static String getModelColumnTitle(String defaultColumnTitleName) {
+        return getColumnTitle("model", defaultColumnTitleName);
+    }
+    
     public static String getModelPhaseColumnTitle(String defaultColumnTitleName) {
         return getColumnTitle("model.phase", defaultColumnTitleName);
     }

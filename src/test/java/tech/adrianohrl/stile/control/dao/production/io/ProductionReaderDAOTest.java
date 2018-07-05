@@ -15,6 +15,11 @@ import tech.adrianohrl.stile.model.order.PhaseProductionOrder;
 import tech.adrianohrl.stile.model.order.ProductionOrder;
 import tech.adrianohrl.util.Keyboard;
 import javax.persistence.EntityManager;
+import tech.adrianohrl.stile.model.production.Chart;
+import tech.adrianohrl.stile.model.production.ChartSize;
+import tech.adrianohrl.stile.model.production.Collection;
+import tech.adrianohrl.stile.model.production.Family;
+import tech.adrianohrl.stile.model.production.ModelPhase;
 
 /**
  *
@@ -32,12 +37,48 @@ public class ProductionReaderDAOTest {
     
     public static void test(EntityManager em) {
         Keyboard keyboard = Keyboard.getKeyboard();
+        CollectionsReaderDAO collectionReader = new CollectionsReaderDAO(em);
+        FamiliesReaderDAO familyReader = new FamiliesReaderDAO(em);
+        ChartsReaderDAO chartReader = new ChartsReaderDAO(em);
+        ChartSizesReaderDAO sizeReader = new ChartSizesReaderDAO(em);
         PhasesReaderDAO phaseReader = new PhasesReaderDAO(em);
         ModelsReaderDAO modelsReader = new ModelsReaderDAO(em);
+        ModelPhasesReaderDAO modelPhasesReader = new ModelPhasesReaderDAO(em);
         ProductionOrdersReaderDAO productionOrdersReader = new ProductionOrdersReaderDAO(em);
         PhaseProductionOrdersReaderDAO phaseProductionOrdersReader = new PhaseProductionOrdersReaderDAO(em);
         String fileName;
         try {
+            System.out.println("Testing the CollectionsReaderDAO class ...");
+            fileName = "./others/tests/ImportCollections1.csv";//keyboard.readString("Enter the file name: ");
+            collectionReader.readFile(fileName);
+            System.out.println("  The following collections were registered:");
+            for (Collection collection : collectionReader) {
+                System.out.println("\t" + collection);
+            }
+            System.out.println("Testing the FamiliesReaderDAO class ...");
+            fileName = "./others/tests/ImportFamilies1.csv";//keyboard.readString("Enter the file name: ");
+            familyReader.readFile(fileName);
+            System.out.println("  The following families were registered:");
+            for (Family family : familyReader) {
+                System.out.println("\t" + family);
+            }
+            System.out.println("Testing the ChartsReaderDAO class ...");
+            fileName = "./others/tests/ImportCharts1.csv";//keyboard.readString("Enter the file name: ");
+            chartReader.readFile(fileName);
+            System.out.println("  The following charts were registered:");
+            for (Chart chart : chartReader) {
+                System.out.println("\t" + chart);
+            }
+            System.out.println("Testing the ChartSizesReaderDAO class ...");
+            fileName = "./others/tests/ImportChartSizes1.csv";//keyboard.readString("Enter the file name: ");
+            sizeReader.readFile(fileName);
+            System.out.println("  The following chart sizes were registered:");
+            for (Chart chart : sizeReader) {
+                System.out.println("\tChart: " + chart);
+                for (ChartSize size : chart) {
+                    System.out.println("\t\t" + size);
+                }
+            }
             System.out.println("Testing the PhasesReaderDAO class ...");
             fileName = "./others/tests/ImportPhases1.csv";//keyboard.readString("Enter the file name: ");
             phaseReader.readFile(fileName);
@@ -51,6 +92,16 @@ public class ProductionReaderDAOTest {
             System.out.println("  The following models were registered:");
             for (Model model : modelsReader) {
                 System.out.println("\t" + model);
+            }
+            System.out.println("\n\nTesting the ModelPhasesReaderDAO class ...");
+            fileName = "./others/tests/ImportModelPhases1.csv";//keyboard.readString("Enter the file name: ");
+            modelPhasesReader.readFile(fileName);
+            System.out.println("  The following models were registered:");
+            for (Model model : modelPhasesReader) {
+                System.out.println("\t" + model);
+                for (ModelPhase phase : model.getPhases()) {
+                    System.out.println("\t\t" + phase);
+                }
             }
             System.out.println("\n\nTesting the ProductionOrdersReaderDAO class ...");
             fileName = "./others/tests/ImportProductionOrders1.csv";//keyboard.readString("Enter the file name: ");

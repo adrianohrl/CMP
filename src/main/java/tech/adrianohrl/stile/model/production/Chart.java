@@ -64,6 +64,11 @@ public class Chart implements Archivable, Comparable<Chart>, Iterable<ChartSize>
         return chart != null && name.equals(chart.name);
     }
 
+    @Override
+    public String toString() {
+        return abbreviation;
+    }
+
     public String getName() {
         return name;
     }

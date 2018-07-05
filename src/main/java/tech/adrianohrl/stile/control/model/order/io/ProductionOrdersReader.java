@@ -1,4 +1,4 @@
-package tech.adrianohrl.stile.control.model.production.io;
+package tech.adrianohrl.stile.control.model.order.io;
 
 import tech.adrianohrl.stile.exceptions.IOException;
 import tech.adrianohrl.stile.model.production.Model;

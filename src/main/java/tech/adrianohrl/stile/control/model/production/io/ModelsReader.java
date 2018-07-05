@@ -2,14 +2,16 @@ package tech.adrianohrl.stile.control.model.production.io;
 
 import tech.adrianohrl.stile.exceptions.IOException;
 import tech.adrianohrl.stile.model.production.Model;
-import tech.adrianohrl.stile.model.production.ModelPhase;
-import tech.adrianohrl.stile.model.production.Phase;
 import tech.adrianohrl.util.AbstractReader;
 import tech.adrianohrl.util.DoubleField;
 import tech.adrianohrl.util.Field;
 import tech.adrianohrl.util.StringField;
 import java.util.ArrayList;
 import java.util.List;
+import tech.adrianohrl.stile.model.production.Chart;
+import tech.adrianohrl.stile.model.production.Collection;
+import tech.adrianohrl.stile.model.production.Family;
+import tech.adrianohrl.stile.util.PropertyUtil;
 
 /**
  *
@@ -18,60 +20,55 @@ import java.util.List;
 public class ModelsReader extends AbstractReader<Model> {
     
     /** Column Titles **/
-    private final static String REFERENCE_COLUMN_TITLE = "Reference";
-    private final static String NAME_COLUMN_TITLE = "Name";
-    private final static String PHASE_COLUMN_TITLE = "Phase";
-    private final static String EXPECTED_DURATION_COLUMN_TITLE = "Expected Duration";
+    private final static String REFERENCE_COLUMN_TITLE = PropertyUtil.getModelColumnTitle("Reference");
+    private final static String NAME_COLUMN_TITLE = PropertyUtil.getModelColumnTitle("Name");
+    private final static String FAMILY_COLUMN_TITLE = PropertyUtil.getModelColumnTitle("Family");
+    private final static String COLLECTION_COLUMN_TITLE = PropertyUtil.getModelColumnTitle("Collection");
+    private final static String CHART_COLUMN_TITLE = PropertyUtil.getModelColumnTitle("Chart");
 
     @Override
     protected List<Field> getDefaultFields() {
         List<Field> defaultFields = new ArrayList<>();
         defaultFields.add(new StringField(REFERENCE_COLUMN_TITLE, true));
         defaultFields.add(new StringField(NAME_COLUMN_TITLE, true));
-        defaultFields.add(new StringField(PHASE_COLUMN_TITLE, true));
-        defaultFields.add(new DoubleField(EXPECTED_DURATION_COLUMN_TITLE, true));
+        defaultFields.add(new StringField(FAMILY_COLUMN_TITLE, true));
+        defaultFields.add(new StringField(COLLECTION_COLUMN_TITLE, true));
+        defaultFields.add(new StringField(CHART_COLUMN_TITLE, true));
         return defaultFields;
     }
 
     @Override
     protected Model build(List<Field> fields) throws IOException {
         String reference = Field.getFieldValue(fields, REFERENCE_COLUMN_TITLE);
-        String modelName = Field.getFieldValue(fields, NAME_COLUMN_TITLE);
-        boolean containsModel = contains(reference);
-        String phaseName = Field.getFieldValue(fields, PHASE_COLUMN_TITLE);
-        Phase phase = getPhase(phaseName);
-        if (phase == null) {
-            throw new IOException(phaseName + " phase is not registered yet!!!");
+        String name = Field.getFieldValue(fields, NAME_COLUMN_TITLE);
+        String familyName = Field.getFieldValue(fields, FAMILY_COLUMN_TITLE);
+        Family family = getFamily(familyName);
+        if (family == null) {
+            throw new IOException(familyName + " family is not registered yet!!!");
         }
-        ModelPhase modelPhase = new ModelPhase(phase, Field.getFieldValue(fields, EXPECTED_DURATION_COLUMN_TITLE));
-        Model model = !containsModel ? new Model(reference, modelName) : get(reference);
-        if (model.getPhases().contains(modelPhase)) {
-            return null;
+        String collectionName = Field.getFieldValue(fields, COLLECTION_COLUMN_TITLE);
+        Collection collection = getCollection(collectionName);
+        if (collection == null) {
+           throw new IOException(collectionName + " collection is not registered yet!!!");
         }
-        model.getPhases().add(modelPhase);
-        return !containsModel ? model : null;
+        String chartName = Field.getFieldValue(fields, CHART_COLUMN_TITLE);
+        Chart chart = getChart(chartName);
+        if (chart == null) {
+            throw new IOException(chartName + " chart is not registered yet!!!");
+        }
+        return new Model(reference, name, family, collection, chart);
     }
     
-    protected Phase getPhase(String phaseName) {
-        return new Phase(phaseName, null);
+    protected Family getFamily(String name) {
+        return new Family(name, null);
     }
     
-    protected boolean contains(String reference) {
-        for (Model model : getReadEntities()) {
-            if (reference.equalsIgnoreCase(model.getReference())) {
-                return true;
-            }
-        }
-        return false;
+    protected Collection getCollection(String name) {
+        return new Collection(name);
     }
     
-    protected Model get(String reference) {
-        for (Model model : getReadEntities()) {
-            if (reference.equalsIgnoreCase(model.getReference())) {
-                return model;
-            }
-        }
-        return null;
+    protected Chart getChart(String name) {
+        return new Chart(name, name);
     }
     
 }

@@ -4,7 +4,7 @@ import tech.adrianohrl.stile.control.dao.production.ModelPhaseDAO;
 import tech.adrianohrl.stile.control.dao.production.PhaseDAO;
 import tech.adrianohrl.stile.control.dao.order.PhaseProductionOrderDAO;
 import tech.adrianohrl.stile.control.dao.order.ProductionOrderDAO;
-import tech.adrianohrl.stile.control.model.production.io.PhaseProductionOrdersReader;
+import tech.adrianohrl.stile.control.model.order.io.PhaseProductionOrdersReader;
 import tech.adrianohrl.stile.exceptions.IOException;
 import tech.adrianohrl.stile.model.production.Model;
 import tech.adrianohrl.stile.model.production.ModelPhase;

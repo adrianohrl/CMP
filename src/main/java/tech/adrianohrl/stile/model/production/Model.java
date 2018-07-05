@@ -29,14 +29,14 @@ public class Model implements Archivable, Comparable<Model>, Serializable {
     private Family family;
     @ManyToOne(optional = false)
     private Collection collection;
+    @ManyToOne(optional = false)
+    private Chart chart;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Part> parts = new ArrayList<>();
     @ManyToMany
     private List<Variant> variants = new ArrayList<>();
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ModelPhase> phases = new ArrayList<>();
-    @ManyToOne(optional = false)
-    private Chart chart;
 
     public Model() {
     }

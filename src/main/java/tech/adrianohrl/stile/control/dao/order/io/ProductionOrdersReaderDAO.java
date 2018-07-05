@@ -2,7 +2,7 @@ package tech.adrianohrl.stile.control.dao.order.io;
 
 import tech.adrianohrl.stile.control.dao.production.ModelDAO;
 import tech.adrianohrl.stile.control.dao.order.ProductionOrderDAO;
-import tech.adrianohrl.stile.control.model.production.io.ProductionOrdersReader;
+import tech.adrianohrl.stile.control.model.order.io.ProductionOrdersReader;
 import tech.adrianohrl.stile.exceptions.IOException;
 import tech.adrianohrl.stile.model.production.Model;
 import tech.adrianohrl.stile.model.order.ProductionOrder;
