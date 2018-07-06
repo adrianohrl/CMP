@@ -14,13 +14,13 @@ import tech.adrianohrl.stile.util.PropertyUtil;
  *
  * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
-public class FabricsReader extends AbstractReader<Fabric> {
+public class FabricsReader  extends AbstractReader<Fabric> {
     
     /** Column Titles **/
     private final static String NAME_COLUMN_TITLE = PropertyUtil.getFabricColumnTitle("Name");
     private final static String OBSERVATION_COLUMN_TITLE = PropertyUtil.getFabricColumnTitle("Observation");
     private final static String COLLECTION_COLUMN_TITLE = PropertyUtil.getFabricColumnTitle("Collection");
-    
+
     @Override
     protected List<Field> getDefaultFields() {
         List<Field> defaultFields = new ArrayList<>();
@@ -34,8 +34,10 @@ public class FabricsReader extends AbstractReader<Fabric> {
     protected Fabric build(List<Field> fields) throws IOException {
         String name = Field.getFieldValue(fields, NAME_COLUMN_TITLE);
         String observation = Field.getFieldValue(fields, OBSERVATION_COLUMN_TITLE);
-        String collectionName = Field.getFieldValue(fields, COLLECTION_COLUMN_TITLE);
-        Collection collection = getCollection(collectionName);
+        Collection collection = getCollection(Field.getFieldValue(fields, COLLECTION_COLUMN_TITLE));
+        if (collection == null) {
+            throw new IOException(collection + " collection is not registered yet!!!");
+        }
         return new Fabric(name, observation, collection);
     }
     

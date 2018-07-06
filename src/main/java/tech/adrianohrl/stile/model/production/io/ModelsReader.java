@@ -3,7 +3,6 @@ package tech.adrianohrl.stile.model.production.io;
 import tech.adrianohrl.stile.exceptions.IOException;
 import tech.adrianohrl.stile.model.production.Model;
 import tech.adrianohrl.util.AbstractReader;
-import tech.adrianohrl.util.DoubleField;
 import tech.adrianohrl.util.Field;
 import tech.adrianohrl.util.StringField;
 import java.util.ArrayList;

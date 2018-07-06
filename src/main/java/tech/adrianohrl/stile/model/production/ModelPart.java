@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
  * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
 @Entity
-public class Part implements Comparable<Part>, Serializable {
+public class ModelPart implements Comparable<ModelPart>, Serializable {
     
     @Id
     private String name;
@@ -19,10 +19,10 @@ public class Part implements Comparable<Part>, Serializable {
     @ManyToOne(optional = false)
     private Fabric fabric;
 
-    public Part() {
+    public ModelPart() {
     }
 
-    public Part(String name, String program, String observation, Fabric fabric) {
+    public ModelPart(String name, String program, String observation, Fabric fabric) {
         this.name = name;
         this.program = program;
         this.observation = observation;
@@ -35,16 +35,16 @@ public class Part implements Comparable<Part>, Serializable {
     }
 
     @Override
-    public int compareTo(Part part) {
+    public int compareTo(ModelPart part) {
         return name.compareTo(part.name);
     }
 
     @Override
     public boolean equals(Object obj) {
-        return obj != null && obj instanceof Part && equals((Part) obj);
+        return obj != null && obj instanceof ModelPart && equals((ModelPart) obj);
     }
     
-    public boolean equals(Part part) {
+    public boolean equals(ModelPart part) {
         return part != null && name.equals(part.name);
     }
 

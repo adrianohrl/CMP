@@ -5,14 +5,10 @@
  */
 package tech.adrianohrl.stile.control.dao.production.io;
 
-import tech.adrianohrl.stile.control.dao.order.io.ProductionOrdersReaderDAO;
-import tech.adrianohrl.stile.control.dao.order.io.PhaseProductionOrdersReaderDAO;
 import tech.adrianohrl.dao.DataSource;
 import tech.adrianohrl.stile.exceptions.IOException;
 import tech.adrianohrl.stile.model.production.Model;
 import tech.adrianohrl.stile.model.production.Phase;
-import tech.adrianohrl.stile.model.order.PhaseProductionOrder;
-import tech.adrianohrl.stile.model.order.ProductionOrder;
 import tech.adrianohrl.util.Keyboard;
 import javax.persistence.EntityManager;
 import tech.adrianohrl.stile.model.production.Chart;
@@ -44,8 +40,6 @@ public class ProductionReaderDAOTest {
         PhasesReaderDAO phaseReader = new PhasesReaderDAO(em);
         ModelsReaderDAO modelsReader = new ModelsReaderDAO(em);
         ModelPhasesReaderDAO modelPhasesReader = new ModelPhasesReaderDAO(em);
-        ProductionOrdersReaderDAO productionOrdersReader = new ProductionOrdersReaderDAO(em);
-        PhaseProductionOrdersReaderDAO phaseProductionOrdersReader = new PhaseProductionOrdersReaderDAO(em);
         String fileName;
         try {
             System.out.println("Testing the CollectionsReaderDAO class ...");

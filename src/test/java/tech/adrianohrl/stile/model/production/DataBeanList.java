@@ -19,7 +19,7 @@ public class DataBeanList {
     List<DataBean> getDataBeanList(ProductionOrder order) {
         List<DataBean> list = new ArrayList<>();
         Model model = order.getModel();
-        for (Part part : model.getParts()) {
+        for (ModelPart part : model.getParts()) {
             for (ChartSize size: model.getChart()) {
                 List<SubDataBean> variants = new ArrayList<>();
                 for (VariantOrder variant : order.getVariantOrders()) {

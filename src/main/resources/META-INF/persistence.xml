@@ -28,8 +28,8 @@
     <class>tech.adrianohrl.stile.model.production.Fabric</class>
     <class>tech.adrianohrl.stile.model.production.Model</class>
     <class>tech.adrianohrl.stile.model.production.ChartSize</class>
-    <class>tech.adrianohrl.stile.model.production.Part</class>
     <class>tech.adrianohrl.stile.model.production.Chart</class>
+    <class>tech.adrianohrl.stile.model.production.ModelPart</class>
     <properties>
       <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/stile?zeroDateTimeBehavior=convertToNull"/>

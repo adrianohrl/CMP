@@ -38,8 +38,8 @@ public class SectorsReader extends AbstractReader<Sector> {
         return new Sector(Field.getFieldValue(fields, NAME_COLUMN_TITLE), supervisor);
     }
     
-    protected Supervisor getSupervisor(String supervisorName) throws IOException {
-        return new Supervisor("", "", "", supervisorName);
+    protected Supervisor getSupervisor(String name) throws IOException {
+        return new Supervisor("", "", "", name);
     }
 
 }

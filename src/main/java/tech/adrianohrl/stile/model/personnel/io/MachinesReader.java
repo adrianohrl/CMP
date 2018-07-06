@@ -31,17 +31,14 @@ public class MachinesReader extends AbstractReader<Sector> {
 
     @Override
     protected Sector build(List<Field> fields) throws IOException {
+        String machineName = Field.getFieldValue(fields, MACHINE_COLUMN_TITLE);
         String sectorName = Field.getFieldValue(fields, SECTOR_COLUMN_TITLE);
         boolean containsSector = contains(sectorName);
-        String machineName = Field.getFieldValue(fields, MACHINE_COLUMN_TITLE);
-        Machine machine = getMachine(machineName);
-        if (machine == null) {
-            throw new IOException(machineName + " machine is not registered yet!!!");
-        }
         Sector sector = !containsSector ? getSector(sectorName) : get(sectorName);
         if (sector == null) {
             throw new IOException(sectorName + " sector is not registered yet!!!");
         }
+        Machine machine = new Machine(machineName);
         if (sector.getMachines().contains(machine)) {
             return null;
         }
@@ -49,12 +46,8 @@ public class MachinesReader extends AbstractReader<Sector> {
         return !containsSector ? sector : null;
     }
     
-    protected Sector getSector(String sectorName) {
-        return new Sector(sectorName, new Supervisor());
-    }
-    
-    protected Machine getMachine(String machineName) {
-        return new Machine(machineName);
+    protected Sector getSector(String name) {
+        return new Sector(name, new Supervisor());
     }
     
     protected boolean contains(String sectorName) {

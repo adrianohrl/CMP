@@ -3,67 +3,48 @@ package tech.adrianohrl.stile.control.dao.personnel.io;
 import tech.adrianohrl.stile.control.dao.personnel.SubordinateDAO;
 import tech.adrianohrl.stile.control.dao.personnel.SupervisorDAO;
 import tech.adrianohrl.stile.model.personnel.io.SubordinatesReader;
-import tech.adrianohrl.stile.exceptions.IOException;
 import tech.adrianohrl.stile.model.personnel.Subordinate;
 import tech.adrianohrl.stile.model.personnel.Supervisor;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import javax.persistence.EntityManager;
+import tech.adrianohrl.dao.ReaderDAO;
 
 /**
  *
  * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
-public class SubordinatesReaderDAO extends SubordinatesReader {
+public class SubordinatesReaderDAO extends ReaderDAO<Supervisor, SupervisorDAO> {
     
-    private final EntityManager em;
-    private final List<Supervisor> registeredSupervisors = new ArrayList<>();
+    private final SubordinatesReader subordinatesReader;
 
     public SubordinatesReaderDAO(EntityManager em) {
-        this.em = em;
+        super(em, new SupervisorDAO(em));
+        this.subordinatesReader = new Reader();
+        super.setReader(subordinatesReader);
     }
     
     @Override
-    public void readFile(String fileName) throws IOException {
-        super.readFile(fileName);
-        register();
-    }
-    
-    @Override
-    public void readFile(InputStream in) throws IOException {
-        super.readFile(in);
-        register();
-    }
-    
-    private void register() {
+    protected void register() {
         SupervisorDAO supervisorDAO = new SupervisorDAO(em);
-        for (Supervisor supervisor : getReadEntities()) {
+        for (Supervisor supervisor : subordinatesReader) {
             supervisorDAO.update(supervisor);
-            registeredSupervisors.add(supervisor);
+            registeredEntities.add(supervisor);
         }
     }
+    
+    private class Reader extends SubordinatesReader {
+        
+        @Override
+        protected Subordinate getSubordinate(String name) {
+            SubordinateDAO subordinateDAO = new SubordinateDAO(em);
+            return subordinateDAO.find(name);
+        }
 
-    @Override
-    protected Subordinate getSubordinate(String subordinateName) {
-        SubordinateDAO subordinateDAO = new SubordinateDAO(em);
-        return subordinateDAO.find(subordinateName);
-    }
+        @Override
+        protected Supervisor getSupervisor(String name) {
+            SupervisorDAO supervisorDAO = new SupervisorDAO(em);
+            return supervisorDAO.find(name);
+        }
 
-    @Override
-    protected Supervisor getSupervisor(String supervisorName) {
-        SupervisorDAO supervisorDAO = new SupervisorDAO(em);
-        return supervisorDAO.find(supervisorName);
-    }
-
-    public List<Supervisor> getRegisteredSupervisors() {
-        return registeredSupervisors;
-    }
-
-    @Override
-    public Iterator<Supervisor> iterator() {
-        return registeredSupervisors.iterator();
     }
     
 }

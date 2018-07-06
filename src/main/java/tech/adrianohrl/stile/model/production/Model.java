@@ -32,7 +32,7 @@ public class Model implements Archivable, Comparable<Model>, Serializable {
     @ManyToOne(optional = false)
     private Chart chart;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Part> parts = new ArrayList<>();
+    private List<ModelPart> parts = new ArrayList<>();
     @ManyToMany
     private List<Variant> variants = new ArrayList<>();
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -128,11 +128,11 @@ public class Model implements Archivable, Comparable<Model>, Serializable {
         this.collection = collection;
     }
 
-    public List<Part> getParts() {
+    public List<ModelPart> getParts() {
         return parts;
     }
 
-    public void setParts(List<Part> parts) {
+    public void setParts(List<ModelPart> parts) {
         this.parts = parts;
     }
 

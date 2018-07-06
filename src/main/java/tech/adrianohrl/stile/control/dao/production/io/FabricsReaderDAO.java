@@ -1,14 +1,10 @@
 package tech.adrianohrl.stile.control.dao.production.io;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import javax.persistence.EntityManager;
+import tech.adrianohrl.dao.ReaderDAO;
 import tech.adrianohrl.stile.control.dao.production.CollectionDAO;
 import tech.adrianohrl.stile.control.dao.production.FabricDAO;
 import tech.adrianohrl.stile.model.production.io.FabricsReader;
-import tech.adrianohrl.stile.exceptions.IOException;
 import tech.adrianohrl.stile.model.production.Collection;
 import tech.adrianohrl.stile.model.production.Fabric;
 
@@ -16,50 +12,21 @@ import tech.adrianohrl.stile.model.production.Fabric;
  *
  * @author Adriano Henrique Rossette Leite (contact@adrianohrl.tech)
  */
-public class FabricsReaderDAO extends FabricsReader {
+public class FabricsReaderDAO extends ReaderDAO<Fabric, FabricDAO> {
     
-    private final EntityManager em;
-    private final List<Fabric> registeredFabrics = new ArrayList<>();
-
     public FabricsReaderDAO(EntityManager em) {
-        this.em = em;
-    }
-
-    @Override
-    public void readFile(String fileName) throws IOException {
-        super.readFile(fileName);
-        register();
-    }
-
-    @Override
-    public void readFile(InputStream in) throws IOException {
-        super.readFile(in);
-        register();
+        super(em, new FabricDAO(em));
+        super.setReader(new Reader());
     }
     
-    private void register() {
-        FabricDAO fabricDAO = new FabricDAO(em);
-        for (Fabric fabric : getReadEntities()) {
-            if (!fabricDAO.isRegistered(fabric)) {
-                fabricDAO.create(fabric);
-                registeredFabrics.add(fabric);
-            }
+    private class Reader extends FabricsReader {
+    
+        @Override
+        protected Collection getCollection(String name) {
+            CollectionDAO collectionDAO = new CollectionDAO(em);
+            return collectionDAO.find(name);
         }
-    }
-
-    @Override
-    protected Collection getCollection(String name) {
-        CollectionDAO collectionDAO = new CollectionDAO(em);
-        return collectionDAO.find(name);
-    }
-
-    public List<Fabric> getRegisteredFabrics() {
-        return registeredFabrics;
-    }
-
-    @Override
-    public Iterator<Fabric> iterator() {
-        return registeredFabrics.iterator();
+        
     }
     
 }
